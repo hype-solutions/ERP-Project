@@ -22,3 +22,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Customers
+Route::post('/customer/add', [App\Http\Controllers\CustomersController::class, 'store'])->name('addCustomer');
+Route::patch('/customer/update/{customer}', [App\Http\Controllers\CustomersController::class, 'update'])->name('updateCustomer');
