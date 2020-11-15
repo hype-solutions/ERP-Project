@@ -23,5 +23,6 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //Customers
+Route::get('/customers', [App\Http\Controllers\CustomersController::class, 'customersList'])->name('customersList');
 Route::post('/customer/add', [App\Http\Controllers\CustomersController::class, 'store'])->name('addCustomer');
 Route::patch('/customer/update/{customer}', [App\Http\Controllers\CustomersController::class, 'update'])->name('updateCustomer');
