@@ -1,9 +1,20 @@
-@extends('layouts.login')
+@extends('layouts.erp')
+
+@section('pageCss')
+<link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/forms/icheck/icheck.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/forms/icheck/custom.css') }}">
+   <!-- BEGIN: Page CSS-->
+   <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/menu/menu-types/vertical-compact-menu.min.css') }}">
+   <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/colors/palette-gradient.min.css') }}">
+   <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/fonts/mobiriseicons/24px/mobirise/style.min.css') }}">
+   <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/pages/login-register.min.css') }}">
+   <!-- END: Page CSS-->
+@endsection
 
 @section('content')
 
     <!-- BEGIN: Content-->
-    
+
       <div class="content-overlay"></div>
       <div class="content-wrapper">
         <div class="content-header row">
@@ -60,7 +71,7 @@
           </div>
         </div>
         <div class="card-footer">
-           
+
         </div>
       </div>
     </div>
@@ -69,7 +80,18 @@
 
         </div>
       </div>
-    
+
     <!-- END: Content-->
 
+@endsection
+
+@section('pageJs')
+   <!-- BEGIN: Page Vendor JS-->
+   <script src="{{ asset('theme/app-assets/vendors/js/forms/icheck/icheck.min.js') }}"></script>
+   <script src="{{ asset('theme/app-assets/vendors/js/forms/validation/jqBootstrapValidation.js') }}"></script>
+   <!-- END: Page Vendor JS-->
+
+       <!-- BEGIN: Page JS-->
+       <script src="{{ asset('theme/app-assets/js/scripts/forms/form-login-register.min.js') }}"></script>
+       <!-- END: Page JS-->
 @endsection

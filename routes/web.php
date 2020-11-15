@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Controllers\CustomersController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('home');
 });
 
 
@@ -23,6 +26,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //Customers
-Route::get('/customers', [App\Http\Controllers\CustomersController::class, 'customersList'])->name('customersList');
-Route::post('/customer/add', [App\Http\Controllers\CustomersController::class, 'store'])->name('addCustomer');
-Route::patch('/customer/update/{customer}', [App\Http\Controllers\CustomersController::class, 'update'])->name('updateCustomer');
+Route::get('/customers', [CustomersController::class, 'customersList'])->name('customers.list');
+Route::post('/customer/add', [CustomersController::class, 'store'])->name('customer.add');
+Route::get('/customer/view/{customer}', [CustomersController::class, 'view'])->name('customer.view');
+Route::patch('/customer/update/{customer}', [CustomersController::class, 'update'])->name('customer.update');
+Route::delete('/customer/delete/{customer}', [CustomersController::class, 'delete'])->name('customer.delete');

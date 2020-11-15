@@ -16,7 +16,29 @@ class CustomerTest extends TestCase
      * @return void
      */
 
-    
+    /** @test */
+    public function only_logged_in_users_can_view_customers_list(){
+        //$this->withoutExceptionHandling();
+        $response = $this->get('/customers')->assertRedirect('/login');
+    }
+
+    /** @test */
+    public function authenticated_users_can_view_customers_list(){
+        $this->withoutExceptionHandling();
+        $this->actingAsUser();
+        $response = $this->get('/customers');
+        $response->assertOk();
+    }
+
+    /** @test */
+    public function authenticated_users_can_view_customer_profile(){
+        $this->withoutExceptionHandling();
+        $this->actingAsUser();
+        $this->post('/customer/add', $this->data()  );
+        $customer = Customers::first();
+        $response = $this->get('/customer/view/'. $customer->id);
+        $response->assertOk();
+    }
 
     /** @test */
     public function a_customer_can_be_added_to_the_app()
@@ -42,19 +64,22 @@ class CustomerTest extends TestCase
     }
 
     /** @test */
-    public function only_logged_in_users_can_view_customers_list(){
-        //$this->withoutExceptionHandling();
-        $response = $this->get('/customers')->assertRedirect('/login');
+    public function customer_can_be_deleted()
+    {
+        $this->actingAsUser();
+        $this->withExceptionHandling();
+        $this->post('/customer/add', $this->data()  );
+        $customer = Customers::first();
+        $response = $this->delete('/customer/delete/'. $customer->id);
+        $this->assertEquals(0,Customers::count());
     }
 
-    
-    /** @test */
-    public function authenticated_users_can_view_customers_list(){
-        $this->withoutExceptionHandling();
-        $this->actingAsUser();
-        $response = $this->get('/customers');
-        $response->assertOk();
-    }
+
+
+
+
+
+
 
     private function actingAsUser(){
         $this->actingAs(User::factory()->create());

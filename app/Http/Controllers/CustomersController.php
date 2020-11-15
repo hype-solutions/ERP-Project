@@ -16,7 +16,6 @@ class CustomersController extends Controller
         // $this->middleware('subscribed')->except('store');
     }
 
-
     protected function validateRequest()
     {
         return request()->validate([
@@ -31,13 +30,24 @@ class CustomersController extends Controller
         Customers::create($this->validateRequest());
     }
 
+    public function view(Customers $customer)
+    {
+        Customers::find($customer);
+    }
+
     public function update(Customers $customer)
     {
         $customer->update($this->validateRequest());
     }
 
+    public function delete(Customers $customer)
+    {
+        Customers::destroy($customer->id);
+    }
+
     public function customersList()
     {
-        Customers::all();
+        $customers = Customers::all();
+        return view('customers.list',compact('customers'));
     }
 }

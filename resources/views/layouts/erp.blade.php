@@ -19,11 +19,10 @@
     <!-- Styles -->
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
 
-    
+
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/vendors-rtl.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/forms/icheck/icheck.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/forms/icheck/custom.css') }}">
+
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
@@ -34,41 +33,34 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/custom-rtl.min.css') }}">
     <!-- END: Theme CSS-->
 
-    <!-- BEGIN: Page CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/menu/menu-types/vertical-compact-menu.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/colors/palette-gradient.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/fonts/mobiriseicons/24px/mobirise/style.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/pages/login-register.min.css') }}">
-    <!-- END: Page CSS-->
+ @yield('pageCss')
 
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/assets/css/style-rtl.css') }}">
     <!-- END: Custom CSS-->
 
 </head>
+@if(Route::current()->getName() == 'login')
 <body class="vertical-layout vertical-compact-menu 1-column   blank-page" data-open="click" data-menu="vertical-compact-menu" data-col="1-column">
+@else
+<body class="vertical-layout vertical-compact-menu 2-columns   fixed-navbar" data-open="click" data-menu="vertical-compact-menu" data-col="2-columns">
+@endif
     <div id="app">
-        
+
     <div class="app-content content">
             @yield('content')
-        </main>
     </div>
     <!-- BEGIN: Vendor JS-->
         <script src="{{ asset('theme/app-assets/vendors/js/vendors.min.js') }}"></script>
     <!-- BEGIN Vendor JS-->
 
-    <!-- BEGIN: Page Vendor JS-->
-    <script src="{{ asset('theme/app-assets/vendors/js/forms/icheck/icheck.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/vendors/js/forms/validation/jqBootstrapValidation.js') }}"></script>
-    <!-- END: Page Vendor JS-->
+ @yield('pageJs')
 
     <!-- BEGIN: Theme JS-->
     <script src="{{ asset('theme/app-assets/js/core/app-menu.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/js/core/app.min.js') }}"></script>
     <!-- END: Theme JS-->
 
-    <!-- BEGIN: Page JS-->
-    <script src="{{ asset('theme/app-assets/js/scripts/forms/form-login-register.min.js') }}"></script>
-    <!-- END: Page JS-->
+
 </body>
 </html>
