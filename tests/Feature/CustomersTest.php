@@ -46,8 +46,8 @@ class CustomerTest extends TestCase
         $this->actingAsUser();
         $this->withoutExceptionHandling();
         $response = $this->post('/customer/add', $this->data() );
-        $response->assertOk();
         $this->assertCount(1,Customers::all());
+        $response->assertStatus(302);
     }
 
     /** @test */

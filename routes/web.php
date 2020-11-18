@@ -29,5 +29,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/customers', [CustomersController::class, 'customersList'])->name('customers.list');
 Route::post('/customer/add', [CustomersController::class, 'store'])->name('customer.add');
 Route::get('/customer/view/{customer}', [CustomersController::class, 'view'])->name('customer.view');
+Route::get('/customer/edit/{customer}', [CustomersController::class, 'edit'])->name('customer.edit');
 Route::patch('/customer/update/{customer}', [CustomersController::class, 'update'])->name('customer.update');
 Route::delete('/customer/delete/{customer}', [CustomersController::class, 'delete'])->name('customer.delete');
