@@ -34,7 +34,7 @@ class CustomerTest extends TestCase
     public function authenticated_users_can_view_customer_profile(){
         $this->withoutExceptionHandling();
         $this->actingAsUser();
-        $this->post('/customer/add', $this->data()  );
+        $this->post('/customer/adding', $this->data()  );
         $customer = Customers::first();
         $response = $this->get('/customer/view/'. $customer->id);
         $response->assertOk();
@@ -45,7 +45,7 @@ class CustomerTest extends TestCase
     {
         $this->actingAsUser();
         $this->withoutExceptionHandling();
-        $response = $this->post('/customer/add', $this->data() );
+        $response = $this->post('/customer/adding', $this->data() );
         $this->assertCount(1,Customers::all());
         $response->assertStatus(302);
     }
@@ -54,7 +54,7 @@ class CustomerTest extends TestCase
     public function customer_can_be_updated(){
         $this->actingAsUser();
         $this->withoutExceptionHandling();
-        $this->post('/customer/add', $this->data()  );
+        $this->post('/customer/adding', $this->data()  );
         $customer = Customers::first();
         $response = $this->patch('/customer/update/' .$customer->id ,[
             'customer_name' => 'New Customer Name',
@@ -68,7 +68,7 @@ class CustomerTest extends TestCase
     {
         $this->actingAsUser();
         $this->withExceptionHandling();
-        $this->post('/customer/add', $this->data()  );
+        $this->post('/customer/adding', $this->data()  );
         $customer = Customers::first();
         $response = $this->delete('/customer/delete/'. $customer->id);
         $this->assertEquals(0,Customers::count());
@@ -93,6 +93,9 @@ class CustomerTest extends TestCase
             'customer_phone' => 'Customer Phone',
             'customer_email' => 'email@domain.com',
             'customer_address' => 'Customer Address',
+            'customer_type' => 'Customer type',
+            'customer_commercial_registry' => 'Customer Commercial Registry',
+            'customer_tax_card' => 'Customer Tax Card',
         ];
     }
 }

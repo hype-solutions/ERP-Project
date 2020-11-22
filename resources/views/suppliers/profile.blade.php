@@ -26,23 +26,23 @@
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('home')}}">البرنامج</a></li>
-                <li class="breadcrumb-item"><a href="{{route('customers.list')}}">العملاء</a></li>
-                <li class="breadcrumb-item active">ملف عميل
+                <li class="breadcrumb-item"><a href="{{route('suppliers.list')}}">الموردين</a></li>
+                <li class="breadcrumb-item active">ملف مورد
                 </li>
               </ol>
             </div>
           </div>
       <div class="media mb-2">
         <a class="mr-1" href="#">
-          <img src="{{ asset('theme/app-assets/images/custom/client.svg') }}" alt="users view avatar"
+          <img src="{{ asset('theme/app-assets/images/custom/supplier.png') }}" alt="users view avatar"
             class="users-avatar-shadow rounded-circle" height="64" width="64">
         </a>
         <div class="media-body pt-25">
-          <h4 class="media-heading"><span class="users-view-name">{{ $customer[0]->customer_name }} </span>
+          <h4 class="media-heading"><span class="users-view-name">{{ $supplier[0]->supplier_name }} </span>
             </h4>
-          <span>رقم العميل:</span>
+          <span>رقم المورد:</span>
           <span class="users-view-id">
-            <span class="badge badge-success users-view-status">{{ $customer[0]->id }}</span>
+            <span class="badge badge-success users-view-status">{{ $supplier[0]->id }}</span>
         </span>
         </div>
       </div>
@@ -51,34 +51,34 @@
        <div class="btn-group mr-1 mb-1">
         <button type="button" class="btn btn-warning btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">التحكم السريع</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-            <a class="dropdown-item" href="{{ route('customer.view', $customer['0']->id) }}">استعراض الملف</a>
-            <a class="dropdown-item" href="{{ route('customer.edit', $customer['0']->id) }}">تعديل الملف</a>
+            <a class="dropdown-item" href="{{ route('supplier.view', $supplier['0']->id) }}">استعراض الملف</a>
+            <a class="dropdown-item" href="{{ route('supplier.edit', $supplier['0']->id) }}">تعديل الملف</a>
             <a class="dropdown-item" href="#">فاتورة جديد</a>
             <a class="dropdown-item" href="#">عرض سعر جديد</a>
             <div class="dropdown-divider"></div>
-            <form action="{{route('customer.delete',$customer[0]->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا العميل نهائيا و جميع تفاصيله من البرنامج')">
+            <form action="{{route('supplier.delete',$supplier[0]->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا المورد نهائيا و جميع تفاصيله من البرنامج')">
                 @csrf
                 @method('delete')
-            <button class="dropdown-item btn-danger btn" type="submit">حذف العميل</button>
+            <button class="dropdown-item btn-danger btn" type="submit">حذف المورد</button>
             </form>
         </div>
     </div>
     <div class="btn-group mr-1 mb-1">
-        <button type="button" class="btn btn-info btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> التواصل مع العميل</button>
+        <button type="button" class="btn btn-info btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> التواصل مع المورد</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-            @if ( isset($customer[0]->customer_mobile))
-        <a class="dropdown-item" href="tel:{{$customer[0]->customer_mobile}}">اتصال بالموبايل</a>
+            @if ( isset($supplier[0]->supplier_mobile))
+        <a class="dropdown-item" href="tel:{{$supplier[0]->supplier_mobile}}">اتصال بالموبايل</a>
             @else
             <button class="dropdown-item" href="#">اتصال بالموبايل</button>
             @endif
-            @if ( isset($customer[0]->customer_phone))
-        <a class="dropdown-item" href="tel:{{$customer[0]->customer_phone}}">اتصال بالتليفون</a>
+            @if ( isset($supplier[0]->supplier_phone))
+        <a class="dropdown-item" href="tel:{{$supplier[0]->supplier_phone}}">اتصال بالتليفون</a>
             @else
             <button class="dropdown-item" href="#">اتصال بالتليفون</button>
             @endif
             <button class="dropdown-item" disabled>ارسال SMS <small style="color: red">غير متاحة</small></button>
-            @if ( isset($customer[0]->customer_email))
-        <a class="dropdown-item" href="mailto:{{$customer[0]->customer_email}}"> ارسال ايميل</a>
+            @if ( isset($supplier[0]->supplier_email))
+        <a class="dropdown-item" href="mailto:{{$supplier[0]->supplier_email}}"> ارسال ايميل</a>
             @else
             <button class="dropdown-item" href="#"> ارسال ايميل</button>
             @endif
@@ -107,65 +107,36 @@
             <table class="table table-borderless">
               <tbody>
                 <tr>
-                  <td>اسم العميل:</td>
-                  <td>{{ $customer[0]->customer_name }}</td>
+                  <td>اسم المورد:</td>
+                  <td>{{ $supplier[0]->supplier_name }}</td>
                 </tr>
-                <tr>
-                    <td>نوع العميل:</td>
-                    <td>
-                        @if($customer[0]->customer_type == 'company')
-                        تجاري
-                        @else
-                        فردي
-                        @endif
-                    </td>
-                  </tr>
-                @if($customer[0]->customer_type == 'company')
-                <tr>
-                  <td>الوظيفة:</td>
-                  <td>
-                      @if(isset($customer[0]->customer_title))
-                    {{ $customer[0]->customer_title }}
-                    @else
-                    <small style="font-style: italic;color:red;">غير مسجل</small>
-                    @endif
-                </td>
-                </tr>
-                <tr>
-                  <td>الشركة:</td>
-                  <td>@if(isset($customer[0]->customer_company))
-                    {{ $customer[0]->customer_company }}
-                    @else
-                    <small style="font-style: italic;color:red;">غير مسجل</small>
-                    @endif</td>
-                </tr>
-                @endif
+
                 <tr>
                   <td>الموبايل:</td>
-                  <td>{{ $customer[0]->customer_mobile }}</td>
+                  <td>{{ $supplier[0]->supplier_mobile }}</td>
                 </tr>
                 <tr>
                   <td>التليفون:</td>
-                  <td>@if(isset($customer[0]->customer_phone))
-                    {{ $customer[0]->customer_phone }}
+                  <td>@if(isset($supplier[0]->supplier_phone))
+                    {{ $supplier[0]->supplier_phone }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل</small>
                     @endif</td>
                 </tr>
                 <tr>
                    <td>الايميل:</td>
-                   <td>@if(isset($customer[0]->customer_email))
-                    {{ $customer[0]->customer_email }}
+                   <td>@if(isset($supplier[0]->supplier_email))
+                    {{ $supplier[0]->supplier_email }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل</small>
                     @endif</td>
                 </tr>
-                @if($customer[0]->customer_type == 'company')
+
                 <tr>
                     <td>السجل التجاري:</td>
                     <td>
-                        @if(isset($customer[0]->customer_commercial_registry))
-                        {{ $customer[0]->customer_commercial_registry }}
+                        @if(isset($supplier[0]->supplier_commercial_registry))
+                        {{ $supplier[0]->supplier_commercial_registry }}
                         @else
                         <small style="font-style: italic;color:red;">غير مسجل</small>
                         @endif
@@ -174,31 +145,39 @@
                  <tr>
                     <td>البطاقة الضريبية:</td>
                     <td>
-                        @if(isset($customer[0]->customer_tax_card))
-                    {{ $customer[0]->customer_tax_card }}
+                        @if(isset($supplier[0]->supplier_tax_card))
+                    {{ $supplier[0]->supplier_tax_card }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل</small>
                     @endif
                 </td>
                  </tr>
-                @endif
+
                 <tr>
                    <td>العنوان:</td>
-                   <td> @if(isset($customer[0]->customer_address))
-                    {{ $customer[0]->customer_address }}
+                   <td> @if(isset($supplier[0]->supplier_address))
+                    {{ $supplier[0]->supplier_address }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل </small>
                      @endif</td>
                 </tr>
+                <tr>
+                    <td>الملاحظات:</td>
+                    <td> @if(isset($supplier[0]->supplier_notes))
+                     {{ $supplier[0]->supplier_notes }}
+                     @else
+                     <small style="font-style: italic;color:red;">غير مسجل </small>
+                      @endif</td>
+                 </tr>
               </tbody>
             </table>
           </div>
           <div class="col-xl-6 col-lg-12 mb-1">
             <div class="form-group text-center">
                 <!-- Floating Outline button with text -->
-                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">123</i><span>عدد فواتير الشراء</span></button>
-            <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">321 جنية</i><span>إجمالي المبالغ من الفواتير</span></button>
-                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">456</i><span>عدد عروض الأسعار</span></button>
+                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">23</i><span>عدد أوامر الشراء</span></button>
+            <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">3545 جنية</i><span>إجمالي المبالغ من الشراء</span></button>
+                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">46</i><span>عدد أصناف المورد</span></button>
             </div>
         </div>
         </div>
@@ -208,21 +187,21 @@
   <!-- users view card data ends -->
   <!-- users view card details start -->
   <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-12">
     <div class="card">
       <div class="card-content">
         <div class="card-body">
 
           <div class="col-12">
-             <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span> فاتورة جديدة</a>
-              <h2 style="text-align: center">الفواتير</h2>
+             <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span> صنف جديد</a>
+              <h2 style="text-align: center">أصناف المورد</h2>
             <div class="table-responsive">
               <table class="table mb-0" id="reciepts">
                 <thead>
                   <tr>
-                    <th>رقم الفاتورة</th>
-                    <th>التاريخ</th>
-                    <th>الإجمالي</th>
+                    <th>كود الصنف</th>
+                    <th>اسم الصنف</th>
+                    <th>سعر الشراء</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -231,8 +210,8 @@
                         <a href="#" target="_blank" style="color: #1e9ff2"><span>123</span></a>
                     <i class="la la-barcode font-medium-2"></i>
                     </div></td>
-                    <td>22/12/2020</td>
-                    <td>450 جنية</td>
+                    <td>طفاية صغيرة</td>
+                    <td>40 جنية</td>
                   </tr>
                 </tbody>
               </table>
@@ -242,39 +221,7 @@
       </div>
     </div>
     </div>
-  <div class="col-md-6">
-  <div class="card">
-    <div class="card-content">
-      <div class="card-body">
-        <div class="col-12">
-            <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span> عرض سعر جديد</a>
-            <h2 style="text-align: center">عروض الأسعار</h2>
-          <div class="table-responsive">
-            <table class="table mb-0" id="quotations">
-              <thead>
-                <tr>
-                  <th>رقم العرض</th>
-                  <th>التاريخ</th>
-                  <th>الإجمالي</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><div class="badge border-warning warning badge-border">
-                        <a href="#" target="_blank" style="color: #ff9149"><span>123</span></a>
-                    <i class="la la-barcode font-medium-2"></i>
-                    </div></td>
-                  <td>22/12/2020</td>
-                  <td>500 جنية</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
+
 </div>
 <div class="row">
     <div class="col-md-6">
@@ -310,33 +257,50 @@
         </div>
       </div>
       </div>
-    <div class="col-md-6">
-    <div class="card">
-      <div class="card-content">
-        <div class="card-body">
-          <div class="col-12">
-              <h2 style="text-align: center">الأصناف الأكثر طلبا</h2>
-            <div class="table-responsive">
-              <table class="table mb-0" id="most-ordered">
-                <thead>
-                  <tr>
-                    <th>اسم الصنف</th>
-                    <th>إجمالي الكمية التي اشتراها العميل</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>طفايات صغيرة</td>
-                    <td>22 مرة</td>
-                  </tr>
-                </tbody>
-              </table>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="col-12">
+                  <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span> أمر شراء جديد</a>
+                  <h2 style="text-align: center"> أوامر الشراء</h2>
+                <div class="table-responsive">
+                  <table class="table mb-0" id="quotations">
+                    <thead>
+                      <tr>
+                        <th>رقم الأمر</th>
+                        <th>التاريخ</th>
+                        <th>الإجمالي</th>
+                       </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                            <div class="badge border-warning warning badge-border">
+                              <a href="#" target="_blank" style="color: #ff9149"><span>123</span></a>
+                          <i class="la la-barcode font-medium-2"></i>
+                          </div>
+                          <div class="badge badge-danger">
+                            <i class="la la-truck font-medium-2"></i>
+                            <span>لم يستلم</span>
+                        </div>
+                        <div class="badge badge-success">
+                        <i class="la la-money font-medium-2"></i>
+                            <span>مدفوع</span>
+                        </div>
+                        </td>
+                        <td>22/12/2020</td>
+                        <td>500 جنية</td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    </div>
+        </div>
   </div>
 
   <!-- users view card details ends -->

@@ -18,12 +18,12 @@
 <div class="content-wrapper">
     <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2">
-          <h3 class="content-header-title mb-0">قائمة العملاء</h3>
+          <h3 class="content-header-title mb-0">قائمة الموردين</h3>
           <div class="row breadcrumbs-top">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('home')}}">البرنامج</a></li>
-            <li class="breadcrumb-item"><a href="{{route('customers.list')}}">العملاء</a></li>
+            <li class="breadcrumb-item"><a href="{{route('suppliers.list')}}">الموردين</a></li>
                 <li class="breadcrumb-item active">استعراض
                 </li>
               </ol>
@@ -32,8 +32,8 @@
         </div>
         <div class="content-header-right text-md-right col-md-6 col-12">
           <div class="btn-group">
-          <a href="{{route('customers.add')}}" class="btn btn-outline-success block btn-lg" >
-                إضافه عميل جديد
+          <a href="{{route('suppliers.add')}}" class="btn btn-outline-success block btn-lg" >
+                إضافه مورد جديد
             </a>
 
           </div>
@@ -61,13 +61,13 @@
 
 
     @if(session()->has('success'))
-        @if(session()->get('success') == 'Customer deleted' )
+        @if(session()->get('success') == 'Supplier deleted' )
     <div class="alert alert-icon-left alert-success alert-dismissible mb-2" role="alert">
         <span class="alert-icon"><i class="la la-thumbs-o-up"></i></span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">×</span>
         </button>
-        <strong>تم بنجاح!</strong> حذف بيانات عميل
+        <strong>تم بنجاح!</strong> حذف بيانات مورد
     </div>
 
         @endif
@@ -121,8 +121,8 @@
                 <table id="users-list-datatable" class="table">
                     <thead>
                         <tr>
-                            <th>رقم العميل</th>
-                            <th>بيانات العميل</th>
+                            <th>رقم المورد</th>
+                            <th>بيانات المورد</th>
                             <th>الموبايل</th>
                             <th>التليفون</th>
                             <th>الإيميل</th>
@@ -130,40 +130,35 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($customers as $customer)
+                        @foreach ($suppliers as $supplier)
                         <tr>
-                            <td>{{ $customer->id }}</td>
+                            <td>{{ $supplier->id }}</td>
                             <td><li class="la la-user"></li>
-                                {{ $customer->customer_name }}
-                                @if(isset($customer->customer_title))
-                                <br/>
-                                <li class="la la-briefcase"></li>
-                                {{ $customer->customer_title }}
-                                @endif
-                                @if(isset($customer->customer_company))
+                                {{ $supplier->supplier_name }}
+                                @if(isset($supplier->supplier_company))
                                 <br/>
                                 <li class="la la-home"></li>
-                                {{ $customer->customer_company }}
+                                {{ $supplier->supplier_company }}
                                 @endif
                             </td>
-                            <td><li class="la la-mobile"></li> {{ $customer->customer_mobile }}</td>
+                            <td><li class="la la-mobile"></li> {{ $supplier->supplier_mobile }}</td>
                             <td><li class="la la-phone"></li>
-                                @if(isset($customer->customer_phone))
-                                {{ $customer->customer_phone }}
+                                @if(isset($supplier->supplier_phone))
+                                {{ $supplier->supplier_phone }}
                                 @else
                                 <span>غير مسجل</span>
                                 @endif
                             </td>
                             <td><li class="la la-envelope"></li>
-                                @if(isset($customer->customer_email))
-                                {{ $customer->customer_email }}
+                                @if(isset($supplier->supplier_email))
+                                {{ $supplier->supplier_email }}
                                 @else
                                 <span>غير مسجل</span>
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('customer.view', $customer->id) }}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
-                                <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-primary btn-sm"><i class="la la-pencil-square-o"></i> تعديل</a>
+                                <a href="{{ route('supplier.view', $supplier->id) }}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
+                                <a href="{{ route('supplier.edit', $supplier->id) }}" class="btn btn-primary btn-sm"><i class="la la-pencil-square-o"></i> تعديل</a>
                              </td>
                         </tr>
                         @endforeach

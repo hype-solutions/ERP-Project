@@ -43,7 +43,7 @@
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">×</span>
                                 </button>
-                                <strong>تم بنجاح!</strong> تحديث ملف العميل
+                                <strong>تم بنجاح!</strong> تحديث ملف المورد
                             </div>
                             @endif
   <!-- users view media object start -->
@@ -53,7 +53,7 @@
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{route('home')}}">البرنامج</a></li>
-            <li class="breadcrumb-item"><a href="{{route('customers.list')}}">العملاء</a></li>
+            <li class="breadcrumb-item"><a href="{{route('suppliers.list')}}">الموردين</a></li>
                 <li class="breadcrumb-item active">تعديل ملف
                 </li>
               </ol>
@@ -61,15 +61,15 @@
           </div>
       <div class="media mb-2">
         <a class="mr-1" href="#">
-          <img src="{{ asset('theme/app-assets/images/custom/client.svg') }}" alt="users view avatar"
+          <img src="{{ asset('theme/app-assets/images/custom/supplier.png') }}" alt="users view avatar"
             class="users-avatar-shadow rounded-circle" height="64" width="64">
         </a>
         <div class="media-body pt-25">
-          <h4 class="media-heading"><span class="users-view-name">{{ $customer[0]->customer_name }} </span>
+          <h4 class="media-heading"><span class="users-view-name">{{ $supplier[0]->supplier_name }} </span>
             </h4>
-          <span>رقم العميل:</span>
+          <span>رقم المورد:</span>
           <span class="users-view-id">
-            <span class="badge badge-success users-view-status">{{ $customer[0]->id }}</span>
+            <span class="badge badge-success users-view-status">{{ $supplier[0]->id }}</span>
         </span>
         </div>
       </div>
@@ -78,34 +78,34 @@
        <div class="btn-group mr-1 mb-1">
         <button type="button" class="btn btn-warning btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">التحكم السريع</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-            <a class="dropdown-item" href="{{ route('customer.view', $customer['0']->id) }}">استعراض الملف</a>
-            <a class="dropdown-item" href="{{ route('customer.edit', $customer['0']->id) }}">تعديل الملف</a>
+            <a class="dropdown-item" href="{{ route('supplier.view', $supplier['0']->id) }}">استعراض الملف</a>
+            <a class="dropdown-item" href="{{ route('supplier.edit', $supplier['0']->id) }}">تعديل الملف</a>
             <a class="dropdown-item" href="#">فاتورة جديد</a>
             <a class="dropdown-item" href="#">عرض سعر جديد</a>
             <div class="dropdown-divider"></div>
-            <form action="{{route('customer.delete',$customer[0]->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا العميل نهائيا و جميع تفاصيله من البرنامج')">
+            <form action="{{route('supplier.delete',$supplier[0]->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا المورد نهائيا و جميع تفاصيله من البرنامج')">
                 @csrf
                 @method('delete')
-            <button class="dropdown-item btn-danger btn" type="submit">حذف العميل</button>
+            <button class="dropdown-item btn-danger btn" type="submit">حذف المورد</button>
             </form>
         </div>
     </div>
     <div class="btn-group mr-1 mb-1">
-        <button type="button" class="btn btn-info btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> التواصل مع العميل</button>
+        <button type="button" class="btn btn-info btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> التواصل مع المورد</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-            @if ( isset($customer[0]->customer_mobile))
-        <a class="dropdown-item" href="tel:{{$customer[0]->customer_mobile}}">اتصال بالموبايل</a>
+            @if ( isset($supplier[0]->supplier_mobile))
+        <a class="dropdown-item" href="tel:{{$supplier[0]->supplier_mobile}}">اتصال بالموبايل</a>
             @else
             <button class="dropdown-item" href="#">اتصال بالموبايل</button>
             @endif
-            @if ( isset($customer[0]->customer_phone))
-        <a class="dropdown-item" href="tel:{{$customer[0]->customer_phone}}">اتصال بالتليفون</a>
+            @if ( isset($supplier[0]->supplier_phone))
+        <a class="dropdown-item" href="tel:{{$supplier[0]->supplier_phone}}">اتصال بالتليفون</a>
             @else
             <button class="dropdown-item" href="#">اتصال بالتليفون</button>
             @endif
             <button class="dropdown-item" disabled>ارسال SMS <small style="color: red">غير متاحة</small></button>
-            @if ( isset($customer[0]->customer_email))
-        <a class="dropdown-item" href="mailto:{{$customer[0]->customer_email}}"> ارسال ايميل</a>
+            @if ( isset($supplier[0]->supplier_email))
+        <a class="dropdown-item" href="mailto:{{$supplier[0]->supplier_email}}"> ارسال ايميل</a>
             @else
             <button class="dropdown-item" href="#"> ارسال ايميل</button>
             @endif
@@ -135,55 +135,19 @@
                 <div class="card-content collapse show">
                     <div class="card-body">
 
-                    <form class="form" method="post" action="{{route('customer.update',$customer['0']->id)}}">
+                    <form class="form" method="post" action="{{route('supplier.update',$supplier['0']->id)}}">
                             @csrf
                             @method('patch')
                             <div class="form-body">
-                                <h4 class="form-section"><i class="ft-user"></i> بيانات العميل</h4>
-                                <style>
-                                    label { display: inline-block }
-                                    label > input { /* HIDE RADIO */
-                                      visibility: hidden; /* Makes input not-clickable */
-                                      position: absolute; /* Remove input from document flow */
-                                    }
-                                    label > input + img { /* IMAGE STYLES */
-                                      cursor:pointer;
-                                      border:2px solid transparent;
-                                    }
-                                    label > input:checked + img { /* (RADIO CHECKED) IMAGE STYLES */
-                                      border:2px solid #f00;
-                                    }
-                                                            </style>
-                                                               <label for="timesheetinput2">نوع العميل</label>
-                                    <div class="form-group">
+                                <h4 class="form-section"><i class="ft-user"></i> بيانات المورد</h4>
 
-                                    <label>
-                                        @if (($customer[0]->customer_type == 'solo') )
-                                        <input type="radio" id="solo" name="customer_type" value="solo" checked />
-                                        @else
-                                        <input type="radio" id="solo" name="customer_type" value="solo" />
-                                        @endif
-                                        <img src="{{ asset('theme/app-assets/images/custom/solo.png') }}">
-                                        <div style="font-weight: 600">فردي</div>
-                                    </label>
-
-                                    <label>
-                                        @if (($customer[0]->customer_type == 'company') )
-                                        <input type="radio" id="company" name="customer_type" value="company" checked />
-                                        @else
-                                        <input type="radio" id="company" name="customer_type" value="company" />
-                                        @endif
-                                        <img src="{{ asset('theme/app-assets/images/custom/company.png') }}">
-                                        <div style="font-weight: 600">تجاري</div>
-                                    </label>
-                                    </div>
                                 <div class="row">
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="timesheetinput2">اسم العميل</label>
+                                            <label for="timesheetinput2">اسم المورد</label>
                                             <div class="position-relative has-icon-left">
-                                                <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: علي محمد" name="customer_name" value="{{$customer[0]->customer_name}}" required>
+                                                <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: علي محمد" name="supplier_name" value="{{$supplier[0]->supplier_name}}" required>
                                                 <div class="form-control-position">
                                                     <i class="la la-user"></i>
                                                 </div>
@@ -194,7 +158,7 @@
                                         <div class="form-group">
                                             <label for="timesheetinput2">الإيميل</label>
                                             <div class="position-relative has-icon-left">
-                                                <input type="email" id="timesheetinput2" class="form-control" placeholder="مثال: name@company.com" name="customer_email"  value="{{$customer[0]->customer_email}}">
+                                                <input type="email" id="timesheetinput2" class="form-control" placeholder="مثال: name@company.com" name="supplier_email"  value="{{$supplier[0]->supplier_email}}">
                                                 <div class="form-control-position">
                                                     <i class="la la-envelope"></i>
                                                 </div>
@@ -203,40 +167,26 @@
                                     </div>
 
                                 </div>
-                                @if (($customer[0]->customer_type == 'company') )
-                                <div class="row" id="company_extra2">
-                                    @else
-                                <div class="row" id="company_extra2" style="display:none">
-                                    @endif
-                                    <div class="col-md-6">
+                                 <div class="row" >
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="timesheetinput2">الشركة</label>
                                             <div class="position-relative has-icon-left">
-                                                <input type="text" id="timesheetinput2" class="form-control" placeholder="الشركة التي يعمل لحسابها" name="customer_company"  value="{{$customer[0]->customer_company}}">
+                                                <input type="text" id="timesheetinput2" class="form-control" placeholder="الشركة التي يعمل لحسابها" name="supplier_company"  value="{{$supplier[0]->supplier_company}}">
                                                 <div class="form-control-position">
                                                     <i class="la la-home"></i>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="timesheetinput2">الوظيفة</label>
-                                            <div class="position-relative has-icon-left">
-                                                <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: مدير المشتريات" name="customer_title" value="{{$customer[0]->customer_title}}">
-                                                <div class="form-control-position">
-                                                    <i class="la la-briefcase"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="timesheetinput2">الموبايل</label>
                                             <div class="position-relative has-icon-left">
-                                                <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: 01123456789" name="customer_mobile" value="{{$customer[0]->customer_mobile}}" required>
+                                                <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: 01123456789" name="supplier_mobile" value="{{$supplier[0]->supplier_mobile}}" required>
                                                 <div class="form-control-position">
                                                     <i class="la la-mobile"></i>
                                                 </div>
@@ -247,7 +197,7 @@
                                         <div class="form-group">
                                             <label for="timesheetinput2">التليفون</label>
                                             <div class="position-relative has-icon-left">
-                                                <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: 0223456789" name="customer_phone" value="{{$customer[0]->customer_phone}}">
+                                                <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: 0223456789" name="supplier_phone" value="{{$supplier[0]->supplier_phone}}">
                                                 <div class="form-control-position">
                                                     <i class="la la-phone"></i>
                                                 </div>
@@ -255,16 +205,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if (($customer[0]->customer_type == 'company') )
-                                <div class="row" id="company_extra">
-                                    @else
-                                <div class="row" id="company_extra" style="display:none">
-                                    @endif
+                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="timesheetinput2">السجل التجاري</label>
                                             <div class="position-relative has-icon-left">
-                                                <input type="text" id="timesheetinput2" class="form-control" name="customer_commercial_registry">
+                                                <input type="text" id="timesheetinput2" class="form-control" name="supplier_commercial_registry" value="{{$supplier[0]->supplier_commercial_registry}}">
                                                 <div class="form-control-position">
                                                     <i class="la la-institution"></i>
                                                 </div>
@@ -275,7 +221,7 @@
                                         <div class="form-group">
                                             <label for="timesheetinput2">البطاقة الضريبية</label>
                                             <div class="position-relative has-icon-left">
-                                                <input type="text" id="timesheetinput2" class="form-control" name="customer_tax_card">
+                                            <input type="text" id="timesheetinput2" class="form-control" name="supplier_tax_card" value="{{$supplier[0]->supplier_tax_card}}">
                                                 <div class="form-control-position">
                                                     <i class="la la-legal"></i>
                                                 </div>
@@ -287,9 +233,19 @@
                                 <div class="form-group">
                                     <label for="projectinput8">العنوان</label>
                                     <div class="position-relative has-icon-left">
-                                    <textarea id="projectinput8" rows="3" class="form-control" name="customer_address" placeholder="عنوان الشخص أو عنوان الشركة إن وجد">{{$customer[0]->customer_address}}</textarea>
+                                    <textarea id="projectinput8" rows="3" class="form-control" name="supplier_address" placeholder="عنوان الشخص أو عنوان الشركة إن وجد">{{$supplier[0]->supplier_address}}</textarea>
                                     <div class="form-control-position">
                                         <i class="la la-map"></i>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="projectinput8">الملاحظات</label>
+                                    <div class="position-relative has-icon-left">
+                                    <textarea id="projectinput8" rows="3" class="form-control" name="supplier_notes" placeholder="مثال: الأصناف المعروف بها هذا المورد">{{$supplier[0]->supplier_notes}}</textarea>
+                                    <div class="form-control-position">
+                                        <i class="la la-sticky-note
+                                        "></i>
                                     </div>
                                     </div>
                                 </div>

@@ -42,8 +42,8 @@
                                 <div class="card-body">
                                     <p class="card-text">تم الإنتهاء من:
                                         <ul>
-                                        <li><a href="{{route('customers.list')}}">قائمة العملاء</a></li>
-                                            <li>إضافة عميل</li>
+                                            <li><a href="{{route('customers.list')}}">قائمة العملاء</a></li>
+                                            <li><a href="{{route('customers.add')}}">إضافة عميل</a></li>
                                             <li>استعراض ملف العميل</li>
                                             <li>تعديل عميل</li>
                                             <li>حذف عميل</li>
@@ -77,7 +77,15 @@
                             </div>
                             <div class="card-content collapse show">
                                 <div class="card-body">
-                                    <p class="card-text">جاري العمل عليه</p>
+                                    <p class="card-text">تم الإنتهاء من:
+                                        <ul>
+                                        <li><a href="{{route('suppliers.list')}}">قائمة الموردين</a></li>
+                                            <li>إضافة مورد</li>
+                                            <li>استعراض ملف المورد</li>
+                                            <li>تعديل مورد</li>
+                                            <li>حذف مورد</li>
+                                        </ul>
+                                    </p>
                                 </div>
                             </div>
                         </div>

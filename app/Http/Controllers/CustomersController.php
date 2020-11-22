@@ -26,6 +26,10 @@ class CustomersController extends Controller
             'customer_email' => 'unique:customers',
             'customer_phone' => '',
             'customer_address' => '',
+            'customer_type' => '',
+            'customer_commercial_registry' => '',
+            'customer_tax_card' => '',
+
         ],
         [
             //'customer_email.email' => 'برجاء إدخال بريد الكتروني صحيح',
@@ -47,6 +51,9 @@ class CustomersController extends Controller
             'customer_email' => '',
             'customer_phone' => '',
             'customer_address' => '',
+            'customer_type' => '',
+            'customer_commercial_registry' => '',
+            'customer_tax_card' => '',
         ],
         [
             //'customer_email.email' => 'برجاء إدخال بريد الكتروني صحيح',
@@ -54,6 +61,12 @@ class CustomersController extends Controller
         ]
     );
     }
+
+    public function add()
+    {
+        return view('customers.add');
+    }
+
     public function store()
     {
         Customers::create($this->validatePostRequest());
