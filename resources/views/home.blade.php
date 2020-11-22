@@ -80,11 +80,19 @@
                                     <p class="card-text">تم الإنتهاء من:
                                         <ul>
                                         <li><a href="{{route('suppliers.list')}}">قائمة الموردين</a></li>
-                                            <li>إضافة مورد</li>
+                                            <li><a href="{{route('suppliers.add')}}">إضافة مورد</a></li>
                                             <li>استعراض ملف المورد</li>
                                             <li>تعديل مورد</li>
                                             <li>حذف مورد</li>
                                         </ul>
+                                        <p class="card-text">متبقي:
+                                            <ul>
+                                                <li>أصناف العميل</li>
+                                                <li> أوامر الشراء</li>
+                                                <li>المبالغ المستحقة</li>
+
+                                            </ul>
+                                        </p>
                                     </p>
                                 </div>
                             </div>
