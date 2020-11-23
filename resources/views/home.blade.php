@@ -85,6 +85,7 @@
                                             <li>تعديل مورد</li>
                                             <li>حذف مورد</li>
                                         </ul>
+                                    </p>
                                         <p class="card-text">متبقي:
                                             <ul>
                                                 <li>أصناف العميل</li>
@@ -92,16 +93,16 @@
                                                 <li>المبالغ المستحقة</li>
 
                                             </ul>
-                                        </p>
+
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-12">
-                        <div class="card text-white box-shadow-0 bg-gradient-x-warning">
+                        <div class="card text-white box-shadow-0 bg-gradient-x-info">
                             <div class="card-header">
-                                <h4 class="card-title text-white">المصاريف</h4>
+                                <h4 class="card-title text-white">المنتجات</h4>
                                 <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                 <div class="heading-elements">
                                     <ul class="list-inline mb-0">
@@ -111,7 +112,26 @@
                             </div>
                             <div class="card-content collapse show">
                                 <div class="card-body">
-                                    <p class="card-text">لم يتم البدء فيه</p>
+                                    <p class="card-text">تم الإنتهاء من:
+                                        <ul>
+                                        <li><a href="{{route('products.list')}}">قائمة المنتجات</a></li>
+                                            <li><a href="{{route('products.add')}}">إضافة منتج</a></li>
+                                            <li>استعراض منتج</li>
+                                            <li>تعديل منتج</li>
+                                            <li>حذف منتج</li>
+                                        </ul>
+                                    </p>
+                                        <p class="card-text">متبقي:
+                                            <ul>
+                                                <li>تحويل كميات</li>
+                                                <li>اضافه كميات</li>
+                                                <li>كميات الفروع</li>
+                                                <li>ربط الفروع</li>
+                                                <li>حركة المخزون</li>
+
+                                            </ul>
+
+                                    </p>
                                 </div>
                             </div>
                         </div>

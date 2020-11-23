@@ -78,12 +78,12 @@
        <div class="btn-group mr-1 mb-1">
         <button type="button" class="btn btn-warning btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">التحكم السريع</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-            <a class="dropdown-item" href="{{ route('customer.view', $customer['0']->id) }}">استعراض الملف</a>
-            <a class="dropdown-item" href="{{ route('customer.edit', $customer['0']->id) }}">تعديل الملف</a>
+            <a class="dropdown-item" href="{{ route('customers.view', $customer['0']->id) }}">استعراض الملف</a>
+            <a class="dropdown-item" href="{{ route('customers.edit', $customer['0']->id) }}">تعديل الملف</a>
             <a class="dropdown-item" href="#">فاتورة جديد</a>
             <a class="dropdown-item" href="#">عرض سعر جديد</a>
             <div class="dropdown-divider"></div>
-            <form action="{{route('customer.delete',$customer[0]->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا العميل نهائيا و جميع تفاصيله من البرنامج')">
+            <form action="{{route('customers.delete',$customer[0]->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا العميل نهائيا و جميع تفاصيله من البرنامج')">
                 @csrf
                 @method('delete')
             <button class="dropdown-item btn-danger btn" type="submit">حذف العميل</button>
@@ -135,7 +135,7 @@
                 <div class="card-content collapse show">
                     <div class="card-body">
 
-                    <form class="form" method="post" action="{{route('customer.update',$customer['0']->id)}}">
+                    <form class="form" method="post" action="{{route('customers.update',$customer['0']->id)}}">
                             @csrf
                             @method('patch')
                             <div class="form-body">

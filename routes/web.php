@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\SuppliersController;
-
+use App\Http\Controllers\ProductsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,16 +28,24 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //Customers
 Route::get('/customers', [CustomersController::class, 'customersList'])->name('customers.list');
 Route::get('/customers/add', [CustomersController::class, 'add'])->name('customers.add');
-Route::post('/customer/adding', [CustomersController::class, 'store'])->name('customer.adding');
-Route::get('/customer/view/{customer}', [CustomersController::class, 'view'])->name('customer.view');
-Route::get('/customer/edit/{customer}', [CustomersController::class, 'edit'])->name('customer.edit');
-Route::patch('/customer/update/{customer}', [CustomersController::class, 'update'])->name('customer.update');
-Route::delete('/customer/delete/{customer}', [CustomersController::class, 'delete'])->name('customer.delete');
+Route::post('/customers/adding', [CustomersController::class, 'store'])->name('customers.adding');
+Route::get('/customers/view/{customer}', [CustomersController::class, 'view'])->name('customers.view');
+Route::get('/customers/edit/{customer}', [CustomersController::class, 'edit'])->name('customers.edit');
+Route::patch('/customers/update/{customer}', [CustomersController::class, 'update'])->name('customers.update');
+Route::delete('/customers/delete/{customer}', [CustomersController::class, 'delete'])->name('customers.delete');
 //Suppliers
 Route::get('/suppliers', [SuppliersController::class, 'suppliersList'])->name('suppliers.list');
 Route::get('/suppliers/add', [SuppliersController::class, 'add'])->name('suppliers.add');
-Route::post('/supplier/adding', [SuppliersController::class, 'store'])->name('supplier.adding');
-Route::get('/supplier/view/{supplier}', [SuppliersController::class, 'view'])->name('supplier.view');
-Route::get('/supplier/edit/{supplier}', [SuppliersController::class, 'edit'])->name('supplier.edit');
-Route::patch('/supplier/update/{supplier}', [SuppliersController::class, 'update'])->name('supplier.update');
-Route::delete('/supplier/delete/{supplier}', [SuppliersController::class, 'delete'])->name('supplier.delete');
+Route::post('/suppliers/adding', [SuppliersController::class, 'store'])->name('suppliers.adding');
+Route::get('/suppliers/view/{supplier}', [SuppliersController::class, 'view'])->name('suppliers.view');
+Route::get('/suppliers/edit/{supplier}', [SuppliersController::class, 'edit'])->name('suppliers.edit');
+Route::patch('/suppliers/update/{supplier}', [SuppliersController::class, 'update'])->name('suppliers.update');
+Route::delete('/suppliers/delete/{supplier}', [SuppliersController::class, 'delete'])->name('suppliers.delete');
+//Products
+Route::get('/products', [ProductsController::class, 'productsList'])->name('products.list');
+Route::get('/products/add', [ProductsController::class, 'add'])->name('products.add');
+Route::post('/products/adding', [ProductsController::class, 'store'])->name('products.adding');
+Route::get('/products/view/{product}', [ProductsController::class, 'view'])->name('products.view');
+Route::get('/products/edit/{product}', [ProductsController::class, 'edit'])->name('products.edit');
+Route::patch('/products/update/{product}', [ProductsController::class, 'update'])->name('products.update');
+Route::delete('/products/delete/{product}', [ProductsController::class, 'delete'])->name('products.delete');

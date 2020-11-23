@@ -18,12 +18,12 @@
 <div class="content-wrapper">
     <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2">
-          <h3 class="content-header-title mb-0">قائمة الموردين</h3>
+          <h3 class="content-header-title mb-0">قائمة المنتجات</h3>
           <div class="row breadcrumbs-top">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('home')}}">البرنامج</a></li>
-            <li class="breadcrumb-item"><a href="{{route('suppliers.list')}}">الموردين</a></li>
+            <li class="breadcrumb-item"><a href="{{route('products.list')}}">المنتجات</a></li>
                 <li class="breadcrumb-item active">استعراض
                 </li>
               </ol>
@@ -32,7 +32,7 @@
         </div>
         <div class="content-header-right text-md-right col-md-6 col-12">
           <div class="btn-group">
-          <a href="{{route('suppliers.add')}}" class="btn btn-outline-success block btn-lg" >
+          <a href="{{route('products.add')}}" class="btn btn-outline-success block btn-lg" >
                 إضافه مورد جديد
             </a>
 
@@ -61,7 +61,7 @@
 
 
     @if(session()->has('success'))
-        @if(session()->get('success') == 'Supplier deleted' )
+        @if(session()->get('success') == 'product deleted' )
     <div class="alert alert-icon-left alert-success alert-dismissible mb-2" role="alert">
         <span class="alert-icon"><i class="la la-thumbs-o-up"></i></span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -121,44 +121,55 @@
                 <table id="users-list-datatable" class="table">
                     <thead>
                         <tr>
-                            <th>رقم المورد</th>
-                            <th>بيانات المورد</th>
-                            <th>الموبايل</th>
-                            <th>التليفون</th>
-                            <th>الإيميل</th>
+                            <th>مسلسل</th>
+                            <th>بيانات المنتج</th>
+                            <th>المخزون</th>
+                            <th>الأسعار</th>
                             <th>التحكم</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($suppliers as $supplier)
+                        @foreach ($products as $key => $product)
                         <tr>
-                            <td>{{ $supplier->id }}</td>
-                            <td><li class="la la-user"></li>
-                                {{ $supplier->supplier_name }}
-                                @if(isset($supplier->supplier_company))
+                            <td>{{ ++$key }}</td>
+                            <td><li class="la la-pencil-square"></li>
+                                {{ $product->product_name }}
+                                @if(isset($product->product_code))
                                 <br/>
-                                <li class="la la-home"></li>
-                                {{ $supplier->supplier_company }}
-                                @endif
-                            </td>
-                            <td><li class="la la-mobile"></li> {{ $supplier->supplier_mobile }}</td>
-                            <td><li class="la la-phone"></li>
-                                @if(isset($supplier->supplier_phone))
-                                {{ $supplier->supplier_phone }}
-                                @else
-                                <span>غير مسجل</span>
-                                @endif
-                            </td>
-                            <td><li class="la la-envelope"></li>
-                                @if(isset($supplier->supplier_email))
-                                {{ $supplier->supplier_email }}
-                                @else
-                                <span>غير مسجل</span>
+                                <li class="la la-barcode"></li>
+                                {{ $product->product_code }}
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('suppliers.view', $supplier->id) }}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
-                                <a href="{{ route('suppliers.edit', $supplier->id) }}" class="btn btn-primary btn-sm"><i class="la la-pencil-square-o"></i> تعديل</a>
+                                @if($product->product_total_in - $product->product_total_out > 0)
+                                <div class="badge badge-success">
+                                    <i class="la la-thumbs-up font-medium-2"></i>
+                                        <span>في المخزون</span>
+                                    </div>
+                                @else
+                                    <div class="badge badge-danger">
+                                        <i class="la la-exclamation-triangle font-medium-2"></i>
+                                        <span>مخزون نفذ</span>
+                                    </div>
+                                    @endif
+                                    <br>
+                                <li class="la la-dropbox"></li>
+                                 {{ $product->product_total_in - $product->product_total_out }}
+                                </td>
+                            <td><li class="la la-shopping-cart"></li>
+                                @if(isset($product->product_price))
+                                {{ $product->product_price }}
+                                @else
+                                <span>غير مسجل</span>
+                                @endif
+                                <br>
+                                <li class="la la-truck"></li>
+                                0
+                            </td>
+
+                            <td>
+                                <a href="{{ route('products.view', $product->id) }}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
+                                <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary btn-sm"><i class="la la-pencil-square-o"></i> تعديل</a>
                              </td>
                         </tr>
                         @endforeach
