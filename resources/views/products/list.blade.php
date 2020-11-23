@@ -33,7 +33,7 @@
         <div class="content-header-right text-md-right col-md-6 col-12">
           <div class="btn-group">
           <a href="{{route('products.add')}}" class="btn btn-outline-success block btn-lg" >
-                إضافه مورد جديد
+                إضافه منتج جديد
             </a>
 
           </div>
@@ -67,7 +67,7 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">×</span>
         </button>
-        <strong>تم بنجاح!</strong> حذف بيانات مورد
+        <strong>تم بنجاح!</strong> حذف بيانات منتج
     </div>
 
         @endif
