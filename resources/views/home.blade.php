@@ -27,116 +27,67 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-4 col-sm-12">
+                    <div class="col-md-2 col-sm-6">
                         <div class="card text-white box-shadow-0 bg-gradient-x-primary">
-                            <div class="card-header">
-                                <h4 class="card-title text-white">العملاء</h4>
-                                <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
-                                <div class="heading-elements">
-                                    <ul class="list-inline mb-0">
-                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
+
                             <div class="card-content collapse show">
-                                <div class="card-body">
-                                    <p class="card-text">تم الإنتهاء من:
-                                        <ul>
-                                            <li><a href="{{route('customers.list')}}">قائمة العملاء</a></li>
-                                            <li><a href="{{route('customers.add')}}">إضافة عميل</a></li>
-                                            <li>استعراض ملف العميل</li>
-                                            <li>تعديل عميل</li>
-                                            <li>حذف عميل</li>
-                                        </ul>
-                                    </p>
-                                    <p class="card-text">متبقي:
-                                        <ul>
-                                            <li>الأصناف الأكثر طلبا</li>
-                                            <li> فواتير العميل</li>
-                                            <li>عروض أسعار العميل</li>
-                                            <li>المبالغ المستحقة</li>
-
-                                        </ul>
-                                    </p>
-
+                                <div class="card-body text-center">
+                                    <a href="{{ route('customers.list') }}">
+                                    <h2>العملاء</h2>
+                                    <img style="width:100%" src="{{ asset('theme/app-assets/images/custom/customersList.png') }}" />
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-4 col-sm-12">
+                    <div class="col-md-2 col-sm-6">
                         <div class="card text-white box-shadow-0 bg-gradient-x-success">
-                            <div class="card-header">
-                                <h4 class="card-title text-white">الموردين</h4>
-                                <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
-                                <div class="heading-elements">
-                                    <ul class="list-inline mb-0">
-                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="card-content collapse show">
-                                <div class="card-body">
-                                    <p class="card-text">تم الإنتهاء من:
-                                        <ul>
-                                        <li><a href="{{route('suppliers.list')}}">قائمة الموردين</a></li>
-                                            <li><a href="{{route('suppliers.add')}}">إضافة مورد</a></li>
-                                            <li>استعراض ملف المورد</li>
-                                            <li>تعديل مورد</li>
-                                            <li>حذف مورد</li>
-                                        </ul>
-                                    </p>
-                                        <p class="card-text">متبقي:
-                                            <ul>
-                                                <li>أصناف العميل</li>
-                                                <li> أوامر الشراء</li>
-                                                <li>المبالغ المستحقة</li>
 
-                                            </ul>
-
-                                    </p>
-                                </div>
+                            <div class="card-body text-center">
+                                <a href="{{ route('suppliers.list') }}">
+                                <h2>الموردين</h2>
+                                <img style="width:100%" src="{{ asset('theme/app-assets/images/custom/suppliersList.png') }}" />
+                                </a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-12">
+                    <div class="col-md-2 col-sm-6">
                         <div class="card text-white box-shadow-0 bg-gradient-x-info">
-                            <div class="card-header">
-                                <h4 class="card-title text-white">المنتجات</h4>
-                                <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
-                                <div class="heading-elements">
-                                    <ul class="list-inline mb-0">
-                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
                             <div class="card-content collapse show">
-                                <div class="card-body">
-                                    <p class="card-text">تم الإنتهاء من:
-                                        <ul>
-                                        <li><a href="{{route('products.list')}}">قائمة المنتجات</a></li>
-                                            <li><a href="{{route('products.add')}}">إضافة منتج</a></li>
-                                            <li>استعراض منتج</li>
-                                            <li>تعديل منتج</li>
-                                            <li>حذف منتج</li>
-                                        </ul>
-                                    </p>
-                                        <p class="card-text">متبقي:
-                                            <ul>
-                                                <li>تحويل كميات</li>
-                                                <li>اضافه كميات</li>
-                                                <li>كميات الفروع</li>
-                                                <li>ربط الفروع</li>
-                                                <li>حركة المخزون</li>
-
-                                            </ul>
-
-                                    </p>
+                                <div class="card-body text-center">
+                                    <a href="{{ route('products.list') }}">
+                                    <h2>المنتجات</h2>
+                                    <img style="width:100%" src="{{ asset('theme/app-assets/images/custom/productsList.png') }}" />
+                                    </a>
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-2 col-sm-6">
+                    <div class="card text-white box-shadow-0 bg-gradient-x-warning">
+                        <div class="card-content collapse show">
+                            <div class="card-body text-center">
+                                <a href="{{ route('branches.list') }}">
+                                <h2>الفروع</h2>
+                                <img style="width:100%" src="{{ asset('theme/app-assets/images/custom/branchesList.png') }}" />
+                                </a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-6">
+                <div class="card text-white box-shadow-0 bg-gradient-x-danger">
+                    <div class="card-content collapse show">
+                        <div class="card-body text-center">
+                            <a href="{{ route('safes.list') }}">
+                            <h2>الخزن</h2>
+                            <img style="width:100%" src="{{ asset('theme/app-assets/images/custom/safe.png') }}" />
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </div>
 
             </section>
 
