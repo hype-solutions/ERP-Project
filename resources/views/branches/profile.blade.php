@@ -165,7 +165,7 @@
         <div class="card-body">
 
           <div class="col-12">
-             <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span> صنف جديد</a>
+             {{-- <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span> صنف جديد</a> --}}
               <h2 style="text-align: center">أصناف الفرع</h2>
             <div class="table-responsive">
               <table class="table mb-0" id="reciepts">
@@ -174,17 +174,22 @@
                     <th>كود الصنف</th>
                     <th>اسم الصنف</th>
                     <th>الكمية المتاحة</th>
+                    <th>عمليات</th>
                   </tr>
                 </thead>
                 <tbody>
+                    @foreach($products as $key => $product)
                   <tr>
                     <td><div class="badge border-info info badge-border">
-                        <a href="#" target="_blank" style="color: #1e9ff2"><span>123</span></a>
-                    <i class="la la-barcode font-medium-2"></i>
+                        <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$product->product[0]->product_code}}</span></a>
                     </div></td>
-                    <td>طفاية صغيرة</td>
-                    <td>22</td>
+                    <td>{{$product->product[0]->product_name}}</td>
+                    <td>{{$product->amount}}</td>
+                    <td>
+                        <a class="btn btn-secondary" href="{{route('products.transfer',$product->product_id)}}">تحويل كمية لفرع اخر</a>
+                    </td>
                   </tr>
+                  @endforeach
                 </tbody>
               </table>
             </div>

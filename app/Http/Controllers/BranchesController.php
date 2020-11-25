@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Branches;
 use App\Models\Safes;
+use App\Models\BranchesProducts;
 
 class BranchesController extends Controller
 {
@@ -68,7 +69,11 @@ class BranchesController extends Controller
         $branch_id = $branch[0]->id;
         $safe = Safes::where('branch_id',$branch_id)->get();
         $safeBalance = $safe[0]->safe_balance;
-        return view('branches.profile',compact('branch','safeBalance'));
+        $products = BranchesProducts::where('branch_id',$branch_id)
+                                    ->where('amount','!=',0)
+                                    ->with('product')->get();
+
+ return view('branches.profile',compact('branch','safeBalance','products'));
     }
     public function edit(Branches $branch){
         $branch = Branches::find($branch);

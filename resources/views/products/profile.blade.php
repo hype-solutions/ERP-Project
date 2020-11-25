@@ -65,9 +65,9 @@
     <div class="btn-group mr-1 mb-1"  style="width: 100%;">
         <button type="button" class="btn btn-info btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> التحكم في المخزون</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-            <a class="dropdown-item" href="#">أضف كمية يدويا</a>
+            <a class="dropdown-item" href="{{route('products.addQty',$product[0]->id)}}">أضف كمية يدويا</a>
             <a class="dropdown-item" href="#">أمر شراء جديد</a>
-            <a class="dropdown-item" href="#">تحويل كميات بين الفروع</a>
+            <a class="dropdown-item" href="{{route('products.transfer',$product[0]->id)}}">تحويل كميات بين الفروع</a>
 
         </div>
     </div>
@@ -181,7 +181,7 @@
                 <!-- Floating Outline button with text -->
                 <button type="button" class="btn btn-float btn-outline-cyan"><i class="">25 جنية</i><span>متوسط سعر التكلفة</span></button>
             <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">3545</i><span>إجمالي القطع المباعة</span></button>
-                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">46</i><span>كمية المخزون</span></button>
+                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">{{ $product[0]->product_total_in - $product[0]->product_total_out }}</i><span>كمية المخزون</span></button>
             </div>
         </div>
         </div>
@@ -197,20 +197,27 @@
             <div class="card-body">
 
               <div class="col-12">
-                 <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-primary" style="float: left"><span class="la la-arrows-h"></span> تحويل بين الفروع</a>
+                <a href="{{route('products.transfer',$product[0]->id)}}" class="btn btn-social mb-1 mr-1 btn-sm btn-primary" style="float: left"><span class="la la-arrows-h"></span> تحويل بين الفروع</a>
                   <h2 style="text-align: center"> المخزون</h2>
                 <div class="table-responsive">
                   <table class="table mb-0" id="reciepts">
                     <thead>
                       <tr>
+                        <th>كود الفرع</th>
                         <th> الفرع</th>
                         <th>الكمية</th>
                       </tr>
                     </thead>
                     <tbody>
-                        <td>الفرع الرئيسي</td>
-                        <td>20</td>
+                        @foreach ($branches as $key => $branch)
+                        <tr>
+                            <td><div class="badge border-info info badge-border">
+                                <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$branch->branch[0]->id}}</span></a>
+                            </div></td>
+                        <td>{{$branch->branch[0]->branch_name}}</td>
+                        <td>{{$branch->amount}} قطعة</td>
                       </tr>
+                      @endforeach
                     </tbody>
                   </table>
                 </div>
