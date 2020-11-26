@@ -58,77 +58,45 @@
         <div class="row breadcrumbs-top">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('home')}}">البرنامج</a></li>
-            <li class="breadcrumb-item"><a href="{{route('products.list')}}">المنتجات</a></li>
-                <li class="breadcrumb-item active">إضافه كمية يدويا
+                <li class="breadcrumb-item"><a href="{{route('home')}}">البرنامج</a></li>
+                <li class="breadcrumb-item"><a href="{{route('safes.list')}}">الخزن</a></li>
+                <li class="breadcrumb-item active">تحويل أموال بين الخزن
                 </li>
               </ol>
             </div>
           </div>
       <div class="media mb-2">
         <a class="mr-1" href="#">
-          <img src="{{ asset('theme/app-assets/images/custom/product.png') }}" alt="users view avatar"
+          <img src="{{ asset('theme/app-assets/images/custom/safe.png') }}" alt="users view avatar"
             class="users-avatar-shadow rounded-circle" height="64" width="64">
         </a>
-        <div class="media-body pt-25">
-          <h4 class="media-heading"><span class="users-view-name">{{ $product[0]->product_name }} </span>
-            </h4>
-          <span>رقم المنتج:</span>
-          <span class="users-view-id">
-            <span class="badge badge-success users-view-status">{{ $product[0]->id }}</span>
-        </span>
-        </div>
+
       </div>
     </div>
-    <div class="col-12 col-sm-5 px-0 d-flex justify-content-end align-items-center px-2 mb-2">
-        <div class="btn-group mr-1 mb-1">
-         <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">التحكم في المنتج</button>
-         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-             <a class="dropdown-item" href="{{ route('products.view', $product['0']->id) }}">استعراض المنتج</a>
-             <a class="dropdown-item" href="{{ route('products.edit', $product['0']->id) }}">تعديل المنتج</a>
-             <a class="dropdown-item" href="#">طباعه BARCODE</a>
-             <div class="dropdown-divider"></div>
-             <form action="{{route('products.delete',$product[0]->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا المنتج نهائيا و جميع تفاصيله من البرنامج')">
-                 @csrf
-                 @method('delete')
-             <button class="dropdown-item btn-danger btn" type="submit">حذف المنتج</button>
-             </form>
-         </div>
-     </div>
-     <div class="btn-group mr-1 mb-1"  style="width: 100%;">
-         <button type="button" class="btn btn-info btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> التحكم في المخزون</button>
-         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-             <a class="dropdown-item" href="#">أضف كمية يدويا</a>
-             <a class="dropdown-item" href="#">أمر شراء جديد</a>
-             <a class="dropdown-item" href="#">تحويل كميات بين الفروع</a>
 
-         </div>
-     </div>
-     </div>
   </div>
-<form method="POST" action="{{route('products.addingQty')}}">
+<form method="POST" action="{{route('safes.transfering')}}">
       @csrf
 
-      <input type="hidden" name="product_id" value="{{ $product[0]->id }} "/>
-      <input type="hidden" name="added_by" value="{{ $user_id }}" />
+      <input type="hidden" name="transfered_by" value="{{ $user_id }}" />
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-content collapse show">
                 <div class="card-body">
 
                         <div class="form-body">
-                            <h4 class="form-section"><i class="la la-flag"></i> إضافه كمية يدويا</h4>
+                            <h4 class="form-section"><i class="la la-flag"></i> من</h4>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div class="text-bold-600 font-medium-2">
-                                         اختر الفرع
+                                         اختر الخزنة
                                         </div>
-                                        <select class="select2-rtl form-control" data-placeholder="إختر الفرع..." name="branch_id"  onchange="return fetchQty(this)">
+                                        <select class="select2-rtl form-control" data-placeholder="إختر الخزنة..." name="safe_from"  onchange="return fetchAmount(this)" required>
                                             <option></option>
-                                            @foreach ($branches as $branch)
-                                            <option value="{{$branch->id}}">{{$branch->branch_name}}</option>
+                                            @foreach ($safes as $safe)
+                                            <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
                                             @endforeach
                                         </select>
                                       </div>
@@ -138,20 +106,20 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="projectinput3">الكمية</label>
-                                        <input type="number" id="qtyToAdd" class="form-control" placeholder="0.00" name="qty" min="1" max="20000">
+                                        <label for="projectinput3">المبلغ</label>
+                                        <input type="number" id="amountToTransfer" class="form-control" placeholder="0.00" name="transfer_amount" min="1" max="2" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="projectinput4">الكمية قبل الإضافة</label>
-                                        <input type="number" id="qtyBeforeAdd" class="form-control" placeholder="0" name="qty_before_add" readonly>
+                                        <label for="projectinput4">الرصيد قبل التحويل</label>
+                                        <input type="number" id="amountBeforeTransfer1" class="form-control" placeholder="0" name="amount_before_transfer_from" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="projectinput4">الكمية بعد الإضافة</label>
-                                        <input type="number" id="qtyAfterAdd" class="form-control" placeholder="0" name="qty_after_add" readonly>
+                                        <label for="projectinput4">الرصيد بعد التحويل</label>
+                                        <input type="number" id="amountAfterTransfer1" class="form-control" placeholder="0" name="amount_after_transfer_from" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -163,31 +131,44 @@
             </div>
         </div>
     </div>
-
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-content collapse show">
                 <div class="card-body">
 
                         <div class="form-body">
+                            <h4 class="form-section"><i class="la la-arrow-circle-o-left"></i> الى</h4>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="projectinput3">سعر الشراء للوحدة</label>
-                                        <input type="number" id="" class="form-control" placeholder="" name="qty_price" value="0" required>
-                                    </div>
+                                        <div class="text-bold-600 font-medium-2">
+                                         اختر الخزنة
+                                        </div>
+                                        <select class="select2-rtl form-control" id="toSafe" data-placeholder="إختر الخزنة..." name="safe_to" onchange="return fetchAmount2(this)" required>
+                                            <option></option>
+                                            @foreach ($otherSafes as $safe)
+                                            <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
+                                            @endforeach
+                                        </select>
+                                      </div>
                                 </div>
 
                             </div>
                             <div class="row">
-                                <div class="col-md-12">
-                                    <fieldset class="form-group">
-                                        <label for="projectinput8">التاريخ</label>
-                                        <input type="datetime-local" name="qty_datetime" class="form-control" id="dateTime" value="2011-08-19T13:45:00">
-                                    </fieldset>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="projectinput4">الرصيد قبل التحويل</label>
+                                        <input type="number" id="amountBeforeTransfer2" class="form-control" placeholder="0" name="amount_before_transfer_to" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="projectinput4">الرصيد بعد التحويل</label>
+                                        <input type="number" id="amountAfterTransfer2" class="form-control" placeholder="0" name="amount_after_transfer_to" readonly>
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
 
 
@@ -195,8 +176,6 @@
             </div>
         </div>
     </div>
-
-
   </div>
 
   <div class="row">
@@ -207,11 +186,16 @@
 
                         <div class="form-body">
                             <div class="row">
-
-                                <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <fieldset class="form-group">
+                                        <label for="projectinput8">التاريخ</label>
+                                        <input type="datetime-local" name="transfer_datetime" class="form-control" id="dateTime" value="2011-08-19T13:45:00">
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="projectinput8">الملاحظات</label>
-                                        <textarea id="projectinput8" rows="5" class="form-control" name="qty_notes"></textarea>
+                                        <textarea id="projectinput8" rows="5" class="form-control" name="transfer_notes"></textarea>
                                     </div>
                                 </div>
 
@@ -231,7 +215,7 @@
             <div class="card-content collapse show">
                 <div class="card-body">
                     <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
-                    <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> إضافة</button>
+                    <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> تحويل</button>
 
                 </div>
             </div>
@@ -268,12 +252,13 @@
     <script src="{{ asset('theme/app-assets/js/scripts/forms/select/form-select2.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/js/scripts/forms/switch.min.js') }}"></script>
     <script>
-        function fetchQty(branchId){
-            //fetchOtherBranches(branchId);
-            $('#qtyToAdd').val('');
-            $('#qtyAfterAdd').val(0);
-            $('#qtyBeforeAdd').val(0);
-
+        function fetchAmount(safeId){
+            $("#toSafe").attr({"readonly" : true });
+            fetchOtherSafes(safeId);
+            $('#amountToTransfer').val('');
+            $('#amountAfterTransfer1').val(0);
+            $('#amountBeforeTransfer2').val(0);
+            $('#amountAfterTransfer2').val(0);
 
             $.ajaxSetup({
             headers: {
@@ -281,20 +266,24 @@
             }
                         });
         var formData = {
-            branch: branchId.value,
-            product: "{{ $product[0]->id }}",
+            safe: safeId.value,
         };
         var type = "POST";
-        var ajaxurl = "{{route('products.fetchQty')}}";
+        var ajaxurl = "{{route('safes.fetchAmount')}}";
         $.ajax({
             type: type,
             url: ajaxurl,
             data: formData,
             dataType: 'json',
             success: function (data) {
-
-                $("#qtyBeforeAdd").val(data.amount);
-                // $("#qtyToAdd").attr({"max" : data.amount });
+                $("#toSafe").attr({"readonly" : false });
+                $("#amountBeforeTransfer1").val(data.amount);
+                // if(data.amount > 0){
+                //     $("#amountToTransfer").attr({"readonly" : false });
+                // }else{
+                //     $("#amountToTransfer").attr({"readonly" : true });
+                // }
+                 $("#amountToTransfer").attr({"max" : data.amount });
             },
             error: function (data) {
                 console.log(data);
@@ -303,16 +292,86 @@
 
         }
 
+        function fetchAmount2(safeId){
+            //fetchOtherBranches(branchId);
+
+            $('#amountAfterTransfer2').val(0);
+            $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+            }
+                        });
+        var formData = {
+            safe: safeId.value,
+        };
+        var type = "POST";
+        var ajaxurl = "{{route('safes.fetchAmount')}}";
+        $.ajax({
+            type: type,
+            url: ajaxurl,
+            data: formData,
+            dataType: 'json',
+            success: function (data) {
+                $("#amountBeforeTransfer2").val(data.amount);
+                $("#amountToTransfer").attr({"readonly" : false });
+                $("#amountToTransfer").attr({"class" : "form-control border-success" });
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+
+
+
+        }
+
+
+
+        function fetchOtherSafes(safeId){
+            $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+            }
+                        });
+        var formData = {
+            other_id: safeId.value,
+        };
+        var type = "POST";
+        var ajaxurl = "{{route('safes.fetchOtherSafes')}}";
+        $.ajax({
+            type: type,
+            url: ajaxurl,
+            data: formData,
+            dataType: 'json',
+            success: function (data) {
+                var $otherSafe = $('#toSafe');
+                $otherSafe.empty();
+                for (var i = 0; i < data.length; i++) {
+                $otherSafe.append('<option></option>');
+                $otherSafe.append('<option value=' + data[i].id + '>' + data[i].safe_name + '</option>');
+            }
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+        }
+
 
 
                 $(document).ready(function () {
 
-                    $("#qtyToAdd").bind('keyup mouseup', function () {
-                    transQty = $('#qtyToAdd').val();
-                    getQty = $('#qtyBeforeAdd').val();
-                    calculate = parseInt(getQty) + parseInt(transQty);
-                    $('#qtyAfterAdd').val(calculate);
+                    $("#amountToTransfer").bind('keyup mouseup', function () {
 
+
+                    transQty = $('#amountToTransfer').val();
+                    getQty = $('#amountBeforeTransfer1').val();
+                    calculate = getQty - transQty;
+
+                    toQty = $('#amountBeforeTransfer2').val();
+                    calculate2 = parseInt(toQty) + parseInt(transQty);
+                    $('#amountAfterTransfer1').val(calculate);
+                    $('#amountAfterTransfer2').val(calculate2);
                 });
 
             });

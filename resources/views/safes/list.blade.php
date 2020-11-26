@@ -35,6 +35,9 @@
           <button type="button" class="btn btn-outline-success block btn-lg" data-toggle="modal" data-target="#default">
                 إضافه خزنة جديدة
           </button>
+        <a href="{{route('safes.transfer')}}" class="btn btn-outline-info block btn-lg">
+            تحويل أرصدة بين الخزن
+          </a>
             <div class="modal fade text-left" id="default" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -108,7 +111,7 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">×</span>
         </button>
-        <strong>تم بنجاح!</strong> حذف بيانات خزنة
+        <strong>تم بنجاح!</strong> حذف الخذنة, و تم تحويل رصيدها للخزنة الأولى
     </div>
     @elseif(session()->get('success') == 'safe Added')
     <div class="alert alert-icon-left alert-success alert-dismissible mb-2" role="alert">

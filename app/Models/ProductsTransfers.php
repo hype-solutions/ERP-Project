@@ -23,4 +23,18 @@ class ProductsTransfers extends Model
         'transfered_by',
         'authorized_by',
     ];
+    public function branchFrom()
+    {
+        return $this->hasOne('App\Models\Branches', 'id', 'branch_from');
+    }
+
+    public function branchTo()
+    {
+        return $this->hasOne('App\Models\Branches', 'id', 'branch_to');
+    }
+    public function user()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'transfered_by');
+    }
+
 }

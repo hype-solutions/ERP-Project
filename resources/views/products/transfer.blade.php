@@ -125,7 +125,7 @@
                                         <div class="text-bold-600 font-medium-2">
                                          اختر الفرع
                                         </div>
-                                        <select class="select2-rtl form-control" data-placeholder="إختر الفرع..." name="branch_from"  onchange="return fetchQty(this)">
+                                        <select class="select2-rtl form-control" data-placeholder="إختر الفرع..." name="branch_from"  onchange="return fetchQty(this)" required>
                                             <option></option>
                                             @foreach ($productBranches as $branch)
                                             <option value="{{$branch->branch_id}}">{{$branch->branch[0]->branch_name}}</option>
@@ -176,7 +176,7 @@
                                         <div class="text-bold-600 font-medium-2">
                                          اختر الفرع
                                         </div>
-                                        <select class="select2-rtl form-control" id="toBranch" data-placeholder="إختر الفرع..." name="branch_to" onchange="return fetchQty2(this)">
+                                        <select class="select2-rtl form-control" id="toBranch" data-placeholder="إختر الفرع..." name="branch_to" onchange="return fetchQty2(this)" required>
                                             <option></option>
                                             @foreach ($otherBranches as $branch)
                                             <option value="{{$branch->id}}">{{$branch->branch_name}}</option>
@@ -348,14 +348,14 @@
             dataType: 'json',
             success: function (data) {
                 $("#qtyBeforeTransfer2").val(data.amount);
-                $("#qtyToTransfer").attr({"readonly" : false });
-                $("#qtyToTransfer").attr({"class" : "form-control border-success" });
+
             },
             error: function (data) {
                 console.log(data);
             }
         });
-
+        $("#qtyToTransfer").attr({"readonly" : false });
+        $("#qtyToTransfer").attr({"class" : "form-control border-success" });
 
 
         }

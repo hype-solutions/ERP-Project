@@ -198,7 +198,7 @@
 
               <div class="col-12">
                 <a href="{{route('products.transfer',$product[0]->id)}}" class="btn btn-social mb-1 mr-1 btn-sm btn-primary" style="float: left"><span class="la la-arrows-h"></span> تحويل بين الفروع</a>
-                  <h2 style="text-align: center"> المخزون</h2>
+                  <h2 style="text-align: center"> رصيد الفروع</h2>
                 <div class="table-responsive">
                   <table class="table mb-0" id="reciepts">
                     <thead>
@@ -264,58 +264,93 @@
           <div class="card-body">
 
             <div class="col-12">
-                <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span>  عملية جديدة</a>
-                <h2 style="text-align: center"> حركة المخزون</h2>
+                <a href="{{route('products.transfer',$product[0]->id)}}" class="btn btn-social mb-1 mr-1 btn-sm btn-primary" style="float: left"><span class="la la-arrows-h"></span> تحويل بين الفروع</a>
+                <h2 style="text-align: center"> التحويلات بين الفروع</h2>
               <div class="table-responsive">
                 <table class="table mb-0" id="due">
                   <thead>
                     <tr>
-                      <th> العملية</th>
-                      <th> الوقت</th>
-                      <th> حركة</th>
-                      <th>المخزون بعد</th>
-                      <th>الحالة</th>
+                        {{-- <th>م#</th> --}}
+                        <th>بيانات العملية</th>
+                        <th>من</th>
+                        <th>الى</th>
+                        <th>الكمية</th>
+                        <th>الصلاحيات</th>
+                        <th>الملاحظات</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
+                    @foreach ($productransfers as $key => $transfer)
+                  <tr>
+                  {{-- <td>{{++$key}}</td> --}}
+                    <td><div class="badge border-info info badge-border">
+                        <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$transfer->id}}</span></a>
+                    </div>
+                    <br>
+                    {{$transfer->transfer_datetime}}
+                  </td>
+                    <td>
+                        @if(isset($transfer->branchFrom))
 
-                      <td><div class="badge border-success info badge-border">
-                          <a href="#" target="_blank" style="color: #28d094"><span>
-                            فاتورة (#00001)
-                        </span></a>
-                      </div></td>
-                      <td>22/11/2020 22:52</td>
-                      <td><b><font color="red">-</font></b> 22</td>
-                      <td>900</td>
-                      <td>
+                          <div class="badge badge-success">
+                              <i class="la la-flag font-medium-2"></i>
+                                  <span>{{$transfer->branchFrom->branch_name}}</span>
+                              </div>
 
-                        <div class="badge badge-success">
-                            <i class="la la-money font-medium-2"></i>
-                                <span>مدفوع</span>
-                            </div>
+                        @else
+                        <div class="badge badge-danger">
+                          <i class="la la-trash font-medium-2"></i>
+                          <span>{{str_replace('عملية تحويل كميات من فرع الى أخر بسبب حذف فرع, اسم الفرع قبل الحذف ','',$transfer->transfer_notes)}}</span>
+                        </div>
+                          <span style="color: red">(فرع محذوف)</span>
+                        @endif
+                          <hr>
+                            المخزون قبل: {{$transfer->qty_before_transfer_from}}
+                            <br>
+                            المخزون بعد: {{$transfer->qty_after_transfer_from}}
                       </td>
-                    </tr>
-                    <tr>
+                    <td>
+                      @if(isset($transfer->branchTo))
 
-                        <td><div class="badge border-info info badge-border">
-                            <a href="#" target="_blank" style="color: #1e9ff2"><span>
-                                أمر شرا (#4)
-                            </span></a>
+                          <div class="badge badge-warning">
+                              <i class="la la-arrow-left font-medium-2"></i>
+                                  <span>{{$transfer->branchTo->branch_name}}</span>
+                              </div>
 
-                        </div></td>
-                        <td>22/11/2020 22:51</td>
-                        <td><b><font color="green">+</font></b> 10</td>
-                        <td>2000</td>
-                        <td>
+                      @else
+                      <div class="badge badge-danger">
+                          <i class="la la-trash font-medium-2"></i>
+                              <span>{{str_replace('عملية تحويل كميات من فرع الى أخر بسبب حذف فرع, اسم الفرع قبل الحذف ','',$transfer->transfer_notes)}}</span>
+                          </div>
+                          <span style="color: red">(فرع فرع محذوف)</span>
+                                       @endif
+                      <hr>
+                            المخزون قبل: {{$transfer->qty_before_transfer_to}}
+                            <br>
+                            المخزون بعد: {{$transfer->qty_after_transfer_to}}
+                  </td>
+                    <td>{{$transfer->transfer_qty}}</td>
+                    <td>
+                      قام بالتحويل
+                      <div class="badge border-primary primary badge-border">
+                          <i class="la la-user font-medium-2"></i>
+                              <span>{{$transfer->user->username}}</span>
+                          </div>
 
-                                <div class="badge badge-danger">
-                                    <i class="la la-truck font-medium-2"></i>
-                                    <span>لم يستلم</span>
-                                </div>
-                        </td>
-                      </tr>
-                  </tbody>
+
+                        <br>
+                      صرح بالتحويل
+                      <div class="badge border-success success badge-square badge-border">
+                          <i class="la la-user font-medium-2"></i>
+                              <span>{{$transfer->user->username}}</span>
+                          </div>
+                    </td>
+                    <td>
+                      {{$transfer->transfer_notes}}
+                    </td>
+                  </tr>
+                  @endforeach
+                </tbody>
                 </table>
               </div>
             </div>
@@ -324,6 +359,208 @@
       </div>
       </div>
 
+
+
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+
+              <div class="col-12">
+              <a href="{{route('products.addQty',$product[0]->id)}}" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span> أضف كمية يدويا</a>
+                  <h2 style="text-align: center"> الكميات المضافة يدويا</h2>
+                <div class="table-responsive">
+                  <table class="table mb-0" id="manual_add">
+                    <thead>
+                      <tr>
+                        <th> العملية</th>
+                        <th> الكمية</th>
+                        <th> الفرع</th>
+                        <th> سعر الشراء</th>
+                        <th> الصلاحيات</th>
+                        <th> الملاحظات</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($productManual as $key => $add)
+                        <tr>
+                            <td><div class="badge border-info info badge-border">
+                                <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$add->id}}</span></a>
+                            </div>
+                            <br>
+                            {{$add->qty_datetime}}
+                          </td>
+                        <td>{{$add->qty}}</td>
+                        <td>
+                            {{$add->branch->branch_name}}
+                            <br>
+                            المخزون قبل: {{$add->qty_before_add}}
+                            <br>
+                            المخزون بعد: {{$add->qty_after_add}}
+                        </td>
+                        <td>{{$add->qty_price}} جنية</td>
+                        <td>
+                            قام بالتحويل
+                            <div class="badge border-primary primary badge-border">
+                                <i class="la la-user font-medium-2"></i>
+                                    <span>{{$transfer->user->username}}</span>
+                                </div>
+
+
+                              <br>
+                            صرح بالتحويل
+                            <div class="badge border-success success badge-square badge-border">
+                                <i class="la la-user font-medium-2"></i>
+                                    <span>{{$transfer->user->username}}</span>
+                                </div>
+                          </td>
+                        <td>{{$add->qty_notes}}</td>
+
+                      </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+
+
+
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+
+              <div class="col-12">
+                  <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span>  عملية جديدة</a>
+                  <h2 style="text-align: center"> أوامر الشراء</h2>
+                <div class="table-responsive">
+                  <table class="table mb-0" id="due">
+                    <thead>
+                      <tr>
+                        <th> العملية</th>
+                        <th> الوقت</th>
+                        <th> حركة</th>
+                        <th>المخزون بعد</th>
+                        <th>الحالة</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+
+                        <td><div class="badge border-success info badge-border">
+                            <a href="#" target="_blank" style="color: #28d094"><span>
+                              فاتورة (#00001)
+                          </span></a>
+                        </div></td>
+                        <td>22/11/2020 22:52</td>
+                        <td><b><font color="red">-</font></b> 22</td>
+                        <td>900</td>
+                        <td>
+
+                          <div class="badge badge-success">
+                              <i class="la la-money font-medium-2"></i>
+                                  <span>مدفوع</span>
+                              </div>
+                        </td>
+                      </tr>
+                      <tr>
+
+                          <td><div class="badge border-info info badge-border">
+                              <a href="#" target="_blank" style="color: #1e9ff2"><span>
+                                  أمر شرا (#4)
+                              </span></a>
+
+                          </div></td>
+                          <td>22/11/2020 22:51</td>
+                          <td><b><font color="green">+</font></b> 10</td>
+                          <td>2000</td>
+                          <td>
+
+                                  <div class="badge badge-danger">
+                                      <i class="la la-truck font-medium-2"></i>
+                                      <span>لم يستلم</span>
+                                  </div>
+                          </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+
+
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+
+              <div class="col-12">
+                  <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span>  عملية جديدة</a>
+                  <h2 style="text-align: center">  فواتير البيع</h2>
+                <div class="table-responsive">
+                  <table class="table mb-0" id="due">
+                    <thead>
+                      <tr>
+                        <th> العملية</th>
+                        <th> الوقت</th>
+                        <th> حركة</th>
+                        <th>المخزون بعد</th>
+                        <th>الحالة</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+
+                        <td><div class="badge border-success info badge-border">
+                            <a href="#" target="_blank" style="color: #28d094"><span>
+                              فاتورة (#00001)
+                          </span></a>
+                        </div></td>
+                        <td>22/11/2020 22:52</td>
+                        <td><b><font color="red">-</font></b> 22</td>
+                        <td>900</td>
+                        <td>
+
+                          <div class="badge badge-success">
+                              <i class="la la-money font-medium-2"></i>
+                                  <span>مدفوع</span>
+                              </div>
+                        </td>
+                      </tr>
+                      <tr>
+
+                          <td><div class="badge border-info info badge-border">
+                              <a href="#" target="_blank" style="color: #1e9ff2"><span>
+                                  أمر شرا (#4)
+                              </span></a>
+
+                          </div></td>
+                          <td>22/11/2020 22:51</td>
+                          <td><b><font color="green">+</font></b> 10</td>
+                          <td>2000</td>
+                          <td>
+
+                                  <div class="badge badge-danger">
+                                      <i class="la la-truck font-medium-2"></i>
+                                      <span>لم يستلم</span>
+                                  </div>
+                          </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
   </div>
 
   <!-- users view card details ends -->
@@ -349,6 +586,10 @@ $("#reciepts").DataTable();
 $("#suppliers").DataTable();
 $("#due").DataTable();
 $("#most-ordered").DataTable();
+$("#manual_add").DataTable();
+
+
+
 </script>
 
 

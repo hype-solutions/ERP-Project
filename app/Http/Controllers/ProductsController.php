@@ -78,7 +78,16 @@ class ProductsController extends Controller
         $branches = BranchesProducts::where('product_id', $product_id)
             ->where('amount', '!=', 0)
             ->with('branch')->get();
-        return view('products.profile', compact('product', 'branches'));
+        $productransfers = ProductsTransfers::where('transfer_qty', '>', 0)
+            ->where('product_id', $product_id)
+            ->with('branchFrom')
+            ->with('branchTo')
+            ->get();
+        $productManual = ProductsManualQuantities::where('product_id', $product_id)
+        ->with('branch')
+        ->get();
+
+        return view('products.profile', compact('product', 'branches', 'productransfers','productManual'));
     }
     public function edit(products $product)
     {
@@ -141,13 +150,27 @@ class ProductsController extends Controller
             ->where('branch_id', $request->branch_from)
             ->update(['amount' => $request->qty_after_transfer_from]);
 
-        BranchesProducts::where('product_id', $request->product_id)
-            ->where('branch_id', $request->branch_to)
-            ->update(['amount' => $request->qty_after_transfer_to]);
+        $checkIfRecordExsists = BranchesProducts::where('branch_id', $request->branch_to)
+            ->where('product_id', $request->product_id)
+            ->first();
+        //if product exsists on main branch, update its qty
+        if (isset($checkIfRecordExsists)) {
 
-
-            return redirect()->route('products.list');
+            BranchesProducts::where('product_id', $request->product_id)
+                ->where('branch_id', $request->branch_to)
+                ->update(['amount' => $request->qty_after_transfer_to]);
         }
+        //else add a new record
+        else {
+            $addToMain = new BranchesProducts;
+            $addToMain->branch_id = $request->branch_to;
+            $addToMain->product_id = $request->product_id;
+            $addToMain->amount = $request->qty_after_transfer_to;
+            $addToMain->save();
+        }
+
+        return redirect()->route('products.list');
+    }
 
     public function addQty(Products $product)
     {
@@ -158,7 +181,6 @@ class ProductsController extends Controller
         $user = Auth::user();
         $user_id = $user->id;
         return view('products.addqty', compact('product', 'branches', 'user_id'));
-
     }
     public function addingQty(Request $request)
     {
@@ -169,17 +191,17 @@ class ProductsController extends Controller
             ->where('branch_id', $request->branch_id)
             ->count();
 
-            if ($checkQtyInBranch == 0) {
+        if ($checkQtyInBranch == 0) {
 
-        $createRecord = new BranchesProducts;
-        $createRecord->product_id = $request->product_id;
-        $createRecord->branch_id = $request->branch_id;
-        $createRecord->amount = $request->qty;
-        $createRecord->save();
-        }else{
-             BranchesProducts::where('product_id', $request->product_id)
-            ->where('branch_id', $request->branch_id)
-            ->update(['amount' => $request->qty]);
+            $createRecord = new BranchesProducts;
+            $createRecord->product_id = $request->product_id;
+            $createRecord->branch_id = $request->branch_id;
+            $createRecord->amount = $request->qty;
+            $createRecord->save();
+        } else {
+            BranchesProducts::where('product_id', $request->product_id)
+                ->where('branch_id', $request->branch_id)
+                ->update(['amount' => $request->qty]);
         }
 
         $getProduct = Products::where('id', $request->product_id)->get();
@@ -188,6 +210,5 @@ class ProductsController extends Controller
         Products::where('id', $request->product_id)
             ->update(['product_total_in' => $product_new_qty]);
         return redirect()->route('products.list');
-
     }
 }

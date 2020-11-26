@@ -22,4 +22,15 @@ class ProductsManualQuantities extends Model
         'authorized_by',
 
     ];
+
+    public function branch()
+    {
+        return $this->hasOne('App\Models\Branches', 'id', 'branch_id');
+    }
+
+
+    public function user()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'transfered_by');
+    }
 }

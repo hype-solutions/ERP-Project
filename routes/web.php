@@ -28,6 +28,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 //Customers
 Route::get('/customers', [CustomersController::class, 'customersList'])->name('customers.list');
 Route::get('/customers/add', [CustomersController::class, 'add'])->name('customers.add');
@@ -36,6 +37,7 @@ Route::get('/customers/view/{customer}', [CustomersController::class, 'view'])->
 Route::get('/customers/edit/{customer}', [CustomersController::class, 'edit'])->name('customers.edit');
 Route::patch('/customers/update/{customer}', [CustomersController::class, 'update'])->name('customers.update');
 Route::delete('/customers/delete/{customer}', [CustomersController::class, 'delete'])->name('customers.delete');
+
 //Suppliers
 Route::get('/suppliers', [SuppliersController::class, 'suppliersList'])->name('suppliers.list');
 Route::get('/suppliers/add', [SuppliersController::class, 'add'])->name('suppliers.add');
@@ -68,9 +70,14 @@ Route::get('/branches/view/{branch}', [BranchesController::class, 'view'])->name
 Route::get('/branches/edit/{branch}', [BranchesController::class, 'edit'])->name('branches.edit');
 Route::patch('/branches/update/{branch}', [BranchesController::class, 'update'])->name('branches.update');
 Route::delete('/branches/delete/{branch}', [BranchesController::class, 'delete'])->name('branches.delete');
+
 //Safes
 Route::get('/safes', [SafesController::class, 'safesList'])->name('safes.list');
 Route::post('/safes/adding', [SafesController::class, 'store'])->name('safes.adding');
 Route::get('/safes/view/{safe}', [SafesController::class, 'view'])->name('safes.view');
 Route::patch('/safes/update/{safe}', [SafesController::class, 'update'])->name('safes.update');
 Route::delete('/safes/delete/{safe}', [SafesController::class, 'delete'])->name('safes.delete');
+Route::get('/safes/transfer/', [SafesController::class, 'transfer'])->name('safes.transfer');
+Route::post('/safes/transfering', [SafesController::class, 'transfering'])->name('safes.transfering');
+Route::post('/safes/fetchamount', [SafesController::class, 'fetchAmount'])->name('safes.fetchAmount');
+Route::post('/products/fetchothersafes', [SafesController::class, 'fetchOtherSafes'])->name('safes.fetchOtherSafes');

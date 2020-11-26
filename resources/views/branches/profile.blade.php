@@ -200,44 +200,7 @@
     </div>
 
 </div>
-<div class="row">
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-content">
-          <div class="card-body">
 
-            <div class="col-12">
-                <h2 style="text-align: center"> عمليات الخزنة</h2>
-              <div class="table-responsive">
-                <table class="table mb-0" id="due">
-                  <thead>
-                    <tr>
-                      <th>رقم العميلة</th>
-                      <th>تاريخ العميلة</th>
-                      <th> نوع العميلة</th>
-                      <th>الإجمالي</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><div class="badge border-info info badge-border">
-                          <a href="#" target="_blank" style="color: #1e9ff2"><span>123</span></a>
-                      <i class="la la-barcode font-medium-2"></i>
-                      </div></td>
-                      <td>22/12/2020</td>
-                      <td>تحويل من فرع xxxx</td>
-                      <td>450 جنية</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
-
-  </div>
 
   <!-- users view card details ends -->
 
