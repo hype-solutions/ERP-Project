@@ -48,17 +48,17 @@
           </li>
           <li class=" nav-item"><a href="#"><i class="mbri-sites"></i><span class="menu-title" data-i18n="Templates">العملاء</span></a>
             <ul class="menu-content">
-              <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة عميل</span></a>
+              <li><a class="menu-item" href="{{ route('customers.add') }}"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة عميل</span></a>
               </li>
-              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض العملاء</span></a>
+              <li><a class="menu-item" href="{{ route('customers.list') }}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض العملاء</span></a>
               </li>
             </ul>
           </li>
           <li class=" nav-item"><a href="#"><i class="mbri-sites"></i><span class="menu-title" data-i18n="Templates">الموردين</span></a>
             <ul class="menu-content">
-              <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة مورد</span></a>
+              <li><a class="menu-item" href="{{ route('suppliers.list') }}"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة مورد</span></a>
               </li>
-              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض الموردين</span></a>
+              <li><a class="menu-item" href="{{ route('suppliers.add') }}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض الموردين</span></a>
               </li>
             </ul>
           </li>
@@ -74,15 +74,23 @@
               </li>
             </ul>
           </li>
+          <li class=" nav-item"><a href="#"><i class="mbri-sites"></i><span class="menu-title" data-i18n="Templates">الدواخل</span></a>
+            <ul class="menu-content">
+              <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة دواخل</span></a>
+              </li>
+              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض بنود الخدمات</span></a>
+              </li>
+              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">سجل الدواخل</span></a>
+              </li>
+            </ul>
+          </li>
           <li class=" nav-item"><a href="#"><i class="mbri-sites"></i><span class="menu-title" data-i18n="Templates">الفروع</span></a>
             <ul class="menu-content">
-              <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة فرع</span></a>
+              <li><a class="menu-item" href="{{ route('branches.add') }}"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة فرع</span></a>
               </li>
-              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض الفروع</span></a>
+              <li><a class="menu-item" href="{{ route('branches.list') }}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض الفروع</span></a>
               </li>
-              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">إضافة خزنة</span></a>
-              </li>
-              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض الخزن</span></a>
+              <li><a class="menu-item" href="{{ route('safes.list') }}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض الخزن</span></a>
               </li>
               <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">سجل عمليات الخزن</span></a>
               </li>
@@ -95,9 +103,9 @@
               <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض المنتجات</span></a>
               </li>
 
-              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عمليات المخزون</span></a>
+              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">المخزن</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">أمر شراء جديدة</span></a>
+                    <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">أمر شراء جديد</span></a>
                     </li>
                     <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">تحويل كميات بين الفروع</span></a>
                     </li>

@@ -29,7 +29,9 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-//Customers
+/*************************
+******** Customers ********
+**************************/
 Route::get('/customers', [CustomersController::class, 'customersList'])->name('customers.list');
 Route::get('/customers/add', [CustomersController::class, 'add'])->name('customers.add');
 Route::post('/customers/adding', [CustomersController::class, 'store'])->name('customers.adding');
@@ -38,7 +40,9 @@ Route::get('/customers/edit/{customer}', [CustomersController::class, 'edit'])->
 Route::patch('/customers/update/{customer}', [CustomersController::class, 'update'])->name('customers.update');
 Route::delete('/customers/delete/{customer}', [CustomersController::class, 'delete'])->name('customers.delete');
 
-//Suppliers
+/*************************
+******** Suppliers ********
+**************************/
 Route::get('/suppliers', [SuppliersController::class, 'suppliersList'])->name('suppliers.list');
 Route::get('/suppliers/add', [SuppliersController::class, 'add'])->name('suppliers.add');
 Route::post('/suppliers/adding', [SuppliersController::class, 'store'])->name('suppliers.adding');
@@ -47,7 +51,9 @@ Route::get('/suppliers/edit/{supplier}', [SuppliersController::class, 'edit'])->
 Route::patch('/suppliers/update/{supplier}', [SuppliersController::class, 'update'])->name('suppliers.update');
 Route::delete('/suppliers/delete/{supplier}', [SuppliersController::class, 'delete'])->name('suppliers.delete');
 
-//Products
+/*************************
+******** Products ********
+**************************/
 Route::get('/products', [ProductsController::class, 'productsList'])->name('products.list');
 Route::get('/products/add', [ProductsController::class, 'add'])->name('products.add');
 Route::post('/products/adding', [ProductsController::class, 'store'])->name('products.adding');
@@ -55,14 +61,20 @@ Route::get('/products/view/{product}', [ProductsController::class, 'view'])->nam
 Route::get('/products/edit/{product}', [ProductsController::class, 'edit'])->name('products.edit');
 Route::patch('/products/update/{product}', [ProductsController::class, 'update'])->name('products.update');
 Route::delete('/products/delete/{product}', [ProductsController::class, 'delete'])->name('products.delete');
-Route::get('/products/transfer/{product}', [ProductsController::class, 'transfer'])->name('products.transfer');
-Route::post('/products/transfering', [ProductsController::class, 'transfering'])->name('products.transfering');
-Route::post('/products/fetchqty', [ProductsController::class, 'fetchQty'])->name('products.fetchQty');
-Route::post('/products/fetchotherbranches', [ProductsController::class, 'fetchOtherBranches'])->name('products.fetchOtherBranches');
-Route::get('/products/addqty/{product}', [ProductsController::class, 'addQty'])->name('products.addQty');
-Route::post('/products/addingqty', [ProductsController::class, 'addingQty'])->name('products.addingQty');
+// Qty operations
+Route::get('/products/qty/transfer/{product}', [ProductsController::class, 'transfer'])->name('products.transfer');
+Route::post('/products/qty/transfering', [ProductsController::class, 'transfering'])->name('products.transfering');
+Route::post('/products/qty/fetch', [ProductsController::class, 'fetchQty'])->name('products.fetchQty');
+Route::post('/products/qty/fetchotherbranches', [ProductsController::class, 'fetchOtherBranches'])->name('products.fetchOtherBranches');
+Route::get('/products/qty/add/{product}', [ProductsController::class, 'addQty'])->name('products.addQty');
+Route::post('/products/qty/adding', [ProductsController::class, 'addingQty'])->name('products.addingQty');
+// Purchases orders
 
-//Branches
+
+
+/*************************
+******** Branches ********
+**************************/
 Route::get('/branches', [BranchesController::class, 'branchesList'])->name('branches.list');
 Route::get('/branches/add', [BranchesController::class, 'add'])->name('branches.add');
 Route::post('/branches/adding', [BranchesController::class, 'store'])->name('branches.adding');
@@ -71,7 +83,9 @@ Route::get('/branches/edit/{branch}', [BranchesController::class, 'edit'])->name
 Route::patch('/branches/update/{branch}', [BranchesController::class, 'update'])->name('branches.update');
 Route::delete('/branches/delete/{branch}', [BranchesController::class, 'delete'])->name('branches.delete');
 
-//Safes
+/*************************
+******** Safes ********
+**************************/
 Route::get('/safes', [SafesController::class, 'safesList'])->name('safes.list');
 Route::post('/safes/adding', [SafesController::class, 'store'])->name('safes.adding');
 Route::get('/safes/view/{safe}', [SafesController::class, 'view'])->name('safes.view');
