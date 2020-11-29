@@ -3,7 +3,7 @@
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="main-menu-content">
       <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-        <li class=" nav-item"><a href="index-2.html"><i class="mbri-desktop"></i><span class="menu-title" data-i18n="Dashboard">Dashboard</span></a>
+        {{-- <li class=" nav-item"><a href="index-2.html"><i class="mbri-desktop"></i><span class="menu-title" data-i18n="Dashboard">Dashboard</span></a>
           <ul class="menu-content">
             <li><a class="menu-item" href="dashboard-ecommerce.html"><i class="la la-cart-plus"></i><span>eCommerce</span></a>
             </li>
@@ -12,36 +12,122 @@
             <li><a class="menu-item" href="dashboard-sales.html"><i class="la la-dollar"></i><span>Sales</span></a>
             </li>
           </ul>
-        </li>
-        <li class=" nav-item"><a href="#"><i class="mbri-sites"></i><span class="menu-title" data-i18n="Templates">Templates</span></a>
+        </li> --}}
+        <li class=" nav-item"><a href="#"><i class="mbri-sites"></i><span class="menu-title" data-i18n="Templates">البيع</span></a>
           <ul class="menu-content">
-            <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">Vertical</span></a>
+            <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">عملية بيع جديدة</span></a>
+
+              </li>
+            <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">عروض أسعار</span></a>
               <ul class="menu-content">
-                <li><a class="menu-item" href="https://pixinvent.com/modern-admin-clean-bootstrap-4-dashboard-html-template/html/rtl/vertical-menu-template"><i></i><span data-i18n="Classic Menu">Classic Menu</span></a>
+                <li><a class="menu-item" href=""><i></i><span data-i18n="Classic Menu">إنشاء عرض سعر</span></a>
                 </li>
-                <li><a class="menu-item" href="https://pixinvent.com/modern-admin-clean-bootstrap-4-dashboard-html-template/html/rtl/vertical-collapsed-menu-template"><i></i><span data-i18n="Collapsed Menu">Collapsed Menu</span></a>
-                </li>
-                <li><a class="menu-item" href="https://pixinvent.com/modern-admin-clean-bootstrap-4-dashboard-html-template/html/rtl/vertical-compact-menu-template"><i></i><span data-i18n="Compact Menu">Compact Menu</span></a>
-                </li>
-                <li><a class="menu-item" href="https://pixinvent.com/modern-admin-clean-bootstrap-4-dashboard-html-template/html/rtl/vertical-content-menu-template"><i></i><span data-i18n="Content Menu">Content Menu</span></a>
-                </li>
-                <li><a class="menu-item" href="https://pixinvent.com/modern-admin-clean-bootstrap-4-dashboard-html-template/html/rtl/vertical-overlay-menu-template"><i></i><span data-i18n="Overlay Menu">Overlay Menu</span></a>
-                </li>
-                <li><a class="menu-item" href="https://pixinvent.com/modern-admin-clean-bootstrap-4-dashboard-html-template/html/rtl/vertical-modern-menu-template"><i></i><span data-i18n="Modern Menu">Modern Menu</span></a>
+                <li><a class="menu-item" href=""><i></i><span data-i18n="Classic Menu"> عرض عروض الأسعار</span></a>
                 </li>
               </ul>
             </li>
-            <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">Horizontal</span></a>
+            <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">فواتير المبيعات</span></a>
               <ul class="menu-content">
-                <li><a class="menu-item" href="https://pixinvent.com/modern-admin-clean-bootstrap-4-dashboard-html-template/html/rtl/horizontal-menu-template"><i></i><span data-i18n="Classic">Classic</span></a>
+                <li><a class="menu-item" href=""><i></i><span data-i18n="Classic Menu">إنشاء فاتورة</span></a>
                 </li>
-                <li><a class="menu-item" href="https://pixinvent.com/modern-admin-clean-bootstrap-4-dashboard-html-template/html/rtl/horizontal-menu-template-nav"><i></i><span data-i18n="Full Width">Full Width</span></a>
+                <li><a class="menu-item" href=""><i></i><span data-i18n="Classic Menu">عرض الفواتير</span></a>
+                </li>
+                <li><a class="menu-item" href=""><i></i><span data-i18n="Classic Menu">مواعيد استحقاق الفواتير</span></a>
                 </li>
               </ul>
             </li>
           </ul>
         </li>
-        <li class=" nav-item"><a href="#"><i class="mbri-website-theme"></i><span class="menu-title" data-i18n="Admin Panels">Admin Panels</span></a>
+        <li class=" nav-item"><a href="#"><i class="mbri-sites"></i><span class="menu-title" data-i18n="Templates">المشاريع</span></a>
+            <ul class="menu-content">
+              <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">انشاء مشروع</span></a>
+              </li>
+              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض المشاريع</span></a>
+              </li>
+            </ul>
+          </li>
+          <li class=" nav-item"><a href="#"><i class="mbri-sites"></i><span class="menu-title" data-i18n="Templates">العملاء</span></a>
+            <ul class="menu-content">
+              <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة عميل</span></a>
+              </li>
+              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض العملاء</span></a>
+              </li>
+            </ul>
+          </li>
+          <li class=" nav-item"><a href="#"><i class="mbri-sites"></i><span class="menu-title" data-i18n="Templates">الموردين</span></a>
+            <ul class="menu-content">
+              <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة مورد</span></a>
+              </li>
+              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض الموردين</span></a>
+              </li>
+            </ul>
+          </li>
+          <li class=" nav-item"><a href="#"><i class="mbri-sites"></i><span class="menu-title" data-i18n="Templates">المصاريف</span></a>
+            <ul class="menu-content">
+              <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة مصروفات</span></a>
+              </li>
+              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض بنود الخدمات</span></a>
+              </li>
+              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض الجهات المختصة</span></a>
+              </li>
+              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">سجل المصاريف</span></a>
+              </li>
+            </ul>
+          </li>
+          <li class=" nav-item"><a href="#"><i class="mbri-sites"></i><span class="menu-title" data-i18n="Templates">الفروع</span></a>
+            <ul class="menu-content">
+              <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة فرع</span></a>
+              </li>
+              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض الفروع</span></a>
+              </li>
+              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">إضافة خزنة</span></a>
+              </li>
+              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض الخزن</span></a>
+              </li>
+              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">سجل عمليات الخزن</span></a>
+              </li>
+            </ul>
+          </li>
+          <li class=" nav-item"><a href="#"><i class="mbri-sites"></i><span class="menu-title" data-i18n="Templates">المخزن</span></a>
+            <ul class="menu-content">
+              <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة منتج</span></a>
+              </li>
+              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض المنتجات</span></a>
+              </li>
+
+              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عمليات المخزون</span></a>
+                <ul class="menu-content">
+                    <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">أمر شراء جديدة</span></a>
+                    </li>
+                    <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">تحويل كميات بين الفروع</span></a>
+                    </li>
+                    <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">إضافة كمية يدويا</span></a>
+                    </li>
+                </ul>
+            </li>
+            </ul>
+          </li>
+          <li class=" nav-item"><a href="#"><i class="mbri-sites"></i><span class="menu-title" data-i18n="Templates">إعدادات البرنامج</span></a>
+            <ul class="menu-content">
+              <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical"> المستخدمين</span></a>
+                <ul class="menu-content">
+                    <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">إضافة مستخدم</span></a>
+                    </li>
+                    <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض المستخدمين</span></a>
+                    </li>
+                </ul>
+              </li>
+              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">الصلاحيات</span></a>
+              </li>
+              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">الإعدادات العامة</span></a>
+              </li>
+
+            </ul>
+          </li>
+        </li>
+        <li class=" nav-item"><a href="" target="_blank"><i class="mbri-help"></i><span class="menu-title" data-i18n="Support">التقارير</span></a>
+        </li>
+        {{-- <li class=" nav-item"><a href="#"><i class="mbri-website-theme"></i><span class="menu-title" data-i18n="Admin Panels">Admin Panels</span></a>
           <ul class="menu-content">
             <li><a class="menu-item" href="https://pixinvent.com/modern-admin-clean-bootstrap-4-dashboard-html-template/html/rtl/ecommerce-menu-template" target="_blank"><i class="la la-shopping-cart"></i><span>eCommerce</span></a>
             </li>
@@ -951,7 +1037,7 @@
         <li class=" nav-item"><a href="https://pixinvent.ticksy.com/" target="_blank"><i class="mbri-help"></i><span class="menu-title" data-i18n="Support">Support</span></a>
         </li>
         <li class=" nav-item"><a href="https://pixinvent.com/modern-admin-clean-bootstrap-4-dashboard-html-template/documentation" target="_blank"><i class="mbri-file"></i><span class="menu-title" data-i18n="Document">Document</span></a>
-        </li>
+        </li> --}}
       </ul>
     </div>
   </div>
