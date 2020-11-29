@@ -98,9 +98,9 @@
           </li>
           <li class=" nav-item"><a href="#"><i class="mbri-sites"></i><span class="menu-title" data-i18n="Templates">المخزن</span></a>
             <ul class="menu-content">
-              <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة منتج</span></a>
+              <li><a class="menu-item" href="{{ route('products.add') }}"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة منتج</span></a>
               </li>
-              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض المنتجات</span></a>
+              <li><a class="menu-item" href="{{ route('products.list') }}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض المنتجات</span></a>
               </li>
 
               <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">المخزن</span></a>
