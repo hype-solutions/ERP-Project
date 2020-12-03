@@ -21,6 +21,7 @@ class CreatePurchasesOrdersTable extends Migration
             $table->integer('discount_amount')->default(0);
             $table->string('discount_reason')->nullable();
             $table->integer('shipping_fees')->default(0);
+            $table->integer('purchase_total');
             $table->text('purchase_note')->nullable();
             $table->boolean('already_paid');
             $table->string('payment_method');

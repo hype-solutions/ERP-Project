@@ -175,7 +175,7 @@
           <div class="col-xl-6 col-lg-12 mb-1">
             <div class="form-group text-center">
                 <!-- Floating Outline button with text -->
-                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">23</i><span>عدد أوامر الشراء</span></button>
+                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">{{$countPurchases}}</i><span>عدد أوامر الشراء</span></button>
             <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">3545 جنية</i><span>إجمالي المبالغ من الشراء</span></button>
                 <button type="button" class="btn btn-float btn-outline-cyan"><i class="">46</i><span>عدد أصناف المورد</span></button>
             </div>
@@ -262,7 +262,7 @@
           <div class="card-content">
             <div class="card-body">
               <div class="col-12">
-                  <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span> أمر شراء جديد</a>
+              <a href="{{route('purchasesorders.add')}}" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span> أمر شراء جديد</a>
                   <h2 style="text-align: center"> أوامر الشراء</h2>
                 <div class="table-responsive">
                   <table class="table mb-0" id="quotations">
@@ -274,25 +274,44 @@
                        </tr>
                     </thead>
                     <tbody>
+                        @foreach($purchases as $purchase)
                       <tr>
                         <td>
                             <div class="badge border-warning warning badge-border">
-                              <a href="#" target="_blank" style="color: #ff9149"><span>123</span></a>
+                              <a href="#" target="_blank" style="color: #ff9149"><span>{{$purchase->id}}</span></a>
                           <i class="la la-barcode font-medium-2"></i>
                           </div>
+                          <br/>
+                          @if($purchase->already_delivered > 0)
+                          <div class="badge badge-success">
+                            <i class="la la-truck font-medium-2"></i>
+                            <span>تم الإستلام</span>
+                        </div>
+                          @else
                           <div class="badge badge-danger">
                             <i class="la la-truck font-medium-2"></i>
                             <span>لم يستلم</span>
                         </div>
-                        <div class="badge badge-success">
-                        <i class="la la-money font-medium-2"></i>
-                            <span>مدفوع</span>
-                        </div>
+                          @endif
+
+                          @if($purchase->already_paid > 0)
+                          <div class="badge badge-success">
+                            <i class="la la-money font-medium-2"></i>
+                                <span>مدفوع</span>
+                            </div>
+                          @else
+                          <div class="badge badge-danger">
+                            <i class="la la-money font-medium-2"></i>
+                                <span>لم يدفع</span>
+                            </div>
+                          @endif
+
                         </td>
-                        <td>22/12/2020</td>
-                        <td>500 جنية</td>
+                        <td>{{$purchase->purchase_date}}</td>
+                        <td>{{$purchase->purchase_total}} ج.م</td>
 
                       </tr>
+                      @endforeach
                     </tbody>
                   </table>
                 </div>

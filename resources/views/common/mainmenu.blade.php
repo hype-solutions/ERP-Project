@@ -13,7 +13,7 @@
             </li>
           </ul>
         </li> --}}
-        <li class=" nav-item"><a href="#"><i class="mbri-sites"></i><span class="menu-title" data-i18n="Templates">البيع</span></a>
+        <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/icons/001-cash register.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates">البيع</span></a>
           <ul class="menu-content">
             <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">عملية بيع جديدة</span></a>
 
@@ -38,7 +38,7 @@
             </li>
           </ul>
         </li>
-        <li class=" nav-item"><a href="#"><i class="mbri-sites"></i><span class="menu-title" data-i18n="Templates">المشاريع</span></a>
+        <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/icons/046-launch.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates">المشاريع</span></a>
             <ul class="menu-content">
               <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">انشاء مشروع</span></a>
               </li>

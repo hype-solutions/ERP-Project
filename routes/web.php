@@ -8,6 +8,7 @@ use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\BranchesController;
 use App\Http\Controllers\SafesController;
+use App\Http\Controllers\PurchasesOrdersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 /*************************
-******** Customers ********
+******** Customers *******
 **************************/
 Route::get('/customers', [CustomersController::class, 'customersList'])->name('customers.list');
 Route::get('/customers/add', [CustomersController::class, 'add'])->name('customers.add');
@@ -41,7 +42,7 @@ Route::patch('/customers/update/{customer}', [CustomersController::class, 'updat
 Route::delete('/customers/delete/{customer}', [CustomersController::class, 'delete'])->name('customers.delete');
 
 /*************************
-******** Suppliers ********
+******** Suppliers *******
 **************************/
 Route::get('/suppliers', [SuppliersController::class, 'suppliersList'])->name('suppliers.list');
 Route::get('/suppliers/add', [SuppliersController::class, 'add'])->name('suppliers.add');
@@ -68,9 +69,13 @@ Route::post('/products/qty/fetch', [ProductsController::class, 'fetchQty'])->nam
 Route::post('/products/qty/fetchotherbranches', [ProductsController::class, 'fetchOtherBranches'])->name('products.fetchOtherBranches');
 Route::get('/products/qty/add/{product}', [ProductsController::class, 'addQty'])->name('products.addQty');
 Route::post('/products/qty/adding', [ProductsController::class, 'addingQty'])->name('products.addingQty');
-// Purchases orders
 
-
+/*************************
+**** Purchases orders ****
+**************************/
+Route::get('/purchase_orders', [PurchasesOrdersController::class, 'purchasesordersList'])->name('purchasesorders.list');
+Route::get('/purchase_orders/add', [PurchasesOrdersController::class, 'add'])->name('purchasesorders.add');
+Route::post('/purchase_orders/adding', [PurchasesOrdersController::class, 'store'])->name('purchasesorders.adding');
 
 /*************************
 ******** Branches ********
@@ -84,7 +89,7 @@ Route::patch('/branches/update/{branch}', [BranchesController::class, 'update'])
 Route::delete('/branches/delete/{branch}', [BranchesController::class, 'delete'])->name('branches.delete');
 
 /*************************
-******** Safes ********
+********* Safes **********
 **************************/
 Route::get('/safes', [SafesController::class, 'safesList'])->name('safes.list');
 Route::post('/safes/adding', [SafesController::class, 'store'])->name('safes.adding');
