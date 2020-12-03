@@ -105,7 +105,9 @@
 
               <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">المخزن</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">أمر شراء جديد</span></a>
+                    <li><a class="menu-item" href="{{route('purchasesorders.add')}}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">أمر شراء جديد</span></a>
+                    </li>
+                    <li><a class="menu-item" href="{{route('purchasesorders.list')}}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">استعراض أوامر الشراء</span></a>
                     </li>
                     <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">تحويل كميات بين الفروع</span></a>
                     </li>
