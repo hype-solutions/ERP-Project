@@ -45,8 +45,8 @@ class PurchasesOrders extends Model
     }
 
 
-    public function product()
+    public function productInOrder()
     {
-        return $this->hasMany('App\Models\PurchasesOrdersProducts', 'purchase_id', 'id')->where('product_id',2);
+        return $this->hasMany('App\Models\PurchasesOrdersProducts', 'purchase_id', 'id');
     }
 }

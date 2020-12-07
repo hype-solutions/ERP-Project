@@ -13,7 +13,7 @@
             </li>
           </ul>
         </li> --}}
-        <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/icons/001-cash register.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>البيع</a>
+        <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/menu/1.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>البيع</a>
           <ul class="menu-content">
             <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">عملية بيع جديدة</span></a>
 
@@ -38,7 +38,7 @@
             </li>
           </ul>
         </li>
-        <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/icons/046-launch.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>المشاريع</a>
+        <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/menu/2.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>المشاريع</a>
             <ul class="menu-content">
               <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">انشاء مشروع</span></a>
               </li>
@@ -46,7 +46,7 @@
               </li>
             </ul>
           </li>
-          <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/icons/046-launch.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>العملاء</a>
+          <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/menu/3.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>العملاء</a>
             <ul class="menu-content">
               <li><a class="menu-item" href="{{ route('customers.add') }}"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة عميل</span></a>
               </li>
@@ -54,7 +54,7 @@
               </li>
             </ul>
           </li>
-          <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/icons/046-launch.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>الموردين</a>
+          <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/menu/4.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>الموردين</a>
             <ul class="menu-content">
               <li><a class="menu-item" href="{{ route('suppliers.list') }}"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة مورد</span></a>
               </li>
@@ -62,7 +62,7 @@
               </li>
             </ul>
           </li>
-          <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/icons/046-launch.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>المصاريف</a>
+          <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/menu/5.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>المصاريف</a>
             <ul class="menu-content">
               <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة مصروفات</span></a>
               </li>
@@ -74,7 +74,7 @@
               </li>
             </ul>
           </li>
-          <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/icons/046-launch.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>الدواخل</a>
+          <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/menu/6.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>الدواخل</a>
             <ul class="menu-content">
               <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة دواخل</span></a>
               </li>
@@ -84,7 +84,7 @@
               </li>
             </ul>
           </li>
-          <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/icons/046-launch.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>الفروع</a>
+          <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/menu/7.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>الفروع</a>
             <ul class="menu-content">
               <li><a class="menu-item" href="{{ route('branches.add') }}"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة فرع</span></a>
               </li>
@@ -96,7 +96,7 @@
               </li>
             </ul>
           </li>
-          <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/icons/046-launch.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>المخزن</a>
+          <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/menu/8.png')}}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>المخزن</a>
             <ul class="menu-content">
               <li><a class="menu-item" href="{{ route('products.add') }}"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة منتج</span></a>
               </li>
@@ -117,7 +117,7 @@
             </li>
             </ul>
           </li>
-          <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/icons/046-launch.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>الإعدادات</a>
+          <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/menu/9.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>الإعدادات</a>
             <ul class="menu-content">
               <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical"> المستخدمين</span></a>
                 <ul class="menu-content">
@@ -135,7 +135,7 @@
             </ul>
           </li>
         </li>
-        <li class=" nav-item"><a href="#" target="_blank"><img src="{{ asset('theme/app-assets/images/custom/icons/046-launch.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>التقارير</a>
+        <li class=" nav-item"><a href="#" target="_blank"><img src="{{ asset('theme/app-assets/images/custom/menu/10.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>التقارير</a>
         </li>
         {{-- <li class=" nav-item"><a href="#"><i class="mbri-website-theme"></i><span class="menu-title" data-i18n="Admin Panels">Admin Panels</span></a>
           <ul class="menu-content">

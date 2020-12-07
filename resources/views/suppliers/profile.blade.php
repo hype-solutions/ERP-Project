@@ -38,11 +38,11 @@
             class="users-avatar-shadow rounded-circle" height="64" width="64">
         </a>
         <div class="media-body pt-25">
-          <h4 class="media-heading"><span class="users-view-name">{{ $supplier[0]->supplier_name }} </span>
+          <h4 class="media-heading"><span class="users-view-name">{{ $supplier->supplier_name }} </span>
             </h4>
           <span>رقم المورد:</span>
           <span class="users-view-id">
-            <span class="badge badge-success users-view-status">{{ $supplier[0]->id }}</span>
+            <span class="badge badge-success users-view-status">{{ $supplier->id }}</span>
         </span>
         </div>
       </div>
@@ -51,12 +51,12 @@
        <div class="btn-group mr-1 mb-1">
         <button type="button" class="btn btn-warning btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">التحكم السريع</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-            <a class="dropdown-item" href="{{ route('suppliers.view', $supplier['0']->id) }}">استعراض الملف</a>
-            <a class="dropdown-item" href="{{ route('suppliers.edit', $supplier['0']->id) }}">تعديل الملف</a>
+            <a class="dropdown-item" href="{{ route('suppliers.view', $supplier->id) }}">استعراض الملف</a>
+            <a class="dropdown-item" href="{{ route('suppliers.edit', $supplier->id) }}">تعديل الملف</a>
             <a class="dropdown-item" href="#">فاتورة جديد</a>
             <a class="dropdown-item" href="#">عرض سعر جديد</a>
             <div class="dropdown-divider"></div>
-            <form action="{{route('suppliers.delete',$supplier[0]->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا المورد نهائيا و جميع تفاصيله من البرنامج')">
+            <form action="{{route('suppliers.delete',$supplier->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا المورد نهائيا و جميع تفاصيله من البرنامج')">
                 @csrf
                 @method('delete')
             <button class="dropdown-item btn-danger btn" type="submit">حذف المورد</button>
@@ -66,19 +66,19 @@
     <div class="btn-group mr-1 mb-1">
         <button type="button" class="btn btn-info btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> التواصل مع المورد</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-            @if ( isset($supplier[0]->supplier_mobile))
-        <a class="dropdown-item" href="tel:{{$supplier[0]->supplier_mobile}}">اتصال بالموبايل</a>
+            @if ( isset($supplier->supplier_mobile))
+        <a class="dropdown-item" href="tel:{{$supplier->supplier_mobile}}">اتصال بالموبايل</a>
             @else
             <button class="dropdown-item" href="#">اتصال بالموبايل</button>
             @endif
-            @if ( isset($supplier[0]->supplier_phone))
-        <a class="dropdown-item" href="tel:{{$supplier[0]->supplier_phone}}">اتصال بالتليفون</a>
+            @if ( isset($supplier->supplier_phone))
+        <a class="dropdown-item" href="tel:{{$supplier->supplier_phone}}">اتصال بالتليفون</a>
             @else
             <button class="dropdown-item" href="#">اتصال بالتليفون</button>
             @endif
             <button class="dropdown-item" disabled>ارسال SMS <small style="color: red">غير متاحة</small></button>
-            @if ( isset($supplier[0]->supplier_email))
-        <a class="dropdown-item" href="mailto:{{$supplier[0]->supplier_email}}"> ارسال ايميل</a>
+            @if ( isset($supplier->supplier_email))
+        <a class="dropdown-item" href="mailto:{{$supplier->supplier_email}}"> ارسال ايميل</a>
             @else
             <button class="dropdown-item" href="#"> ارسال ايميل</button>
             @endif
@@ -108,25 +108,25 @@
               <tbody>
                 <tr>
                   <td>اسم المورد:</td>
-                  <td>{{ $supplier[0]->supplier_name }}</td>
+                  <td>{{ $supplier->supplier_name }}</td>
                 </tr>
 
                 <tr>
                   <td>الموبايل:</td>
-                  <td>{{ $supplier[0]->supplier_mobile }}</td>
+                  <td>{{ $supplier->supplier_mobile }}</td>
                 </tr>
                 <tr>
                   <td>التليفون:</td>
-                  <td>@if(isset($supplier[0]->supplier_phone))
-                    {{ $supplier[0]->supplier_phone }}
+                  <td>@if(isset($supplier->supplier_phone))
+                    {{ $supplier->supplier_phone }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل</small>
                     @endif</td>
                 </tr>
                 <tr>
                    <td>الايميل:</td>
-                   <td>@if(isset($supplier[0]->supplier_email))
-                    {{ $supplier[0]->supplier_email }}
+                   <td>@if(isset($supplier->supplier_email))
+                    {{ $supplier->supplier_email }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل</small>
                     @endif</td>
@@ -135,8 +135,8 @@
                 <tr>
                     <td>السجل التجاري:</td>
                     <td>
-                        @if(isset($supplier[0]->supplier_commercial_registry))
-                        {{ $supplier[0]->supplier_commercial_registry }}
+                        @if(isset($supplier->supplier_commercial_registry))
+                        {{ $supplier->supplier_commercial_registry }}
                         @else
                         <small style="font-style: italic;color:red;">غير مسجل</small>
                         @endif
@@ -145,8 +145,8 @@
                  <tr>
                     <td>البطاقة الضريبية:</td>
                     <td>
-                        @if(isset($supplier[0]->supplier_tax_card))
-                    {{ $supplier[0]->supplier_tax_card }}
+                        @if(isset($supplier->supplier_tax_card))
+                    {{ $supplier->supplier_tax_card }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل</small>
                     @endif
@@ -155,16 +155,16 @@
 
                 <tr>
                    <td>العنوان:</td>
-                   <td> @if(isset($supplier[0]->supplier_address))
-                    {{ $supplier[0]->supplier_address }}
+                   <td> @if(isset($supplier->supplier_address))
+                    {{ $supplier->supplier_address }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل </small>
                      @endif</td>
                 </tr>
                 <tr>
                     <td>الملاحظات:</td>
-                    <td> @if(isset($supplier[0]->supplier_notes))
-                     {{ $supplier[0]->supplier_notes }}
+                    <td> @if(isset($supplier->supplier_notes))
+                     {{ $supplier->supplier_notes }}
                      @else
                      <small style="font-style: italic;color:red;">غير مسجل </small>
                       @endif</td>
@@ -193,27 +193,27 @@
         <div class="card-body">
 
           <div class="col-12">
-             <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span> صنف جديد</a>
               <h2 style="text-align: center">أصناف المورد</h2>
             <div class="table-responsive">
               <table class="table mb-0" id="reciepts">
                 <thead>
-                  <tr>
-                    <th>كود الصنف</th>
-                    <th>اسم الصنف</th>
-                    <th>سعر الشراء</th>
-                  </tr>
+                    <tr>
+                        <th> المورد</th>
+                        <th>الكمية المورده</th>
+                        <th>السعر</th>
+                        <th>التاريخ</th>
+                      </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td><div class="badge border-info info badge-border">
-                        <a href="#" target="_blank" style="color: #1e9ff2"><span>123</span></a>
-                    <i class="la la-barcode font-medium-2"></i>
-                    </div></td>
-                    <td>طفاية صغيرة</td>
-                    <td>40 جنية</td>
+                    @foreach ($productSuppliers as $item)
+                    <tr>
+                    <td>{{$item->product->product_name}}</td>
+                    <td>{{$item->product_qty}}</td>
+                    <td>{{$item->product_price}} ج.م</td>
+                    <td>{{$item->purchase['delivery_date']}}</td>
                   </tr>
-                </tbody>
+                  @endforeach
+                 </tbody>
               </table>
             </div>
           </div>
@@ -241,6 +241,7 @@
                     </tr>
                   </thead>
                   <tbody>
+                      @foreach ($supplierInstallments as $item)
                     <tr>
                       <td><div class="badge border-info info badge-border">
                           <a href="#" target="_blank" style="color: #1e9ff2"><span>123</span></a>
@@ -249,6 +250,7 @@
                       <td>22/12/2020</td>
                       <td>450 جنية</td>
                     </tr>
+                    @endforeach
                   </tbody>
                 </table>
               </div>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\PurchasesOrders;
+use App\Models\PurchasesOrdersPayments;
+use App\Models\PurchasesOrdersProducts;
 use Illuminate\Http\Request;
 use App\Models\Suppliers;
 
@@ -70,8 +72,14 @@ class SuppliersController extends Controller
     {
         $purchases = PurchasesOrders::where('supplier_id',$supplier->id)->get();
         $countPurchases = PurchasesOrders::where('supplier_id',$supplier->id)->count();
-        $supplier = Suppliers::find($supplier);
-        return view('suppliers.profile',compact('supplier','purchases','countPurchases'));
+        //$supplier = Suppliers::find($supplier);
+
+        $productSuppliers = PurchasesOrdersProducts::where('supplier_id',$supplier->id)
+        ->where('status','delivered')
+        ->get();
+
+        $supplierInstallments  = PurchasesOrdersPayments::where('supplier_id',$supplier->id)->get();
+        return view('suppliers.profile',compact('supplier','purchases','countPurchases','productSuppliers','supplierInstallments'));
     }
     public function edit(Suppliers $supplier){
         $supplier = Suppliers::find($supplier);

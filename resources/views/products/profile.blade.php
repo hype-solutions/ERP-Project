@@ -249,7 +249,7 @@
                             <td> {{$item->supplier->supplier_name}}</td>
                             <td>{{$item->product_qty}}</td>
                             <td>{{$item->product_price}} ج.م</td>
-                            <th>{{$item->purchase['delivery_date']}}</th>
+                            <td>{{$item->purchase['delivery_date']}}</td>
                           </tr>
                           @endforeach
                         </tbody>
@@ -440,10 +440,9 @@
             <div class="card-body">
 
               <div class="col-12">
-                  <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span>  عملية جديدة</a>
-                  <h2 style="text-align: center"> أوامر الشراء</h2>
+                   <h2 style="text-align: center"> أوامر الشراء</h2>
                 <div class="table-responsive">
-                  <table class="table mb-0" id="due">
+                  <table class="table mb-0" id="purchase_order">
                     <thead>
                       <tr>
                         <th> العملية</th>
@@ -454,6 +453,7 @@
                     </thead>
                     <tbody>
                         @foreach ($productPurchasesOrders as $item)
+                            @if($item->productInOrder->sum('product_qty'))
                         <tr>
                             <td><div class="badge border-info info badge-border">
                                 <a href="#" target="_blank" style="color: #1e9ff2"><span>
@@ -462,7 +462,7 @@
 
                             </div></td>
                             <td>{{$item->purchase_date}}</td>
-                            <td><b><font color="green">+</font></b> {{$item->product->sum('product_qty')}}</td>
+                            <td><b><font color="green">+</font></b> {{$item->productInOrder->sum('product_qty')}}</td>
                             <td>
                                 @if($item->already_delivered > 0)
                                 <div class="badge badge-success">
@@ -489,6 +489,7 @@
                                 @endif
                             </td>
                           </tr>
+                          @endif
                       @endforeach
 
                     </tbody>
@@ -510,7 +511,7 @@
                   <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span>  عملية جديدة</a>
                   <h2 style="text-align: center">  فواتير البيع</h2>
                 <div class="table-responsive">
-                  <table class="table mb-0" id="due">
+                  <table class="table mb-0" id="invoices">
                     <thead>
                       <tr>
                         <th> العملية</th>
@@ -592,6 +593,10 @@ $("#suppliers").DataTable();
 $("#due").DataTable();
 $("#most-ordered").DataTable();
 $("#manual_add").DataTable();
+$("#purchase_order").DataTable();
+
+$("#invoices").DataTable();
+
 
 
 

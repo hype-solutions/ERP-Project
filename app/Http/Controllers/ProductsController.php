@@ -92,8 +92,9 @@ class ProductsController extends Controller
         ->where('status','delivered')
         ->get();
 
-        $productPurchasesOrders = PurchasesOrders::get();
-
+        $productPurchasesOrders = PurchasesOrders::with(['productInOrder' => function($q) use ($product_id){
+           $q->where('product_id', $product_id);
+        }])->get();
         return view('products.profile', compact('product', 'branches', 'productransfers','productManual','productSuppliers','productPurchasesOrders'));
     }
     public function edit(products $product)
