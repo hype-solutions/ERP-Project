@@ -71,11 +71,11 @@
             class="users-avatar-shadow rounded-circle" height="64" width="64">
         </a>
         <div class="media-body pt-25">
-          <h4 class="media-heading"><span class="users-view-name">{{ $product[0]->product_name }} </span>
+          <h4 class="media-heading"><span class="users-view-name">{{ $product->product_name }} </span>
             </h4>
           <span>رقم المنتج:</span>
           <span class="users-view-id">
-            <span class="badge badge-success users-view-status">{{ $product[0]->id }}</span>
+            <span class="badge badge-success users-view-status">{{ $product->id }}</span>
         </span>
         </div>
       </div>
@@ -84,11 +84,11 @@
         <div class="btn-group mr-1 mb-1">
          <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">التحكم في المنتج</button>
          <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-             <a class="dropdown-item" href="{{ route('products.view', $product['0']->id) }}">استعراض المنتج</a>
-             <a class="dropdown-item" href="{{ route('products.edit', $product['0']->id) }}">تعديل المنتج</a>
+             <a class="dropdown-item" href="{{ route('products.view', $product->id) }}">استعراض المنتج</a>
+             <a class="dropdown-item" href="{{ route('products.edit', $product->id) }}">تعديل المنتج</a>
              <a class="dropdown-item" href="#">طباعه BARCODE</a>
              <div class="dropdown-divider"></div>
-             <form action="{{route('products.delete',$product[0]->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا المنتج نهائيا و جميع تفاصيله من البرنامج')">
+             <form action="{{route('products.delete',$product->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا المنتج نهائيا و جميع تفاصيله من البرنامج')">
                  @csrf
                  @method('delete')
              <button class="dropdown-item btn-danger btn" type="submit">حذف المنتج</button>
@@ -98,9 +98,9 @@
      <div class="btn-group mr-1 mb-1"  style="width: 100%;">
          <button type="button" class="btn btn-info btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> التحكم في المخزون</button>
          <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-             <a class="dropdown-item" href="{{route('products.addQty',$product[0]->id)}}">أضف كمية يدويا</a>
+             <a class="dropdown-item" href="{{route('products.addQty',$product->id)}}">أضف كمية يدويا</a>
              <a class="dropdown-item" href="#">أمر شراء جديد</a>
-             <a class="dropdown-item" href="{{route('products.transfer',$product[0]->id)}}">تحويل كميات بين الفروع</a>
+             <a class="dropdown-item" href="{{route('products.transfer',$product->id)}}">تحويل كميات بين الفروع</a>
 
          </div>
      </div>
@@ -128,7 +128,7 @@
                 <div class="card-content collapse show">
                     <div class="card-body">
 
-                    <form class="form" method="post" action="{{route('products.update',$product['0']->id)}}">
+                    <form class="form" method="post" action="{{route('products.update',$product->id)}}">
                             @csrf
                             @method('patch')
                             <div class="form-body">
@@ -141,7 +141,7 @@
                                             <label for="timesheetinput2">اسم المنتج</label>
                                             <span style="color:red">*</span>
                                             <div class="position-relative has-icon-left">
-                                            <input type="text" id="timesheetinput2" class="form-control" name="product_name" value="{{$product[0]->product_name}}" required>
+                                            <input type="text" id="timesheetinput2" class="form-control" name="product_name" value="{{$product->product_name}}" required>
                                                 <div class="form-control-position">
                                                     <i class="la la-pencil-square"></i>
                                                 </div>
@@ -152,7 +152,7 @@
                                         <div class="form-group">
                                             <label for="timesheetinput2">كود المنتج</label>
                                             <div class="position-relative has-icon-left">
-                                                <input type="text" id="timesheetinput2" class="form-control" name="product_code" value="{{$product[0]->product_code}}">
+                                                <input type="text" id="timesheetinput2" class="form-control" name="product_code" value="{{$product->product_code}}">
                                                 <div class="form-control-position">
                                                     <i class="la la-barcode"></i>
                                                 </div>
@@ -167,7 +167,7 @@
                                      الفئة
                                     </div>
                                     <select class="select2-rtl form-control" data-placeholder="إختر الفئة..." name="product_category">
-                                        <option value="{{$product[0]->product_category}}">تغيير الفئة...</option>
+                                        <option value="{{$product->product_category}}">تغيير الفئة...</option>
                                         <option value="HI">الطفايات</option>
                                     </select>
                                   </div>
@@ -179,7 +179,7 @@
                                               الفئة الفرعية
                                             </div>
                                             <select class="select2-rtl form-control"  name="product_sub_category">
-                                                <option value="{{$product[0]->product_code}}">تغيير الفئة الفرعية...</option>
+                                                <option value="{{$product->product_code}}">تغيير الفئة الفرعية...</option>
                                                 <option value="NV">Nevada</option>
                                                 <option value="OR">Oregon</option>
                                                 <option value="WA">Washington</option>
@@ -191,7 +191,7 @@
                                                 <div class="form-group">
                                                     <label for="timesheetinput2">الماركة</label>
                                                     <div class="position-relative has-icon-left">
-                                                        <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: بفاريا" name="product_brand"  value="{{$product[0]->product_brand}}">
+                                                        <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: بفاريا" name="product_brand"  value="{{$product->product_brand}}">
                                                         <div class="form-control-position">
                                                             <i class="la la-trademark "></i>
                                                         </div>
@@ -204,7 +204,7 @@
                                         <div class="form-group">
                                             <label for="projectinput8">الوصف</label>
                                             <div class="position-relative has-icon-left">
-                                            <textarea id="projectinput8" rows="3" class="form-control" name="product_desc">{{$product[0]->product_desc}}</textarea>
+                                            <textarea id="projectinput8" rows="3" class="form-control" name="product_desc">{{$product->product_desc}}</textarea>
                                             <div class="form-control-position">
                                                 <i class="la la-file-text"></i>
                                             </div>
@@ -219,7 +219,7 @@
                                         <div class="form-group">
                                             <label for="timesheetinput2">سعر البيع</label>
                                             <div class="position-relative has-icon-left">
-                                                <input type="number" id="timesheetinput2" class="form-control"  name="product_price"  value="{{$product[0]->product_price}}" required>
+                                                <input type="number" id="timesheetinput2" class="form-control"  name="product_price"  value="{{$product->product_price}}" required>
                                                 <div class="form-control-position">
                                                     <i class="la la-money"></i>
                                                 </div>
@@ -231,7 +231,7 @@
                                         <div class="form-group pb-1">
 
                                             <label for="switcherySize10" class="font-medium-2 text-bold-600 mr-1">نعم</label>
-                                            <input type="checkbox" id="switcherySize10" name="product_track_stock" class="switchery" value="1" data-size="lg"  value="{{$product[0]->product_track_stock}}" checked />
+                                            <input type="checkbox" id="switcherySize10" name="product_track_stock" class="switchery" value="1" data-size="lg"  value="{{$product->product_track_stock}}" checked />
                                             <label for="switcherySize10" class="font-medium-2 text-bold-600 ml-1">لا</label>
                                           </div>
                                     </div>
@@ -239,7 +239,7 @@
                                         <div class="form-group">
                                             <label for="timesheetinput2">نبهني عند وصول الكمية إلى أقل من</label>
                                             <div class="position-relative has-icon-left">
-                                                <input type="text" id="notify" class="form-control"  name="product_low_stock_thershold"  value="{{$product[0]->product_low_stock_thershold}}">
+                                                <input type="text" id="notify" class="form-control"  name="product_low_stock_thershold"  value="{{$product->product_low_stock_thershold}}">
                                                 <div class="form-control-position">
                                                     <i class="la la-bell"></i>
                                                 </div>
@@ -254,7 +254,7 @@
                                 <div class="form-group">
                                     <label for="projectinput8">ملاحظات داخلية</label>
                                     <div class="position-relative has-icon-left">
-                                    <textarea id="projectinput8" rows="3" class="form-control" name="product_notes">{{$product[0]->product_notes}}</textarea>
+                                    <textarea id="projectinput8" rows="3" class="form-control" name="product_notes">{{$product->product_notes}}</textarea>
                                     <div class="form-control-position">
                                         <i class="la la-sticky-note"></i>
                                     </div>
