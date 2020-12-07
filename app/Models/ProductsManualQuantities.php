@@ -31,6 +31,6 @@ class ProductsManualQuantities extends Model
 
     public function user()
     {
-        return $this->hasOne('App\Models\User', 'id', 'transfered_by');
+        return $this->hasOne('App\Models\User', 'id', 'added_by');
     }
 }
