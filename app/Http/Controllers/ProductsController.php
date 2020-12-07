@@ -181,8 +181,8 @@ class ProductsController extends Controller
 
     public function addQty(Products $product)
     {
-        $product = Products::find($product);
-        $product_id = $product[0]->id;
+        //$product = Products::find($product);
+        $product_id = $product->id;
         // $branches = Branches::where('product_id', $product_id)->with('branch')->get();
         $branches = Branches::get();
         $user = Auth::user();
