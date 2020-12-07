@@ -74,24 +74,24 @@ class ProductsController extends Controller
 
     public function view(products $product)
     {
-        $productx = Products::find($product);
-        $product_id = $productx[0]->id;
-        $branches = BranchesProducts::where('product_id', $product_id)
+        // $productx = Products::find($product);
+        // $product_id = $productx->id;
+        $branches = BranchesProducts::where('product_id', $product->id)
             ->where('amount', '!=', 0)
             ->with('branch')->get();
         $productransfers = ProductsTransfers::where('transfer_qty', '>', 0)
-            ->where('product_id', $product_id)
+            ->where('product_id', $product->id)
             ->with('branchFrom')
             ->with('branchTo')
             ->get();
-        $productManual = ProductsManualQuantities::where('product_id', $product_id)
+        $productManual = ProductsManualQuantities::where('product_id', $product->id)
         ->with('branch')
         ->get();
 
-        $productSuppliers = PurchasesOrdersProducts::where('product_id',$product_id)
+        $productSuppliers = PurchasesOrdersProducts::where('product_id',$product->id)
         ->where('status','delivered')
         ->get();
-
+        $product_id = $product->id;
         $productPurchasesOrders = PurchasesOrders::with(['productInOrder' => function($q) use ($product_id){
            $q->where('product_id', $product_id);
         }])->get();
