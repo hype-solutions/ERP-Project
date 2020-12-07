@@ -410,7 +410,7 @@
                             قام بالإضافة
                             <div class="badge border-primary primary badge-border">
                                 <i class="la la-user font-medium-2"></i>
-                                    <span>{{$transfer->user->username}}</span>
+                                    <span>{{$add->user->username}}</span>
                                 </div>
 
 
@@ -418,7 +418,7 @@
                             صرح بالإضافة
                             <div class="badge border-success success badge-square badge-border">
                                 <i class="la la-user font-medium-2"></i>
-                                    <span>{{$transfer->user->username}}</span>
+                                    <span>{{$add->user->username}}</span>
                                 </div>
                           </td>
                         <td>{{$add->qty_notes}}</td>
