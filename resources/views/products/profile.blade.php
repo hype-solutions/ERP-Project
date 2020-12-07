@@ -38,11 +38,11 @@
             class="users-avatar-shadow rounded-circle" height="64" width="64">
         </a>
         <div class="media-body pt-25">
-          <h4 class="media-heading"><span class="users-view-name">{{ $product[0]->product_name }} </span>
+          <h4 class="media-heading"><span class="users-view-name">{{ $product->product_name }} </span>
             </h4>
           <span>رقم المنتج:</span>
           <span class="users-view-id">
-            <span class="badge badge-success users-view-status">{{ $product[0]->id }}</span>
+            <span class="badge badge-success users-view-status">{{ $product->id }}</span>
         </span>
         </div>
       </div>
@@ -51,11 +51,11 @@
        <div class="btn-group mr-1 mb-1">
         <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">التحكم في المنتج</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-            <a class="dropdown-item" href="{{ route('products.view', $product['0']->id) }}">استعراض المنتج</a>
-            <a class="dropdown-item" href="{{ route('products.edit', $product['0']->id) }}">تعديل المنتج</a>
+            <a class="dropdown-item" href="{{ route('products.view', $product->id) }}">استعراض المنتج</a>
+            <a class="dropdown-item" href="{{ route('products.edit', $product->id) }}">تعديل المنتج</a>
             <a class="dropdown-item" href="#">طباعه BARCODE</a>
             <div class="dropdown-divider"></div>
-            <form action="{{route('products.delete',$product[0]->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا المنتج نهائيا و جميع تفاصيله من البرنامج')">
+            <form action="{{route('products.delete',$product->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا المنتج نهائيا و جميع تفاصيله من البرنامج')">
                 @csrf
                 @method('delete')
             <button class="dropdown-item btn-danger btn" type="submit">حذف المنتج</button>
@@ -65,9 +65,9 @@
     <div class="btn-group mr-1 mb-1"  style="width: 100%;">
         <button type="button" class="btn btn-info btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> التحكم في المخزون</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-            <a class="dropdown-item" href="{{route('products.addQty',$product[0]->id)}}">أضف كمية يدويا</a>
+            <a class="dropdown-item" href="{{route('products.addQty',$product->id)}}">أضف كمية يدويا</a>
             <a class="dropdown-item" href="#">أمر شراء جديد</a>
-            <a class="dropdown-item" href="{{route('products.transfer',$product[0]->id)}}">تحويل كميات بين الفروع</a>
+            <a class="dropdown-item" href="{{route('products.transfer',$product->id)}}">تحويل كميات بين الفروع</a>
 
         </div>
     </div>
@@ -95,45 +95,45 @@
               <tbody>
                 <tr>
                   <td>اسم المنتج:</td>
-                  <td>{{ $product[0]->product_name }}</td>
+                  <td>{{ $product->product_name }}</td>
                 </tr>
 
                 <tr>
                   <td>كود المنتج:</td>
-                  <td>@if(isset($product[0]->product_code))
-                    {{ $product[0]->product_code }}
+                  <td>@if(isset($product->product_code))
+                    {{ $product->product_code }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل</small>
                     @endif</td>
                 </tr>
                 <tr>
                     <td> الوصف:</td>
-                    <td>@if(isset($product[0]->product_code))
-                      {{ $product[0]->product_code }}
+                    <td>@if(isset($product->product_code))
+                      {{ $product->product_code }}
                       @else
                       <small style="font-style: italic;color:red;">غير مسجل</small>
                       @endif</td>
                   </tr>
                 <tr>
                     <td> الفئة: </td>
-                    <td>@if(isset($product[0]->product_category))
-                      {{ $product[0]->product_category }}
+                    <td>@if(isset($product->product_category))
+                      {{ $product->product_category }}
                       @else
                       <small style="font-style: italic;color:red;">غير مسجل</small>
                       @endif</td>
                   </tr>
                   <tr>
                     <td> الفئة الفرعية:</td>
-                    <td>@if(isset($product[0]->product_sub_category))
-                      {{ $product[0]->product_sub_category }}
+                    <td>@if(isset($product->product_sub_category))
+                      {{ $product->product_sub_category }}
                       @else
                       <small style="font-style: italic;color:red;">غير مسجل</small>
                       @endif</td>
                   </tr>
                   <tr>
                     <td>  سعر البيع:</td>
-                    <td>@if(isset($product[0]->product_price))
-                      {{ $product[0]->product_price }}
+                    <td>@if(isset($product->product_price))
+                      {{ $product->product_price }}
                       جنية
                       @else
                       <small style="font-style: italic;color:red;">غير مسجل</small>
@@ -142,21 +142,21 @@
                   <tr>
                     <td> كمية المخزون:</td>
                     <td>
-                      {{ $product[0]->product_total_in - $product[0]->product_total_out }}
+                      {{ $product->product_total_in - $product->product_total_out }}
                       </td>
                   </tr>
                   <tr>
                     <td> الماركة:</td>
-                    <td>@if(isset($product[0]->product_brand))
-                      {{ $product[0]->product_brand }}
+                    <td>@if(isset($product->product_brand))
+                      {{ $product->product_brand }}
                       @else
                       <small style="font-style: italic;color:red;">غير مسجل</small>
                       @endif</td>
                   </tr>
                   <tr>
                     <td> تتبع المخزون:</td>
-                    <td>@if(($product[0]->product_track_stock == 1))
-                      نعم (تنبيه عند الوصل الى {{$product[0]->product_low_stock_thershold}} قطع)
+                    <td>@if(($product->product_track_stock == 1))
+                      نعم (تنبيه عند الوصل الى {{$product->product_low_stock_thershold}} قطع)
                       @else
                       لا
                       @endif</td>
@@ -167,8 +167,8 @@
 
                 <tr>
                     <td>الملاحظات الداخليه:</td>
-                    <td> @if(isset($product[0]->product_notes))
-                     {{ $product[0]->product_notes }}
+                    <td> @if(isset($product->product_notes))
+                     {{ $product->product_notes }}
                      @else
                      <small style="font-style: italic;color:red;">غير مسجل </small>
                       @endif</td>
@@ -181,7 +181,7 @@
                 <!-- Floating Outline button with text -->
                 <button type="button" class="btn btn-float btn-outline-cyan"><i class="">25 جنية</i><span>متوسط سعر التكلفة</span></button>
             <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">3545</i><span>إجمالي القطع المباعة</span></button>
-                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">{{ $product[0]->product_total_in - $product[0]->product_total_out }}</i><span>كمية المخزون</span></button>
+                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">{{ $product->product_total_in - $product->product_total_out }}</i><span>كمية المخزون</span></button>
             </div>
         </div>
         </div>
@@ -197,7 +197,7 @@
             <div class="card-body">
 
               <div class="col-12">
-                <a href="{{route('products.transfer',$product[0]->id)}}" class="btn btn-social mb-1 mr-1 btn-sm btn-primary" style="float: left"><span class="la la-arrows-h"></span> تحويل بين الفروع</a>
+                <a href="{{route('products.transfer',$product->id)}}" class="btn btn-social mb-1 mr-1 btn-sm btn-primary" style="float: left"><span class="la la-arrows-h"></span> تحويل بين الفروع</a>
                   <h2 style="text-align: center"> رصيد الفروع</h2>
                 <div class="table-responsive">
                   <table class="table mb-0" id="reciepts">
@@ -212,9 +212,9 @@
                         @foreach ($branches as $key => $branch)
                         <tr>
                             <td><div class="badge border-info info badge-border">
-                                <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$branch->branch[0]->id}}</span></a>
+                                <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$branch->branch->id}}</span></a>
                             </div></td>
-                        <td>{{$branch->branch[0]->branch_name}}</td>
+                        <td>{{$branch->branch->branch_name}}</td>
                         <td>{{$branch->amount}} قطعة</td>
                       </tr>
                       @endforeach
@@ -269,7 +269,7 @@
           <div class="card-body">
 
             <div class="col-12">
-                <a href="{{route('products.transfer',$product[0]->id)}}" class="btn btn-social mb-1 mr-1 btn-sm btn-primary" style="float: left"><span class="la la-arrows-h"></span> تحويل بين الفروع</a>
+                <a href="{{route('products.transfer',$product->id)}}" class="btn btn-social mb-1 mr-1 btn-sm btn-primary" style="float: left"><span class="la la-arrows-h"></span> تحويل بين الفروع</a>
                 <h2 style="text-align: center"> التحويلات بين الفروع</h2>
               <div class="table-responsive">
                 <table class="table mb-0" id="due">
@@ -372,7 +372,7 @@
             <div class="card-body">
 
               <div class="col-12">
-              <a href="{{route('products.addQty',$product[0]->id)}}" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span> أضف كمية يدويا</a>
+              <a href="{{route('products.addQty',$product->id)}}" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span> أضف كمية يدويا</a>
                   <h2 style="text-align: center"> الكميات المضافة يدويا</h2>
                 <div class="table-responsive">
                   <table class="table mb-0" id="manual_add">

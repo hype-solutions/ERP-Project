@@ -74,8 +74,8 @@ class ProductsController extends Controller
 
     public function view(products $product)
     {
-        $product = Products::whereId($product)->first();
-        $product_id = $product[0]->id;
+        $productx = Products::find($product);
+        $product_id = $productx[0]->id;
         $branches = BranchesProducts::where('product_id', $product_id)
             ->where('amount', '!=', 0)
             ->with('branch')->get();
@@ -98,7 +98,6 @@ class ProductsController extends Controller
     }
     public function edit(products $product)
     {
-        $product = Products::whereId($product)->first();
         return view('products.edit', compact('product'));
     }
 
