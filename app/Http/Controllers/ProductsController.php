@@ -9,7 +9,7 @@ use App\Models\Products;
 use App\Models\BranchesProducts;
 use App\Models\ProductsTransfers;
 use App\Models\ProductsManualQuantities;
-
+use App\Models\PurchasesOrdersProducts;
 use Illuminate\Support\Facades\Auth;
 
 class ProductsController extends Controller
@@ -87,7 +87,11 @@ class ProductsController extends Controller
         ->with('branch')
         ->get();
 
-        return view('products.profile', compact('product', 'branches', 'productransfers','productManual'));
+        $productSuppliers = PurchasesOrdersProducts::where('product_id',$product_id)
+        ->where('status','delivered')
+        ->get();
+
+        return view('products.profile', compact('product', 'branches', 'productransfers','productManual','productSuppliers'));
     }
     public function edit(products $product)
     {

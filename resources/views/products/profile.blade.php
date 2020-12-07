@@ -239,14 +239,19 @@
                           <tr>
                             <th> المورد</th>
                             <th>الكمية المورده</th>
-                            <th>اخر سعر</th>
+                            <th>السعر</th>
+                            <th>التاريخ</th>
                           </tr>
                         </thead>
                         <tbody>
-                            <td> شركة بقاريا</td>
-                            <td>200</td>
-                            <td>10 جنية</td>
+                          @foreach ($productSuppliers as $item)
+                            <tr>
+                            <td> {{$item->supplier->supplier_name}}</td>
+                            <td>{{$item->product_qty}}</td>
+                            <td>{{$item->product_price}} ج.م</td>
+                            <th>{{$item->purchase['delivery_date']}}</th>
                           </tr>
+                          @endforeach
                         </tbody>
                       </table>
                     </div>

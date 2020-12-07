@@ -122,6 +122,10 @@ public function purchasesordersList()
                     $checkIfRecordExsists = BranchesProducts::where('branch_id', $request->branch_id)
                     ->where('product_id', $item['id'])
                     ->first();
+
+                    Products::where('id', $item['id'])->increment('product_total_in' , $item['qty']);
+
+
                     if (isset($checkIfRecordExsists)) {
                         BranchesProducts::where('product_id', $item['id'])
                             ->where('branch_id', $request->branch_id)
@@ -167,6 +171,9 @@ public function purchasesordersList()
                 $pro->product_desc = $item['desc'];
                 $pro->product_price = $item['price'];
                 $pro->product_qty = $item['qty'];
+                if(isset($updateStock)){if($updateStock == 1){
+                    $pro->status = 'delivered';
+                }}
                 $pro->save();
                 $listOfProducts[] = $pro;
         }
@@ -292,6 +299,8 @@ foreach ($product as $item) {
             $checkIfRecordExsists = BranchesProducts::where('branch_id', $request->branch_id)
             ->where('product_id', $item['id'])
             ->first();
+            Products::where('id', $item['id'])->increment('product_total_in' , $item['qty']);
+
             if (isset($checkIfRecordExsists)) {
                 BranchesProducts::where('product_id', $item['id'])
                     ->where('branch_id', $request->branch_id)
@@ -332,6 +341,9 @@ foreach ($product as $item) {
                 $pro->product_desc = $item['desc'];
                 $pro->product_price = $item['price'];
                 $pro->product_qty = $item['qty'];
+                if(isset($updateStock)){if($updateStock == 1){
+                    $pro->status = 'delivered';
+                }}
                 $pro->save();
                 $listOfProducts[] = $pro;
         }

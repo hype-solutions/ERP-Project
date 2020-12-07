@@ -25,5 +25,14 @@ class PurchasesOrdersProducts extends Model
         return $this->hasOne('App\Models\Products', 'id', 'product_id');
     }
 
+    public function supplier()
+    {
+        return $this->hasOne('App\Models\Suppliers', 'id', 'supplier_id');
+    }
+
+    public function purchase()
+    {
+        return $this->belongsTo('App\Models\PurchasesOrders', 'purchase_id', 'id');
+    }
 
 }
