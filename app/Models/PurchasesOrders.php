@@ -23,11 +23,24 @@ class PurchasesOrders extends Model
         'safe_id',
         'already_delivered',
         'delivery_date',
+        'branch_id',
+        'added_by',
+        'autherized_by',
     ];
 
     public function supplier()
     {
         return $this->hasOne('App\Models\Suppliers', 'id', 'supplier_id');
+    }
 
+    public function safe()
+    {
+        return $this->hasOne('App\Models\Safes', 'id', 'safe_id');
+    }
+
+
+    public function branch()
+    {
+        return $this->hasOne('App\Models\Branches', 'id', 'branch_id');
     }
 }

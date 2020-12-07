@@ -16,5 +16,12 @@ class PurchasesOrdersPayments extends Model
         'date',
         'notes',
         'paid',
+        'safe_id',
+        'safe_payment_id'
     ];
+
+    public function safe()
+    {
+        return $this->hasOne('App\Models\Safes', 'id', 'safe_id');
+    }
 }
