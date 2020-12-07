@@ -22,7 +22,7 @@ class BranchesProducts extends Model
     }
     public function branch()
     {
-        return $this->hasMany('App\Models\Branches', 'id', 'branch_id');
+        return $this->hasOne('App\Models\Branches', 'id', 'branch_id');
 
     }
 }
