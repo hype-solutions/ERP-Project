@@ -405,7 +405,7 @@
                         </td>
                         <td>{{$add->qty_price}} جنية</td>
                         <td>
-                            قام بالتحويل
+                            قام بالإضافة
                             <div class="badge border-primary primary badge-border">
                                 <i class="la la-user font-medium-2"></i>
                                     <span>{{$transfer->user->username}}</span>
@@ -413,7 +413,7 @@
 
 
                               <br>
-                            صرح بالتحويل
+                            صرح بالإضافة
                             <div class="badge border-success success badge-square badge-border">
                                 <i class="la la-user font-medium-2"></i>
                                     <span>{{$transfer->user->username}}</span>
@@ -449,48 +449,48 @@
                         <th> العملية</th>
                         <th> الوقت</th>
                         <th> حركة</th>
-                        <th>المخزون بعد</th>
                         <th>الحالة</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                        @foreach ($productPurchasesOrders as $item)
+                        <tr>
+                            <td><div class="badge border-info info badge-border">
+                                <a href="#" target="_blank" style="color: #1e9ff2"><span>
+                                    أمر شرا (#{{$item->id}})
+                                </span></a>
 
-                        <td><div class="badge border-success info badge-border">
-                            <a href="#" target="_blank" style="color: #28d094"><span>
-                              فاتورة (#00001)
-                          </span></a>
-                        </div></td>
-                        <td>22/11/2020 22:52</td>
-                        <td><b><font color="red">-</font></b> 22</td>
-                        <td>900</td>
-                        <td>
-
-                          <div class="badge badge-success">
-                              <i class="la la-money font-medium-2"></i>
-                                  <span>مدفوع</span>
+                            </div></td>
+                            <td>{{$item->purchase_date}}</td>
+                            <td><b><font color="green">+</font></b> {{$item->product->sum('product_qty')}}</td>
+                            <td>
+                                @if($item->already_delivered > 0)
+                                <div class="badge badge-success">
+                                  <i class="la la-truck font-medium-2"></i>
+                                  <span>تم الإستلام</span>
                               </div>
-                        </td>
-                      </tr>
-                      <tr>
+                                @else
+                                <div class="badge badge-danger">
+                                  <i class="la la-truck font-medium-2"></i>
+                                  <span>لم يستلم</span>
+                              </div>
+                                @endif
 
-                          <td><div class="badge border-info info badge-border">
-                              <a href="#" target="_blank" style="color: #1e9ff2"><span>
-                                  أمر شرا (#4)
-                              </span></a>
-
-                          </div></td>
-                          <td>22/11/2020 22:51</td>
-                          <td><b><font color="green">+</font></b> 10</td>
-                          <td>2000</td>
-                          <td>
-
-                                  <div class="badge badge-danger">
-                                      <i class="la la-truck font-medium-2"></i>
-                                      <span>لم يستلم</span>
+                                @if($item->already_paid > 0)
+                                <div class="badge badge-success">
+                                  <i class="la la-money font-medium-2"></i>
+                                      <span>مدفوع</span>
                                   </div>
-                          </td>
-                        </tr>
+                                @else
+                                <div class="badge badge-danger">
+                                  <i class="la la-money font-medium-2"></i>
+                                      <span>لم يدفع</span>
+                                  </div>
+                                @endif
+                            </td>
+                          </tr>
+                      @endforeach
+
                     </tbody>
                   </table>
                 </div>

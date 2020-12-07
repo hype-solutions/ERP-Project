@@ -43,4 +43,10 @@ class PurchasesOrders extends Model
     {
         return $this->hasOne('App\Models\Branches', 'id', 'branch_id');
     }
+
+
+    public function product()
+    {
+        return $this->hasMany('App\Models\PurchasesOrdersProducts', 'purchase_id', 'id')->where('product_id',2);
+    }
 }
