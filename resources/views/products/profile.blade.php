@@ -285,6 +285,7 @@
                     </tr>
                   </thead>
                   <tbody>
+                @if(isset($productransfers))
                     @foreach ($productransfers as $key => $transfer)
                   <tr>
                   {{-- <td>{{++$key}}</td> --}}
@@ -355,6 +356,7 @@
                     </td>
                   </tr>
                   @endforeach
+                @endif
                 </tbody>
                 </table>
               </div>
