@@ -28,7 +28,7 @@
             </li>
             <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">فواتير المبيعات</span></a>
               <ul class="menu-content">
-                <li><a class="menu-item" href=""><i></i><span data-i18n="Classic Menu">إنشاء فاتورة</span></a>
+                <li><a class="menu-item" href="{{route('invoices.add')}}"><i></i><span data-i18n="Classic Menu">إنشاء فاتورة</span></a>
                 </li>
                 <li><a class="menu-item" href=""><i></i><span data-i18n="Classic Menu">عرض الفواتير</span></a>
                 </li>
@@ -56,9 +56,9 @@
           </li>
           <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/menu/4.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>الموردين</a>
             <ul class="menu-content">
-              <li><a class="menu-item" href="{{ route('suppliers.list') }}"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة مورد</span></a>
+              <li><a class="menu-item" href="{{ route('suppliers.add') }}"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة مورد</span></a>
               </li>
-              <li><a class="menu-item" href="{{ route('suppliers.add') }}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض الموردين</span></a>
+              <li><a class="menu-item" href="{{ route('suppliers.list') }}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض الموردين</span></a>
               </li>
             </ul>
           </li>

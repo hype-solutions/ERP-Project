@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Branches;
+use App\Models\Branches\Branches;
 use Illuminate\Http\Request;
 
-use App\Models\Products;
-use App\Models\BranchesProducts;
-use App\Models\ProductsTransfers;
-use App\Models\ProductsManualQuantities;
-use App\Models\PurchasesOrders;
-use App\Models\PurchasesOrdersProducts;
+use App\Models\Products\Products;
+use App\Models\Branches\BranchesProducts;
+use App\Models\Products\ProductsTransfers;
+use App\Models\Products\ProductsManualQuantities;
+use App\Models\PurchasesOrders\PurchasesOrders;
+use App\Models\PurchasesOrders\PurchasesOrdersProducts;
 use Illuminate\Support\Facades\Auth;
 
 class ProductsController extends Controller
@@ -139,6 +139,14 @@ class ProductsController extends Controller
             ->first();
         $amount = $productBranches->amount;
         return response()->json(array('amount' => $amount), 200);
+    }
+    public function fetchPrice(Request $request)
+    {
+        $product_id = $request->product;
+        $product= Products::where('id', $product_id)
+            ->first();
+        $price = $product->product_price;
+        return response()->json(array('price' => $price), 200);
     }
     public function fetchOtherBranches(Request $request)
     {

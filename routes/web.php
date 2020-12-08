@@ -9,6 +9,9 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\BranchesController;
 use App\Http\Controllers\SafesController;
 use App\Http\Controllers\PurchasesOrdersController;
+use App\Http\Controllers\InvoicesController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +69,7 @@ Route::delete('/products/delete/{product}', [ProductsController::class, 'delete'
 Route::get('/products/qty/transfer/{product}', [ProductsController::class, 'transfer'])->name('products.transfer');
 Route::post('/products/qty/transfering', [ProductsController::class, 'transfering'])->name('products.transfering');
 Route::post('/products/qty/fetch', [ProductsController::class, 'fetchQty'])->name('products.fetchQty');
+Route::post('/products/qty/fetchprice', [ProductsController::class, 'fetchPrice'])->name('products.fetchPrice');
 Route::post('/products/qty/fetchotherbranches', [ProductsController::class, 'fetchOtherBranches'])->name('products.fetchOtherBranches');
 Route::get('/products/qty/add/{product}', [ProductsController::class, 'addQty'])->name('products.addQty');
 Route::post('/products/qty/adding', [ProductsController::class, 'addingQty'])->name('products.addingQty');
@@ -78,6 +82,19 @@ Route::get('/purchase_orders/add', [PurchasesOrdersController::class, 'add'])->n
 Route::post('/purchase_orders/adding', [PurchasesOrdersController::class, 'store'])->name('purchasesorders.adding');
 Route::get('/purchase_orders/edit/{order}', [PurchasesOrdersController::class, 'edit'])->name('purchasesorders.edit');
 Route::patch('/purchase_orders/update/{order}', [PurchasesOrdersController::class, 'update'])->name('purchasesorders.update');
+
+/*************************
+******** Invoices ********
+**************************/
+Route::get('/invoices', [InvoicesController::class, 'invoicesList'])->name('invoices.list');
+Route::get('/invoices/add', [InvoicesController::class, 'add'])->name('invoices.add');
+Route::post('/invoices/adding', [InvoicesController::class, 'store'])->name('invoices.adding');
+Route::get('/invoices/edit/{invoice}', [InvoicesController::class, 'edit'])->name('invoices.edit');
+Route::post('/invoices/getOtherProducts', [InvoicesController::class, 'getOtherProducts'])->name('invoices.getOtherProducts');
+
+
+//Route::patch('/purchase_orders/update/{order}', [PurchasesOrdersController::class, 'update'])->name('purchasesorders.update');
+
 
 /*************************
 ******** Branches ********

@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Branches;
 
-use App\Models\Branches;
+use App\Models\Branches\Branches;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BranchesFactory extends Factory

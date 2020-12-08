@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PurchasesOrders;
-use App\Models\PurchasesOrdersPayments;
-use App\Models\PurchasesOrdersProducts;
+use App\Models\PurchasesOrders\PurchasesOrders;
+use App\Models\PurchasesOrders\PurchasesOrdersPayments;
+use App\Models\PurchasesOrders\PurchasesOrdersProducts;
 use Illuminate\Http\Request;
-use App\Models\Suppliers;
+use App\Models\Suppliers\Suppliers;
 
 class SuppliersController extends Controller
 {

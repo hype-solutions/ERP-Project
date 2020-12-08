@@ -235,7 +235,7 @@
                 <table class="table mb-0" id="due">
                   <thead>
                     <tr>
-                      <th>رقم الفاتورة</th>
+                      <th>رقم أمر الشراء</th>
                       <th>تاريخ الإستحقاق</th>
                       <th>الإجمالي</th>
                     </tr>
@@ -244,11 +244,11 @@
                       @foreach ($supplierInstallments as $item)
                     <tr>
                       <td><div class="badge border-info info badge-border">
-                          <a href="#" target="_blank" style="color: #1e9ff2"><span>123</span></a>
+                          <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$item->purchase_id}}</span></a>
                       <i class="la la-barcode font-medium-2"></i>
                       </div></td>
-                      <td>22/12/2020</td>
-                      <td>450 جنية</td>
+                      <td>{{$item->date}}</td>
+                      <td>{{$item->amount}} ج.م</td>
                     </tr>
                     @endforeach
                   </tbody>

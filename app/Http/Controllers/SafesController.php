@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Branches;
+use App\Models\Branches\Branches;
 use Illuminate\Http\Request;
 
-use App\Models\Safes;
-use App\Models\SafesTransfers;
+use App\Models\Safes\Safes;
+use App\Models\Safes\SafesTransfers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\PurchasesOrders;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -30,23 +30,23 @@ class PurchasesOrders extends Model
 
     public function supplier()
     {
-        return $this->hasOne('App\Models\Suppliers', 'id', 'supplier_id');
+        return $this->hasOne('App\Models\Suppliers\Suppliers', 'id', 'supplier_id');
     }
 
     public function safe()
     {
-        return $this->hasOne('App\Models\Safes', 'id', 'safe_id');
+        return $this->hasOne('App\Models\Safes\Safes', 'id', 'safe_id');
     }
 
 
     public function branch()
     {
-        return $this->hasOne('App\Models\Branches', 'id', 'branch_id');
+        return $this->hasOne('App\Models\Branches\Branches', 'id', 'branch_id');
     }
 
 
     public function productInOrder()
     {
-        return $this->hasMany('App\Models\PurchasesOrdersProducts', 'purchase_id', 'id');
+        return $this->hasMany('App\Models\PurchasesOrders\PurchasesOrdersProducts', 'purchase_id', 'id');
     }
 }

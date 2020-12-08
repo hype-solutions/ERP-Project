@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Products;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,12 +25,12 @@ class ProductsTransfers extends Model
     ];
     public function branchFrom()
     {
-        return $this->hasOne('App\Models\Branches', 'id', 'branch_from');
+        return $this->hasOne('App\Models\Branches\Branches', 'id', 'branch_from');
     }
 
     public function branchTo()
     {
-        return $this->hasOne('App\Models\Branches', 'id', 'branch_to');
+        return $this->hasOne('App\Models\Branches\Branches', 'id', 'branch_to');
     }
     public function user()
     {

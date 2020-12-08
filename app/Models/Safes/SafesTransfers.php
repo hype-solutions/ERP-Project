@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Safes;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -27,12 +27,12 @@ class SafesTransfers extends Model
 
     public function safeFrom()
     {
-        return $this->hasOne('App\Models\Safes', 'id', 'safe_from');
+        return $this->hasOne('App\Models\Safes\Safes', 'id', 'safe_from');
     }
 
     public function safeTo()
     {
-        return $this->hasOne('App\Models\Safes', 'id', 'safe_to');
+        return $this->hasOne('App\Models\Safes\Safes', 'id', 'safe_to');
     }
 
     public function user()

@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Safes;
 
-use App\Models\Safes;
+use App\Models\Safes\Safes;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SafesFactory extends Factory

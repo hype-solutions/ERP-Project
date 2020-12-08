@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Invoices;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PurchasesOrdersPayments extends Model
+class InvoicesPayments extends Model
 {
     use HasFactory;
-    protected $table = 'purchases_orders_payments';
+    protected $table = 'invoices_payments';
     protected $fillable = [
-        'supplier_id',
-        'purchase_id',
+        'customer_id',
+        'invoice_id',
         'amount',
         'date',
         'notes',
@@ -19,9 +19,4 @@ class PurchasesOrdersPayments extends Model
         'safe_id',
         'safe_payment_id'
     ];
-
-    public function safe()
-    {
-        return $this->hasOne('App\Models\Safes', 'id', 'safe_id');
-    }
 }

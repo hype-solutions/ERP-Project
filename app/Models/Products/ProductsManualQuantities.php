@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Products;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,7 +25,7 @@ class ProductsManualQuantities extends Model
 
     public function branch()
     {
-        return $this->hasOne('App\Models\Branches', 'id', 'branch_id');
+        return $this->hasOne('App\Models\Branches\Branches', 'id', 'branch_id');
     }
 
 

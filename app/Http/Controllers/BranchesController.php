@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Branches;
-use App\Models\Safes;
-use App\Models\BranchesProducts;
-use App\Models\ProductsTransfers;
-use App\Models\SafesTransfers;
+use App\Models\Branches\Branches;
+use App\Models\Safes\Safes;
+use App\Models\Branches\BranchesProducts;
+use App\Models\Products\ProductsTransfers;
+use App\Models\Safes\SafesTransfers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
