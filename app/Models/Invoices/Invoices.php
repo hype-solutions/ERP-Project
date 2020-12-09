@@ -34,5 +34,11 @@ class Invoices extends Model
     {
         return $this->hasOne('App\Models\Customers\Customers', 'id', 'customer_id');
     }
+
+
+    public function branch()
+    {
+        return $this->hasOne('App\Models\Branches\Branches', 'id', 'branch_id');
+    }
 }
 

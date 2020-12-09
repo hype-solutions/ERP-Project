@@ -90,10 +90,8 @@ Route::get('/invoices', [InvoicesController::class, 'invoicesList'])->name('invo
 Route::get('/invoices/add', [InvoicesController::class, 'add'])->name('invoices.add');
 Route::post('/invoices/adding', [InvoicesController::class, 'store'])->name('invoices.adding');
 Route::get('/invoices/edit/{invoice}', [InvoicesController::class, 'edit'])->name('invoices.edit');
-Route::post('/invoices/getOtherProducts', [InvoicesController::class, 'getOtherProducts'])->name('invoices.getOtherProducts');
-
-
-//Route::patch('/purchase_orders/update/{order}', [PurchasesOrdersController::class, 'update'])->name('purchasesorders.update');
+//Route::post('/invoices/getOtherProducts', [InvoicesController::class, 'getOtherProducts'])->name('invoices.getOtherProducts');
+Route::patch('/invoices/update/{invoice}', [InvoicesController::class, 'update'])->name('invoices.update');
 
 
 /*************************

@@ -137,7 +137,11 @@ class ProductsController extends Controller
         $productBranches = BranchesProducts::where('product_id', $product_id)
             ->where('branch_id', $branch_id)
             ->first();
+            if($productBranches){
         $amount = $productBranches->amount;
+            }else{
+                $amount = 0;
+            }
         return response()->json(array('amount' => $amount), 200);
     }
     public function fetchPrice(Request $request)

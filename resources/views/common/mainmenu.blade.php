@@ -30,7 +30,7 @@
               <ul class="menu-content">
                 <li><a class="menu-item" href="{{route('invoices.add')}}"><i></i><span data-i18n="Classic Menu">إنشاء فاتورة</span></a>
                 </li>
-                <li><a class="menu-item" href=""><i></i><span data-i18n="Classic Menu">عرض الفواتير</span></a>
+                <li><a class="menu-item" href="{{route('invoices.list')}}"><i></i><span data-i18n="Classic Menu">عرض الفواتير</span></a>
                 </li>
                 <li><a class="menu-item" href=""><i></i><span data-i18n="Classic Menu">مواعيد استحقاق الفواتير</span></a>
                 </li>

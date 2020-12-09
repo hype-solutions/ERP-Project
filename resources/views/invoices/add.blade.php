@@ -563,7 +563,7 @@ function getProductInfo(product,row){
 
     var branch_id = 1;
 
-    var get_branch_id = $('#branch_id').find(":selected").text();
+    var get_branch_id = $('#branch_id').val();
 
       if(get_branch_id > 0 ){
         branch_id = get_branch_id;
@@ -618,7 +618,7 @@ function getProductInfo(product,row){
             }
         });
 
-currentProductIds.push(product.value);
+//currentProductIds.push(product.value);
 
 // console.log(currentProductIds);
 
@@ -768,7 +768,7 @@ updateShipping();
 updateTotal();
 $("#tot_" + rowNum).closest('tr').remove();
 
-currentProductIds.pop(1);
+//currentProductIds.pop(1);
 }
 
 
@@ -824,45 +824,45 @@ function addField(argument) {
 //var requestData = JSON.stringify(myArr);
 
     //console.log(requestData);
-    $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-            }
-                        });
-        // var formData = {
-        //     other_ids: currentProductIds.value,
-        // };
-        var type = "POST";
-        var ajaxurl = "{{route('invoices.getOtherProducts')}}";
-        $.ajax({
-            type: type,
-            url: ajaxurl,
-            data: {
-                other_ids : currentProductIds
-            },
-            dataType: "json",
-            beforeSend: function () {
-                $("#addingRowBtn").prop("disabled",true);
-                $("#sel_x_"+ currentIndex).prop("disabled",true);
-  },
-  complete: function () {
-    $("#addingRowBtn").prop("disabled",false);
-    $("#sel_x_"+ currentIndex).prop("disabled",false);
+//     $.ajaxSetup({
+//             headers: {
+//                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+//             }
+//                         });
+//         // var formData = {
+//         //     other_ids: currentProductIds.value,
+//         // };
+//         var type = "POST";
+//         var ajaxurl = "{{--route('invoices.getOtherProducts')--}}";
+//         $.ajax({
+//             type: type,
+//             url: ajaxurl,
+//             data: {
+//                 other_ids : currentProductIds
+//             },
+//             dataType: "json",
+//             beforeSend: function () {
+//                 $("#addingRowBtn").prop("disabled",true);
+//                 $("#sel_x_"+ currentIndex).prop("disabled",true);
+//   },
+//   complete: function () {
+//     $("#addingRowBtn").prop("disabled",false);
+//     $("#sel_x_"+ currentIndex).prop("disabled",false);
 
-  },
-            success: function (data) {
+//   },
+//             success: function (data) {
 
-                for (var i = 0; i < data.length; i++) {
-                    $("#sel_x_"+ currentIndex).append("<option></option>");
-                    $("#sel_x_"+ currentIndex).append("<option value='"+ data[i].id +"'>"+ data[i].product_name +"</option>");
+//                 for (var i = 0; i < data.length; i++) {
+//                     $("#sel_x_"+ currentIndex).append("<option></option>");
+//                     $("#sel_x_"+ currentIndex).append("<option value='"+ data[i].id +"'>"+ data[i].product_name +"</option>");
 
 
-                }
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
+//                 }
+//             },
+//             error: function (data) {
+//                 console.log(data);
+//             }
+//         });
 
 
 
@@ -897,9 +897,9 @@ product_qty.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
 product_qty.setAttribute("placeholder", "0");
 
 var currentCell = currentRow.insertCell(-1);
-//currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_' + currentIndex + '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product['+currentIndex+'][id]" required onchange="return getProductInfo(this,'+currentIndex+')"><option></option> @foreach ($products as $product) <option value="{{$product->id}}">{{$product->product_name}}</option>  @endforeach</select></div>';
+currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_' + currentIndex + '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product['+currentIndex+'][id]" required onchange="return getProductInfo(this,'+currentIndex+')"><option></option> @foreach ($products as $product) <option value="{{$product->id}}">{{$product->product_name}}</option>  @endforeach</select></div>';
 
-currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_' + currentIndex + '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product['+currentIndex+'][id]" required onchange="return getProductInfo(this,'+currentIndex+')"> </select></div>';
+//currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_' + currentIndex + '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product['+currentIndex+'][id]" required onchange="return getProductInfo(this,'+currentIndex+')"> </select></div>';
 
 
 $('#sel_x_' + currentIndex).select2();

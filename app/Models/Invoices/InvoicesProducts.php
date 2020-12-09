@@ -19,4 +19,10 @@ class InvoicesProducts extends Model
         'status',
     ];
 
+    public function product()
+    {
+        return $this->hasOne('App\Models\Products\Products', 'id', 'product_id');
+    }
+
+
 }

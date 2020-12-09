@@ -75,13 +75,13 @@
                             </div>
                             @endif
 
-<form method="POST" action="{{route('purchasesorders.update',$purchaseOrder->id)}}">
+<form method="POST" action="{{route('invoices.update',$invoice->id)}}">
       @csrf
       @method('patch')
 
 
-      <input type="hidden" name="added_by" value="{{ $user_id }}" />
-      <input type="hidden" name="purchase_total" id="totalToSave" value="0" />
+      <input type="hidden" name="sold_by" value="{{ $user_id }}" />
+      <input type="hidden" name="invoice_total" id="totalToSave" value="0" />
 
   <div class="row">
     <div class="col-md-8">
@@ -90,17 +90,30 @@
                 <div class="card-body">
 
                         <div class="form-body">
-                            <h4 class="form-section"><i class="la la-flag"></i> تعديل أمر شراء</h4>
+                            <h4 class="form-section"><i class="la la-flag"></i> فاتورة جديدة</h4>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="text-bold-600 font-medium-2">
-                                         تغيير المورد
+                                         اختر الفرع
                                         </div>
-                                        <select class="select2-rtl form-control" data-placeholder="إختر المورد..." name="supplier_id"   required>
-                                            <option value="{{$purchaseOrder->supplier_id}}">{{$purchaseOrder->supplier->supplier_name}}</option>
-                                            @foreach ($suppliers as $supplier)
-                                            <option value="{{$supplier->id}}">{{$supplier->supplier_name}}</option>
+                                        <select class="select2-rtl form-control" data-placeholder="إختر الفرع..." name="branch_id" id="branch_id"  required>
+                                            <option value="{{$invoice->branch_id}}">{{$invoice->branch->branch_name}}</option>
+                                            @foreach ($branches as $branch)
+                                            <option value="{{$branch->id}}">{{$branch->branch_name}}</option>
+                                            @endforeach
+                                        </select>
+                                      </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="text-bold-600 font-medium-2">
+                                         اختر العميل
+                                        </div>
+                                        <select class="select2-rtl form-control" data-placeholder="إختر العميل..." name="customer_id"  required>
+                                            <option value="{{$invoice->customer_id}}">{{$invoice->customer->customer_name}}</option>
+                                            @foreach ($customers as $customer)
+                                            <option value="{{$customer->id}}">{{$customer->customer_name}}</option>
                                             @endforeach
                                         </select>
                                       </div>
@@ -124,7 +137,7 @@
 
                     <fieldset class="form-group">
                         <p class="text-muted">الشروط /  الملاحظات</p>
-                    <textarea class="form-control" name="purchase_note" rows="4" >{{$purchaseOrder->purchase_note}}</textarea>
+                    <textarea class="form-control" name="invoice_note" rows="4"  >{{$invoice->invoice_note}}</textarea>
                     </fieldset>
 
 
@@ -163,7 +176,7 @@
                                 <tr id="row_{{$key+1}}">
                                     <td>
                                         <div class="form-group product_sel">
-                                            <select class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product[{{$key+1}}][id]" required>
+                                            <select class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product[{{$key+1}}][id]" onchange="return getProductInfo(this,{{$key+1}})" required>
                                                 <option value="{{$item->product_id}}">{{$item->product->product_name}}</option>
                                                 @foreach ($products as $product)
                                                 <option value="{{$product->id}}">{{$product->product_name}}</option>
@@ -172,8 +185,8 @@
                                           </div>
                                     </td>
                                     <td><input type="text" class="product_input" name="product[{{$key+1}}][desc]" value="{{$item->product_desc}}"/></td>
-                                    <td><input type="text" class="product_input" id="p_p_{{$key+1}}" name="product[{{$key+1}}][price]"  value="{{$item->product_price}}" onblur="return reCalculate({{$key+1}})"/></td>
-                                    <td><input type="text" class="product_input" id="p_q_{{$key+1}}" name="product[{{$key+1}}][qty]"  value="{{$item->product_qty}}" onblur="return reCalculate({{$key+1}})" /></td>
+                                    <td><input type="number" class="product_input" id="p_p_{{$key+1}}" name="product[{{$key+1}}][price]"  value="{{$item->product_price}}" onblur="return reCalculate({{$key+1}})" min="0"/></td>
+                                    <td><input type="number" class="product_input" id="p_q_{{$key+1}}" name="product[{{$key+1}}][qty]"  value="{{$item->product_qty}}" onblur="return reCalculate({{$key+1}})"  min="0"/></td>
                                     <td>
                                         <span id="tot_{{$key+1}}">0</span> ج.م
                                     </td>
@@ -183,7 +196,7 @@
                                 <tr>
                                     <td colspan="2" style="border-style: none !important;">
                                         <div>
-                                            <button type="button" onclick="addField()" class="add-row btn m-b-xs btn-sm btn-success btn-addon btn-blue">
+                                            <button type="button" onclick="addField()" class="add-row btn m-b-xs btn-sm btn-success btn-addon btn-blue" id="addingRowBtn">
                                                 <i class="la la-plus"></i>
                                                 إضافة بند
                                             </button>
@@ -244,13 +257,13 @@
                               <div class="col-md-4"  id="dis_per">
                                   <div class="form-group">
                                       <label for="projectinput3">الخصم</label>
-                                      <input type="number" id="curr_per" class="form-control" placeholder="" name="discount_percentage" value="{{$purchaseOrder->discount_percentage}}" min="0" max="100" onblur="return calculateDiscount(1)">
+                                      <input type="number" id="curr_per" class="form-control" placeholder="" name="discount_percentage" value="{{$invoice->discount_percentage}}" min="0" max="100" onblur="return calculateDiscount(1)">
                                   </div>
                               </div>
                               <div class="col-md-4" style="display: none" id="dis_amount">
                                 <div class="form-group">
                                     <label for="projectinput3">الخصم</label>
-                                    <input type="number" id="curr_amount" class="form-control" placeholder="" name="discount_amount" value="{{$purchaseOrder->discount_amount}}" min="0" onblur="return calculateDiscount(2)">
+                                    <input type="number" id="curr_amount" class="form-control" placeholder="" name="discount_amount" value="{{$invoice->discount_amount}}" min="0" onblur="return calculateDiscount(2)">
                                 </div>
                             </div>
                               <div class="col-md-8">
@@ -270,9 +283,8 @@
                               <div class="col-md-12">
                                   <div class="form-group">
                                       <label for="projectinput3">مصاريف الشحن</label>
-                                      <input type="number" id="shipping_fees" class="form-control" placeholder="" name="shipping_fees" value="{{$purchaseOrder->shipping_fees}}" onblur="return updateShipping()" required>
+                                      <input type="number" id="shipping_fees" class="form-control" placeholder="" name="shipping_fees" value="{{$invoice->shipping_fees}}" onblur="return updateShipping()" required>
                                   </div>
-
                               </div>
                           </div>
 
@@ -280,40 +292,6 @@
 
                     </div>
               </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-content collapse show">
-                <div class="card-body">
-
-                    <fieldset class="checkboxsas">
-                        <label>
-                          <input type="checkbox" name="already_delivered" id="hasDelivered" @if($purchaseOrder->already_delivered) checked  @endif @if($purchaseOrder->delivery_date) onclick="return false;"  @endif>
-                         هل تم الإستلام بالفعل؟
-                                      </label>
-                    </fieldset>
-                    <div class="div" id="delivery_info"  @if($purchaseOrder->already_delivered) style="display: block" @else style="display: none" @endif>
-                        <fieldset class="form-group">
-                            <div class="label">تاريخ الإستلام</div>
-                            <input type="date" class="form-control" id="date"  name="delivery_date"  value="{{$purchaseOrder->delivery_date}}" @if($purchaseOrder->delivery_date) readonly  @endif>
-                        </fieldset>
-                        <div class="form-group">
-                            <label> اختر الفرع (المخزن) المستلم:</label>
-
-
-                            <select class="select2-rtl form-control" data-placeholder="إختر الفرع..." name="branch_id" @if($purchaseOrder->delivery_date) disabled  @endif>
-                                @if($purchaseOrder->branch_id > 0)
-                                <option value="{{$purchaseOrder->branch_id}}">{{$purchaseOrder->branch->branch_name}}</option>
-                                @else
-                                <option></option>
-                                @endif
-                                @foreach ($branches as $branch)
-                                <option value="{{$branch->id}}">{{$branch->branch_name}}</option>
-                                @endforeach
-                            </select>
-                          </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -324,52 +302,113 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    @if($invoice->already_paid)
+                    <h3>تم الدفع</h3>
+                    @else
+                    <div >
+                        <h4 class="form-section"><i class="la la-flag"></i> الدفعات <button onclick="addDofaa()" type="button" class="btn btn-success btn-sm"><i class="la la-plus"></i></button></h4>
+                        <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="dofaaTable">
+                            <thead>
+                                <tr>
+                                    <th>المبلغ</th>
+                                    <th>تاريخ الإستحقاق</th>
+                                    <th>تم دفعها؟</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($laterDates as $key2 => $item)
+                                <tr>
+                                    <th scope="row">
+                                        <div class="form-group">
+                                            <input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later[{{$key2+1}}][amount]" value="{{$item->amount}}">
+                                        </div>
+                                    </th>
+                                    <td>
+                                        <fieldset class="form-group">
+                                        <input type="date" class="form-control" id="date"   name="later[{{$key2+1}}][date]"  value="{{$item->date}}">
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        <div class="label">الملاحظات</div>
+                                        <textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later[{{$key2+1}}][notes]">{{$item->notes}}</textarea>
+                                    </fieldset>
+                                </td>
+
+                                    <td>
+
+
+                                        @if ($item->paid == 'Yes')
+                                        <fieldset class="checkboxsas">
+                                            <label>
+                                               تم الدفع
+                                              <input type="checkbox" name="" onclick="return false" checked>
+                                            </label>
+                                        </fieldset>
+                                        <div class="form-group">
+                                            <div class="label">رقم العملية في الخزنة:</div>
+                                            <input type="text" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later[1][safe_payment_id]" readonly>
+                                        </div>
+
+                                        @else
+                                        <fieldset class="checkboxsas">
+                                            <label>
+                                                دفع الان
+                                              <input type="checkbox" name="later[1][paynow]">
+                                            </label>
+                                        </fieldset>
+
+                                        @endif
+
+                                </tr>
+                                @endforeach
+
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                    @endif
+                    {{-- <div class="col-md-6" style="display: none">
                          <fieldset class="checkboxsas">
                             <label>
-                              <input type="checkbox" name="already_paid" id="hasPaid" @if($purchaseOrder->already_paid) checked  @endif>
+                              <input type="checkbox" name="already_paid" id="hasPaid">
                               هل تم الدفع بالفعل؟
                                           </label>
                         </fieldset>
 
-                    </div>
-                    <div class="col-md-6" id="notPaid" @if($purchaseOrder->already_paid) style="display: none" @else style="display: block" @endif>
+                    </div> --}}
+                    {{-- <div class="col-md-12" id="notPaid">
                         <div class="form-group">
                         <select class="form-control" id="payment_method" name="payment_method">
-                            <option value="{{$purchaseOrder->payment_method}}">تعديل طريقة الدفع</option>
+                            <option value="none">إختر طريقة الدفع</option>
                             <option value="cash">كاش</option>
                             <option value="visa">فيزا</option>
                             <option value="later">اجل (دفعات)</option>
                             <option value="bankTransfer">تحويل بنكي</option>
                         </select>
                     </div>
-                    </div>
-                    <div class="col-md-3" @if($purchaseOrder->already_paid) style="display: block" @else style="display: none" @endif  id="yesPaid">
+                    </div> --}}
+                    {{-- <div class="col-md-3" style="display: none" id="yesPaid">
                         <div class="form-group">
                             <div class="label">رقم العملية في الخزنة</div>
-                        <input type="text" class="form-control" name="safe_payment_id" value="{{$purchaseOrder->safe_payment_id}}"/>
+                        <input type="text" class="form-control" name="safe_payment_id"/>
                     </div>
                     </div>
-                    <div class="col-md-3" @if($purchaseOrder->already_paid) style="display: block" @else style="display: none" @endif id="yesPaid2">
+                    <div class="col-md-3" style="display: none" id="yesPaid2">
                         <div class="form-group">
-                        <label for="projectinput3">خصمت من:</label>
-                        <select class="select2-rtl form-control" data-placeholder="تعديل" name="safe_id_if_paid">
-                            @if($purchaseOrder->already_paid)
-                            <option value="{{$purchaseOrder->safe_id}}">{{$purchaseOrder->safe->safe_name}}</option>
-                            @else
+                        <label for="projectinput3">أضيفت الى:</label>
+                        <select class="select2-rtl form-control" data-placeholder="إختر الخزنة..." name="safe_id_if_paid">
                             <option></option>
-                            @endif
                             @foreach ($safes as $safe)
                             <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
                             @endforeach
                         </select>
                     </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-12" id="other_box" style="display: none">
+    {{-- <div class="col-md-12" id="other_box" style="display: none">
         <div class="card">
             <div class="card-body">
 
@@ -377,10 +416,10 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                    <label for="projectinput3">اختر الخزنة التي سيتم خصم المبلغ منها</label>
+                    <label for="projectinput3">إختر الخزنة التي سيتم التوريد بها</label>
                     <select class="select2-rtl form-control" data-placeholder="إختر الخزنة..." name="safe_id_not_paid">
                         <option></option>
-                        @foreach ($safes2 as $safe)
+                        @foreach ($safes as $safe)
                         <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
                         @endforeach
                     </select>
@@ -395,81 +434,13 @@
 
             </div>
         </div>
-    </div>
+    </div> --}}
 
-    <div class="col-md-12" id="later_box"  @if($purchaseOrder->payment_method == 'later') style="display: block" @else style="display: none" @endif >
+    <div class="col-md-12" id="later_box" style="display: none">
         <div class="card">
             <div class="card-body">
 
-        <div >
-            <h4 class="form-section"><i class="la la-flag"></i> الدفعات <button onclick="addDofaa()" type="button" class="btn btn-success btn-sm"><i class="la la-plus"></i></button></h4>
-            <div class="table-responsive">
-            <table class="table table-bordered   table-hover" id="dofaaTable">
-                <thead>
-                    <tr>
-                        <th>المبلغ</th>
-                        <th>تاريخ الإستحقاق</th>
-                        <th>تم دفعها؟</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($laterDates as $key2 => $item)
-                    <tr>
-                        <th scope="row">
-                            <div class="form-group">
-                                <input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later[{{$key2+1}}][amount]" value="{{$item->amount}}">
-                            </div>
-                        </th>
-                        <td>
-                            <fieldset class="form-group">
-                            <input type="date" class="form-control" id="date"   name="later[{{$key2+1}}][date]"  value="{{$item->date}}">
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <div class="label">الملاحظات</div>
-                            <textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later[{{$key2+1}}][notes]">{{$item->notes}}</textarea>
-                        </fieldset>
-                    </td>
 
-                        <td>
-                            <fieldset class="checkboxsas">
-                                <label>
-                                    مدفوعه
-                                  <input type="checkbox" name="later[{{$key2+1}}][paid]" @if($item->paid != 'No') checked  @endif onchange="return laterPaid({{$key2+1}})">
-                                </label>
-                            </fieldset>
-
-
-                            <div id="later_dates_{{$key2+1}}" @if($item->paid != 'No') style="display: block" @else style="display:none;"  @endif>
-                            <div class="form-group">
-                                <div class="label">رقم العملية في الخزنة:</div>
-                                <input type="text" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later[{{$key2+1}}][safe_payment_id]" value="{{$item->safe_payment_id}}">
-                            </div>
-                            <div class="form-group">
-                                <label for="projectinput3">خصمت من:</label>
-                                <select class="select2-rtl form-control" data-placeholder="تعديل" name="later[{{$key2+1}}][safe_id]">
-                                    @if($item->paid  != 'No')
-                                        @if($item->safe_id)
-                                    <option value="{{$item->safe_id}}">{{$item->safe->safe_name}}</option>
-                                        @else
-                                        <option></option>
-                                        @endif
-                                    @else
-                                    <option></option>
-                                    @endif
-                                    @foreach ($safes as $safe)
-                                    <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            </div>
-
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            </div>
-        </div>
 
 
 
@@ -527,15 +498,100 @@
     <script src="{{ asset('theme/app-assets/js/scripts/forms/switch.min.js') }}"></script>
     <script>
 
-function laterPaid(row){
-    if($('#later_dates_'+row+':visible').length == 0)
-        {
-            $('#later_dates_'+row).show();
-        }else{
-            $('#later_dates_'+row).hide();
-        }
+$(document).ready(function () {
+
+    for (let index = 1; index < {{$key+2}}; index++) {
+    reCalculate(index);
 }
 
+
+
+
+     currentProductIds = [];
+$('#hasPaid').change(function () {
+
+    if ($('#hasPaid').prop('checked')) {
+        $('#notPaid').hide();
+        $('#yesPaid').show();
+        $('#yesPaid2').show();
+        $('#other_box').hide();
+        $('#later_box').hide();
+
+
+
+        }else{
+        $('#yesPaid').hide();
+        $('#yesPaid2').hide();
+        $('#notPaid').show();
+
+    }
+    });
+    });
+
+function getProductInfo(product,row){
+
+    var branch_id = 1;
+
+    var get_branch_id = $('#branch_id').val();
+
+      if(get_branch_id > 0 ){
+        branch_id = get_branch_id;
+          }else{
+             branch_id = 1;
+        }
+
+    //ajax call to get product available amount in this branch and selling price
+    $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+            }
+                        });
+        var formData = {
+            branch: branch_id,
+            product: product.value,
+        };
+        var type = "POST";
+        var ajaxurl = "{{route('products.fetchQty')}}";
+        $.ajax({
+            type: type,
+            url: ajaxurl,
+            data: formData,
+            dataType: 'json',
+            beforeSend: function () {
+                $("#addingRowBtn").prop("disabled",true);
+            },
+            success: function (data) {
+
+               // $("#p_q_1").val(data.amount);
+                 $("#p_q_"+row).attr({"max" : data.amount });
+                 $("#p_q_"+row).attr({"placeholder" : "متاح: "+data.amount });
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+
+        var ajaxurl = "{{route('products.fetchPrice')}}";
+        $.ajax({
+            type: type,
+            url: ajaxurl,
+            data: formData,
+            dataType: 'json',
+            success: function (data) {
+                $("#p_p_"+row).val(data.price);
+                reCalculate(row);
+                $("#addingRowBtn").prop("disabled",false);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+
+//currentProductIds.push(product.value);
+
+// console.log(currentProductIds);
+
+}
 
 function updateTotal() {
 
@@ -681,23 +737,27 @@ updateShipping();
 updateTotal();
 $("#tot_" + rowNum).closest('tr').remove();
 
+//currentProductIds.pop(1);
 }
 
 
 $('#payment_method').on('change', function() {
 if (this.value == 'later') {
   //$('#init_box').hide();
-  $('#other_box').hide();
+  //$('#other_box').hide();
   $('#later_box').show();
+  $('#hasPaid').prop( "checked", false );
 
 } else if (this.value == 'cash' || this.value == 'visa' || this.value == 'bankTransfer') {
   //$('#init_box').hide();
   $('#later_box').hide();
-  $('#other_box').show();
+  //$('#other_box').show();
+  $('#hasPaid').prop( "checked", true );
 } else {
   $('#later_box').hide();
-  $('#other_box').hide();
+  //$('#other_box').hide();
   $('#init_box').show();
+  $('#hasPaid').prop( "checked", false );
 }
 });
 
@@ -714,16 +774,12 @@ var currentCell = currentRow.insertCell(-1);
 currentCell.innerHTML = '<div class="form-group"><input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later['+currentIndex+'][amount]" value="0" required></div>';
 
 var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="form-control" id="date" value="2020-08-19" name="later['+currentIndex+'][date]"></fieldset><fieldset class="form-group"><label>الملاحظات</label><textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later['+currentIndex+'][notes]"></textarea></fieldset>';
-
-//var currentCell = currentRow.insertCell(-1);
-//currentCell.innerHTML = '<fieldset class="checkboxsas"><label><input type="checkbox" name="later['+currentIndex+'][paid]">مدفوعه</label></fieldset>';
-
+currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="form-control" id="date" value="2011-08-19" name="later['+currentIndex+'][date]"></fieldset><fieldset class="form-group"><textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later['+currentIndex+'][notes]"></textarea></fieldset>';
 
 var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = '<fieldset class="checkboxsas"><label>مدفوعه<input type="checkbox" name="later['+currentIndex+'][paid]" onchange="return laterPaid('+currentIndex+')"></label></fieldset><div id="later_dates_'+currentIndex+'" style="display:none;"><div class="form-group"><div class="label">رقم العملية في الخزنة:</div><input type="text" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later['+currentIndex+'][safe_payment_id]"></div><div class="form-group"><label for="projectinput3">خصمت من:</label><select class="select2-rtl form-control" data-placeholder="تعديل" name="later['+currentIndex+'][safe_id]"><option></option> @foreach ($safes as $safe) <option value="{{$safe->id}}">{{$safe->safe_name}}</option> @endforeach </select></div></div>';
-
-
+//currentCell.innerHTML = '<fieldset class="checkboxsas"><label><input type="checkbox" name="later['+currentIndex+'][paid]">مدفوعه</label></fieldset>';
+//currentCell.innerHTML = '<fieldset class="checkboxsas"><label>مدفوعه<input type="checkbox" name="later['+currentIndex+'][paid]" onchange="return laterPaid('+currentIndex+')"></label></fieldset><div id="later_dates_'+currentIndex+'" style="display:none;"><div class="form-group"><div class="label">رقم العملية في الخزنة:</div><input type="text" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later['+currentIndex+'][safe_payment_id]"></div><div class="form-group"><label for="projectinput3">خصمت من:</label><select class="select2-rtl form-control" data-placeholder="تعديل" name="later['+currentIndex+'][safe_id]"><option></option> @foreach ($safes as $safe) <option value="{{$safe->id}}">{{$safe->safe_name}}</option> @endforeach </select></div></div>';
+currentCell.innerHTML = '<fieldset class="checkboxsas"><label>دفع الان <input type="checkbox" name="later['+currentIndex+'][paynow]"></label></fieldset>'
 
 }
 
@@ -731,6 +787,54 @@ currentCell.innerHTML = '<fieldset class="checkboxsas"><label>مدفوعه<input
 
 
 function addField(argument) {
+
+   // requestData = ['1'];
+    //var requestData = JSON.stringify(currentProductIds[0]);
+//var requestData = JSON.stringify(myArr);
+
+    //console.log(requestData);
+//     $.ajaxSetup({
+//             headers: {
+//                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+//             }
+//                         });
+//         // var formData = {
+//         //     other_ids: currentProductIds.value,
+//         // };
+//         var type = "POST";
+//         var ajaxurl = "{{--route('invoices.getOtherProducts')--}}";
+//         $.ajax({
+//             type: type,
+//             url: ajaxurl,
+//             data: {
+//                 other_ids : currentProductIds
+//             },
+//             dataType: "json",
+//             beforeSend: function () {
+//                 $("#addingRowBtn").prop("disabled",true);
+//                 $("#sel_x_"+ currentIndex).prop("disabled",true);
+//   },
+//   complete: function () {
+//     $("#addingRowBtn").prop("disabled",false);
+//     $("#sel_x_"+ currentIndex).prop("disabled",false);
+
+//   },
+//             success: function (data) {
+
+//                 for (var i = 0; i < data.length; i++) {
+//                     $("#sel_x_"+ currentIndex).append("<option></option>");
+//                     $("#sel_x_"+ currentIndex).append("<option value='"+ data[i].id +"'>"+ data[i].product_name +"</option>");
+
+
+//                 }
+//             },
+//             error: function (data) {
+//                 console.log(data);
+//             }
+//         });
+
+
+
 var myTable = document.getElementById("myTable");
 var currentIndex = myTable.rows.length;
 var currentRow = myTable.insertRow(myTable.rows.length - 5);
@@ -746,20 +850,27 @@ product_desc.setAttribute("class", "product_input");
 
 var product_price = document.createElement("input");
 product_price.setAttribute("name", "product[" + currentIndex + "][price]");
+product_price.setAttribute("type", "number");
+product_price.setAttribute("min", "0");
 product_price.setAttribute("class", "product_input");
 product_price.setAttribute("id", "p_p_" + currentIndex);
 product_price.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
 
 var product_qty = document.createElement("input");
 product_qty.setAttribute("name", "product[" + currentIndex + "][qty]");
+product_price.setAttribute("type", "number");
+product_price.setAttribute("min", "0");
 product_qty.setAttribute("class", "product_input");
 product_qty.setAttribute("id", "p_q_" + currentIndex);
 product_qty.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
-product_qty.setAttribute("value", "0");
-
+product_qty.setAttribute("placeholder", "0");
 
 var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_' + currentIndex + '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product['+currentIndex+'][id]" required><option></option> @foreach ($products as $product) <option value="{{$product->id}}">{{$product->product_name}}</option>@endforeach</select></div>';
+currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_' + currentIndex + '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product['+currentIndex+'][id]" required onchange="return getProductInfo(this,'+currentIndex+')"><option></option> @foreach ($products as $product) <option value="{{$product->id}}">{{$product->product_name}}</option>  @endforeach</select></div>';
+
+//currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_' + currentIndex + '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product['+currentIndex+'][id]" required onchange="return getProductInfo(this,'+currentIndex+')"> </select></div>';
+
+
 $('#sel_x_' + currentIndex).select2();
 
 currentCell = currentRow.insertCell(-1);
@@ -778,49 +889,6 @@ var currentCell = currentRow.insertCell(-1);
 currentCell.innerHTML = '<center><button type="button" class="btn btn-danger btn-sm" onclick="return delRow(' + currentIndex + ')" style="vertical-align:center">X</button></center>';
 }
 
-$(document).ready(function () {
-
-for (let index = 1; index < {{$key+2}}; index++) {
-    reCalculate(index);
-}
-
-
-
-$('#hasDelivered').change(function () {
-
-if ($('#hasDelivered').prop('checked')) {
-    $('#delivery_info').show();
-}else{
-    $('#delivery_info').hide();
-}
-
-});
-
-
-
-$('#hasPaid').change(function () {
-
-    if ($('#hasPaid').prop('checked')) {
-        $('#notPaid').hide();
-        $('#yesPaid').show();
-        $('#yesPaid2').show();
-        $('#other_box').hide();
-        $('#later_box').hide();
-
-
-
-        }else{
-        $('#yesPaid').hide();
-        $('#yesPaid2').hide();
-        $('#notPaid').show();
-
-    }
-    });
-
-
-
-
-    });
         </script>
 
  @endsection

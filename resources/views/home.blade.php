@@ -28,6 +28,18 @@
 
                 <div class="row">
                     <div class="col-md-2 col-sm-6">
+                        <div class="card text-white box-shadow-0 bg-gradient-x-secondary">
+                            <div class="card-content collapse show">
+                                <div class="card-body text-center">
+                                    <a href="{{ route('invoices.list') }}">
+                                    <h2>الفواتير</h2>
+                                    <img style="width:100%" src="{{ asset('theme/app-assets/images/custom/invoice.png') }}" />
+                                    </a>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="col-md-2 col-sm-6">
                         <div class="card text-white box-shadow-0 bg-gradient-x-primary">
 
                             <div class="card-content collapse show">
@@ -88,6 +100,7 @@
                 </div>
             </div>
         </div>
+
 
             </section>
 
