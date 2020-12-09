@@ -346,14 +346,14 @@
                                         </fieldset>
                                         <div class="form-group">
                                             <div class="label">رقم العملية في الخزنة:</div>
-                                            <input type="text" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later[1][safe_payment_id]" readonly>
+                                            <input type="text" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later[{{$key2+1}}][safe_payment_id]" readonly>
                                         </div>
 
                                         @else
                                         <fieldset class="checkboxsas">
                                             <label>
                                                 دفع الان
-                                              <input type="checkbox" name="later[1][paynow]">
+                                              <input type="checkbox" name="later[{{$key2+1}}][paynow]">
                                             </label>
                                         </fieldset>
 
