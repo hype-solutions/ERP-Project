@@ -20,9 +20,9 @@
               </li>
             <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">عروض أسعار</span></a>
               <ul class="menu-content">
-                <li><a class="menu-item" href=""><i></i><span data-i18n="Classic Menu">إنشاء عرض سعر</span></a>
+                <li><a class="menu-item" href="{{route('invoicespricequotations.add')}}"><i></i><span data-i18n="Classic Menu">إنشاء عرض سعر</span></a>
                 </li>
-                <li><a class="menu-item" href=""><i></i><span data-i18n="Classic Menu"> عرض عروض الأسعار</span></a>
+                <li><a class="menu-item" href="{{route('invoicespricequotations.list')}}"><i></i><span data-i18n="Classic Menu"> عرض عروض الأسعار</span></a>
                 </li>
               </ul>
             </li>

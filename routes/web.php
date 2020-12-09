@@ -10,6 +10,7 @@ use App\Http\Controllers\BranchesController;
 use App\Http\Controllers\SafesController;
 use App\Http\Controllers\PurchasesOrdersController;
 use App\Http\Controllers\InvoicesController;
+use App\Http\Controllers\InvoicesPriceQuotationController;
 
 
 
@@ -83,15 +84,28 @@ Route::post('/purchase_orders/adding', [PurchasesOrdersController::class, 'store
 Route::get('/purchase_orders/edit/{order}', [PurchasesOrdersController::class, 'edit'])->name('purchasesorders.edit');
 Route::patch('/purchase_orders/update/{order}', [PurchasesOrdersController::class, 'update'])->name('purchasesorders.update');
 
+
+
 /*************************
-******** Invoices ********
+**** Selling Channels ****
 **************************/
+//Invoices
 Route::get('/invoices', [InvoicesController::class, 'invoicesList'])->name('invoices.list');
 Route::get('/invoices/add', [InvoicesController::class, 'add'])->name('invoices.add');
 Route::post('/invoices/adding', [InvoicesController::class, 'store'])->name('invoices.adding');
 Route::get('/invoices/edit/{invoice}', [InvoicesController::class, 'edit'])->name('invoices.edit');
 //Route::post('/invoices/getOtherProducts', [InvoicesController::class, 'getOtherProducts'])->name('invoices.getOtherProducts');
 Route::patch('/invoices/update/{invoice}', [InvoicesController::class, 'update'])->name('invoices.update');
+
+//Price Quotations
+Route::get('/invoices/price_quotations', [InvoicesPriceQuotationController::class, 'invoicesPriceQuotationsList'])->name('invoicespricequotations.list');
+Route::get('/invoices/price_quotations/add', [InvoicesPriceQuotationController::class, 'add'])->name('invoicespricequotations.add');
+Route::post('/invoices/price_quotations/adding', [InvoicesPriceQuotationController::class, 'store'])->name('invoicespricequotations.adding');
+Route::get('/invoices/price_quotations/edit/{invoice}', [InvoicesPriceQuotationController::class, 'edit'])->name('invoicespricequotations.edit');
+Route::patch('/invoices/price_quotations/update/{invoice}', [InvoicesPriceQuotationController::class, 'update'])->name('invoicespricequotations.update');
+
+
+
 
 
 /*************************
