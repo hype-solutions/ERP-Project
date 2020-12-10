@@ -40,9 +40,9 @@
         </li>
         <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/menu/2.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>المشاريع</a>
             <ul class="menu-content">
-              <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">انشاء مشروع</span></a>
+              <li><a class="menu-item" href="{{route('projects.add')}}"><i class="la la-arrows-v"></i><span data-i18n="Vertical">انشاء مشروع</span></a>
               </li>
-              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض المشاريع</span></a>
+              <li><a class="menu-item" href="{{route('projects.list')}}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض المشاريع</span></a>
               </li>
             </ul>
           </li>
