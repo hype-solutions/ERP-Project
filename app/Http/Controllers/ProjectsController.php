@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customers\Customers;
+use App\Models\Products\Products;
 use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
@@ -12,6 +14,7 @@ class ProjectsController extends Controller
     }
     public function add()
     {
-        return view('projects.add');
+        $customers = Customers::all();
+        return view('projects.add',compact('customers'));
     }
 }
