@@ -114,8 +114,8 @@ Route::patch('/invoices/price_quotations/update/{invoice}', [InvoicesPriceQuotat
 Route::get('/projects', [ProjectsController::class, 'projectsList'])->name('projects.list');
 Route::get('/projects/add', [ProjectsController::class, 'add'])->name('projects.add');
 Route::post('/projects/adding', [ProjectsController::class, 'store'])->name('projects.adding');
-Route::get('/projects/edit/{order}', [ProjectsController::class, 'edit'])->name('projects.edit');
-Route::patch('/projects/update/{order}', [ProjectsController::class, 'update'])->name('projects.update');
+Route::get('/projects/edit/{project}', [ProjectsController::class, 'edit'])->name('projects.edit');
+Route::patch('/projects/update/{project}', [ProjectsController::class, 'update'])->name('projects.update');
 
 
 

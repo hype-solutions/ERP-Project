@@ -11,7 +11,11 @@ class Projects extends Model
     protected $table = 'projects';
     protected $fillable = [
         'project_status',
-        'customer_id'
+        'customer_id',
+        'project_name',
+        'project_start_date',
+        'project_end_date',
+
     ];
 
     public function customer()

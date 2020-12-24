@@ -18,12 +18,12 @@
 <div class="content-wrapper">
     <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2">
-          <h3 class="content-header-title mb-0">قائمة العملاء</h3>
+          <h3 class="content-header-title mb-0">فواتير البيع</h3>
           <div class="row breadcrumbs-top">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('home')}}">البرنامج</a></li>
-            <li class="breadcrumb-item"><a href="{{route('customers.list')}}">العملاء</a></li>
+            <li class="breadcrumb-item"><a href="{{route('projects.list')}}">فواتير البيع</a></li>
                 <li class="breadcrumb-item active">استعراض
                 </li>
               </ol>
@@ -32,8 +32,8 @@
         </div>
         <div class="content-header-right text-md-right col-md-6 col-12">
           <div class="btn-group">
-          <a href="{{route('customers.add')}}" class="btn btn-outline-success block btn-lg" >
-                إضافه عميل جديد
+          <a href="{{route('projects.add')}}" class="btn btn-outline-success block btn-lg" >
+                إضافه مشروع جديدة
             </a>
 
           </div>
@@ -61,7 +61,7 @@
 
 
     @if(session()->has('success'))
-        @if(session()->get('success') == 'Customer deleted' )
+        @if(session()->get('success') == 'project deleted' )
     <div class="alert alert-icon-left alert-success alert-dismissible mb-2" role="alert">
         <span class="alert-icon"><i class="la la-thumbs-o-up"></i></span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -121,49 +121,32 @@
                 <table id="users-list-datatable" class="table">
                     <thead>
                         <tr>
-                            <th>رقم العميل</th>
+                            <th>رقم المشروع</th>
                             <th>بيانات العميل</th>
-                            <th>الموبايل</th>
-                            <th>التليفون</th>
-                            <th>الإيميل</th>
+                            <th>الحالة</th>
                             <th>التحكم</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($customers as $customer)
+                        @foreach ($projects as $project)
                         <tr>
-                            <td>{{ $customer->id }}</td>
-                            <td><li class="la la-user"></li>
-                                {{ $customer->customer_name }}
-                                @if(isset($customer->customer_title))
-                                <br/>
-                                <li class="la la-briefcase"></li>
-                                {{ $customer->customer_title }}
-                                @endif
-                                @if(isset($customer->customer_company))
-                                <br/>
-                                <li class="la la-home"></li>
-                                {{ $customer->customer_company }}
-                                @endif
-                            </td>
-                            <td><li class="la la-mobile"></li> {{ $customer->customer_mobile }}</td>
-                            <td><li class="la la-phone"></li>
-                                @if(isset($customer->customer_phone))
-                                {{ $customer->customer_phone }}
-                                @else
-                                <span>غير مسجل</span>
-                                @endif
-                            </td>
-                            <td><li class="la la-envelope"></li>
-                                @if(isset($customer->customer_email))
-                                {{ $customer->customer_email }}
-                                @else
-                                <span>غير مسجل</span>
-                                @endif
-                            </td>
+                            <td>{{$project->id}}</td>
+                            <td>{{$project->customer->customer_name}}</td>
                             <td>
-                                <a href="{{ route('customers.view', $customer->id) }}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
-                                <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-primary btn-sm"><i class="la la-pencil-square-o"></i> تعديل</a>
+                                @if($project->already_paid > 0)
+                                <div class="badge badge-success">
+                                  <i class="la la-money font-medium-2"></i>
+                                      <span>مدفوع</span>
+                                  </div>
+                                @else
+                                <div class="badge badge-danger">
+                                  <i class="la la-money font-medium-2"></i>
+                                      <span>لم يدفع</span>
+                                  </div>
+                                @endif</td>
+                            <td>
+                                <a href="" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
+                                <a href="{{route('projects.edit',$project->id)}}" class="btn btn-primary btn-sm"><i class="la la-pencil-square-o"></i> تعديل</a>
                              </td>
                         </tr>
                         @endforeach

@@ -10,6 +10,9 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/forms/selects/select2.min.css') }}">
 
 <style>
+    .wizard > .actions > ul {
+  display: none;
+}
     .product_input{
     width: 100%;
     padding: 0 4px;
@@ -96,8 +99,8 @@
             <div class="card">
                 <div class="card-content collapse show">
                     <div class="card-body">
-                        <form action="#" class="icons-tab-steps wizard-notification">
-
+                        <form action="{{ route('projects.adding') }}" method="POST" class="icons-tab-steps wizard-notification">
+                            @csrf
                             <!-- Step 1 -->
                             <h6><i class="step-icon la la-eye"></i> بيانات المشروع</h6>
                             <fieldset>
@@ -105,7 +108,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="firstName2">اسم المشروع:</label>
-                                            <input type="text" class="form-control" id="firstName2">
+                                            <input type="text" class="form-control" id="firstName2" name="project_name" required>
                                         </div>
                                     </div>
 
@@ -128,447 +131,46 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="date2">تاريخ بداية المشروع:</label>
-                                            <input type="date" class="form-control" id="date2">
+                                            <input type="date" class="form-control" id="date2" name="project_start_date">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="date2">موعد استحقاق المشروع:</label>
-                                            <input type="date" class="form-control" id="date2">
+                                            <input type="date" class="form-control" id="date2" name="project_end_date">
                                         </div>
                                     </div>
                                 </div>
-
+                                <div class="form-group mt-3">
+                                    <button type="submit" class="btn mb-1 btn-primary btn-lg btn-block btn-glow ">حفظ</button>
+                                </div>
                             </fieldset>
 
                             <!-- Step 1 -->
                             <h6><i class="step-icon la la-eye"></i> المعاينة</h6>
                             <fieldset>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <fieldset class="form-group">
-                                            <label>أرفق ملفات المعاينة</label>
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="inputGroupFile02">
-                                                <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFile02">اختر الملف </label>
-                                            </div>
-                                        </fieldset>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>اسم الملف</th>
-                                                        <th>نوع الملف</th>
-                                                        <th>التحكم</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <th scope="row">1</th>
-                                                        <td>المعاينة الأولى</td>
-                                                        <td>PDF</td>
-                                                        <td>
-                                                            <button class="btn btn-success btn-sm">استعراض</button>
-                                                            <button class="btn btn-danger btn-sm">حذف</button>
-                                                        </td>
-                                                    </tr>
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-
-
                             </fieldset>
-
-                            <!-- Step 2 -->
                             <h6><i class="step-icon la la-th-list"></i>عرض السعر</h6>
                             <fieldset>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="card">
-                                            <div class="card-content collapse show">
-                                                <div class="card-body">
-
-
-
-                                                    <ul class="nav nav-tabs nav-top-border no-hover-bg">
-                                                        <li class="nav-item">
-                                                          <a class="nav-link active" id="base-tab11" data-toggle="tab" aria-controls="tab11" href="#tab11" aria-expanded="true">الخصم</a>
-                                                        </li>
-                                                        <li class="nav-item">
-                                                          <a class="nav-link" id="base-tab13" data-toggle="tab" aria-controls="tab13" href="#tab13" aria-expanded="false">الشحن</a>
-                                                        </li>
-                                                      </ul>
-                                                      <div class="tab-content px-1 pt-1">
-                                                          <div role="tabpanel" class="tab-pane active" id="tab11" aria-expanded="true" aria-labelledby="base-tab11">
-                                                           <div class="row">
-                                                                <div class="col-md-4"  id="dis_per">
-                                                                    <div class="form-group">
-                                                                        <label for="projectinput3">الخصم</label>
-                                                                        <input type="number" id="curr_per" class="form-control" placeholder="" name="discount_percentage" value="0" min="0" max="100" onblur="return calculateDiscount(1)">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4" style="display: none" id="dis_amount">
-                                                                  <div class="form-group">
-                                                                      <label for="projectinput3">الخصم</label>
-                                                                      <input type="number" id="curr_amount" class="form-control" placeholder="" name="discount_amount" value="0" min="0" onblur="return calculateDiscount(2)">
-                                                                  </div>
-                                                              </div>
-                                                                <div class="col-md-8">
-                                                                    <div class="form-group">
-                                                                        <label for="projectinput3">النوع</label>
-
-                                                                        <select class="form-control" onchange="return changeDisType(this)">
-                                                                            <option value="percent">نسبة مئوية (%)</option>
-                                                                            <option value="fixed">المبلغ</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                         <div class="tab-pane" id="tab13" aria-labelledby="base-tab13">
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                        <label for="projectinput3">مصاريف الشحن</label>
-                                                                        <input type="number" id="shipping_fees" class="form-control" placeholder="" name="shipping_fees" value="0" onblur="return updateShipping()" required>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-
-                                                      </div>
-
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="table-responsive">
-                                            <table class="table mb-0 table-bordered" id="myTable" style="overflow: hidden;">
-                                                <thead class="bg-yellow bg-lighten-4">
-                                                    <tr>
-                                                        <th style="width: 250px">البند</th>
-                                                            <span class="tooltip">
-                                                                <a href="#" tabindex="-1"><img src="/css/images/question-ar.png" class="tips-image"></a>
-                                                            </span>
-                                                        </th>
-                                                        <th>سعر الوحدة</th>
-                                                        <th>الكمية</th>
-                                                        <th>المجموع</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr id="row_1">
-
-                                                        <td><input type="text" class="product_input" name="product[1][desc]"/></td>
-                                                        <td><input type="number" class="product_input" id="p_p_1" name="product[1][price]" onblur="return reCalculate(1)" min="0"/></td>
-                                                        <td><input type="number" class="product_input" id="p_q_1" name="product[1][qty]" onblur="return reCalculate(1)" min="0" placeholder="0"/></td>
-                                                        <td>
-                                                            <span id="tot_1">0</span> ج.م
-                                                        </td>
-                                                        <td></td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td colspan="2" style="border-style: none !important;">
-                                                            <div>
-                                                                <button type="button" onclick="addField()" class="add-row btn m-b-xs btn-sm btn-success btn-addon btn-blue" id="addingRowBtn">
-                                                                    <i class="la la-plus"></i>
-                                                                    إضافة بند
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                        <td colspan="2" class="text-right"  style="border-style: none !important;"><strong>الإجمالي</strong></td>
-                                                        <td class="text-left"  style="border-style: none !important;"><code><span id="total_after_all">0</span></code>&nbsp;ج.م</td>
-                                                        <td></td>
-                                                    </tr>
-                                                    <tr id="hidden-row-1" style="display: none">
-                                                        <td colspan="4" class="text-right"><strong> الخصم (النسبة)[<span id="discount_percentage" style="color: goldenrod">0</span>%]</strong></td>
-                                                        <td id="TotalValue" class="text-left"><code><span id="discount_percentage_amount">0</span></code>&nbsp;ج.م</td>
-                                                        <td></td>
-                                                     </tr>
-                                                     <tr id="hidden-row-2" style="display: none">
-                                                        <td colspan="4" class="text-right"><strong>الخصم (المبلغ)</strong></td>
-                                                        <td id="TotalValue" class="text-left"><code><span id="discount_amount">0</span></code>&nbsp;ج.م</td>
-                                                        <td></td>
-                                                     </tr>
-                                                     <tr id="hidden-row-3" style="display: none">
-                                                        <td colspan="4" class="text-right"><strong>الشحن</strong></td>
-                                                        <td id="TotalValue" class="text-left"><code><span id="shipping">0</span></code>&nbsp;ج.م</td>
-                                                        <td></td>
-                                                     </tr>
-                                                    <tr>
-                                                        <td colspan="4" class="text-right"><strong>الإجمالي</strong></td>
-                                                        <td id="TotalValue" class="text-left"><code><span id="total_after_all2">0</span></code>&nbsp;ج.م</td>
-                                                        <td></td>
-                                                     </tr>
-
-                                                </tbody>
-                                            </table>
-
-                                        </div>
-                                    </div>
-
-                                </div>
                             </fieldset>
 
                             <!-- Step 3 -->
                             <h6><i class="step-icon la la-list-alt"></i>بنود العقد</h6>
                             <fieldset>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <fieldset class="form-group">
-                                            <label>أرفق بنود العقد</label>
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="inputGroupFile02">
-                                                <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFile02">اختر الملف </label>
-                                            </div>
-                                        </fieldset>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>اسم الملف</th>
-                                                        <th>نوع الملف</th>
-                                                        <th>التحكم</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <th scope="row">1</th>
-                                                        <td>العقد الإبتدائي</td>
-                                                        <td>DOCX</td>
-                                                        <td>
-                                                            <button class="btn btn-success btn-sm">استعراض</button>
-                                                            <button class="btn btn-danger btn-sm">حذف</button>
-                                                        </td>
-                                                    </tr>
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
                             </fieldset>
 
                             <!-- Step 4 -->
                             <h6><i class="step-icon la la-money"></i>الدفعات</h6>
                             <fieldset>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div >
-                                            <h4 class="form-section"><i class="la la-flag"></i> الدفعات <button onclick="addDofaa()" type="button" class="btn btn-success btn-sm"><i class="la la-plus"></i></button></h4>
-                                            <div class="table-responsive">
-                                            <table class="table table-bordered table-striped" id="dofaaTable">
-                                                <thead>
-                                                    <tr>
-                                                        <th>المبلغ</th>
-                                                        <th>تاريخ الإستحقاق</th>
-                                                        <th>تم دفعها؟</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <th scope="row">
-                                                            <div class="form-group">
-                                                                <input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later[1][amount]" value="0">
-                                                            </div>
-                                                        </th>
-                                                        <td>
-                                                            <fieldset class="form-group">
-                                                            <input type="date" class="form-control" id="date" value="2020-08-19" name="later[1][date]">
-                                                        </fieldset>
-                                                        <fieldset class="form-group">
-                                                            <div class="labrl">الملاحظات</div>
-                                                            <textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later[1][notes]"></textarea>
-                                                        </fieldset>
-                                                    </td>
-
-                                                        <td>
-                                                            {{-- <fieldset class="checkboxsas">
-                                                                <label>
-                                                                    مدفوعه مسبقا
-                                                                  <input type="checkbox" name="later[1][paid]"  onchange="return laterPaid(1)">
-                                                                </label>
-                                                            </fieldset> --}}
-                                                            <fieldset class="checkboxsas">
-                                                                <label>
-                                                                    دفع الان
-                                                                  <input type="checkbox" name="later[1][paynow]">
-                                                                </label>
-                                                            </fieldset>
-                                                            {{-- <div id="later_dates_1" style="display:none;">
-                                                            <div class="form-group">
-                                                                <div class="label">رقم العملية في الخزنة:</div>
-                                                                <input type="text" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later[1][safe_payment_id]">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="projectinput3">الخزنة:</label>
-                                                                <select class="select2-rtl form-control" data-placeholder="تعديل" name="later[1][safe_id]">
-                                                                    <option></option>
-                                                                    @foreach ($safes as $safe)
-                                                                    <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            </div> --}}
-                                                            {{-- <div id="pay_now_1" style="display:none;">
-                                                                <div class="form-group">
-                                                                    <label for="projectinput3">توريد:</label>
-                                                                    <select class="select2-rtl form-control" data-placeholder="تعديل" name="later[1][safe_id]">
-                                                                        <option></option>
-                                                                        @foreach ($safes as $safe)
-                                                                        <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                                </div> --}}
-                                                        </td>
-                                                    </tr>
-
-                                                </tbody>
-                                            </table>
-                                            </div>
-                                        </div>
-
-
-
-                                    </div>
-
-                                </div>
                             </fieldset>
                             <!-- Step 4 -->
                             <h6><i class="step-icon la la-files-o"></i>فواتير المشتريات</h6>
                             <fieldset>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="meetingName2">Name of Meeting :</label>
-                                            <input type="text" class="form-control" id="meetingName2">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="meetingLocation2">Location :</label>
-                                            <input type="text" class="form-control" id="meetingLocation2">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="participants2">Names of Participants</label>
-                                            <textarea name="participants" id="participants2" rows="4" class="form-control"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="decisions2">Decisions Reached</label>
-                                            <textarea name="decisions" id="decisions2" rows="4" class="form-control"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Agenda Items :</label>
-                                            <div class="c-inputs-stacked">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" name="agenda2" class="custom-control-input"
-                                                        id="item21">
-                                                    <label class="custom-control-label" for="item21">1st item</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" name="agenda2" class="custom-control-input"
-                                                        id="item22">
-                                                    <label class="custom-control-label" for="item22">2nd item</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" name="agenda2" class="custom-control-input"
-                                                        id="item23">
-                                                    <label class="custom-control-label" for="item23">3rd item</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" name="agenda2" class="custom-control-input"
-                                                        id="item24">
-                                                    <label class="custom-control-label" for="item24">4th item</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" name="agenda2" class="custom-control-input"
-                                                        id="item25">
-                                                    <label class="custom-control-label" for="item25">5th item</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </fieldset>
                             <!-- Step 4 -->
                             <h6><i class="step-icon la la-link"></i>الملحقات</h6>
                             <fieldset>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="meetingName2">Name of Meeting :</label>
-                                            <input type="text" class="form-control" id="meetingName2">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="meetingLocation2">Location :</label>
-                                            <input type="text" class="form-control" id="meetingLocation2">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="participants2">Names of Participants</label>
-                                            <textarea name="participants" id="participants2" rows="4" class="form-control"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="decisions2">Decisions Reached</label>
-                                            <textarea name="decisions" id="decisions2" rows="4" class="form-control"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Agenda Items :</label>
-                                            <div class="c-inputs-stacked">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" name="agenda2" class="custom-control-input"
-                                                        id="item21">
-                                                    <label class="custom-control-label" for="item21">1st item</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" name="agenda2" class="custom-control-input"
-                                                        id="item22">
-                                                    <label class="custom-control-label" for="item22">2nd item</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" name="agenda2" class="custom-control-input"
-                                                        id="item23">
-                                                    <label class="custom-control-label" for="item23">3rd item</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" name="agenda2" class="custom-control-input"
-                                                        id="item24">
-                                                    <label class="custom-control-label" for="item24">4th item</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" name="agenda2" class="custom-control-input"
-                                                        id="item25">
-                                                    <label class="custom-control-label" for="item25">5th item</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </fieldset>
                         </form>
                     </div>
@@ -618,6 +220,29 @@
         $(document).ready(function () {
             $('#sel_x_1').select2({allowClear: false,tags: true});
     });
+
+
+
+    function addDofaa()
+{
+
+var dofaaTable = document.getElementById("dofaaTable");
+var currentIndex = dofaaTable.rows.length;
+var currentRow = dofaaTable.insertRow(-1);
+
+
+var currentCell = currentRow.insertCell(-1);
+currentCell.innerHTML = '<div class="form-group"><input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later['+currentIndex+'][amount]" value="0" required></div>';
+
+var currentCell = currentRow.insertCell(-1);
+currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="form-control" id="date" value="2011-08-19" name="later['+currentIndex+'][date]"></fieldset><fieldset class="form-group"><textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later['+currentIndex+'][notes]"></textarea></fieldset>';
+
+var currentCell = currentRow.insertCell(-1);
+//currentCell.innerHTML = '<fieldset class="checkboxsas"><label><input type="checkbox" name="later['+currentIndex+'][paid]">مدفوعه</label></fieldset>';
+ currentCell.innerHTML = '<fieldset class="checkboxsas"><label>دفع الان <input type="checkbox" name="later['+currentIndex+'][paynow]"></label></fieldset>'
+
+}
+
 
 
     function updateTotal() {
