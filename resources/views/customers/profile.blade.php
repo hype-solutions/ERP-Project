@@ -208,6 +208,124 @@
   <!-- users view card data ends -->
   <!-- users view card details start -->
   <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+              {{-- <h4 class="card-title">Tab with Underline</h4> --}}
+            </div>
+            <div class="card-content">
+              <div class="card-body">
+                <ul class="nav nav-tabs nav-underline no-hover-bg nav-justified">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="active-tab32" data-toggle="tab" href="#active32" aria-controls="active32" aria-expanded="true">الفواتير</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="link-tab32" data-toggle="tab" href="#link32" aria-controls="link32" aria-expanded="false">عروض الأسعار</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="link-tab35" data-toggle="tab" href="#link35" aria-controls="link35" aria-expanded="false">المبالغ المستحقة
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="linkOpt-tab2" data-toggle="tab" href="#linkOpt2" aria-controls="linkOpt2">الأصناف الأكثر طلبا
+                    </a>
+                  </li>
+                </ul>
+                <div class="tab-content px-1 pt-1">
+                  <div role="tabpanel" class="tab-pane active" id="active32" aria-labelledby="active-tab32" aria-expanded="true">
+                    <div class="table-responsive">
+                        <table class="table mb-0" id="reciepts">
+                          <thead>
+                            <tr>
+                              <th>رقم الفاتورة</th>
+                              <th>التاريخ</th>
+                              <th>الإجمالي</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td><div class="badge border-info info badge-border">
+                                  <a href="#" target="_blank" style="color: #1e9ff2"><span>123</span></a>
+                              <i class="la la-barcode font-medium-2"></i>
+                              </div></td>
+                              <td>22/12/2020</td>
+                              <td>450 جنية</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                  </div>
+                  <div class="tab-pane" id="link32" role="tabpanel" aria-labelledby="link-tab32" aria-expanded="false">
+                    <div class="table-responsive">
+                        <table class="table mb-0" id="quotations">
+                          <thead>
+                            <tr>
+                              <th>رقم العرض</th>
+                              <th>التاريخ</th>
+                              <th>الإجمالي</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td><div class="badge border-warning warning badge-border">
+                                    <a href="#" target="_blank" style="color: #ff9149"><span>123</span></a>
+                                <i class="la la-barcode font-medium-2"></i>
+                                </div></td>
+                              <td>22/12/2020</td>
+                              <td>500 جنية</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                  </div>
+                  <div class="tab-pane" id="link35" role="tabpanel" aria-labelledby="link-tab35" aria-expanded="false">
+                    <div class="table-responsive">
+                        <table class="table mb-0" id="due">
+                          <thead>
+                            <tr>
+                              <th>رقم الفاتورة</th>
+                              <th>تاريخ الإستحقاق</th>
+                              <th>الإجمالي</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td><div class="badge border-info info badge-border">
+                                  <a href="#" target="_blank" style="color: #1e9ff2"><span>123</span></a>
+                              <i class="la la-barcode font-medium-2"></i>
+                              </div></td>
+                              <td>22/12/2020</td>
+                              <td>450 جنية</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                  </div>
+                  <div class="tab-pane" id="linkOpt2" role="tabpanel" aria-labelledby="linkOpt-tab2" aria-expanded="false">
+                    <div class="table-responsive">
+                        <table class="table mb-0" id="most-ordered">
+                          <thead>
+                            <tr>
+                              <th>اسم الصنف</th>
+                              <th>إجمالي الكمية التي اشتراها العميل</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>طفايات صغيرة</td>
+                              <td>22 مرة</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+  {{-- <div class="row">
   <div class="col-md-6">
     <div class="card">
       <div class="card-content">
@@ -216,27 +334,7 @@
           <div class="col-12">
              <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span> فاتورة جديدة</a>
               <h2 style="text-align: center">الفواتير</h2>
-            <div class="table-responsive">
-              <table class="table mb-0" id="reciepts">
-                <thead>
-                  <tr>
-                    <th>رقم الفاتورة</th>
-                    <th>التاريخ</th>
-                    <th>الإجمالي</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><div class="badge border-info info badge-border">
-                        <a href="#" target="_blank" style="color: #1e9ff2"><span>123</span></a>
-                    <i class="la la-barcode font-medium-2"></i>
-                    </div></td>
-                    <td>22/12/2020</td>
-                    <td>450 جنية</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+
           </div>
         </div>
       </div>
@@ -249,34 +347,14 @@
         <div class="col-12">
             <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span> عرض سعر جديد</a>
             <h2 style="text-align: center">عروض الأسعار</h2>
-          <div class="table-responsive">
-            <table class="table mb-0" id="quotations">
-              <thead>
-                <tr>
-                  <th>رقم العرض</th>
-                  <th>التاريخ</th>
-                  <th>الإجمالي</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><div class="badge border-warning warning badge-border">
-                        <a href="#" target="_blank" style="color: #ff9149"><span>123</span></a>
-                    <i class="la la-barcode font-medium-2"></i>
-                    </div></td>
-                  <td>22/12/2020</td>
-                  <td>500 جنية</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+
         </div>
       </div>
     </div>
   </div>
   </div>
-</div>
-<div class="row">
+</div> --}}
+{{-- <div class="row">
     <div class="col-md-6">
       <div class="card">
         <div class="card-content">
@@ -284,27 +362,7 @@
 
             <div class="col-12">
                 <h2 style="text-align: center">المبالغ المستحقة</h2>
-              <div class="table-responsive">
-                <table class="table mb-0" id="due">
-                  <thead>
-                    <tr>
-                      <th>رقم الفاتورة</th>
-                      <th>تاريخ الإستحقاق</th>
-                      <th>الإجمالي</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><div class="badge border-info info badge-border">
-                          <a href="#" target="_blank" style="color: #1e9ff2"><span>123</span></a>
-                      <i class="la la-barcode font-medium-2"></i>
-                      </div></td>
-                      <td>22/12/2020</td>
-                      <td>450 جنية</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+
             </div>
           </div>
         </div>
@@ -316,28 +374,13 @@
         <div class="card-body">
           <div class="col-12">
               <h2 style="text-align: center">الأصناف الأكثر طلبا</h2>
-            <div class="table-responsive">
-              <table class="table mb-0" id="most-ordered">
-                <thead>
-                  <tr>
-                    <th>اسم الصنف</th>
-                    <th>إجمالي الكمية التي اشتراها العميل</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>طفايات صغيرة</td>
-                    <td>22 مرة</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+
           </div>
         </div>
       </div>
     </div>
     </div>
-  </div>
+  </div> --}}
 
   <!-- users view card details ends -->
 
