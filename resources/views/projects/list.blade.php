@@ -133,20 +133,17 @@
                             <td>{{$project->id}}</td>
                             <td>{{$project->customer->customer_name}}</td>
                             <td>
-                                @if($project->already_paid > 0)
                                 <div class="badge badge-success">
-                                  <i class="la la-money font-medium-2"></i>
-                                      <span>مدفوع</span>
-                                  </div>
-                                @else
-                                <div class="badge badge-danger">
-                                  <i class="la la-money font-medium-2"></i>
-                                      <span>لم يدفع</span>
-                                  </div>
-                                @endif</td>
+                                <i class="la la-money font-medium-2"></i>
+                                    <span>
+                                        @if($project->project_status == 'Pending')
+                                        تم ادخال البيانات الأساسية
+                                        @endif
+                                    </span>
+                                </div>
+                            </td>
                             <td>
-                                <a href="" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
-                                <a href="{{route('projects.edit',$project->id)}}" class="btn btn-primary btn-sm"><i class="la la-pencil-square-o"></i> تعديل</a>
+                                <a href="{{route('projects.edit',$project->id)}}" class="btn btn-primary btn-sm"><i class="la la-pencil-square-o"></i> تحكم</a>
                              </td>
                         </tr>
                         @endforeach

@@ -160,6 +160,7 @@
                                     </div>
 
                                     <div class="col-md-6">
+                                        @if($previewFiles->count() > 0)
                                         <div class="table-responsive">
                                             <table class="table table-bordered mb-0">
                                                 <thead>
@@ -171,24 +172,26 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @foreach ($previewFiles as $key => $item)
                                                     <tr>
-                                                        <th scope="row">1</th>
-                                                        <td>المعاينة الأولى</td>
-                                                        <td>PDF</td>
+                                                        <th scope="row">{{++$key}}</th>
+                                                        <td>{{$item->file_name}}</td>
+                                                        <td>{{$item->file_ext}}</td>
                                                         <td>
                                                             <button class="btn btn-success btn-sm">استعراض</button>
                                                             <button class="btn btn-danger btn-sm">حذف</button>
                                                         </td>
                                                     </tr>
-
+                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
+                                        @else
+                                        <p class="text-center text-danger mt-3">لا توجد ملفات مرفوعه</p>
+                                        @endif
                                     </div>
                                 </div>
-                                <div class="form-group mt-3">
-                                    <button type="submit" class="btn mb-1 btn-primary btn-lg btn-block btn-glow ">حفظ</button>
-                                </div>
+
                             </fieldset>
 
                             <!-- Step 2 -->
@@ -345,6 +348,7 @@
                                     </div>
 
                                     <div class="col-md-6">
+                                        @if($contractFiles->count() > 0)
                                         <div class="table-responsive">
                                             <table class="table table-bordered mb-0">
                                                 <thead>
@@ -356,24 +360,26 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @foreach ($contractFiles as $key => $item)
                                                     <tr>
-                                                        <th scope="row">1</th>
-                                                        <td>العقد الإبتدائي</td>
-                                                        <td>DOCX</td>
+                                                        <th scope="row">{{++$key}}</th>
+                                                        <td>{{$item->file_name}}</td>
+                                                        <td>{{$item->file_ext}}</td>
                                                         <td>
                                                             <button class="btn btn-success btn-sm">استعراض</button>
                                                             <button class="btn btn-danger btn-sm">حذف</button>
                                                         </td>
                                                     </tr>
-
+                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
+                                        @else
+                                        <p class="text-center text-danger mt-3">لا توجد ملفات مرفوعه</p>
+                                        @endif
                                     </div>
                                 </div>
-                                <div class="form-group mt-3">
-                                    <button type="submit" class="btn mb-1 btn-primary btn-lg btn-block btn-glow ">حفظ</button>
-                                </div>
+
                             </fieldset>
 
                             <!-- Step 4 -->
@@ -553,6 +559,7 @@
                                     </div>
 
                                     <div class="col-md-6">
+                                        @if($attachmentFiles->count() > 0)
                                         <div class="table-responsive">
                                             <table class="table table-bordered mb-0">
                                                 <thead>
@@ -564,19 +571,23 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @foreach ($attachmentFiles as $key => $item)
                                                     <tr>
-                                                        <th scope="row">1</th>
-                                                        <td>العقد الإبتدائي</td>
-                                                        <td>DOCX</td>
+                                                        <th scope="row">{{++$key}}</th>
+                                                        <td>{{$item->file_name}}</td>
+                                                        <td>{{$item->file_ext}}</td>
                                                         <td>
                                                             <button class="btn btn-success btn-sm">استعراض</button>
                                                             <button class="btn btn-danger btn-sm">حذف</button>
                                                         </td>
                                                     </tr>
-
+                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
+                                        @else
+                                        <p class="text-center text-danger mt-3">لا توجد ملفات مرفوعه</p>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="form-group mt-3">

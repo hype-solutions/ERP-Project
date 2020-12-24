@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Customers\Customers;
 use App\Models\Products\Products;
 use App\Models\Projects\Projects;
+use App\Models\Projects\ProjectsContractFiles;
+use App\Models\Projects\ProjectsPreviewFiles;
+use App\Models\Projects\ProjectsAttachmentFiles;
 use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
@@ -35,7 +38,10 @@ class ProjectsController extends Controller
     {
         // $customers = Customers::all();
         $customers = Customers::where('id','!=',$project->customer_id);
-        return view('projects.edit',compact('project','customers'));
+        $previewFiles = ProjectsPreviewFiles::where('project_id',$project->id)->get();
+        $contractFiles = ProjectsContractFiles::where('project_id',$project->id)->get();
+        $attachmentFiles = ProjectsAttachmentFiles::where('project_id',$project->id)->get();
+        return view('projects.edit',compact('project','customers','previewFiles','contractFiles','attachmentFiles'));
     }
 
     public function update(Request $request, $project)
