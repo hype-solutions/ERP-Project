@@ -33,7 +33,7 @@ class CustomersController extends Controller
         ],
         [
             //'customer_email.email' => 'برجاء إدخال بريد الكتروني صحيح',
-            'customer_email.unique' => 'برجاء إختيار بريد الكتروني اخر, هذا مستخدم بالفعل',
+            // 'customer_email.unique' => 'برجاء إختيار بريد الكتروني اخر, هذا مستخدم بالفعل',
             'customer_mobile.required' => 'برجاء إدخال رقم موبايل العميل',
             'customer_mobile.unique' => 'هذا الرقم مستخدم بالفعل, برجاء اختيار رقم موبايل اخر',
         ]
