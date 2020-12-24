@@ -23,7 +23,7 @@ class CustomersController extends Controller
             'customer_title' => '',
             'customer_company' => '',
             'customer_mobile' => 'required|unique:customers',
-            'customer_email' => 'unique:customers',
+            'customer_email' => '',
             'customer_phone' => '',
             'customer_address' => '',
             'customer_type' => '',
