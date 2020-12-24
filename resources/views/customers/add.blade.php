@@ -96,13 +96,13 @@ label > input:checked + img { /* (RADIO CHECKED) IMAGE STYLES */
 
 <label>
     <input type="radio" id="solo" name="customer_type" value="solo" checked />
-    <img src="{{ asset('theme/app-assets/images/custom/solo.png') }}">
+    <img src="{{ asset('theme/app-assets/images/custom/x1.png') }}">
     <div style="font-weight: 600">فردي</div>
 </label>
 
 <label>
     <input type="radio" id="company" name="customer_type" value="company" />
-    <img src="{{ asset('theme/app-assets/images/custom/company.png') }}">
+    <img src="{{ asset('theme/app-assets/images/custom/x2.png') }}">
     <div style="font-weight: 600">تجاري</div>
 </label>
 </div>
