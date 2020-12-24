@@ -66,11 +66,11 @@
             <ul class="menu-content">
               <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة مصروفات</span></a>
               </li>
-              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض بنود الخدمات</span></a>
+              <li><a class="menu-item" href="{{ route('outs.categories') }}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض بنود الخدمات</span></a>
               </li>
-              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض الجهات المختصة</span></a>
+              <li><a class="menu-item" href="{{ route('outs.entities') }}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض الجهات المختصة</span></a>
               </li>
-              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">سجل المصاريف</span></a>
+              <li><a class="menu-item" href="{{ route('outs.list') }}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">سجل المصاريف</span></a>
               </li>
             </ul>
           </li>
@@ -78,9 +78,9 @@
             <ul class="menu-content">
               <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة دواخل</span></a>
               </li>
-              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض بنود الخدمات</span></a>
+              <li><a class="menu-item" href="{{ route('ins.categories') }}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض بنود الخدمات</span></a>
               </li>
-              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">سجل الدواخل</span></a>
+              <li><a class="menu-item" href="{{ route('ins.list') }}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">سجل الدواخل</span></a>
               </li>
             </ul>
           </li>

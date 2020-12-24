@@ -12,6 +12,8 @@ use App\Http\Controllers\PurchasesOrdersController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\InvoicesPriceQuotationController;
 use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\InsController;
+use App\Http\Controllers\OutsController;
 
 
 /*
@@ -144,3 +146,30 @@ Route::get('/safes/transfer/', [SafesController::class, 'transfer'])->name('safe
 Route::post('/safes/transfering', [SafesController::class, 'transfering'])->name('safes.transfering');
 Route::post('/safes/fetchamount', [SafesController::class, 'fetchAmount'])->name('safes.fetchAmount');
 Route::post('/products/fetchothersafes', [SafesController::class, 'fetchOtherSafes'])->name('safes.fetchOtherSafes');
+
+
+/*************************
+ ********** Ins **********
+ **************************/
+Route::get('/ins', [InsController::class, 'insList'])->name('ins.list');
+Route::get('/ins/categories', [InsController::class, 'categories'])->name('ins.categories');
+Route::get('/ins/add', [InsController::class, 'add'])->name('ins.add');
+Route::post('/ins/adding', [InsController::class, 'store'])->name('ins.adding');
+Route::get('/ins/view/{in}', [InsController::class, 'view'])->name('ins.view');
+Route::get('/ins/edit/{in}', [InsController::class, 'edit'])->name('ins.edit');
+Route::patch('/ins/update/{in}', [InsController::class, 'update'])->name('ins.update');
+Route::delete('/ins/delete/{in}', [InsController::class, 'delete'])->name('ins.delete');
+
+
+/*************************
+ ********* Outs **********
+ **************************/
+Route::get('/outs', [OutsController::class, 'outsList'])->name('outs.list');
+Route::get('/outs/categories', [OutsController::class, 'categories'])->name('outs.categories');
+Route::get('/outs/entities', [OutsController::class, 'entities'])->name('outs.entities');
+Route::get('/outs/add', [OutsController::class, 'add'])->name('outs.add');
+Route::post('/outs/adding', [OutsController::class, 'store'])->name('outs.adding');
+Route::get('/outs/view/{out}', [OutsController::class, 'view'])->name('outs.view');
+Route::get('/outs/edit/{out}', [OutsController::class, 'edit'])->name('outs.edit');
+Route::patch('/outs/update/{out}', [OutsController::class, 'update'])->name('outs.update');
+Route::delete('/outs/delete/{out}', [OutsController::class, 'delete'])->name('outs.delete');
