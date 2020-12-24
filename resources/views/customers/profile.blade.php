@@ -215,7 +215,7 @@
             </div>
             <div class="card-content">
               <div class="card-body">
-                <ul class="nav nav-tabs nav-underline no-hover-bg nav-justified">
+                <ul class="nav nav-tabs nav-top-border no-hover-bg">
                   <li class="nav-item">
                     <a class="nav-link active" id="active-tab32" data-toggle="tab" href="#active32" aria-controls="active32" aria-expanded="true">الفواتير</a>
                   </li>
