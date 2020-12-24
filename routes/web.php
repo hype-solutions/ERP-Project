@@ -135,6 +135,7 @@ Route::delete('/branches/delete/{branch}', [BranchesController::class, 'delete']
  ********* Safes **********
  **************************/
 Route::get('/safes', [SafesController::class, 'safesList'])->name('safes.list');
+Route::get('/safes/transactions', [SafesController::class, 'transactions'])->name('safes.transactions');
 Route::post('/safes/adding', [SafesController::class, 'store'])->name('safes.adding');
 Route::get('/safes/view/{safe}', [SafesController::class, 'view'])->name('safes.view');
 Route::patch('/safes/update/{safe}', [SafesController::class, 'update'])->name('safes.update');

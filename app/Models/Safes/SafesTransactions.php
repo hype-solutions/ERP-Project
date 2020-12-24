@@ -26,5 +26,9 @@ class SafesTransactions extends Model
     {
         return $this->hasOne('App\Models\User', 'id', 'authorized_by');
     }
+        public function safe()
+    {
+        return $this->hasOne('App\Models\Safes\Safes', 'id', 'safe_id');
+    }
 }
 

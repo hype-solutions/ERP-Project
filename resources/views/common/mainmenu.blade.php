@@ -92,7 +92,7 @@
               </li>
               <li><a class="menu-item" href="{{ route('safes.list') }}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض الخزن</span></a>
               </li>
-              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">سجل عمليات الخزن</span></a>
+              <li><a class="menu-item" href="{{ route('safes.transactions') }}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">سجل عمليات الخزن</span></a>
               </li>
             </ul>
           </li>

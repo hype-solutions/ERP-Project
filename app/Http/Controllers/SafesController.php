@@ -123,6 +123,12 @@ class SafesController extends Controller
         return view('safes.list',compact('safes'));
     }
 
+    public function transactions()
+    {
+        $safeTransactions = SafesTransactions::all();
+        return view('safes.transactions',compact('safeTransactions'));
+    }
+
     public function transfer()
     {
         $safes = Safes::get();
