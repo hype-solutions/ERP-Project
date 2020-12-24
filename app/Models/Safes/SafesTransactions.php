@@ -18,5 +18,13 @@ class SafesTransactions extends Model
         'done_by',
         'authorized_by',
     ];
+    public function done_user()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'done_by');
+    }
+    public function auth_user()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'authorized_by');
+    }
 }
 

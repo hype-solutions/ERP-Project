@@ -6,6 +6,7 @@ use App\Models\Branches\Branches;
 use Illuminate\Http\Request;
 
 use App\Models\Safes\Safes;
+use App\Models\Safes\SafesTransactions;
 use App\Models\Safes\SafesTransfers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -63,10 +64,9 @@ class SafesController extends Controller
             ->orWhere('safe_to', $safe_id);})
         ->with('safeFrom')
         ->with('safeTo')
-        // ->has('safeFrom')
-        // ->has('safeTo')
         ->get();
-        return view('safes.profile',compact('safe','branch','safeTransfers'));
+        $safeTransactions = SafesTransactions::where('safe_id',$safe_id)->get();
+        return view('safes.profile',compact('safe','branch','safeTransfers','safeTransactions'));
     }
     public function edit(Safes $safe){
         $safe = Safes::find($safe);

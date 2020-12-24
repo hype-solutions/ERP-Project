@@ -99,6 +99,8 @@
                         <form action="{{ route('projects.update',$project) }}" method="POST" class="icons-tab-steps wizard-notification">
                             @csrf
                             @method('patch')
+                            <input type="hidden" name="created_by" value="{{ $user_id }}" />
+                            <input type="hidden" name="total" id="totalToSave" value="0" />
                             <!-- Step 1 -->
                             <h6><i class="step-icon la la-eye"></i> بيانات المشروع</h6>
                             <fieldset>
@@ -172,9 +174,9 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($previewFiles as $key => $item)
+                                                    @foreach ($previewFiles as $key2 => $item)
                                                     <tr>
-                                                        <th scope="row">{{++$key}}</th>
+                                                        <th scope="row">{{++$key2}}</th>
                                                         <td>{{$item->file_name}}</td>
                                                         <td>{{$item->file_ext}}</td>
                                                         <td>
@@ -203,7 +205,11 @@
                                             <div class="card-content collapse show">
                                                 <div class="card-body">
 
-
+                                                    <div class="form-group">
+                                                        <!-- Outline Buttons Glow -->
+                                                        <button type="button" class="btn btn-outline-info btn-min-width btn-glow mr-1 mb-1">طباعة</button>
+                                                        <button type="button" class="btn btn-outline-warning btn-min-width btn-glow mr-1 mb-1">ارسال بالبريد</button>
+                                                    </div>
 
                                                     <ul class="nav nav-tabs nav-top-border no-hover-bg">
                                                         <li class="nav-item">
@@ -219,13 +225,13 @@
                                                                 <div class="col-md-4"  id="dis_per">
                                                                     <div class="form-group">
                                                                         <label for="projectinput3">الخصم</label>
-                                                                        <input type="number" id="curr_per" class="form-control" placeholder="" name="discount_percentage" value="0" min="0" max="100" onblur="return calculateDiscount(1)">
+                                                                        <input type="number" id="curr_per" class="form-control" placeholder="" name="discount_percentage" value="{{$project->discount_percentage}}" min="0" max="100" onblur="return calculateDiscount(1)">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4" style="display: none" id="dis_amount">
                                                                   <div class="form-group">
                                                                       <label for="projectinput3">الخصم</label>
-                                                                      <input type="number" id="curr_amount" class="form-control" placeholder="" name="discount_amount" value="0" min="0" onblur="return calculateDiscount(2)">
+                                                                      <input type="number" id="curr_amount" class="form-control" placeholder="" name="discount_amount" value="{{$project->discount_amount}}" min="0" onblur="return calculateDiscount(2)">
                                                                   </div>
                                                               </div>
                                                                 <div class="col-md-8">
@@ -245,7 +251,7 @@
                                                                 <div class="col-md-12">
                                                                     <div class="form-group">
                                                                         <label for="projectinput3">مصاريف الشحن</label>
-                                                                        <input type="number" id="shipping_fees" class="form-control" placeholder="" name="shipping_fees" value="0" onblur="return updateShipping()" required>
+                                                                        <input type="number" id="shipping_fees" class="form-control" placeholder="" name="shipping_fees" value="{{$project->shipping_fees}}" onblur="return updateShipping()" required>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -276,16 +282,21 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr id="row_1">
+                                                    @php
+                                                     $key = 0;
+                                                    @endphp
+                                                    @foreach ($priceQuotation as $key => $item)
+                                                    <tr id="row_{{$key+1}}">
 
-                                                        <td><input type="text" class="product_input" name="product[1][desc]"/></td>
-                                                        <td><input type="number" class="product_input" id="p_p_1" name="product[1][price]" onblur="return reCalculate(1)" min="0"/></td>
-                                                        <td><input type="number" class="product_input" id="p_q_1" name="product[1][qty]" onblur="return reCalculate(1)" min="0" placeholder="0"/></td>
+                                                        <td><input type="text" class="product_input" name="product[{{$key+1}}][desc]" value="{{$item->product_desc}}"/></td>
+                                                        <td><input type="number" class="product_input" id="p_p_{{$key+1}}" name="product[{{$key+1}}][price]" value="{{$item->product_price}}" onblur="return reCalculate({{$key+1}})" min="0"/></td>
+                                                        <td><input type="number" class="product_input" id="p_q_{{$key+1}}" name="product[{{$key+1}}][qty]" value="{{$item->product_qty}}" onblur="return reCalculate({{$key+1}})" min="0" placeholder="0"/></td>
                                                         <td>
-                                                            <span id="tot_1">0</span> ج.م
+                                                            <span id="tot_{{$key+1}}">0</span> ج.م
                                                         </td>
                                                         <td></td>
                                                     </tr>
+                                                    @endforeach
 
                                                     <tr>
                                                         <td colspan="2" style="border-style: none !important;">
@@ -360,9 +371,9 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($contractFiles as $key => $item)
+                                                    @foreach ($contractFiles as $key3 => $item)
                                                     <tr>
-                                                        <th scope="row">{{++$key}}</th>
+                                                        <th scope="row">{{++$key3}}</th>
                                                         <td>{{$item->file_name}}</td>
                                                         <td>{{$item->file_ext}}</td>
                                                         <td>
@@ -571,9 +582,9 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($attachmentFiles as $key => $item)
+                                                    @foreach ($attachmentFiles as $key4 => $item)
                                                     <tr>
-                                                        <th scope="row">{{++$key}}</th>
+                                                        <th scope="row">{{++$key4}}</th>
                                                         <td>{{$item->file_name}}</td>
                                                         <td>{{$item->file_ext}}</td>
                                                         <td>
@@ -640,6 +651,10 @@
 
     <script>
         $(document).ready(function () {
+            if({{$key > 0}}){
+            for (let index = 1; index < {{$key+2}}; index++) {
+    reCalculate(index);
+}}
             $('#sel_x_1').select2({allowClear: false,tags: true});
     });
 

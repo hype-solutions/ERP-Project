@@ -131,83 +131,50 @@
           <div class="card-body">
 
             <div class="col-12">
-                <h2 style="text-align: center"> التحويلات</h2>
+                <h2 style="text-align: center"> العمليات</h2>
               <div class="table-responsive">
                 <table class="table mb-0" id="due">
                   <thead>
                     <tr>
                       <th>بيانات العملية</th>
-                      <th>من</th>
-                      <th>الى</th>
+                      <th>نوع العملية</th>
+                      <th>التفاصيل</th>
                       <th>المبلغ</th>
                       <th>الصلاحيات</th>
                       <th>الملاحظات</th>
                     </tr>
                   </thead>
                   <tbody>
-                      @foreach ($safeTransfers as $transfer)
+                      @foreach ($safeTransactions as $transaction)
                     <tr>
                       <td><div class="badge border-info info badge-border">
-                          <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$transfer->id}}</span></a>
+                          <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$transaction->id}}</span></a>
                       </div>
                       <br>
-                      {{$transfer->transfer_datetime}}
+                      {{$transaction->transaction_datetime}}
                     </td>
                       <td>
-                          @if(isset($transfer->safeFrom))
-                            @if($transfer->safeFrom->id == $safe[0]->id)
+                            @if($transaction->transaction_type == 2)
                             <div class="badge badge-success">
                                 <i class="la la-flag font-medium-2"></i>
-                                    <span>{{$transfer->safeFrom->safe_name}}</span>
+                                    <span>إيداع</span>
                                 </div>
                             @else
                             <div class="badge badge-warning">
                                 <i class="la la-flag font-medium-2"></i>
-                                    <span>{{$transfer->safeFrom->safe_name}}</span>
+                                    <span>سحب</span>
                                 </div>
                             @endif
-                          @else
-                          <div class="badge badge-danger">
-                            <i class="la la-trash font-medium-2"></i>
-                                <span>{{str_replace('عملية تحويل رصيد خزنة بسبب حذفها - اسم الخزنة قبل الحذف','',$transfer->transfer_notes)}}</span>
-                            </div>
-                            <span style="color: red">(خزنة محذوفة)</span>
-                          @endif
-                            <hr>
-                              الرصيد قبل: {{$transfer->amount_before_transfer_from}} جنية
-                              <br>
-                              الرصيد بعد: {{$transfer->amount_after_transfer_from}} جنية
                         </td>
                       <td>
-                        @if(isset($transfer->safeTo))
-                        @if($transfer->safeTo->id == $safe[0]->id)
-                            <div class="badge badge-warning">
-                                <i class="la la-arrow-left font-medium-2"></i>
-                                    <span>{{$transfer->safeTo->safe_name}}</span>
-                                </div>
-                            @else
-                            <div class="badge badge-success">
-                                <i class="la la-arrow-left font-medium-2"></i>
-                                    <span>{{$transfer->safeTo->safe_name}}</span>
-                                </div>
-                            @endif
-                        @else
-                        <div class="badge badge-danger">
-                            <i class="la la-trash font-medium-2"></i>
-                                <span>{{str_replace('عملية تحويل رصيد خزنة بسبب حذفها - اسم الخزنة قبل الحذف','',$transfer->transfer_notes)}}</span>
-                            </div>
-                            <span style="color: red">(خزنة محذوفة)</span>                        @endif
-                        <hr>
-                              الرصيد قبل: {{$transfer->amount_before_transfer_to}} جنية
-                              <br>
-                              الرصيد بعد: {{$transfer->amount_after_transfer_to}} جنية
-                    </td>
-                      <td>{{$transfer->transfer_amount}} جنية</td>
+                        {{$transaction->transaction_notes}}
+                      </td>
+                      <td>{{$transaction->transaction_amount}} جنية</td>
                       <td>
                         قام بالتحويل
                         <div class="badge border-primary primary badge-border">
                             <i class="la la-user font-medium-2"></i>
-                                <span>{{$transfer->user->username}}</span>
+                                <span>{{$transaction->done_user->username}}</span>
                             </div>
 
 
@@ -215,11 +182,11 @@
                         صرح بالتحويل
                         <div class="badge border-success success badge-square badge-border">
                             <i class="la la-user font-medium-2"></i>
-                                <span>{{$transfer->user->username}}</span>
+                                <span>{{$transaction->auth_user->username}}</span>
                             </div>
                       </td>
                       <td>
-                        {{$transfer->transfer_notes}}
+                        {{$transaction->transaction_notes}}
                       </td>
                     </tr>
                     @endforeach
@@ -230,8 +197,114 @@
           </div>
         </div>
       </div>
-      </div>
+    </div>
 
+    <div class="col-md-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+
+              <div class="col-12">
+                  <h2 style="text-align: center"> التحويلات</h2>
+                <div class="table-responsive">
+                  <table class="table mb-0" id="due">
+                    <thead>
+                      <tr>
+                        <th>بيانات العملية</th>
+                        <th>من</th>
+                        <th>الى</th>
+                        <th>المبلغ</th>
+                        <th>الصلاحيات</th>
+                        <th>الملاحظات</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($safeTransfers as $transfer)
+                      <tr>
+                        <td><div class="badge border-info info badge-border">
+                            <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$transfer->id}}</span></a>
+                        </div>
+                        <br>
+                        {{$transfer->transfer_datetime}}
+                      </td>
+                        <td>
+                            @if(isset($transfer->safeFrom))
+                              @if($transfer->safeFrom->id == $safe[0]->id)
+                              <div class="badge badge-success">
+                                  <i class="la la-flag font-medium-2"></i>
+                                      <span>{{$transfer->safeFrom->safe_name}}</span>
+                                  </div>
+                              @else
+                              <div class="badge badge-warning">
+                                  <i class="la la-flag font-medium-2"></i>
+                                      <span>{{$transfer->safeFrom->safe_name}}</span>
+                                  </div>
+                              @endif
+                            @else
+                            <div class="badge badge-danger">
+                              <i class="la la-trash font-medium-2"></i>
+                                  <span>{{str_replace('عملية تحويل رصيد خزنة بسبب حذفها - اسم الخزنة قبل الحذف','',$transfer->transfer_notes)}}</span>
+                              </div>
+                              <span style="color: red">(خزنة محذوفة)</span>
+                            @endif
+                              <hr>
+                                الرصيد قبل: {{$transfer->amount_before_transfer_from}} جنية
+                                <br>
+                                الرصيد بعد: {{$transfer->amount_after_transfer_from}} جنية
+                          </td>
+                        <td>
+                          @if(isset($transfer->safeTo))
+                          @if($transfer->safeTo->id == $safe[0]->id)
+                              <div class="badge badge-warning">
+                                  <i class="la la-arrow-left font-medium-2"></i>
+                                      <span>{{$transfer->safeTo->safe_name}}</span>
+                                  </div>
+                              @else
+                              <div class="badge badge-success">
+                                  <i class="la la-arrow-left font-medium-2"></i>
+                                      <span>{{$transfer->safeTo->safe_name}}</span>
+                                  </div>
+                              @endif
+                          @else
+                          <div class="badge badge-danger">
+                              <i class="la la-trash font-medium-2"></i>
+                                  <span>{{str_replace('عملية تحويل رصيد خزنة بسبب حذفها - اسم الخزنة قبل الحذف','',$transfer->transfer_notes)}}</span>
+                              </div>
+                              <span style="color: red">(خزنة محذوفة)</span>                        @endif
+                          <hr>
+                                الرصيد قبل: {{$transfer->amount_before_transfer_to}} جنية
+                                <br>
+                                الرصيد بعد: {{$transfer->amount_after_transfer_to}} جنية
+                      </td>
+                        <td>{{$transfer->transfer_amount}} جنية</td>
+                        <td>
+                          قام بالتحويل
+                          <div class="badge border-primary primary badge-border">
+                              <i class="la la-user font-medium-2"></i>
+                                  <span>{{$transfer->user->username}}</span>
+                              </div>
+
+
+                            <br>
+                          صرح بالتحويل
+                          <div class="badge border-success success badge-square badge-border">
+                              <i class="la la-user font-medium-2"></i>
+                                  <span>{{$transfer->user->username}}</span>
+                              </div>
+                        </td>
+                        <td>
+                          {{$transfer->transfer_notes}}
+                        </td>
+                      </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
   </div>
 
   <!-- users view card details ends -->

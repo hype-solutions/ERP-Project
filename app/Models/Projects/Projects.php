@@ -15,6 +15,13 @@ class Projects extends Model
         'project_name',
         'project_start_date',
         'project_end_date',
+        'discount_amount',
+        'discount_percentage',
+        'tax',
+        'shipping_fees',
+        'total',
+        'created_by',
+        'authorized_by',
 
     ];
 
