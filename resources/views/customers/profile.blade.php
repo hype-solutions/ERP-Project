@@ -196,9 +196,9 @@
           <div class="col-xl-6 col-lg-12 mb-1">
             <div class="form-group text-center">
                 <!-- Floating Outline button with text -->
-                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">123</i><span>عدد فواتير الشراء</span></button>
-            <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">321 جنية</i><span>إجمالي المبالغ من الفواتير</span></button>
-                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">456</i><span>عدد عروض الأسعار</span></button>
+                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">{{$customerInvoicesCount}}</i><span>عدد فواتير الشراء</span></button>
+            <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">{{$customerInvoicesSum}} ج,م</i><span>إجمالي المبالغ من الفواتير</span></button>
+                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">{{$customerPriceQuotationCount}}</i><span>عدد عروض الأسعار</span></button>
             </div>
         </div>
         </div>
@@ -215,7 +215,7 @@
             </div>
             <div class="card-content">
               <div class="card-body">
-                <ul class="nav nav-tabs nav-top-border no-hover-bg">
+                <ul class="nav nav-tabs nav-top-border no-hover-bg mb-3">
                   <li class="nav-item">
                     <a class="nav-link active" id="active-tab32" data-toggle="tab" href="#active32" aria-controls="active32" aria-expanded="true">الفواتير</a>
                   </li>
@@ -240,17 +240,21 @@
                               <th>رقم الفاتورة</th>
                               <th>التاريخ</th>
                               <th>الإجمالي</th>
+                              <th>التحكم</th>
                             </tr>
                           </thead>
                           <tbody>
+                              @foreach ($customerInvoices as $item)
                             <tr>
                               <td><div class="badge border-info info badge-border">
-                                  <a href="#" target="_blank" style="color: #1e9ff2"><span>123</span></a>
+                                  <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$item->id}}</span></a>
                               <i class="la la-barcode font-medium-2"></i>
                               </div></td>
-                              <td>22/12/2020</td>
-                              <td>450 جنية</td>
+                              <td>{{$item->invoice_date}}</td>
+                              <td>{{$item->invoice_total}} ج.م</td>
+                              <td><button class="btn btn-success">استعراض</button></td>
                             </tr>
+                            @endforeach
                           </tbody>
                         </table>
                       </div>
@@ -259,21 +263,44 @@
                     <div class="table-responsive">
                         <table class="table mb-0" id="quotations">
                           <thead>
+
                             <tr>
                               <th>رقم العرض</th>
                               <th>التاريخ</th>
                               <th>الإجمالي</th>
+                              <th>الحالة</th>
+                              <th>التحكم</th>
                             </tr>
                           </thead>
                           <tbody>
+                            @foreach ($customerPriceQuotation as $item)
                             <tr>
                               <td><div class="badge border-warning warning badge-border">
-                                    <a href="#" target="_blank" style="color: #ff9149"><span>123</span></a>
+                                    <a href="#" target="_blank" style="color: #ff9149"><span>{{$item->id}}</span></a>
                                 <i class="la la-barcode font-medium-2"></i>
                                 </div></td>
-                              <td>22/12/2020</td>
-                              <td>500 جنية</td>
+                              <td>{{$item->quotation_date}}</td>
+                              <td>{{$item->quotation_total}} ج.م</td>
+                              <td>
+                                @if($item->quotation_status == 'Pending')
+                                <div class="badge badge-warning">
+                                  <i class="la la-money font-medium-2"></i>
+                                      <span>قيد التنفيذ</span>
+                                  </div>
+                                @elseif($item->quotation_status == 'Accepted')
+                                <div class="badge badge-success">
+                                  <i class="la la-money font-medium-2"></i>
+                                      <span>تمت الموافقة </span>
+                                  </div>
+                                  @else
+                                  <div class="badge badge-danger">
+                                    <i class="la la-money font-medium-2"></i>
+                                        <span>تم الرفض</span>
+                                    </div>
+                                @endif</td>
+                              <td><button class="btn btn-success">استعراض</button></td>
                             </tr>
+                            @endforeach
                           </tbody>
                         </table>
                       </div>
@@ -285,18 +312,31 @@
                             <tr>
                               <th>رقم الفاتورة</th>
                               <th>تاريخ الإستحقاق</th>
+                              <th>تم الدفع؟</th>
                               <th>الإجمالي</th>
+                              <th>التحكم</th>
                             </tr>
                           </thead>
                           <tbody>
+                            @foreach ($customerInvoicesPayments as $item)
                             <tr>
                               <td><div class="badge border-info info badge-border">
-                                  <a href="#" target="_blank" style="color: #1e9ff2"><span>123</span></a>
+                                  <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$item->invoice_id}}</span></a>
                               <i class="la la-barcode font-medium-2"></i>
                               </div></td>
-                              <td>22/12/2020</td>
-                              <td>450 جنية</td>
+                              <td>{{$item->date}}</td>
+                              <td>
+                                  @if($item->paid == 'Yes')
+                                  <span class="text-success">نعم</span>
+                                  @else
+                                  <span class="text-danger">لا</span>
+                                  @endif
+                              </td>
+                              <td>{{$item->amount}} ج.م</td>
+                              <td><button class="btn btn-success">استعراض</button></td>
+
                             </tr>
+                            @endforeach
                           </tbody>
                         </table>
                       </div>
@@ -311,10 +351,12 @@
                             </tr>
                           </thead>
                           <tbody>
+                              @foreach ($mostOrdered as $item)
                             <tr>
-                              <td>طفايات صغيرة</td>
-                              <td>22 مرة</td>
+                              <td>{{$item->product->product_name}}</td>
+                              <td>{{$item->count}} مرة</td>
                             </tr>
+                            @endforeach
                           </tbody>
                         </table>
                       </div>

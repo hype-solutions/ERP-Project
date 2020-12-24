@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Customers\Customers;
+use App\Models\Invoices\Invoices;
+use App\Models\Invoices\InvoicesPayments;
+use App\Models\Invoices\InvoicesPriceQuotation;
+use App\Models\Invoices\InvoicesProducts;
+use Illuminate\Support\Facades\DB;
 
 class CustomersController extends Controller
 {
@@ -76,7 +81,22 @@ class CustomersController extends Controller
     public function view(Customers $customer)
     {
         $customer = Customers::find($customer);
-        return view('customers.profile',compact('customer'));
+        $customer_id = $customer[0]->id;
+        $customerInvoices = Invoices::where('customer_id',$customer_id)->get();
+        $customerInvoicesCount = Invoices::where('customer_id',$customer_id)->count();
+        $customerInvoicesSum = Invoices::where('customer_id',$customer_id)->sum('invoice_total');
+        $customerPriceQuotation = InvoicesPriceQuotation::where('customer_id',$customer_id)->get();
+        $customerPriceQuotationCount = InvoicesPriceQuotation::where('customer_id',$customer_id)->count();
+        $customerInvoicesPayments = InvoicesPayments::where('customer_id',$customer_id)->get();
+
+$mostOrdered = InvoicesProducts::with('product')
+->where('customer_id',$customer_id)
+->select('product_id', DB::raw('COUNT(product_id) as count'))
+->groupBy('product_id')
+->orderBy('count', 'desc')
+->get();
+
+        return view('customers.profile',compact('customerPriceQuotationCount','customerInvoicesCount','customerInvoicesSum','customer','customerInvoices','customerPriceQuotation','customerInvoicesPayments','mostOrdered'));
     }
     public function edit(Customers $customer){
         $customer = Customers::find($customer);
