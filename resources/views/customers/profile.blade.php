@@ -255,7 +255,10 @@
                               </div></td>
                               <td>{{$item->invoice_date}}</td>
                               <td>{{$item->invoice_total}} ج.م</td>
-                              <td><button class="btn btn-success">استعراض</button></td>
+                              <td>
+                                  <button class="btn btn-success">استعراض</button>
+                                  <button class="btn btn-dark">طباعة</button>
+                              </td>
                             </tr>
                             @endforeach
                           </tbody>
@@ -301,7 +304,10 @@
                                         <span>تم الرفض</span>
                                     </div>
                                 @endif</td>
-                              <td><button class="btn btn-success">استعراض</button></td>
+                                <td>
+                                    <button class="btn btn-success">استعراض</button>
+                                    <button class="btn btn-dark">طباعة</button>
+                                </td>
                             </tr>
                             @endforeach
                           </tbody>
@@ -336,7 +342,10 @@
                                   @endif
                               </td>
                               <td>{{$item->amount}} ج.م</td>
-                              <td><button class="btn btn-success">استعراض</button></td>
+                              <td>
+                                <button class="btn btn-success">استعراض</button>
+                                <button class="btn btn-dark">طباعة</button>
+                            </td>
 
                             </tr>
                             @endforeach
@@ -458,53 +467,135 @@
 
 $("#reciepts").DataTable( {
         dom: 'Bfrtip',
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+        },
         buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',
-            'pdfHtml5',
+            {
+                extend: 'excelHtml5',
+                text: 'حفظ كملف EXCEL',
+                messageTop: 'فواتير العميل {{ $customer[0]->customer_name }}',
+                exportOptions: {
+                    columns: [2,1,0 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+    // customize: function(doc) {
+    //    console.dir(doc)
+    //    doc.content[2].margin = [ 100, 0, 100, 0 ] //left, top, right, bottom
+    //    doc.content[2].margin = [ 0, 0, 0, 0 ] //left, top, right, bottom
+    // },
+                text: 'حفظ كملف PDF',
+                messageTop: 'فواتير العميل \n {{ $customer[0]->customer_name }}',
+                exportOptions: {
+                    columns: [2,1,0 ],
+                },
+
+            },
             {
                 extend: 'print',
-                messageTop: 'فواتير العميل {{ $customer[0]->customer_name }}'
+                text: 'طباعة',
+                messageTop: 'فواتير العميل {{ $customer[0]->customer_name }}',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ]
+                }
             }
         ]
     });
 $("#quotations").DataTable( {
         dom: 'Bfrtip',
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+        },
         buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',
-            'pdfHtml5',
+            {
+                extend: 'excelHtml5',
+                text: 'حفظ كملف EXCEL',
+                messageTop: 'عروض أسعار {{ $customer[0]->customer_name }}',
+                exportOptions: {
+                    columns: [3,2,1,0 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'حفظ كملف PDF',
+                messageTop: 'عروض أسعار \n {{ $customer[0]->customer_name }}',
+                exportOptions: {
+                    columns: [3,2,1,0 ]
+                }
+            },
             {
                 extend: 'print',
-                messageTop: 'عروض أسعار {{ $customer[0]->customer_name }}'
+                text: 'طباعة',
+                messageTop: 'عروض أسعار {{ $customer[0]->customer_name }}',
+                exportOptions: {
+                    columns: [ 0, 1, 2,3 ]
+                }
             }
         ]
     });
 $("#due").DataTable( {
         dom: 'Bfrtip',
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+        },
         buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',
-            'pdfHtml5',
+            {
+                extend: 'excelHtml5',
+                text: 'حفظ كملف EXCEL',
+                messageTop: 'المبالغ المستحقة على {{ $customer[0]->customer_name }}',
+                exportOptions: {
+                    columns: [3,2,1,0 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'حفظ كملف PDF',
+                messageTop: 'المبالغ المستحقة على \n {{ $customer[0]->customer_name }}',
+                exportOptions: {
+                    columns: [3,2,1,0 ]
+                }
+            },
             {
                 extend: 'print',
-                messageTop: 'المبالغ المستحقة على {{ $customer[0]->customer_name }}'
+                text: 'طباعة',
+                messageTop: 'المبالغ المستحقة على {{ $customer[0]->customer_name }}',
+                exportOptions: {
+                    columns: [ 0, 1, 2,3 ]
+                }
             }
         ]
     });
 $("#most-ordered").DataTable( {
         dom: 'Bfrtip',
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+        },
         buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',
-            'pdfHtml5',
+            {
+                extend: 'excelHtml5',
+                text: 'حفظ كملف EXCEL',
+                messageTop: 'الأصناف الأكثر طلبا ل {{ $customer[0]->customer_name }}',
+                exportOptions: {
+                    columns: [1,0 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'حفظ كملف PDF',
+                messageTop: 'الأصناف الأكثر طلبا ل \n {{ $customer[0]->customer_name }}',
+                exportOptions: {
+                    columns: [1,0 ]
+                }
+            },
             {
                 extend: 'print',
-                messageTop: 'الأصناف الأكثر طلبا ل{{ $customer[0]->customer_name }}'
+                text: 'طباعة',
+                messageTop: 'الأصناف الأكثر طلبا ل {{ $customer[0]->customer_name }}',
+                exportOptions: {
+                    columns: [ 0, 1 ]
+                }
             }
         ]
     });
