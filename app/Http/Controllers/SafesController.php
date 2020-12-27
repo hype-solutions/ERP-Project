@@ -55,8 +55,7 @@ class SafesController extends Controller
 
     public function view(Safes $safe)
     {
-        $safe = Safes::find($safe);
-        $safe_id = $safe[0]->id;
+        $safe_id = $safe->id;
         $branch = Branches::where('id',$safe_id)->get();
         $safeTransfers = SafesTransfers::where('transfer_amount','>',0)
         ->where(function($q) use ($safe_id) {$q
@@ -110,7 +109,7 @@ class SafesController extends Controller
         $transfer->transfer_datetime = Carbon::now();
         $transfer->transfer_notes = 'عملية تحويل رصيد خزنة بسبب حذفها - اسم الخزنة قبل الحذف '.$safeName;
         $transfer->transfered_by = $user_id;
-        $transfer->authorized_by = 0;
+        $transfer->authorized_by = $user_id;
         $transfer->save();
 
         Safes::destroy($safe->id);

@@ -6,6 +6,10 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/colors/palette-gradient.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/fonts/mobiriseicons/24px/mobirise/style.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/pages/page-users.min.css') }}">
+
+
+<link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/extensions/buttons.dataTables.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css') }}">
 <!-- END: Page CSS-->
 @endsection
 
@@ -38,11 +42,11 @@
             class="users-avatar-shadow rounded-circle" height="64" width="64">
         </a>
         <div class="media-body pt-25">
-          <h4 class="media-heading"><span class="users-view-name">{{ $branch[0]->branch_name }} </span>
+          <h4 class="media-heading"><span class="users-view-name">{{ $branch->branch_name }} </span>
             </h4>
           <span>رقم الفرع:</span>
           <span class="users-view-id">
-            <span class="badge badge-success users-view-status">{{ $branch[0]->id }}</span>
+            <span class="badge badge-success users-view-status">{{ $branch->id }}</span>
         </span>
         </div>
       </div>
@@ -51,11 +55,11 @@
        <div class="btn-group mr-1 mb-1">
         <button type="button" class="btn btn-warning btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">التحكم السريع</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-            <a class="dropdown-item" href="{{ route('branches.view', $branch['0']->id) }}">استعراض الفرع</a>
-            <a class="dropdown-item" href="{{ route('branches.edit', $branch['0']->id) }}">تعديل الفرع</a>
-            @if($branch[0]->id != 1)
+            <a class="dropdown-item" href="{{ route('branches.view', $branch->id) }}">استعراض الفرع</a>
+            <a class="dropdown-item" href="{{ route('branches.edit', $branch->id) }}">تعديل الفرع</a>
+            @if($branch->id != 1)
             <div class="dropdown-divider"></div>
-            <form action="{{route('branches.delete',$branch[0]->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا الفرع نهائيا و جميع تفاصيله من البرنامج')">
+            <form action="{{route('branches.delete',$branch->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا الفرع نهائيا و جميع تفاصيله من البرنامج')">
                 @csrf
                 @method('delete')
             <button class="dropdown-item btn-danger btn" type="submit">حذف الفرع</button>
@@ -66,19 +70,19 @@
     <div class="btn-group mr-1 mb-1">
         <button type="button" class="btn btn-info btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> التواصل مع الفرع</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-            @if ( isset($branch[0]->branch_mobile))
-        <a class="dropdown-item" href="tel:{{$branch[0]->branch_mobile}}">اتصال بالموبايل</a>
+            @if ( isset($branch->branch_mobile))
+        <a class="dropdown-item" href="tel:{{$branch->branch_mobile}}">اتصال بالموبايل</a>
             @else
             <button class="dropdown-item" href="#">اتصال بالموبايل</button>
             @endif
-            @if ( isset($branch[0]->branch_phone))
-        <a class="dropdown-item" href="tel:{{$branch[0]->branch_phone}}">اتصال بالتليفون</a>
+            @if ( isset($branch->branch_phone))
+        <a class="dropdown-item" href="tel:{{$branch->branch_phone}}">اتصال بالتليفون</a>
             @else
             <button class="dropdown-item" href="#">اتصال بالتليفون</button>
             @endif
             <button class="dropdown-item" disabled>ارسال SMS <small style="color: red">غير متاحة</small></button>
-            @if ( isset($branch[0]->branch_email))
-        <a class="dropdown-item" href="mailto:{{$branch[0]->branch_email}}"> ارسال ايميل</a>
+            @if ( isset($branch->branch_email))
+        <a class="dropdown-item" href="mailto:{{$branch->branch_email}}"> ارسال ايميل</a>
             @else
             <button class="dropdown-item" href="#"> ارسال ايميل</button>
             @endif
@@ -108,25 +112,25 @@
               <tbody>
                 <tr>
                   <td>اسم الفرع:</td>
-                  <td>{{ $branch[0]->branch_name }}</td>
+                  <td>{{ $branch->branch_name }}</td>
                 </tr>
 
                 <tr>
                   <td>الموبايل:</td>
-                  <td>{{ $branch[0]->branch_mobile }}</td>
+                  <td>{{ $branch->branch_mobile }}</td>
                 </tr>
                 <tr>
                   <td>التليفون:</td>
-                  <td>@if(isset($branch[0]->branch_phone))
-                    {{ $branch[0]->branch_phone }}
+                  <td>@if(isset($branch->branch_phone))
+                    {{ $branch->branch_phone }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل</small>
                     @endif</td>
                 </tr>
                 <tr>
                    <td>الايميل:</td>
-                   <td>@if(isset($branch[0]->branch_email))
-                    {{ $branch[0]->branch_email }}
+                   <td>@if(isset($branch->branch_email))
+                    {{ $branch->branch_email }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل</small>
                     @endif</td>
@@ -135,8 +139,8 @@
 
                 <tr>
                    <td>العنوان:</td>
-                   <td> @if(isset($branch[0]->branch_address))
-                    {{ $branch[0]->branch_address }}
+                   <td> @if(isset($branch->branch_address))
+                    {{ $branch->branch_address }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل </small>
                      @endif</td>
@@ -149,7 +153,7 @@
             <div class="form-group text-center">
                 <!-- Floating Outline button with text -->
             <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">{{ $safeBalance }} جنية</i><span>رصيد الخزنة</span></button>
-                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">46</i><span>عدد أصناف الفرع</span></button>
+                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">{{$productsCount}}</i><span>عدد أصناف الفرع</span></button>
             </div>
         </div>
         </div>
@@ -168,7 +172,7 @@
              {{-- <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span> صنف جديد</a> --}}
               <h2 style="text-align: center">أصناف الفرع</h2>
             <div class="table-responsive">
-              <table class="table mb-0" id="reciepts">
+              <table class="table mb-0" id="products">
                 <thead>
                   <tr>
                     <th>كود الصنف</th>
@@ -181,7 +185,7 @@
                     @foreach($products as $key => $product)
                   <tr>
                     <td><div class="badge border-info info badge-border">
-                        <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$product->product[0]->product_code}}</span></a>
+                        <a href="{{ route('products.view',$product->id) }}" target="_blank" style="color: #1e9ff2"><span>{{$product->product[0]->product_code}}</span></a>
                     </div></td>
                     <td>{{$product->product[0]->product_name}}</td>
                     <td>{{$product->amount}}</td>
@@ -218,13 +222,58 @@
 @section('pageJs')
 <!-- BEGIN: Page Vendor JS-->
 <script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/datatables.min.js') }}"></script>
-<!-- END: Page Vendor JS-->
+<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.colVis.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.print.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/dataTables.select.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/js/scripts/tables/datatables-extensions/datatable-button/datatable-print.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/jszip.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/pdfmake.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/vfs_fonts.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.html5.min.js') }}"></script>
 <script>
 
-$("#reciepts").DataTable();
-$("#quotations").DataTable();
-$("#due").DataTable();
-$("#most-ordered").DataTable();
+$("#products").DataTable({
+        dom: 'Bfrtip',
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+        },
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'حفظ كملف EXCEL',
+                messageTop: 'أصناف فرع {{ $branch->branch_name }}',
+                exportOptions: {
+                    columns: [2,1,0 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+    // customize: function(doc) {
+    //    console.dir(doc)
+    //    doc.content[2].margin = [ 100, 0, 100, 0 ] //left, top, right, bottom
+    //    doc.content[2].margin = [ 0, 0, 0, 0 ] //left, top, right, bottom
+    // },
+                text: 'حفظ كملف PDF',
+                messageTop: 'أصناف فرع \n {{ $branch->branch_name }}',
+                exportOptions: {
+                    columns: [2,1,0 ],
+                },
+
+            },
+            {
+                extend: 'print',
+                text: 'طباعة',
+                messageTop: 'أصناف فرع {{ $branch->branch_name }}',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ]
+                }
+            }
+        ]
+    });
+
+
 </script>
 
 

@@ -69,15 +69,16 @@ class BranchesController extends Controller
 
     public function view(Branches $branch)
     {
-        $branch = Branches::find($branch);
-        $branch_id = $branch[0]->id;
-        $safe = Safes::where('branch_id',$branch_id)->get();
+        $safe = Safes::where('branch_id',$branch->id)->get();
         $safeBalance = $safe[0]->safe_balance;
-        $products = BranchesProducts::where('branch_id',$branch_id)
+        $products = BranchesProducts::where('branch_id',$branch->id)
                                     ->where('amount','!=',0)
                                     ->with('product')->get();
+        $productsCount = BranchesProducts::where('branch_id',$branch->id)
+        ->where('amount','!=',0)
+        ->count();
 
- return view('branches.profile',compact('branch','safeBalance','products'));
+ return view('branches.profile',compact('productsCount','branch','safeBalance','products'));
     }
     public function edit(Branches $branch){
         $branch = Branches::find($branch);
@@ -150,7 +151,7 @@ class BranchesController extends Controller
         $transfer->transfer_datetime = Carbon::now();
         $transfer->transfer_notes = 'عملية تحويل كميات من فرع الى أخر بسبب حذف فرع, اسم الفرع قبل الحذف '.$branch->branch_name;
         $transfer->transfered_by = $user_id;
-        $transfer->authorized_by = 0;
+        $transfer->authorized_by = $user_id;
         $transfer->save();
         }
 
@@ -182,7 +183,7 @@ class BranchesController extends Controller
         $transfer->transfer_datetime = Carbon::now();
         $transfer->transfer_notes = 'عملية تحويل رصيد خزنة بسبب حذفها - اسم الخزنة قبل الحذف '.$safeName;
         $transfer->transfered_by = $user_id;
-        $transfer->authorized_by = 0;
+        $transfer->authorized_by = $user_id;
         $transfer->save();
 
         //Delete branch

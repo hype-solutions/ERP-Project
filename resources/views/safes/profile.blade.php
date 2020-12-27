@@ -6,6 +6,9 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/colors/palette-gradient.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/fonts/mobiriseicons/24px/mobirise/style.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/pages/page-users.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/extensions/buttons.dataTables.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css') }}">
+
 <!-- END: Page CSS-->
 @endsection
 
@@ -38,11 +41,11 @@
             class="users-avatar-shadow rounded-circle" height="64" width="64">
         </a>
         <div class="media-body pt-25">
-          <h4 class="media-heading"><span class="users-view-name">{{ $safe[0]->safe_name }} </span>
+          <h4 class="media-heading"><span class="users-view-name">{{ $safe->safe_name }} </span>
             </h4>
           <span>رقم الخزنة:</span>
           <span class="users-view-id">
-            <span class="badge badge-success users-view-status">{{ $safe[0]->id }}</span>
+            <span class="badge badge-success users-view-status">{{ $safe->id }}</span>
         </span>
         </div>
       </div>
@@ -52,9 +55,9 @@
         <button type="button" class="btn btn-warning btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">التحكم السريع</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
             <a class="dropdown-item" href="{{ route('safes.transfer') }}"> تحويل رصيد</a>
-            @if($safe[0]->branch_id == 0)
+            @if($safe->branch_id == 0)
             <div class="dropdown-divider"></div>
-            <form action="{{route('safes.delete',$safe[0]->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا الخزنة نهائيا و جميع تفاصيله من البرنامج')">
+            <form action="{{route('safes.delete',$safe->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا الخزنة نهائيا و جميع تفاصيله من البرنامج')">
                 @csrf
                 @method('delete')
             <button class="dropdown-item btn-danger btn" type="submit">حذف الخزنة</button>
@@ -87,23 +90,23 @@
               <tbody>
                 <tr>
                   <td>اسم الخزنة:</td>
-                  <td>{{ $safe[0]->safe_name }}</td>
+                  <td>{{ $safe->safe_name }}</td>
                 </tr>
 
                 <tr>
                   <td>مربوطة بفرع؟</td>
                   <td>
-                      @if($safe[0]->branch_id > 0)
+                      @if($safe->branch_id > 0)
                     نعم
                       @else
                         لا
                       @endif
                 </td>
                 </tr>
-                @if($safe[0]->branch_id > 0)
+                @if($safe->branch_id > 0)
                 <tr>
                   <td>الفرع المربوط:</td>
-                <td><a href="{{route('branches.view',$branch[0]->id)}}" target="_blank">{{ $branch[0]->branch_name }}</a></td>
+                <td><a href="{{route('branches.view',$safe->branch_id)}}" target="_blank">{{ $safe->branch->branch_name }}</a></td>
                 </tr>
                 @endif
 
@@ -114,7 +117,7 @@
           <div class="col-xl-6 col-lg-12 mb-1">
             <div class="form-group text-center">
                 <!-- Floating Outline button with text -->
-            <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">{{ $safe[0]->safe_balance }} جنية</i><span>رصيد الخزنة</span></button>
+            <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">{{ $safe->safe_balance }} جنية</i><span>رصيد الخزنة</span></button>
              </div>
         </div>
         </div>
@@ -133,11 +136,12 @@
             <div class="col-12">
                 <h2 style="text-align: center"> العمليات</h2>
               <div class="table-responsive">
-                <table class="table mb-0" id="due">
+                <table class="table mb-0" id="transactions">
                   <thead>
                     <tr>
-                      <th>بيانات العملية</th>
-                      <th>نوع العملية</th>
+                      <th>رقم العملية</th>
+                      <th>التاريخ</th>
+                      <th>النوع </th>
                       <th>التفاصيل</th>
                       <th>المبلغ</th>
                       <th>الصلاحيات</th>
@@ -150,18 +154,17 @@
                       <td><div class="badge border-info info badge-border">
                           <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$transaction->id}}</span></a>
                       </div>
-                      <br>
-                      {{$transaction->transaction_datetime}}
                     </td>
+                    <td>{{$transaction->transaction_datetime}}</td>
                       <td>
                             @if($transaction->transaction_type == 2)
                             <div class="badge badge-success">
-                                <i class="la la-flag font-medium-2"></i>
+                                <i class="la la-toggle-up font-medium-2"></i>
                                     <span>إيداع</span>
                                 </div>
                             @else
-                            <div class="badge badge-warning">
-                                <i class="la la-flag font-medium-2"></i>
+                            <div class="badge badge-danger">
+                                <i class="la la-toggle-down font-medium-2"></i>
                                     <span>سحب</span>
                                 </div>
                             @endif
@@ -169,7 +172,7 @@
                       <td>
                         {{$transaction->transaction_notes}}
                       </td>
-                      <td>{{$transaction->transaction_amount}} جنية</td>
+                      <td>{{$transaction->transaction_amount}} ج.م</td>
                       <td>
                         قام بالتحويل
                         <div class="badge border-primary primary badge-border">
@@ -207,7 +210,7 @@
               <div class="col-12">
                   <h2 style="text-align: center"> التحويلات</h2>
                 <div class="table-responsive">
-                  <table class="table mb-0" id="due">
+                  <table class="table mb-0" id="transfers">
                     <thead>
                       <tr>
                         <th>بيانات العملية</th>
@@ -229,7 +232,7 @@
                       </td>
                         <td>
                             @if(isset($transfer->safeFrom))
-                              @if($transfer->safeFrom->id == $safe[0]->id)
+                              @if($transfer->safeFrom->id == $safe->id)
                               <div class="badge badge-success">
                                   <i class="la la-flag font-medium-2"></i>
                                       <span>{{$transfer->safeFrom->safe_name}}</span>
@@ -254,7 +257,7 @@
                           </td>
                         <td>
                           @if(isset($transfer->safeTo))
-                          @if($transfer->safeTo->id == $safe[0]->id)
+                          @if($transfer->safeTo->id == $safe->id)
                               <div class="badge badge-warning">
                                   <i class="la la-arrow-left font-medium-2"></i>
                                       <span>{{$transfer->safeTo->safe_name}}</span>
@@ -322,16 +325,88 @@
 
 @section('pageJs')
 <!-- BEGIN: Page Vendor JS-->
+
 <script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/datatables.min.js') }}"></script>
-<!-- END: Page Vendor JS-->
+<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.colVis.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.print.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/dataTables.select.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/js/scripts/tables/datatables-extensions/datatable-button/datatable-print.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/jszip.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/pdfmake.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/vfs_fonts.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.html5.min.js') }}"></script>
 <script>
 
-$("#reciepts").DataTable();
-$("#quotations").DataTable();
-$("#due").DataTable();
-$("#most-ordered").DataTable();
-</script>
+$("#transactions").DataTable( {
+        dom: 'Bfrtip',
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+        },
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'حفظ كملف EXCEL',
+                messageTop: 'قائمة الخزن',
+                exportOptions: {
+                    columns: [6,5,4,3,2,1,0 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'حفظ كملف PDF',
+                messageTop: 'قائمة الخزن',
+                exportOptions: {
+                    columns: [6,5,4,3,2,1,0 ]
+                },
 
+            },
+            {
+                extend: 'print',
+                text: 'طباعة',
+                messageTop: 'قائمة الخزن',
+                exportOptions: {
+                    columns: [ 0,1,2,3,4,5,6 ]
+                }
+            }
+        ]
+    });
+
+    $("#transfers").DataTable( {
+        dom: 'Bfrtip',
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+        },
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'حفظ كملف EXCEL',
+                messageTop: 'قائمة الخزن',
+                exportOptions: {
+                    columns: [2,1,0 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'حفظ كملف PDF',
+                messageTop: 'قائمة الخزن',
+                exportOptions: {
+                    columns: [2,1,0 ]
+                },
+
+            },
+            {
+                extend: 'print',
+                text: 'طباعة',
+                messageTop: 'قائمة الخزن',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ]
+                }
+            }
+        ]
+    });
+</script>
 
 
 <!-- BEGIN: Theme JS-->

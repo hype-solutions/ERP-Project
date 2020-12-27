@@ -14,4 +14,8 @@ class Safes extends Model
         'safe_balance',
         'branch_id'
     ];
+    public function branch()
+    {
+        return $this->hasOne('App\Models\Branches\Branches', 'id', 'branch_id');
+    }
 }
