@@ -66,7 +66,7 @@
         <button type="button" class="btn btn-info btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> التحكم في المخزون</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
             <a class="dropdown-item" href="{{route('products.addQty',$product->id)}}">أضف كمية يدويا</a>
-            <a class="dropdown-item" href="#">أمر شراء جديد</a>
+            <a class="dropdown-item" href="{{route('purchasesorders.add')}}">أمر شراء جديد</a>
             <a class="dropdown-item" href="{{route('products.transfer',$product->id)}}">تحويل كميات بين الفروع</a>
 
         </div>
@@ -190,386 +190,353 @@
   </div>
   <!-- users view card data ends -->
   <!-- users view card details start -->
+
+
+
+
+
+
+
+
   <div class="row">
-    <div class="col-md-6">
-        <div class="card">
+    <div class="col-md-12">
+      <div class="card">
+          <div class="card-header">
+            {{-- <h4 class="card-title">Tab with Underline</h4> --}}
+          </div>
           <div class="card-content">
             <div class="card-body">
-
-              <div class="col-12">
-                <a href="{{route('products.transfer',$product->id)}}" class="btn btn-social mb-1 mr-1 btn-sm btn-primary" style="float: left"><span class="la la-arrows-h"></span> تحويل بين الفروع</a>
-                  <h2 style="text-align: center"> رصيد الفروع</h2>
-                <div class="table-responsive">
-                  <table class="table mb-0" id="reciepts">
-                    <thead>
-                      <tr>
-                        <th>كود الفرع</th>
-                        <th> الفرع</th>
-                        <th>الكمية</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($branches as $key => $branch)
-                        <tr>
-                            <td><div class="badge border-info info badge-border">
-                                <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$branch->branch->id}}</span></a>
-                            </div></td>
-                        <td>{{$branch->branch->branch_name}}</td>
-                        <td>{{$branch->amount}} قطعة</td>
-                      </tr>
-                      @endforeach
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body">
-
-                  <div class="col-12">
-                      <h2 style="text-align: center"> الموردين</h2>
-                    <div class="table-responsive">
-                      <table class="table mb-0" id="suppliers">
+              <ul class="nav nav-tabs nav-top-border no-hover-bg mb-3">
+                <li class="nav-item">
+                  <a class="nav-link active" id="active-tab32" data-toggle="tab" href="#active32" aria-controls="active32" aria-expanded="true">رصيد الفروع</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="link-tab32" data-toggle="tab" href="#link32" aria-controls="link32" aria-expanded="false">الموردين</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="link-tab33" data-toggle="tab" href="#link33" aria-controls="link33" aria-expanded="false">التحويلات بين الفروع</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="link-tab34" data-toggle="tab" href="#link34" aria-controls="link34" aria-expanded="false">الكميات المضافة يدويا</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="link-tab35" data-toggle="tab" href="#link35" aria-controls="link35" aria-expanded="false">أوامر الشراء</a>
+                  </li>
+                       <li class="nav-item">
+                    <a class="nav-link" id="link-tab36" data-toggle="tab" href="#link36" aria-controls="link36" aria-expanded="false">فواتير البيع</a>
+                  </li>
+              </ul>
+              <div class="tab-content px-1 pt-1">
+                <div role="tabpanel" class="tab-pane active" id="active32" aria-labelledby="active-tab32" aria-expanded="true">
+                  <div class="table-responsive">
+                    <table class="table mb-0" id="reciepts">
                         <thead>
                           <tr>
-                            <th> المورد</th>
-                            <th>الكمية المورده</th>
-                            <th>السعر</th>
-                            <th>التاريخ</th>
+                            <th>كود الفرع</th>
+                            <th> الفرع</th>
+                            <th>الكمية</th>
                           </tr>
                         </thead>
                         <tbody>
-                          @foreach ($productSuppliers as $item)
+                            @foreach ($branches as $key => $branch)
                             <tr>
-                            <td> {{$item->supplier->supplier_name}}</td>
-                            <td>{{$item->product_qty}}</td>
-                            <td>{{$item->product_price}} ج.م</td>
-                            <td>{{$item->purchase['delivery_date']}}</td>
+                                <td><div class="badge border-info info badge-border">
+                                    <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$branch->branch->id}}</span></a>
+                                </div></td>
+                            <td>{{$branch->branch->branch_name}}</td>
+                            <td>{{$branch->amount}} قطعة</td>
                           </tr>
                           @endforeach
                         </tbody>
                       </table>
-                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            </div>
-
-</div>
-<div class="row">
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-content">
-          <div class="card-body">
-
-            <div class="col-12">
-                <a href="{{route('products.transfer',$product->id)}}" class="btn btn-social mb-1 mr-1 btn-sm btn-primary" style="float: left"><span class="la la-arrows-h"></span> تحويل بين الفروع</a>
-                <h2 style="text-align: center"> التحويلات بين الفروع</h2>
-              <div class="table-responsive">
-                <table class="table mb-0" id="due">
-                  <thead>
-                    <tr>
-                        {{-- <th>م#</th> --}}
-                        <th>بيانات العملية</th>
-                        <th>من</th>
-                        <th>الى</th>
-                        <th>الكمية</th>
-                        <th>الصلاحيات</th>
-                        <th>الملاحظات</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                @if(isset($productransfers))
-                    @foreach ($productransfers as $key => $transfer)
-                  <tr>
-                  {{-- <td>{{++$key}}</td> --}}
-                    <td><div class="badge border-info info badge-border">
-                        <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$transfer->id}}</span></a>
+                <div class="tab-pane" id="link32" role="tabpanel" aria-labelledby="link-tab32" aria-expanded="false">
+                    <div class="table-responsive">
+                        <table class="table mb-0" id="suppliers">
+                            <thead>
+                              <tr>
+                                <th> المورد</th>
+                                <th>الكمية المورده</th>
+                                <th>السعر</th>
+                                <th>التاريخ</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              @foreach ($productSuppliers as $item)
+                                <tr>
+                                <td> {{$item->supplier->supplier_name}}</td>
+                                <td>{{$item->product_qty}}</td>
+                                <td>{{$item->product_price}} ج.م</td>
+                                <td>{{$item->purchase['delivery_date']}}</td>
+                              </tr>
+                              @endforeach
+                            </tbody>
+                          </table>
                     </div>
-                    <br>
-                    {{$transfer->transfer_datetime}}
-                  </td>
-                    <td>
-                        @if(isset($transfer->branchFrom))
-
-                          <div class="badge badge-success">
-                              <i class="la la-flag font-medium-2"></i>
-                                  <span>{{$transfer->branchFrom->branch_name}}</span>
+                </div>
+                <div class="tab-pane" id="link33" role="tabpanel" aria-labelledby="link-tab33" aria-expanded="false">
+                    <div class="table-responsive">
+                        <table class="table mb-0" id="due">
+                            <thead>
+                              <tr>
+                                  {{-- <th>م#</th> --}}
+                                  <th>بيانات العملية</th>
+                                  <th>من</th>
+                                  <th>الى</th>
+                                  <th>الكمية</th>
+                                  <th>الصلاحيات</th>
+                                  <th>الملاحظات</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                          @if(isset($productransfers))
+                              @foreach ($productransfers as $key => $transfer)
+                            <tr>
+                            {{-- <td>{{++$key}}</td> --}}
+                              <td><div class="badge border-info info badge-border">
+                                  <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$transfer->id}}</span></a>
                               </div>
-
-                        @else
-                        <div class="badge badge-danger">
-                          <i class="la la-trash font-medium-2"></i>
-                          <span>{{str_replace('عملية تحويل كميات من فرع الى أخر بسبب حذف فرع, اسم الفرع قبل الحذف ','',$transfer->transfer_notes)}}</span>
-                        </div>
-                          <span style="color: red">(فرع محذوف)</span>
-                        @endif
-                          <hr>
-                            المخزون قبل: {{$transfer->qty_before_transfer_from}}
-                            <br>
-                            المخزون بعد: {{$transfer->qty_after_transfer_from}}
-                      </td>
-                    <td>
-                      @if(isset($transfer->branchTo))
-
-                          <div class="badge badge-warning">
-                              <i class="la la-arrow-left font-medium-2"></i>
-                                  <span>{{$transfer->branchTo->branch_name}}</span>
-                              </div>
-
-                      @else
-                      <div class="badge badge-danger">
-                          <i class="la la-trash font-medium-2"></i>
-                              <span>{{str_replace('عملية تحويل كميات من فرع الى أخر بسبب حذف فرع, اسم الفرع قبل الحذف ','',$transfer->transfer_notes)}}</span>
-                          </div>
-                          <span style="color: red">(فرع فرع محذوف)</span>
-                                       @endif
-                      <hr>
-                            المخزون قبل: {{$transfer->qty_before_transfer_to}}
-                            <br>
-                            المخزون بعد: {{$transfer->qty_after_transfer_to}}
-                  </td>
-                    <td>{{$transfer->transfer_qty}}</td>
-                    <td>
-                      قام بالتحويل
-                      <div class="badge border-primary primary badge-border">
-                          <i class="la la-user font-medium-2"></i>
-                              <span>{{$transfer->user->username}}</span>
-                          </div>
-
-
-                        <br>
-                      صرح بالتحويل
-                      <div class="badge border-success success badge-square badge-border">
-                          <i class="la la-user font-medium-2"></i>
-                              <span>{{$transfer->user->username}}</span>
-                          </div>
-                    </td>
-                    <td>
-                      {{$transfer->transfer_notes}}
-                    </td>
-                  </tr>
-                  @endforeach
-                @endif
-                </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
-
-
-
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-content">
-            <div class="card-body">
-
-              <div class="col-12">
-              <a href="{{route('products.addQty',$product->id)}}" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span> أضف كمية يدويا</a>
-                  <h2 style="text-align: center"> الكميات المضافة يدويا</h2>
-                <div class="table-responsive">
-                  <table class="table mb-0" id="manual_add">
-                    <thead>
-                      <tr>
-                        <th> العملية</th>
-                        <th> الكمية</th>
-                        <th> الفرع</th>
-                        <th> سعر الشراء</th>
-                        <th> الصلاحيات</th>
-                        <th> الملاحظات</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($productManual as $key => $add)
-                        <tr>
-                            <td><div class="badge border-info info badge-border">
-                                <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$add->id}}</span></a>
-                            </div>
-                            <br>
-                            {{$add->qty_datetime}}
-                          </td>
-                        <td>{{$add->qty}}</td>
-                        <td>
-                            {{$add->branch->branch_name}}
-                            <br>
-                            المخزون قبل: {{$add->qty_before_add}}
-                            <br>
-                            المخزون بعد: {{$add->qty_after_add}}
-                        </td>
-                        <td>{{$add->qty_price}} جنية</td>
-                        <td>
-                            قام بالإضافة
-                            <div class="badge border-primary primary badge-border">
-                                <i class="la la-user font-medium-2"></i>
-                                    <span>{{$add->user->username}}</span>
-                                </div>
-
-
                               <br>
-                            صرح بالإضافة
-                            <div class="badge border-success success badge-square badge-border">
-                                <i class="la la-user font-medium-2"></i>
-                                    <span>{{$add->user->username}}</span>
-                                </div>
-                          </td>
-                        <td>{{$add->qty_notes}}</td>
-
-                      </tr>
-                      @endforeach
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        </div>
-
-
-
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-content">
-            <div class="card-body">
-
-              <div class="col-12">
-                   <h2 style="text-align: center"> أوامر الشراء</h2>
-                <div class="table-responsive">
-                  <table class="table mb-0" id="purchase_order">
-                    <thead>
-                      <tr>
-                        <th> العملية</th>
-                        <th> الوقت</th>
-                        <th> حركة</th>
-                        <th>الحالة</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($productPurchasesOrders as $item)
-                            @if($item->productInOrder->sum('product_qty'))
-                        <tr>
-                            <td><div class="badge border-info info badge-border">
-                                <a href="#" target="_blank" style="color: #1e9ff2"><span>
-                                    أمر شرا (#{{$item->id}})
-                                </span></a>
-
-                            </div></td>
-                            <td>{{$item->purchase_date}}</td>
-                            <td><b><font color="green">+</font></b> {{$item->productInOrder->sum('product_qty')}}</td>
-                            <td>
-                                @if($item->already_delivered > 0)
-                                <div class="badge badge-success">
-                                  <i class="la la-truck font-medium-2"></i>
-                                  <span>تم الإستلام</span>
-                              </div>
-                                @else
-                                <div class="badge badge-danger">
-                                  <i class="la la-truck font-medium-2"></i>
-                                  <span>لم يستلم</span>
-                              </div>
-                                @endif
-
-                                @if($item->already_paid > 0)
-                                <div class="badge badge-success">
-                                  <i class="la la-money font-medium-2"></i>
-                                      <span>مدفوع</span>
-                                  </div>
-                                @else
-                                <div class="badge badge-danger">
-                                  <i class="la la-money font-medium-2"></i>
-                                      <span>لم يدفع</span>
-                                  </div>
-                                @endif
+                              {{$transfer->transfer_datetime}}
                             </td>
-                          </tr>
-                          @endif
-                      @endforeach
+                              <td>
+                                  @if(isset($transfer->branchFrom))
 
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        </div>
+                                    <div class="badge badge-success">
+                                        <i class="la la-flag font-medium-2"></i>
+                                            <span>{{$transfer->branchFrom->branch_name}}</span>
+                                        </div>
 
-
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-content">
-            <div class="card-body">
-
-              <div class="col-12">
-                  <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span>  عملية جديدة</a>
-                  <h2 style="text-align: center">  فواتير البيع</h2>
-                <div class="table-responsive">
-                  <table class="table mb-0" id="invoices">
-                    <thead>
-                      <tr>
-                        <th> العملية</th>
-                        <th> الوقت</th>
-                        <th> حركة</th>
-                        <th>المخزون بعد</th>
-                        <th>الحالة</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-
-                        <td><div class="badge border-success info badge-border">
-                            <a href="#" target="_blank" style="color: #28d094"><span>
-                              فاتورة (#00001)
-                          </span></a>
-                        </div></td>
-                        <td>22/11/2020 22:52</td>
-                        <td><b><font color="red">-</font></b> 22</td>
-                        <td>900</td>
-                        <td>
-
-                          <div class="badge badge-success">
-                              <i class="la la-money font-medium-2"></i>
-                                  <span>مدفوع</span>
-                              </div>
-                        </td>
-                      </tr>
-                      <tr>
-
-                          <td><div class="badge border-info info badge-border">
-                              <a href="#" target="_blank" style="color: #1e9ff2"><span>
-                                  أمر شرا (#4)
-                              </span></a>
-
-                          </div></td>
-                          <td>22/11/2020 22:51</td>
-                          <td><b><font color="green">+</font></b> 10</td>
-                          <td>2000</td>
-                          <td>
-
+                                  @else
                                   <div class="badge badge-danger">
-                                      <i class="la la-truck font-medium-2"></i>
-                                      <span>لم يستلم</span>
+                                    <i class="la la-trash font-medium-2"></i>
+                                    <span>{{str_replace('عملية تحويل كميات من فرع الى أخر بسبب حذف فرع, اسم الفرع قبل الحذف ','',$transfer->transfer_notes)}}</span>
                                   </div>
-                          </td>
-                        </tr>
-                    </tbody>
-                  </table>
+                                    <span style="color: red">(فرع محذوف)</span>
+                                  @endif
+                                    <hr>
+                                      المخزون قبل: {{$transfer->qty_before_transfer_from}}
+                                      <br>
+                                      المخزون بعد: {{$transfer->qty_after_transfer_from}}
+                                </td>
+                              <td>
+                                @if(isset($transfer->branchTo))
+
+                                    <div class="badge badge-warning">
+                                        <i class="la la-arrow-left font-medium-2"></i>
+                                            <span>{{$transfer->branchTo->branch_name}}</span>
+                                        </div>
+
+                                @else
+                                <div class="badge badge-danger">
+                                    <i class="la la-trash font-medium-2"></i>
+                                        <span>{{str_replace('عملية تحويل كميات من فرع الى أخر بسبب حذف فرع, اسم الفرع قبل الحذف ','',$transfer->transfer_notes)}}</span>
+                                    </div>
+                                    <span style="color: red">(فرع فرع محذوف)</span>
+                                                 @endif
+                                <hr>
+                                      المخزون قبل: {{$transfer->qty_before_transfer_to}}
+                                      <br>
+                                      المخزون بعد: {{$transfer->qty_after_transfer_to}}
+                            </td>
+                              <td>{{$transfer->transfer_qty}}</td>
+                              <td>
+                                قام بالتحويل
+                                <div class="badge border-primary primary badge-border">
+                                    <i class="la la-user font-medium-2"></i>
+                                        <span>{{$transfer->user->username}}</span>
+                                    </div>
+
+
+                                  <br>
+                                صرح بالتحويل
+                                <div class="badge border-success success badge-square badge-border">
+                                    <i class="la la-user font-medium-2"></i>
+                                        <span>{{$transfer->user->username}}</span>
+                                    </div>
+                              </td>
+                              <td>
+                                {{$transfer->transfer_notes}}
+                              </td>
+                            </tr>
+                            @endforeach
+                          @endif
+                          </tbody>
+                          </table>
+                    </div>
+                </div>
+                <div class="tab-pane" id="link34" role="tabpanel" aria-labelledby="link-tab34" aria-expanded="false">
+                    <div class="table-responsive">
+                        <table class="table mb-0" id="manual_add">
+                            <thead>
+                              <tr>
+                                <th> العملية</th>
+                                <th> الكمية</th>
+                                <th> الفرع</th>
+                                <th> سعر الشراء</th>
+                                <th> الصلاحيات</th>
+                                <th> الملاحظات</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($productManual as $key => $add)
+                                <tr>
+                                    <td><div class="badge border-info info badge-border">
+                                        <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$add->id}}</span></a>
+                                    </div>
+                                    <br>
+                                    {{$add->qty_datetime}}
+                                  </td>
+                                <td>{{$add->qty}}</td>
+                                <td>
+                                    {{$add->branch->branch_name}}
+                                    <br>
+                                    المخزون قبل: {{$add->qty_before_add}}
+                                    <br>
+                                    المخزون بعد: {{$add->qty_after_add}}
+                                </td>
+                                <td>{{$add->qty_price}} جنية</td>
+                                <td>
+                                    قام بالإضافة
+                                    <div class="badge border-primary primary badge-border">
+                                        <i class="la la-user font-medium-2"></i>
+                                            <span>{{$add->user->username}}</span>
+                                        </div>
+
+
+                                      <br>
+                                    صرح بالإضافة
+                                    <div class="badge border-success success badge-square badge-border">
+                                        <i class="la la-user font-medium-2"></i>
+                                            <span>{{$add->user->username}}</span>
+                                        </div>
+                                  </td>
+                                <td>{{$add->qty_notes}}</td>
+
+                              </tr>
+                              @endforeach
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+                <div class="tab-pane" id="link35" role="tabpanel" aria-labelledby="link-tab35" aria-expanded="false">
+                    <div class="table-responsive">
+                        <table class="table mb-0" id="purchase_order">
+                            <thead>
+                              <tr>
+                                <th> العملية</th>
+                                <th> الوقت</th>
+                                <th> حركة</th>
+                                <th>الحالة</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($productPurchasesOrders as $item)
+                                    @if($item->productInOrder->sum('product_qty'))
+                                <tr>
+                                    <td><div class="badge border-info info badge-border">
+                                        <a href="#" target="_blank" style="color: #1e9ff2"><span>
+                                            أمر شرا (#{{$item->id}})
+                                        </span></a>
+
+                                    </div></td>
+                                    <td>{{$item->purchase_date}}</td>
+                                    <td><b><font color="green">+</font></b> {{$item->productInOrder->sum('product_qty')}}</td>
+                                    <td>
+                                        @if($item->already_delivered > 0)
+                                        <div class="badge badge-success">
+                                          <i class="la la-truck font-medium-2"></i>
+                                          <span>تم الإستلام</span>
+                                      </div>
+                                        @else
+                                        <div class="badge badge-danger">
+                                          <i class="la la-truck font-medium-2"></i>
+                                          <span>لم يستلم</span>
+                                      </div>
+                                        @endif
+
+                                        @if($item->already_paid > 0)
+                                        <div class="badge badge-success">
+                                          <i class="la la-money font-medium-2"></i>
+                                              <span>مدفوع</span>
+                                          </div>
+                                        @else
+                                        <div class="badge badge-danger">
+                                          <i class="la la-money font-medium-2"></i>
+                                              <span>لم يدفع</span>
+                                          </div>
+                                        @endif
+                                    </td>
+                                  </tr>
+                                  @endif
+                              @endforeach
+
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+                <div class="tab-pane" id="link36" role="tabpanel" aria-labelledby="link-tab36" aria-expanded="false">
+                    <div class="table-responsive">
+                        <table class="table mb-0" id="invoices">
+                            <thead>
+                              <tr>
+                                <th> العملية</th>
+                                <th> الوقت</th>
+                                <th> حركة</th>
+                                <th>المخزون بعد</th>
+                                <th>الحالة</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+
+                                <td><div class="badge border-success info badge-border">
+                                    <a href="#" target="_blank" style="color: #28d094"><span>
+                                      فاتورة (#00001)
+                                  </span></a>
+                                </div></td>
+                                <td>22/11/2020 22:52</td>
+                                <td><b><font color="red">-</font></b> 22</td>
+                                <td>900</td>
+                                <td>
+
+                                  <div class="badge badge-success">
+                                      <i class="la la-money font-medium-2"></i>
+                                          <span>مدفوع</span>
+                                      </div>
+                                </td>
+                              </tr>
+                              <tr>
+
+                                  <td><div class="badge border-info info badge-border">
+                                      <a href="#" target="_blank" style="color: #1e9ff2"><span>
+                                          أمر شرا (#4)
+                                      </span></a>
+
+                                  </div></td>
+                                  <td>22/11/2020 22:51</td>
+                                  <td><b><font color="green">+</font></b> 10</td>
+                                  <td>2000</td>
+                                  <td>
+
+                                          <div class="badge badge-danger">
+                                              <i class="la la-truck font-medium-2"></i>
+                                              <span>لم يستلم</span>
+                                          </div>
+                                  </td>
+                                </tr>
+                            </tbody>
+                          </table>
+                    </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        </div>
+      </div>
+    </div>
   </div>
+
 
   <!-- users view card details ends -->
 

@@ -74,8 +74,6 @@ class ProductsController extends Controller
 
     public function view(products $product)
     {
-        // $productx = Products::find($product);
-        // $product_id = $productx->id;
         $branches = BranchesProducts::where('product_id', $product->id)
             ->where('amount', '!=', 0)
             ->with('branch')->get();
