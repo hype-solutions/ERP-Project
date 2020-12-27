@@ -8,6 +8,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/colors/palette-gradient.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/fonts/mobiriseicons/24px/mobirise/style.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/pages/page-users.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/extensions/buttons.dataTables.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css') }}">
+
     <!-- END: Page CSS-->
 @endsection
 
@@ -118,13 +121,14 @@
           <div class="card-body">
               <!-- datatable start -->
               <div class="table-responsive">
-                <table id="users-list-datatable" class="table">
+                <table id="list" class="table">
                     <thead>
                         <tr>
                             <th>مسلسل</th>
                             <th>بيانات المنتج</th>
                             <th>المخزون</th>
-                            <th>الأسعار</th>
+                            <th>سعر الشراء</th>
+                            <th>سعر البيع</th>
                             <th>التحكم</th>
                         </tr>
                     </thead>
@@ -162,7 +166,8 @@
                                 @else
                                 <span>غير مسجل</span>
                                 @endif
-                                <br>
+                            </td><td>
+
                                 <li class="la la-truck"></li>
                                 0
                             </td>
@@ -194,7 +199,54 @@
 @section('pageJs')
 <!-- BEGIN: Page Vendor JS-->
 <script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/datatables.min.js') }}"></script>
-<!-- END: Page Vendor JS-->
+<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.colVis.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.print.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/dataTables.select.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/js/scripts/tables/datatables-extensions/datatable-button/datatable-print.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/jszip.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/pdfmake.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/vfs_fonts.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.html5.min.js') }}"></script>
+<script>
+
+$("#list").DataTable( {
+        dom: 'Bfrtip',
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+        },
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'حفظ كملف EXCEL',
+                messageTop: 'سجل عمليات الخزن',
+                exportOptions: {
+                    columns: [4,3,2,1,0 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'حفظ كملف PDF',
+                messageTop: 'سجل عمليات الخزن',
+                exportOptions: {
+                    columns: [4,3,2,1,0 ]
+                },
+
+            },
+            {
+                extend: 'print',
+                text: 'طباعة',
+                messageTop: 'سجل عمليات الخزن',
+                exportOptions: {
+                    columns: [ 0,1,2,3,4 ]
+                }
+            }
+        ]
+    });
+
+
+</script><!-- END: Page Vendor JS-->
     <!-- BEGIN: Theme JS-->
     <script src="{{ asset('theme/app-assets/js/core/app-menu.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/js/core/app.min.js') }}"></script>
