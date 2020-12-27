@@ -6,6 +6,9 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/colors/palette-gradient.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/fonts/mobiriseicons/24px/mobirise/style.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/pages/page-users.min.css') }}">
+
+<link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/extensions/buttons.dataTables.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css') }}">
 <!-- END: Page CSS-->
 @endsection
 
@@ -53,8 +56,7 @@
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
             <a class="dropdown-item" href="{{ route('suppliers.view', $supplier->id) }}">استعراض الملف</a>
             <a class="dropdown-item" href="{{ route('suppliers.edit', $supplier->id) }}">تعديل الملف</a>
-            <a class="dropdown-item" href="#">فاتورة جديد</a>
-            <a class="dropdown-item" href="#">عرض سعر جديد</a>
+            <a class="dropdown-item" href="{{ route('purchasesorders.add') }}">أمر شراء جديد </a>
             <div class="dropdown-divider"></div>
             <form action="{{route('suppliers.delete',$supplier->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا المورد نهائيا و جميع تفاصيله من البرنامج')">
                 @csrf
@@ -109,6 +111,10 @@
                 <tr>
                   <td>اسم المورد:</td>
                   <td>{{ $supplier->supplier_name }}</td>
+                </tr>
+                <tr>
+                  <td>الشركة:</td>
+                  <td>{{ $supplier->supplier_company }}</td>
                 </tr>
 
                 <tr>
@@ -176,8 +182,8 @@
             <div class="form-group text-center">
                 <!-- Floating Outline button with text -->
                 <button type="button" class="btn btn-float btn-outline-cyan"><i class="">{{$countPurchases}}</i><span>عدد أوامر الشراء</span></button>
-            <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">3545 جنية</i><span>إجمالي المبالغ من الشراء</span></button>
-                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">46</i><span>عدد أصناف المورد</span></button>
+            <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">{{$sumPurchases}} ج.م</i><span>إجمالي المبالغ من الشراء</span></button>
+                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">{{$countProducts}}</i><span>عدد أصناف المورد</span></button>
             </div>
         </div>
         </div>
@@ -186,143 +192,168 @@
   </div>
   <!-- users view card data ends -->
   <!-- users view card details start -->
+
   <div class="row">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-content">
-        <div class="card-body">
-
-          <div class="col-12">
-              <h2 style="text-align: center">أصناف المورد</h2>
-            <div class="table-responsive">
-              <table class="table mb-0" id="reciepts">
-                <thead>
-                    <tr>
-                        <th> المورد</th>
-                        <th>الكمية المورده</th>
-                        <th>السعر</th>
-                        <th>التاريخ</th>
-                      </tr>
-                </thead>
-                <tbody>
-                    @foreach ($productSuppliers as $item)
-                    <tr>
-                    <td>{{$item->product->product_name}}</td>
-                    <td>{{$item->product_qty}}</td>
-                    <td>{{$item->product_price}} ج.م</td>
-                    <td>{{$item->purchase['delivery_date']}}</td>
-                  </tr>
-                  @endforeach
-                 </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    </div>
-
-</div>
-<div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
       <div class="card">
-        <div class="card-content">
-          <div class="card-body">
-
-            <div class="col-12">
-                <h2 style="text-align: center">المبالغ المستحقة</h2>
-              <div class="table-responsive">
-                <table class="table mb-0" id="due">
-                  <thead>
-                    <tr>
-                      <th>رقم أمر الشراء</th>
-                      <th>تاريخ الإستحقاق</th>
-                      <th>الإجمالي</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      @foreach ($supplierInstallments as $item)
-                    <tr>
-                      <td><div class="badge border-info info badge-border">
-                          <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$item->purchase_id}}</span></a>
-                      <i class="la la-barcode font-medium-2"></i>
-                      </div></td>
-                      <td>{{$item->date}}</td>
-                      <td>{{$item->amount}} ج.م</td>
-                    </tr>
-                    @endforeach
-                  </tbody>
-                </table>
-              </div>
-            </div>
+          <div class="card-header">
+            {{-- <h4 class="card-title">Tab with Underline</h4> --}}
           </div>
-        </div>
-      </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card">
           <div class="card-content">
             <div class="card-body">
-              <div class="col-12">
-              <a href="{{route('purchasesorders.add')}}" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span> أمر شراء جديد</a>
-                  <h2 style="text-align: center"> أوامر الشراء</h2>
-                <div class="table-responsive">
-                  <table class="table mb-0" id="quotations">
-                    <thead>
-                      <tr>
-                        <th>رقم الأمر</th>
-                        <th>التاريخ</th>
-                        <th>الإجمالي</th>
-                       </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($purchases as $purchase)
-                      <tr>
-                        <td>
-                            <div class="badge border-warning warning badge-border">
-                              <a href="#" target="_blank" style="color: #ff9149"><span>{{$purchase->id}}</span></a>
-                          <i class="la la-barcode font-medium-2"></i>
+                <ul class="nav nav-tabs nav-top-border no-hover-bg mb-3">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="active-tab32" data-toggle="tab" href="#active32" aria-controls="active32" aria-expanded="true">أصنفاف المورد</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="link-tab32" data-toggle="tab" href="#link32" aria-controls="link32" aria-expanded="false">المبالغ المستحقة</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="link-tab35" data-toggle="tab" href="#link35" aria-controls="link35" aria-expanded="false">أوامر الشراء</a>
+                    </li>
+                  </ul>
+                  <div class="tab-content px-1 pt-1">
+                    <div role="tabpanel" class="tab-pane active" id="active32" aria-labelledby="active-tab32" aria-expanded="true">
+                      <div class="table-responsive">
+                        <table class="table mb-0"  id="products">
+                            <thead>
+                                <tr>
+                                    <th> الصنف</th>
+                                    <th>إجمالي الكمية الموردة</th>
+                                    <th>عدد مرات التوريد</th>
+                                    <th>أقل سعر</th>
+                                    <th>أعلى سعر</th>
+                                  </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($supplierProducts as $item)
+                                <tr>
+                                <td>{{$item->product->product_name}}</td>
+                                <td>{{$item->quantity}}</td>
+                                <td>{{$item->counttimes}}</td>
+                                <td><span style="color : rgb(35, 145, 45)">أقل سعر: </span>{{$item->minprice}} ج.م</td>
+                                <td><span style="color: crimson;white-space: pre-line">أعلى سعر: </span>{{$item->maxprice}} ج.م</td>
+                            </tr>
+                              @endforeach
+                             </tbody>
+                          </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="link32" role="tabpanel" aria-labelledby="link-tab32" aria-expanded="false">
+                        <div class="table-responsive">
+                            <table class="table mb-0" id="due">
+                                <thead>
+                                  <tr>
+                                    <th>رقم أمر الشراء</th>
+                                    <th>تاريخ الإستحقاق</th>
+                                    <th>تم الدفع؟</th>
+                                    <th>الإجمالي</th>
+                                    <th>التحكم</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($supplierInstallments as $item)
+                                  <tr>
+                                    <td><div class="badge border-info info badge-border">
+                                        <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$item->purchase_id}}</span></a>
+                                    <i class="la la-barcode font-medium-2"></i>
+                                    </div></td>
+                                    <td>{{$item->date}}</td>
+                                    <td>
+                                        @if($item->paid == 'Yes')
+                                        <span class="text-success">نعم</span>
+                                        @else
+                                        <span class="text-danger">لا</span>
+                                        @endif
+                                    </td>
+                                    <td>{{$item->amount}} ج.م</td>
+                                    <td>
+                                        @if($item->paid == 'Yes')
+                                        <button class="btn btn-primary">استعراض أمر الشراء</button>
+                                        <button class="btn btn-info">استعراض فاتورة التسديد</button>
+                                        <button class="btn btn-dark">طباعة فاتورة التسديد</button>
+                                        @else
+                                        <button class="btn btn-primary">استعراض أمر الشراء</button>
+                                        <button class="btn btn-success">دفع الان</button>
+                                        <button class="btn btn-warning">ارسال تذكير للمورد</button>
+                                        @endif
+                                    </td>
+                                  </tr>
+                                  @endforeach
+                                </tbody>
+                              </table>
                           </div>
-                          <br/>
-                          @if($purchase->already_delivered > 0)
-                          <div class="badge badge-success">
-                            <i class="la la-truck font-medium-2"></i>
-                            <span>تم الإستلام</span>
-                        </div>
-                          @else
-                          <div class="badge badge-danger">
-                            <i class="la la-truck font-medium-2"></i>
-                            <span>لم يستلم</span>
-                        </div>
-                          @endif
-
-                          @if($purchase->already_paid > 0)
-                          <div class="badge badge-success">
-                            <i class="la la-money font-medium-2"></i>
-                                <span>مدفوع</span>
-                            </div>
-                          @else
-                          <div class="badge badge-danger">
-                            <i class="la la-money font-medium-2"></i>
-                                <span>لم يدفع</span>
-                            </div>
-                          @endif
-
-                        </td>
-                        <td>{{$purchase->purchase_date}}</td>
-                        <td>{{$purchase->purchase_total}} ج.م</td>
-
-                      </tr>
-                      @endforeach
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+                      </div>
+                      <div class="tab-pane" id="link35" role="tabpanel" aria-labelledby="link-tab35" aria-expanded="false">
+                        <div class="table-responsive">
+                            <table class="table mb-0" id="purchases_orders">
+                                <thead>
+                                  <tr>
+                                    <th>رقم الأمر</th>
+                                    <th>التاريخ</th>
+                                    <th>تم الدفع؟</th>
+                                    <th>تم الإستلام؟</th>
+                                    <th>الإجمالي</th>
+                                    <th>التحكم</th>
+                                   </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($purchases as $purchase)
+                                  <tr>
+                                    <td>
+                                        <div class="badge border-warning warning badge-border">
+                                          <a href="#" target="_blank" style="color: #ff9149"><span>{{$purchase->id}}</span></a>
+                                      <i class="la la-barcode font-medium-2"></i>
+                                      </div>
+                                    </td>
+                                    <td>{{$purchase->purchase_date}}</td>
+                                    <td>@if($purchase->already_paid > 0)
+                                        <div class="badge badge-success">
+                                          <i class="la la-money font-medium-2"></i>
+                                              <span>مدفوع</span>
+                                          </div>
+                                        @else
+                                        <div class="badge badge-danger">
+                                          <i class="la la-money font-medium-2"></i>
+                                              <span>لم يدفع</span>
+                                          </div>
+                                        @endif</td>
+                                    <td>@if($purchase->already_delivered > 0)
+                                        <div class="badge badge-success">
+                                          <i class="la la-truck font-medium-2"></i>
+                                          <span>تم الإستلام</span>
+                                      </div>
+                                        @else
+                                        <div class="badge badge-danger">
+                                          <i class="la la-truck font-medium-2"></i>
+                                          <span>لم يستلم</span>
+                                      </div>
+                                        @endif</td>
+                                    <td>{{$purchase->purchase_total}} ج.م</td>
+                                    <td>
+                                        <button class="btn btn-success">استعراض أمر الشراء</button>
+                                        <button class="btn btn-dark">طباعة أمر الشراء</button>
+                                    </td>
+                                  </tr>
+                                  @endforeach
+                                </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
             </div>
           </div>
-        </div>
-        </div>
+      </div>
+    </div>
   </div>
+
+
+
+
+
+
+
+
 
   <!-- users view card details ends -->
 
@@ -340,13 +371,132 @@
 @section('pageJs')
 <!-- BEGIN: Page Vendor JS-->
 <script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/datatables.min.js') }}"></script>
-<!-- END: Page Vendor JS-->
+<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.colVis.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.print.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/dataTables.select.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/js/scripts/tables/datatables-extensions/datatable-button/datatable-print.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/jszip.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/pdfmake.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/vfs_fonts.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.html5.min.js') }}"></script><!-- END: Page Vendor JS-->
 <script>
 
-$("#reciepts").DataTable();
-$("#quotations").DataTable();
-$("#due").DataTable();
-$("#most-ordered").DataTable();
+$("#products").DataTable({
+        dom: 'Bfrtip',
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+        },
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'حفظ كملف EXCEL',
+                messageTop: 'أصناف المورد {{ $supplier->supplier_name }}',
+                exportOptions: {
+                    columns: [4,3,2,1,0 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+    // customize: function(doc) {
+    //    console.dir(doc)
+    //    doc.content[2].margin = [ 100, 0, 100, 0 ] //left, top, right, bottom
+    //    doc.content[2].margin = [ 0, 0, 0, 0 ] //left, top, right, bottom
+    // },
+                text: 'حفظ كملف PDF',
+                messageTop: 'أصناف المورد \n {{ $supplier->supplier_name }}',
+                exportOptions: {
+                    columns: [4,3,2,1,0 ],
+                },
+
+            },
+            {
+                extend: 'print',
+                text: 'طباعة',
+                messageTop: 'أصناف المورد {{ $supplier->supplier_name }}',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3,4 ]
+                }
+            }
+        ]
+    });
+$("#due").DataTable({
+        dom: 'Bfrtip',
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+        },
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'حفظ كملف EXCEL',
+                messageTop: 'المبالغ المستحقة للمورد {{ $supplier->supplier_name }}',
+                exportOptions: {
+                    columns: [3,2,1,0 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+    // customize: function(doc) {
+    //    console.dir(doc)
+    //    doc.content[2].margin = [ 100, 0, 100, 0 ] //left, top, right, bottom
+    //    doc.content[2].margin = [ 0, 0, 0, 0 ] //left, top, right, bottom
+    // },
+                text: 'حفظ كملف PDF',
+                messageTop: 'المبالغ المستحقة للمورد \n {{ $supplier->supplier_name }}',
+                exportOptions: {
+                    columns: [3,2,1,0 ],
+                },
+
+            },
+            {
+                extend: 'print',
+                text: 'طباعة',
+                messageTop: 'المبالغ المستحقة للمورد {{ $supplier->supplier_name }}',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3 ]
+                }
+            }
+        ]
+    });
+$("#purchases_orders").DataTable({
+        dom: 'Bfrtip',
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+        },
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'حفظ كملف EXCEL',
+                messageTop: 'أوامر شراء المورد {{ $supplier->supplier_name }}',
+                exportOptions: {
+                    columns: [3,2,1,0 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+    // customize: function(doc) {
+    //    console.dir(doc)
+    //    doc.content[2].margin = [ 100, 0, 100, 0 ] //left, top, right, bottom
+    //    doc.content[2].margin = [ 0, 0, 0, 0 ] //left, top, right, bottom
+    // },
+                text: 'حفظ كملف PDF',
+                messageTop: 'أوامر شراء المورد \n {{ $supplier->supplier_name }}',
+                exportOptions: {
+                    columns: [3,2,1,0 ],
+                },
+
+            },
+            {
+                extend: 'print',
+                text: 'طباعة',
+                messageTop: 'أوامر شراء المورد {{ $supplier->supplier_name }}',
+                exportOptions: {
+                    columns: [ 0, 1, 2,3 ]
+                }
+            }
+        ]
+    });
 </script>
 
 

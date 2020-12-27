@@ -227,6 +227,8 @@ class PurchasesOrdersController extends Controller
         } else {
             $purchase->safe_payment_id = NULL;
             $purchase->safe_id = NULL;
+            $purchase->already_paid = 0;
+
             if ($request->safe_id_not_paid > 0) {
                 $purchase->safe_id = $request->safe_id_not_paid;
                 $payment = new SafesTransactions();

@@ -22,7 +22,7 @@ class SuppliersController extends Controller
             'supplier_mobile' => 'required|unique:suppliers',
             'supplier_phone' => '',
             'supplier_company' => '',
-            'supplier_email' => 'unique:suppliers',
+            'supplier_email' => '',
             'supplier_address' => '',
             'supplier_notes' => '',
             'supplier_commercial_registry' => '',
@@ -30,7 +30,7 @@ class SuppliersController extends Controller
         ],
         [
             //'supplier_email.email' => 'برجاء إدخال بريد الكتروني صحيح',
-            'supplier_email.unique' => 'برجاء إختيار بريد الكتروني اخر, هذا مستخدم بالفعل',
+            // 'supplier_email.unique' => 'برجاء إختيار بريد الكتروني اخر, هذا مستخدم بالفعل',
             'supplier_mobile.required' => 'برجاء إدخال رقم موبايل المورد',
             'supplier_mobile.unique' => 'هذا الرقم مستخدم بالفعل, برجاء اختيار رقم موبايل اخر',
         ]
@@ -72,14 +72,19 @@ class SuppliersController extends Controller
     {
         $purchases = PurchasesOrders::where('supplier_id',$supplier->id)->get();
         $countPurchases = PurchasesOrders::where('supplier_id',$supplier->id)->count();
-        //$supplier = Suppliers::find($supplier);
-
-        $productSuppliers = PurchasesOrdersProducts::where('supplier_id',$supplier->id)
+        $sumPurchases = PurchasesOrders::where('supplier_id',$supplier->id)->sum('purchase_total');
+        $supplierProducts = PurchasesOrdersProducts::groupBy('product_id')
         ->where('status','delivered')
+        ->where('supplier_id',$supplier->id)
+        ->selectRaw('purchases_orders_products.*, sum(product_qty) as quantity, min(product_price) as minprice, max(product_price) as maxprice, count(id) as counttimes, product_id')
         ->get();
+        $countProducts = PurchasesOrdersProducts::groupBy('product_id')
+        ->where('status','delivered')
+        ->where('supplier_id',$supplier->id)
+        ->count();
 
         $supplierInstallments  = PurchasesOrdersPayments::where('supplier_id',$supplier->id)->get();
-        return view('suppliers.profile',compact('supplier','purchases','countPurchases','productSuppliers','supplierInstallments'));
+        return view('suppliers.profile',compact('countProducts','sumPurchases','supplier','purchases','countPurchases','supplierProducts','supplierInstallments'));
     }
     public function edit(Suppliers $supplier){
         $supplier = Suppliers::find($supplier);

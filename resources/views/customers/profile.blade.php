@@ -41,11 +41,11 @@
             class="users-avatar-shadow rounded-circle" height="64" width="64">
         </a>
         <div class="media-body pt-25">
-          <h4 class="media-heading"><span class="users-view-name">{{ $customer[0]->customer_name }} </span>
+          <h4 class="media-heading"><span class="users-view-name">{{ $customer->customer_name }} </span>
             </h4>
           <span>رقم العميل:</span>
           <span class="users-view-id">
-            <span class="badge badge-success users-view-status">{{ $customer[0]->id }}</span>
+            <span class="badge badge-success users-view-status">{{ $customer->id }}</span>
         </span>
         </div>
       </div>
@@ -54,12 +54,12 @@
        <div class="btn-group mr-1 mb-1">
         <button type="button" class="btn btn-warning btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">التحكم السريع</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-            <a class="dropdown-item" href="{{ route('customers.view', $customer['0']->id) }}">استعراض الملف</a>
-            <a class="dropdown-item" href="{{ route('customers.edit', $customer['0']->id) }}">تعديل الملف</a>
+            <a class="dropdown-item" href="{{ route('customers.view', $customer->id) }}">استعراض الملف</a>
+            <a class="dropdown-item" href="{{ route('customers.edit', $customer->id) }}">تعديل الملف</a>
             <a class="dropdown-item" href="#">فاتورة جديد</a>
             <a class="dropdown-item" href="#">عرض سعر جديد</a>
             <div class="dropdown-divider"></div>
-            <form action="{{route('customers.delete',$customer[0]->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا العميل نهائيا و جميع تفاصيله من البرنامج')">
+            <form action="{{route('customers.delete',$customer->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا العميل نهائيا و جميع تفاصيله من البرنامج')">
                 @csrf
                 @method('delete')
             <button class="dropdown-item btn-danger btn" type="submit">حذف العميل</button>
@@ -69,19 +69,19 @@
     <div class="btn-group mr-1 mb-1">
         <button type="button" class="btn btn-info btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> التواصل مع العميل</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-            @if ( isset($customer[0]->customer_mobile))
-        <a class="dropdown-item" href="tel:{{$customer[0]->customer_mobile}}">اتصال بالموبايل</a>
+            @if ( isset($customer->customer_mobile))
+        <a class="dropdown-item" href="tel:{{$customer->customer_mobile}}">اتصال بالموبايل</a>
             @else
             <button class="dropdown-item" href="#">اتصال بالموبايل</button>
             @endif
-            @if ( isset($customer[0]->customer_phone))
-        <a class="dropdown-item" href="tel:{{$customer[0]->customer_phone}}">اتصال بالتليفون</a>
+            @if ( isset($customer->customer_phone))
+        <a class="dropdown-item" href="tel:{{$customer->customer_phone}}">اتصال بالتليفون</a>
             @else
             <button class="dropdown-item" href="#">اتصال بالتليفون</button>
             @endif
             <button class="dropdown-item" disabled>ارسال SMS <small style="color: red">غير متاحة</small></button>
-            @if ( isset($customer[0]->customer_email))
-        <a class="dropdown-item" href="mailto:{{$customer[0]->customer_email}}"> ارسال ايميل</a>
+            @if ( isset($customer->customer_email))
+        <a class="dropdown-item" href="mailto:{{$customer->customer_email}}"> ارسال ايميل</a>
             @else
             <button class="dropdown-item" href="#"> ارسال ايميل</button>
             @endif
@@ -111,24 +111,24 @@
               <tbody>
                 <tr>
                   <td>اسم العميل:</td>
-                  <td>{{ $customer[0]->customer_name }}</td>
+                  <td>{{ $customer->customer_name }}</td>
                 </tr>
                 <tr>
                     <td>نوع العميل:</td>
                     <td>
-                        @if($customer[0]->customer_type == 'company')
+                        @if($customer->customer_type == 'company')
                         تجاري
                         @else
                         فردي
                         @endif
                     </td>
                   </tr>
-                @if($customer[0]->customer_type == 'company')
+                @if($customer->customer_type == 'company')
                 <tr>
                   <td>الوظيفة:</td>
                   <td>
-                      @if(isset($customer[0]->customer_title))
-                    {{ $customer[0]->customer_title }}
+                      @if(isset($customer->customer_title))
+                    {{ $customer->customer_title }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل</small>
                     @endif
@@ -136,8 +136,8 @@
                 </tr>
                 <tr>
                   <td>الشركة:</td>
-                  <td>@if(isset($customer[0]->customer_company))
-                    {{ $customer[0]->customer_company }}
+                  <td>@if(isset($customer->customer_company))
+                    {{ $customer->customer_company }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل</small>
                     @endif</td>
@@ -145,30 +145,30 @@
                 @endif
                 <tr>
                   <td>الموبايل:</td>
-                  <td>{{ $customer[0]->customer_mobile }}</td>
+                  <td>{{ $customer->customer_mobile }}</td>
                 </tr>
                 <tr>
                   <td>التليفون:</td>
-                  <td>@if(isset($customer[0]->customer_phone))
-                    {{ $customer[0]->customer_phone }}
+                  <td>@if(isset($customer->customer_phone))
+                    {{ $customer->customer_phone }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل</small>
                     @endif</td>
                 </tr>
                 <tr>
                    <td>الايميل:</td>
-                   <td>@if(isset($customer[0]->customer_email))
-                    {{ $customer[0]->customer_email }}
+                   <td>@if(isset($customer->customer_email))
+                    {{ $customer->customer_email }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل</small>
                     @endif</td>
                 </tr>
-                @if($customer[0]->customer_type == 'company')
+                @if($customer->customer_type == 'company')
                 <tr>
                     <td>السجل التجاري:</td>
                     <td>
-                        @if(isset($customer[0]->customer_commercial_registry))
-                        {{ $customer[0]->customer_commercial_registry }}
+                        @if(isset($customer->customer_commercial_registry))
+                        {{ $customer->customer_commercial_registry }}
                         @else
                         <small style="font-style: italic;color:red;">غير مسجل</small>
                         @endif
@@ -177,8 +177,8 @@
                  <tr>
                     <td>البطاقة الضريبية:</td>
                     <td>
-                        @if(isset($customer[0]->customer_tax_card))
-                    {{ $customer[0]->customer_tax_card }}
+                        @if(isset($customer->customer_tax_card))
+                    {{ $customer->customer_tax_card }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل</small>
                     @endif
@@ -187,8 +187,8 @@
                 @endif
                 <tr>
                    <td>العنوان:</td>
-                   <td> @if(isset($customer[0]->customer_address))
-                    {{ $customer[0]->customer_address }}
+                   <td> @if(isset($customer->customer_address))
+                    {{ $customer->customer_address }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل </small>
                      @endif</td>
@@ -256,8 +256,8 @@
                               <td>{{$item->invoice_date}}</td>
                               <td>{{$item->invoice_total}} ج.م</td>
                               <td>
-                                  <button class="btn btn-success">استعراض</button>
-                                  <button class="btn btn-dark">طباعة</button>
+                                  <button class="btn btn-success">استعراض الفاتورة</button>
+                                  <button class="btn btn-dark">طباعة الفاتورة</button>
                               </td>
                             </tr>
                             @endforeach
@@ -305,8 +305,8 @@
                                     </div>
                                 @endif</td>
                                 <td>
-                                    <button class="btn btn-success">استعراض</button>
-                                    <button class="btn btn-dark">طباعة</button>
+                                    <button class="btn btn-success">استعراض عرض السعر</button>
+                                    <button class="btn btn-dark">طباعة عرض السعر</button>
                                 </td>
                             </tr>
                             @endforeach
@@ -343,8 +343,15 @@
                               </td>
                               <td>{{$item->amount}} ج.م</td>
                               <td>
-                                <button class="btn btn-success">استعراض</button>
-                                <button class="btn btn-dark">طباعة</button>
+                                @if($item->paid == 'Yes')
+                                <button class="btn btn-primary">استعراض فاتورة البيع</button>
+                                <button class="btn btn-info">استعراض فاتورة التسديد</button>
+                                <button class="btn btn-dark">طباعة فاتورة التسديد</button>
+                                @else
+                                <button class="btn btn-primary">استعراض فاتورة البيع</button>
+                                <button class="btn btn-success">دفع الان</button>
+                                <button class="btn btn-warning">ارسال تذكير للمورد</button>
+                                @endif
                             </td>
 
                             </tr>
@@ -474,7 +481,7 @@ $("#reciepts").DataTable( {
             {
                 extend: 'excelHtml5',
                 text: 'حفظ كملف EXCEL',
-                messageTop: 'فواتير العميل {{ $customer[0]->customer_name }}',
+                messageTop: 'فواتير العميل {{ $customer->customer_name }}',
                 exportOptions: {
                     columns: [2,1,0 ]
                 }
@@ -487,7 +494,7 @@ $("#reciepts").DataTable( {
     //    doc.content[2].margin = [ 0, 0, 0, 0 ] //left, top, right, bottom
     // },
                 text: 'حفظ كملف PDF',
-                messageTop: 'فواتير العميل \n {{ $customer[0]->customer_name }}',
+                messageTop: 'فواتير العميل \n {{ $customer->customer_name }}',
                 exportOptions: {
                     columns: [2,1,0 ],
                 },
@@ -496,7 +503,7 @@ $("#reciepts").DataTable( {
             {
                 extend: 'print',
                 text: 'طباعة',
-                messageTop: 'فواتير العميل {{ $customer[0]->customer_name }}',
+                messageTop: 'فواتير العميل {{ $customer->customer_name }}',
                 exportOptions: {
                     columns: [ 0, 1, 2 ]
                 }
@@ -512,7 +519,7 @@ $("#quotations").DataTable( {
             {
                 extend: 'excelHtml5',
                 text: 'حفظ كملف EXCEL',
-                messageTop: 'عروض أسعار {{ $customer[0]->customer_name }}',
+                messageTop: 'عروض أسعار {{ $customer->customer_name }}',
                 exportOptions: {
                     columns: [3,2,1,0 ]
                 }
@@ -520,7 +527,7 @@ $("#quotations").DataTable( {
             {
                 extend: 'pdfHtml5',
                 text: 'حفظ كملف PDF',
-                messageTop: 'عروض أسعار \n {{ $customer[0]->customer_name }}',
+                messageTop: 'عروض أسعار \n {{ $customer->customer_name }}',
                 exportOptions: {
                     columns: [3,2,1,0 ]
                 }
@@ -528,7 +535,7 @@ $("#quotations").DataTable( {
             {
                 extend: 'print',
                 text: 'طباعة',
-                messageTop: 'عروض أسعار {{ $customer[0]->customer_name }}',
+                messageTop: 'عروض أسعار {{ $customer->customer_name }}',
                 exportOptions: {
                     columns: [ 0, 1, 2,3 ]
                 }
@@ -544,7 +551,7 @@ $("#due").DataTable( {
             {
                 extend: 'excelHtml5',
                 text: 'حفظ كملف EXCEL',
-                messageTop: 'المبالغ المستحقة على {{ $customer[0]->customer_name }}',
+                messageTop: 'المبالغ المستحقة على {{ $customer->customer_name }}',
                 exportOptions: {
                     columns: [3,2,1,0 ]
                 }
@@ -552,7 +559,7 @@ $("#due").DataTable( {
             {
                 extend: 'pdfHtml5',
                 text: 'حفظ كملف PDF',
-                messageTop: 'المبالغ المستحقة على \n {{ $customer[0]->customer_name }}',
+                messageTop: 'المبالغ المستحقة على \n {{ $customer->customer_name }}',
                 exportOptions: {
                     columns: [3,2,1,0 ]
                 }
@@ -560,7 +567,7 @@ $("#due").DataTable( {
             {
                 extend: 'print',
                 text: 'طباعة',
-                messageTop: 'المبالغ المستحقة على {{ $customer[0]->customer_name }}',
+                messageTop: 'المبالغ المستحقة على {{ $customer->customer_name }}',
                 exportOptions: {
                     columns: [ 0, 1, 2,3 ]
                 }
@@ -576,7 +583,7 @@ $("#most-ordered").DataTable( {
             {
                 extend: 'excelHtml5',
                 text: 'حفظ كملف EXCEL',
-                messageTop: 'الأصناف الأكثر طلبا ل {{ $customer[0]->customer_name }}',
+                messageTop: 'الأصناف الأكثر طلبا ل {{ $customer->customer_name }}',
                 exportOptions: {
                     columns: [1,0 ]
                 }
@@ -584,7 +591,7 @@ $("#most-ordered").DataTable( {
             {
                 extend: 'pdfHtml5',
                 text: 'حفظ كملف PDF',
-                messageTop: 'الأصناف الأكثر طلبا ل \n {{ $customer[0]->customer_name }}',
+                messageTop: 'الأصناف الأكثر طلبا ل \n {{ $customer->customer_name }}',
                 exportOptions: {
                     columns: [1,0 ]
                 }
@@ -592,7 +599,7 @@ $("#most-ordered").DataTable( {
             {
                 extend: 'print',
                 text: 'طباعة',
-                messageTop: 'الأصناف الأكثر طلبا ل {{ $customer[0]->customer_name }}',
+                messageTop: 'الأصناف الأكثر طلبا ل {{ $customer->customer_name }}',
                 exportOptions: {
                     columns: [ 0, 1 ]
                 }

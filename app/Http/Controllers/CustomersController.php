@@ -80,17 +80,17 @@ class CustomersController extends Controller
 
     public function view(Customers $customer)
     {
-        $customer = Customers::find($customer);
-        $customer_id = $customer[0]->id;
-        $customerInvoices = Invoices::where('customer_id',$customer_id)->get();
-        $customerInvoicesCount = Invoices::where('customer_id',$customer_id)->count();
-        $customerInvoicesSum = Invoices::where('customer_id',$customer_id)->sum('invoice_total');
-        $customerPriceQuotation = InvoicesPriceQuotation::where('customer_id',$customer_id)->get();
-        $customerPriceQuotationCount = InvoicesPriceQuotation::where('customer_id',$customer_id)->count();
-        $customerInvoicesPayments = InvoicesPayments::where('customer_id',$customer_id)->get();
+        //$customer = Customers::find($customer);
+        //$customer_id = $customer[0]->id;
+        $customerInvoices = Invoices::where('customer_id',$customer->id)->get();
+        $customerInvoicesCount = Invoices::where('customer_id',$customer->id)->count();
+        $customerInvoicesSum = Invoices::where('customer_id',$customer->id)->sum('invoice_total');
+        $customerPriceQuotation = InvoicesPriceQuotation::where('customer_id',$customer->id)->get();
+        $customerPriceQuotationCount = InvoicesPriceQuotation::where('customer_id',$customer->id)->count();
+        $customerInvoicesPayments = InvoicesPayments::where('customer_id',$customer->id)->get();
 
 $mostOrdered = InvoicesProducts::with('product')
-->where('customer_id',$customer_id)
+->where('customer_id',$customer->id)
 ->select('product_id', DB::raw('COUNT(product_id) as count'))
 ->groupBy('product_id')
 ->orderBy('count', 'desc')
@@ -99,7 +99,7 @@ $mostOrdered = InvoicesProducts::with('product')
         return view('customers.profile',compact('customerPriceQuotationCount','customerInvoicesCount','customerInvoicesSum','customer','customerInvoices','customerPriceQuotation','customerInvoicesPayments','mostOrdered'));
     }
     public function edit(Customers $customer){
-        $customer = Customers::find($customer);
+        //$customer = Customers::find($customer);
         return view('customers.edit',compact('customer'));
     }
 
