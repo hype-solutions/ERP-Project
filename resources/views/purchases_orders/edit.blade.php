@@ -44,7 +44,21 @@
 <div class="content-overlay"></div>
       <div class="content-wrapper">
         <div class="content-header row">
-        </div>
+            <div class="content-header-left col-md-6 col-12 mb-2">
+              <h3 class="content-header-title mb-0">أوامر الشراء</h3>
+              <div class="row breadcrumbs-top">
+                <div class="breadcrumb-wrapper col-12">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{route('home')}}">البرنامج</a></li>
+                <li class="breadcrumb-item"><a href="{{route('purchasesorders.list')}}">أوامر الشراء</a></li>
+                    <li class="breadcrumb-item active">تعديل
+                    </li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+
+          </div>
         <div class="content-body"><!-- users view start -->
 <section class="users-view">
     @if ($errors->any())
@@ -90,7 +104,7 @@
                 <div class="card-body">
 
                         <div class="form-body">
-                            <h4 class="form-section"><i class="la la-flag"></i> تعديل أمر شراء</h4>
+                            <h4 class="form-section"><i class="la la-flag"></i> تعديل أمر شراء رقم <button class="btn-dark" type="button">{{$purchaseOrder->id}}</button></h4>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -124,7 +138,7 @@
 
                     <fieldset class="form-group">
                         <p class="text-muted">الشروط /  الملاحظات</p>
-                    <textarea class="form-control" name="purchase_note" rows="4" >{{$purchaseOrder->purchase_note}}</textarea>
+                    <textarea class="form-control" name="purchase_note" rows="5" id="terms-conditions">{{$purchaseOrder->purchase_note}}</textarea>
                     </fieldset>
 
 
@@ -172,8 +186,8 @@
                                           </div>
                                     </td>
                                     <td><input type="text" class="product_input" name="product[{{$key+1}}][desc]" value="{{$item->product_desc}}"/></td>
-                                    <td><input type="number" class="product_input" id="p_p_{{$key+1}}" name="product[{{$key+1}}][price]"  value="{{$item->product_price}}" onblur="return reCalculate({{$key+1}})" min="0"/></td>
-                                    <td><input type="number" class="product_input" id="p_q_{{$key+1}}" name="product[{{$key+1}}][qty]"  value="{{$item->product_qty}}" onblur="return reCalculate({{$key+1}})"  min="0"/></td>
+                                    <td><input type="number" class="product_input" id="p_p_{{$key+1}}" name="product[{{$key+1}}][price]"  value="{{$item->product_price}}" onblur="return reCalculate({{$key+1}})" min="0" oninput="return numbersOnly(this)" required/></td>
+                                    <td><input type="number" class="product_input" id="p_q_{{$key+1}}" name="product[{{$key+1}}][qty]"  value="{{$item->product_qty}}" onblur="return reCalculate({{$key+1}})"  min="0" oninput="return numbersOnly(this)" required/></td>
                                     <td>
                                         <span id="tot_{{$key+1}}">0</span> ج.م
                                     </td>
@@ -516,6 +530,7 @@
 <script src="{{ asset('theme/app-assets/vendors/js/forms/toggle/bootstrap-switch.min.js') }}"></script>
 <script src="{{ asset('theme/app-assets/vendors/js/forms/toggle/switchery.min.js') }}"></script>
 <script src="{{ asset('theme/app-assets/vendors/js/forms/toggle/bootstrap-checkbox.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/editors/ckeditor/ckeditor-super-build.js') }}"></script>
 
 <!-- BEGIN: Theme JS-->
     <script src="{{ asset('theme/app-assets/js/core/app-menu.min.js') }}"></script>
@@ -526,6 +541,18 @@
     <script src="{{ asset('theme/app-assets/js/scripts/forms/select/form-select2.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/js/scripts/forms/switch.min.js') }}"></script>
     <script>
+
+
+CKEDITOR.ClassicEditor.create( document.querySelector( '#terms-conditions' ) ).catch( error => {console.error( error );} );
+
+
+
+function numbersOnly(input){
+    input.value = input.value.replace(/[^0-9.]/g, '');
+    input.value = input.value.replace(/(\..*)\./g, '$1');
+}
+
+
 
 function laterPaid(row){
     if($('#later_dates_'+row+':visible').length == 0)
@@ -749,6 +776,8 @@ product_price.setAttribute("name", "product[" + currentIndex + "][price]");
 product_price.setAttribute("class", "product_input");
 product_price.setAttribute("id", "p_p_" + currentIndex);
 product_price.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
+product_price.setAttribute("oninput", "return numbersOnly(this)");
+product_price.setAttribute("required", "required");
 
 var product_qty = document.createElement("input");
 product_qty.setAttribute("name", "product[" + currentIndex + "][qty]");
@@ -756,6 +785,8 @@ product_qty.setAttribute("class", "product_input");
 product_qty.setAttribute("id", "p_q_" + currentIndex);
 product_qty.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
 product_qty.setAttribute("value", "0");
+product_qty.setAttribute("oninput", "return numbersOnly(this)");
+product_qty.setAttribute("required", "required");
 
 
 var currentCell = currentRow.insertCell(-1);

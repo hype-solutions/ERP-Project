@@ -44,7 +44,21 @@
 <div class="content-overlay"></div>
       <div class="content-wrapper">
         <div class="content-header row">
-        </div>
+            <div class="content-header-left col-md-6 col-12 mb-2">
+              <h3 class="content-header-title mb-0">أوامر الشراء</h3>
+              <div class="row breadcrumbs-top">
+                <div class="breadcrumb-wrapper col-12">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{route('home')}}">البرنامج</a></li>
+                <li class="breadcrumb-item"><a href="{{route('purchasesorders.list')}}">أوامر الشراء</a></li>
+                    <li class="breadcrumb-item active">إضافة
+                    </li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+
+          </div>
         <div class="content-body"><!-- users view start -->
 <section class="users-view">
     @if ($errors->any())
@@ -99,7 +113,11 @@
                                         <select class="select2-rtl form-control" data-placeholder="إختر المورد..." name="supplier_id"   required>
                                             <option></option>
                                             @foreach ($suppliers as $supplier)
-                                            <option value="{{$supplier->id}}">{{$supplier->supplier_name}}</option>
+                                            <option value="{{$supplier->id}}">{{$supplier->supplier_name}}
+                                            @if(isset($supplier->supplier_company))
+                                                - {{$supplier->supplier_company}}
+                                            @endif
+                                            </option>
                                             @endforeach
                                         </select>
                                       </div>
@@ -123,7 +141,7 @@
 
                     <fieldset class="form-group">
                         <p class="text-muted">الشروط /  الملاحظات</p>
-                        <textarea class="form-control" name="purchase_note" rows="4"  ></textarea>
+                        <textarea class="form-control" name="purchase_note" rows="5" id="terms-conditions" ></textarea>
                     </fieldset>
 
 
@@ -170,8 +188,8 @@
                                           </div>
                                     </td>
                                     <td><input type="text" class="product_input" name="product[1][desc]"/></td>
-                                    <td><input type="text" class="product_input" id="p_p_1" name="product[1][price]" onblur="return reCalculate(1)"/></td>
-                                    <td><input type="text" class="product_input" id="p_q_1" name="product[1][qty]" onblur="return reCalculate(1)" value="0"/></td>
+                                    <td><input type="text" class="product_input" id="p_p_1" name="product[1][price]" onblur="return reCalculate(1)" oninput="return numbersOnly(this)" required/></td>
+                                    <td><input type="text" class="product_input" id="p_q_1" name="product[1][qty]" onblur="return reCalculate(1)" oninput="return numbersOnly(this)" value="0" required/></td>
                                     <td>
                                         <span id="tot_1">0</span> ج.م
                                     </td>
@@ -323,13 +341,17 @@
                          <fieldset class="checkboxsas">
                             <label>
                               <input type="checkbox" name="already_paid" id="hasPaid">
-                              هل تم الدفع بالفعل؟
+                              هل تم دفع المبلغ بالكامل مسبقا؟
                                           </label>
                         </fieldset>
 
                     </div>
                     <div class="col-md-6" id="notPaid">
                         <div class="form-group">
+                            <label class="text-warning">في حالة عدم الدفع المسبق للمبلغ بالكامل
+                                <br>
+                                 برجاء اختيار طريقة الدفع و ادخال البيانات من هنا
+                                </label>
                         <select class="form-control" id="payment_method" name="payment_method">
                             <option value="none">إختر طريقة الدفع</option>
                             <option value="cash">كاش</option>
@@ -339,12 +361,21 @@
                         </select>
                     </div>
                     </div>
-                    <div class="col-md-3" style="display: none" id="yesPaid">
+                    <div class="col-md-6" style="display: none" id="yesPaid">
                         <div class="form-group">
                             <div class="label">رقم العملية في الخزنة</div>
-                        <input type="text" class="form-control" name="safe_payment_id"/>
+                        {{-- <input type="text" class="form-control" name="safe_payment_id"/> --}}
+
+
+                            <select class="select2-rtl form-control" data-placeholder="رقم العملية في الخزنة" name="safe_payment_id">
+                                <option></option>
+                                @foreach ($safe_payment_id as $payment)
+                                <option value="{{$payment->id}}">عملية رقم: {{$payment->id}} - {{$payment->transaction_notes}}</option>
+                                @endforeach
+                            </select>
+                          </div>
                     </div>
-                    </div>
+
                     <div class="col-md-3" style="display: none" id="yesPaid2">
                         <div class="form-group">
                         <label for="projectinput3">خصمت من:</label>
@@ -355,6 +386,7 @@
                             @endforeach
                         </select>
                     </div>
+                </div>
                     </div>
                 </div>
             </div>
@@ -423,11 +455,26 @@
                         <td>
                             <fieldset class="checkboxsas">
                                 <label>
+                                    دفع الان
+                                  <input type="checkbox" name="later[1][paynow]" onchange="return payNow(1)">
+                                </label>
+                            </fieldset>
+                            <div class="form-group" style="display:none;" id="pay_now_1">
+                                <label for="projectinput3">خصم من:</label>
+                                <select class="select2-rtl form-control" data-placeholder="الخزنة" name="later[1][safe_id]" id="sel_xx_1">
+                                    <option></option>
+                                    @foreach ($safes as $safe)
+                                    <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            {{-- <fieldset class="checkboxsas">
+                                <label>
                                     مدفوعه
                                   <input type="checkbox" name="later[1][paid]"  onchange="return laterPaid(1)">
                                 </label>
-                            </fieldset>
-                            <div id="later_dates_1" style="display:none;">
+                            </fieldset> --}}
+                            {{-- <div id="later_dates_1" style="display:none;">
                             <div class="form-group">
                                 <div class="label">رقم العملية في الخزنة:</div>
                                 <input type="text" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later[1][safe_payment_id]">
@@ -442,7 +489,7 @@
                                 </select>
                             </div>
                             </div>
-
+--}}
                         </td>
                     </tr>
 
@@ -472,7 +519,7 @@
         <div class="card">
             <div class="card-content collapse show">
                 <div class="card-body">
-                    <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
+                    {{-- <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button> --}}
                     <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> إضافة</button>
 
                 </div>
@@ -496,6 +543,7 @@
 <script src="{{ asset('theme/app-assets/vendors/js/forms/toggle/bootstrap-switch.min.js') }}"></script>
 <script src="{{ asset('theme/app-assets/vendors/js/forms/toggle/switchery.min.js') }}"></script>
 <script src="{{ asset('theme/app-assets/vendors/js/forms/toggle/bootstrap-checkbox.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/editors/ckeditor/ckeditor-super-build.js') }}"></script>
 
 <!-- BEGIN: Theme JS-->
     <script src="{{ asset('theme/app-assets/js/core/app-menu.min.js') }}"></script>
@@ -505,15 +553,31 @@
 
     <script src="{{ asset('theme/app-assets/js/scripts/forms/select/form-select2.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/js/scripts/forms/switch.min.js') }}"></script>
+    {{-- <script src="{{ asset('theme/app-assets/js/scripts/editors/editor-ckeditor.min.js') }}"></script> --}}
     <script>
 
 
-function laterPaid(row){
-    if($('#later_dates_'+row+':visible').length == 0)
+
+CKEDITOR.ClassicEditor.create( document.querySelector( '#terms-conditions' ) ).catch( error => {console.error( error );} );
+
+
+
+
+
+function numbersOnly(input){
+    input.value = input.value.replace(/[^0-9.]/g, '');
+    input.value = input.value.replace(/(\..*)\./g, '$1');
+}
+
+
+
+
+function payNow(row){
+    if($('#pay_now_'+row+':visible').length == 0)
         {
-            $('#later_dates_'+row).show();
+            $('#pay_now_'+row).show();
         }else{
-            $('#later_dates_'+row).hide();
+            $('#pay_now_'+row).hide();
         }
 }
 
@@ -698,8 +762,9 @@ currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="
 
 var currentCell = currentRow.insertCell(-1);
 //currentCell.innerHTML = '<fieldset class="checkboxsas"><label><input type="checkbox" name="later['+currentIndex+'][paid]">مدفوعه</label></fieldset>';
-currentCell.innerHTML = '<fieldset class="checkboxsas"><label>مدفوعه<input type="checkbox" name="later['+currentIndex+'][paid]" onchange="return laterPaid('+currentIndex+')"></label></fieldset><div id="later_dates_'+currentIndex+'" style="display:none;"><div class="form-group"><div class="label">رقم العملية في الخزنة:</div><input type="text" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later['+currentIndex+'][safe_payment_id]"></div><div class="form-group"><label for="projectinput3">خصمت من:</label><select class="select2-rtl form-control" data-placeholder="تعديل" name="later['+currentIndex+'][safe_id]"><option></option> @foreach ($safes as $safe) <option value="{{$safe->id}}">{{$safe->safe_name}}</option> @endforeach </select></div></div>';
-
+//currentCell.innerHTML = '<fieldset class="checkboxsas"><label>مدفوعه<input type="checkbox" name="later['+currentIndex+'][paid]" onchange="return laterPaid('+currentIndex+')"></label></fieldset><div id="pay_now_'+currentIndex+'" style="display:none;"><div class="form-group"><div class="label">رقم العملية في الخزنة:</div><input type="text" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later['+currentIndex+'][safe_payment_id]"></div><div class="form-group"><label for="projectinput3">خصمت من:</label><select class="select2-rtl form-control" data-placeholder="تعديل" name="later['+currentIndex+'][safe_id]"><option></option> @foreach ($safes as $safe) <option value="{{$safe->id}}">{{$safe->safe_name}}</option> @endforeach </select></div></div>';
+currentCell.innerHTML = '<fieldset class="checkboxsas"><label> دفع الان<input type="checkbox" name="later['+currentIndex+'][paynow]" onchange="return payNow('+currentIndex+')"></label></fieldset><div class="form-group" style="display:none;" id="pay_now_'+currentIndex+'"><label for="projectinput3">خصم من:</label><br><select class="select2-rtl form-control" data-placeholder="الخزنة" id="sel_xx_'+currentIndex+'" name="later['+currentIndex+'][safe_id]"><option></option>@foreach ($safes as $safe)<option value="{{$safe->id}}">{{$safe->safe_name}}</option>@endforeach</select></div>';
+$('#sel_xx_' + currentIndex).select2();
 }
 
 
@@ -723,15 +788,19 @@ var product_price = document.createElement("input");
 product_price.setAttribute("name", "product[" + currentIndex + "][price]");
 product_price.setAttribute("class", "product_input");
 product_price.setAttribute("id", "p_p_" + currentIndex);
+product_price.setAttribute("oninput", "return numbersOnly(this)");
 product_price.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
+product_price.setAttribute("required", "required");
+
 
 var product_qty = document.createElement("input");
 product_qty.setAttribute("name", "product[" + currentIndex + "][qty]");
 product_qty.setAttribute("class", "product_input");
 product_qty.setAttribute("id", "p_q_" + currentIndex);
+product_qty.setAttribute("oninput", "return numbersOnly(this)");
 product_qty.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
 product_qty.setAttribute("value", "0");
-
+product_qty.setAttribute("required", "required");
 
 var currentCell = currentRow.insertCell(-1);
 currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_' + currentIndex + '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product['+currentIndex+'][id]" required><option></option> @foreach ($products as $product) <option value="{{$product->id}}">{{$product->product_name}}</option>@endforeach</select></div>';
@@ -770,7 +839,7 @@ $('#hasPaid').change(function () {
     if ($('#hasPaid').prop('checked')) {
         $('#notPaid').hide();
         $('#yesPaid').show();
-        $('#yesPaid2').show();
+        //$('#yesPaid2').show();
         $('#other_box').hide();
         $('#later_box').hide();
 
