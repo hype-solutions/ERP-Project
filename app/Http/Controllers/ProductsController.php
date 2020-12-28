@@ -238,4 +238,21 @@ class ProductsController extends Controller
             ->update(['product_total_in' => $product_new_qty]);
         return redirect()->route('products.list');
     }
+
+
+
+    public function productSelect()
+    {
+        $products = Products::all();
+        return view('products.select', compact('products'));
+    }
+
+    public function selecting(Request $request)
+    {
+       if($request->userChoise == '1'){
+        return redirect()->route('products.transfer',$request->product_id);
+       }else{
+        return redirect()->route('products.addQty',$request->product_id);
+       }
+    }
 }

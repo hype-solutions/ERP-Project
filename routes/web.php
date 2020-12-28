@@ -80,6 +80,9 @@ Route::post('/products/qty/fetchotherbranches', [ProductsController::class, 'fet
 Route::get('/products/qty/add/{product}', [ProductsController::class, 'addQty'])->name('products.addQty');
 Route::post('/products/qty/adding', [ProductsController::class, 'addingQty'])->name('products.addingQty');
 
+Route::get('/products/select', [ProductsController::class, 'productSelect'])->name('products.select');
+Route::post('/products/selecting', [ProductsController::class, 'selecting'])->name('products.selecting');
+
 
 /*************************
  **** Purchases orders ****
