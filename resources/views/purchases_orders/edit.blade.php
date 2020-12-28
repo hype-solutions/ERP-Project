@@ -309,13 +309,13 @@
                     <div class="div" id="delivery_info"  @if($purchaseOrder->already_delivered) style="display: block" @else style="display: none" @endif>
                         <fieldset class="form-group">
                             <div class="label">تاريخ الإستلام</div>
-                            <input type="date" class="form-control" id="date"  name="delivery_date"  value="{{$purchaseOrder->delivery_date}}" @if($purchaseOrder->delivery_date) readonly  @endif>
+                            <input type="date" class="form-control" id="delDate"  name="delivery_date"  value="{{$purchaseOrder->delivery_date}}" @if($purchaseOrder->delivery_date) readonly  @endif>
                         </fieldset>
                         <div class="form-group">
                             <label> اختر الفرع (المخزن) المستلم:</label>
 
 
-                            <select class="select2-rtl form-control" data-placeholder="إختر الفرع..." name="branch_id" @if($purchaseOrder->delivery_date) disabled  @endif>
+                            <select class="select2-rtl form-control" id="delBranch" data-placeholder="إختر الفرع..." name="branch_id" @if($purchaseOrder->delivery_date) disabled  @endif>
                                 @if($purchaseOrder->branch_id > 0)
                                 <option value="{{$purchaseOrder->branch_id}}">{{$purchaseOrder->branch->branch_name}}</option>
                                 @else
@@ -416,8 +416,8 @@
             </div>
         </div>
     </div>
-
-    <div class="col-md-12" id="later_box"  @if($purchaseOrder->payment_method == 'later') style="display: block" @else style="display: none" @endif >
+    @if($purchaseOrder->payment_method == 'later')
+    <div class="col-md-12" id="later_box"   style="display: block"   >
         <div class="card">
             <div class="card-body">
 
@@ -563,7 +563,7 @@
             </div>
         </div>
     </div>
-
+@endif
 
 </div>
 </div>
@@ -579,7 +579,6 @@
         <div class="card">
             <div class="card-content collapse show">
                 <div class="card-body">
-                    <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
                     <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> حفظ</button>
 
                 </div>
@@ -903,8 +902,12 @@ $('#hasDelivered').change(function () {
 
 if ($('#hasDelivered').prop('checked')) {
     $('#delivery_info').show();
+    $('#delDate').prop('required',true);
+    $('#delBranch').prop('required',true);
 }else{
     $('#delivery_info').hide();
+    $('#delDate').prop('required',false);
+    $('#delBranch').prop('required',false);
 }
 
 });

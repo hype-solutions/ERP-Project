@@ -310,13 +310,13 @@
                     <div class="div" id="delivery_info" style="display: none">
                         <fieldset class="form-group">
                             <div class="label">تاريخ الإستلام</div>
-                            <input type="date" class="form-control" id="date"  name="delivery_date">
+                            <input type="date" class="form-control" id="delDate"  name="delivery_date">
                         </fieldset>
                         <div class="form-group">
                             <label> اختر الفرع (المخزن) المستلم:</label>
 
 
-                            <select class="select2-rtl form-control" data-placeholder="إختر الفرع..." name="branch_id">
+                            <select class="select2-rtl form-control" id="delBranch" data-placeholder="إختر الفرع..." name="branch_id">
 
                                 <option></option>
 
@@ -828,8 +828,12 @@ $('#hasDelivered').change(function () {
 
 if ($('#hasDelivered').prop('checked')) {
     $('#delivery_info').show();
+    $('#delDate').prop('required',true);
+    $('#delBranch').prop('required',true);
 }else{
     $('#delivery_info').hide();
+    $('#delDate').prop('required',false);
+    $('#delBranch').prop('required',false);
 }
 
 });
