@@ -139,7 +139,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="projectinput3">الكمية</label>
-                                        <input type="number" id="qtyToTransfer" class="form-control" placeholder="0.00" name="transfer_qty" min="1" max="2" readonly>
+                                        <input type="number" id="qtyToTransfer" class="form-control" placeholder="0.00" name="transfer_qty" min="1" max="2" readonly required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -221,7 +221,7 @@
                                 <div class="col-md-6">
                                     <fieldset class="form-group">
                                         <label for="projectinput8">التاريخ</label>
-                                        <input type="datetime-local" name="transfer_datetime" class="form-control" id="dateTime" value="2011-08-19T13:45:00">
+                                        <input type="datetime-local" name="transfer_datetime" class="form-control" id="dateTime" required>
                                     </fieldset>
                                 </div>
                                 <div class="col-md-6">

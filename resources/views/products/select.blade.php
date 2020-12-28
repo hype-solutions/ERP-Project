@@ -106,7 +106,7 @@
                         <div class="text-bold-600 font-medium-2">
                          إختر الصنف
                         </div>
-                        <select class="select2-rtl form-control" data-placeholder="إختر المنتج..." name="product_id">
+                        <select class="select2-rtl form-control" data-placeholder="إختر المنتج..." name="product_id" required>
                             <option></option>
                             @foreach ($products as $item)
                             <option value="{{$item->id}}">{{$item->product_name}}</option>

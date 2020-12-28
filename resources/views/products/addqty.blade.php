@@ -125,7 +125,7 @@
                                         <div class="text-bold-600 font-medium-2">
                                          اختر الفرع
                                         </div>
-                                        <select class="select2-rtl form-control" data-placeholder="إختر الفرع..." name="branch_id"  onchange="return fetchQty(this)">
+                                        <select class="select2-rtl form-control" data-placeholder="إختر الفرع..." name="branch_id"  onchange="return fetchQty(this)" required>
                                             <option></option>
                                             @foreach ($branches as $branch)
                                             <option value="{{$branch->id}}">{{$branch->branch_name}}</option>
@@ -139,7 +139,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="projectinput3">الكمية</label>
-                                        <input type="number" id="qtyToAdd" class="form-control" placeholder="0.00" name="qty" min="1" max="20000">
+                                        <input type="number" id="qtyToAdd" class="form-control" placeholder="0.00" name="qty" min="1" max="20000" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -183,7 +183,7 @@
                                 <div class="col-md-12">
                                     <fieldset class="form-group">
                                         <label for="projectinput8">التاريخ</label>
-                                        <input type="datetime-local" name="qty_datetime" class="form-control" id="dateTime" value="2011-08-19T13:45:00">
+                                        <input type="datetime-local" name="qty_datetime" class="form-control" id="dateTime" required>
                                     </fieldset>
                                 </div>
                             </div>
