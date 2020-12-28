@@ -40,5 +40,10 @@ class Invoices extends Model
     {
         return $this->hasOne('App\Models\Branches\Branches', 'id', 'branch_id');
     }
+
+    public function productInInvoice()
+    {
+        return $this->hasMany('App\Models\Invoices\InvoicesProducts', 'invoice_id', 'id');
+    }
 }
 

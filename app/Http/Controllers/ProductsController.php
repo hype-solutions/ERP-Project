@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 
 use App\Models\Products\Products;
 use App\Models\Branches\BranchesProducts;
-use App\Models\Products\ProductsTransfers;
+use App\Models\Invoices\Invoices;
+ use App\Models\Products\ProductsTransfers;
 use App\Models\Products\ProductsManualQuantities;
 use App\Models\PurchasesOrders\PurchasesOrders;
 use App\Models\PurchasesOrders\PurchasesOrdersProducts;
@@ -77,6 +78,11 @@ class ProductsController extends Controller
         $branches = BranchesProducts::where('product_id', $product->id)
             ->where('amount', '!=', 0)
             ->with('branch')->get();
+        $supplierProducts = PurchasesOrdersProducts::groupBy('supplier_id')
+        ->where('status','delivered')
+        ->where('product_id',$product->id)
+        ->selectRaw('purchases_orders_products.*, sum(product_qty) as quantity, min(product_price) as minprice, max(product_price) as maxprice, count(id) as counttimes, supplier_id')
+        ->get();
         $productransfers = ProductsTransfers::where('transfer_qty', '>', 0)
             ->where('product_id', $product->id)
             ->with('branchFrom')
@@ -93,7 +99,11 @@ class ProductsController extends Controller
         $productPurchasesOrders = PurchasesOrders::with(['productInOrder' => function($q) use ($product_id){
            $q->where('product_id', $product_id);
         }])->get();
-        return view('products.profile', compact('product', 'branches', 'productransfers','productManual','productSuppliers','productPurchasesOrders'));
+        $productInvoices = Invoices::with(['productInInvoice' => function($q) use ($product_id){
+            $q->where('product_id', $product_id);
+         }])->get();
+
+        return view('products.profile', compact('productInvoices','supplierProducts','product', 'branches', 'productransfers','productManual','productSuppliers','productPurchasesOrders'));
     }
     public function edit(products $product)
     {

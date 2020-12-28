@@ -6,7 +6,9 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/colors/palette-gradient.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/fonts/mobiriseicons/24px/mobirise/style.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/pages/page-users.min.css') }}">
-<!-- END: Page CSS-->
+<link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/extensions/buttons.dataTables.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css') }}">
+<!-- END: Vendor CSS-->
 @endsection
 
 @section('content')
@@ -86,7 +88,7 @@
               <h6 class="text-primary mb-0">عدد مرات عرض السعر: <span class="font-large-1 align-middle">534</span></h6>
             </div>
             <div class="col-12 col-sm-4 p-2">
-              <h6 class="text-primary mb-0">إجمالي المبالغ من الفواتير: <span class="font-large-1 align-middle">256 جنية</span></h6>
+              <h6 class="text-primary mb-0">إجمالي المبالغ من الفواتير: <span class="font-large-1 align-middle">256 ج.م</span></h6>
             </div>
           </div> --}}
         <div class="row">
@@ -134,7 +136,7 @@
                     <td>  سعر البيع:</td>
                     <td>@if(isset($product->product_price))
                       {{ $product->product_price }}
-                      جنية
+                      ج.م
                       @else
                       <small style="font-style: italic;color:red;">غير مسجل</small>
                       @endif</td>
@@ -179,8 +181,8 @@
           <div class="col-xl-6 col-lg-12 mb-1">
             <div class="form-group text-center">
                 <!-- Floating Outline button with text -->
-                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">25 جنية</i><span>متوسط سعر التكلفة</span></button>
-            <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">3545</i><span>إجمالي القطع المباعة</span></button>
+                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">0 ج.م</i><span>متوسط سعر التكلفة</span></button>
+            <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">{{$product->product_total_out }}</i><span>إجمالي القطع المباعة</span></button>
                 <button type="button" class="btn btn-float btn-outline-cyan"><i class="">{{ $product->product_total_in - $product->product_total_out }}</i><span>كمية المخزون</span></button>
             </div>
         </div>
@@ -228,23 +230,23 @@
               </ul>
               <div class="tab-content px-1 pt-1">
                 <div role="tabpanel" class="tab-pane active" id="active32" aria-labelledby="active-tab32" aria-expanded="true">
-                  <div class="table-responsive">
-                    <table class="table mb-0" id="reciepts">
+                    <div class="table-responsive">
+                    <table class="table mb-0" id="branches_qty">
                         <thead>
                           <tr>
                             <th>كود الفرع</th>
                             <th> الفرع</th>
-                            <th>الكمية</th>
+                            <th>الكمية المتاحة</th>
                           </tr>
                         </thead>
                         <tbody>
                             @foreach ($branches as $key => $branch)
                             <tr>
                                 <td><div class="badge border-info info badge-border">
-                                    <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$branch->branch->id}}</span></a>
+                                    <a href="{{ route('branches.view',$branch->branch->id) }}" target="_blank" style="color: #1e9ff2"><span>{{$branch->branch->id}}</span></a>
                                 </div></td>
-                            <td>{{$branch->branch->branch_name}}</td>
-                            <td>{{$branch->amount}} قطعة</td>
+                            <td><a href="{{ route('branches.view',$branch->branch->id) }}" target="_blank">{{$branch->branch->branch_name}}</a></td>
+                            <td>{{$branch->amount}} وحدة</td>
                           </tr>
                           @endforeach
                         </tbody>
@@ -253,40 +255,48 @@
                 </div>
                 <div class="tab-pane" id="link32" role="tabpanel" aria-labelledby="link-tab32" aria-expanded="false">
                     <div class="table-responsive">
-                        <table class="table mb-0" id="suppliers">
+                        <table class="table mb-0"  id="product_suppliers">
                             <thead>
-                              <tr>
-                                <th> المورد</th>
-                                <th>الكمية المورده</th>
-                                <th>السعر</th>
-                                <th>التاريخ</th>
-                              </tr>
+                                <tr>
+                                    <th> كود المورد</th>
+                                    <th> اسم المورد</th>
+                                    <th>إجمالي الكمية الموردة</th>
+                                    <th>عدد مرات التوريد</th>
+                                    <th>أقل سعر</th>
+                                    <th>أعلى سعر</th>
+                                  </tr>
                             </thead>
                             <tbody>
-                              @foreach ($productSuppliers as $item)
+                                @foreach ($supplierProducts as $item)
                                 <tr>
-                                <td> {{$item->supplier->supplier_name}}</td>
-                                <td>{{$item->product_qty}}</td>
-                                <td>{{$item->product_price}} ج.م</td>
-                                <td>{{$item->purchase['delivery_date']}}</td>
-                              </tr>
+                                    <td><div class="badge border-info info badge-border">
+                                        <a href="{{ route('suppliers.view',$item->supplier->id) }}" target="_blank" style="color: #1e9ff2"><span>{{$item->supplier->id}}</span></a>
+                                    </div></td>
+                                <td><a href="{{ route('suppliers.view',$item->supplier->id) }}" target="_blank">{{$item->supplier->supplier_name}}</a></td>
+                                <td>{{$item->quantity}}</td>
+                                <td>{{$item->counttimes}}</td>
+                                <td><span style="color : rgb(35, 145, 45)">أقل سعر: </span>{{$item->minprice}} ج.م</td>
+                                <td><span style="color: crimson;white-space: pre-line">أعلى سعر: </span>{{$item->maxprice}} ج.م</td>
+                            </tr>
                               @endforeach
-                            </tbody>
+                             </tbody>
                           </table>
                     </div>
                 </div>
                 <div class="tab-pane" id="link33" role="tabpanel" aria-labelledby="link-tab33" aria-expanded="false">
                     <div class="table-responsive">
-                        <table class="table mb-0" id="due">
+                        <table class="table mb-0" id="qty_transfers">
                             <thead>
                               <tr>
                                   {{-- <th>م#</th> --}}
-                                  <th>بيانات العملية</th>
-                                  <th>من</th>
-                                  <th>الى</th>
-                                  <th>الكمية</th>
-                                  <th>الصلاحيات</th>
-                                  <th>الملاحظات</th>
+                                <th>رقم العملية</th>
+                                <th>التاريخ</th>
+                                <th>من</th>
+                                <th>الى</th>
+                                <th>الكمية</th>
+                                <th>الصلاحيات</th>
+                                <th>الملاحظات</th>
+                                <th>التحكم</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -297,8 +307,8 @@
                               <td><div class="badge border-info info badge-border">
                                   <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$transfer->id}}</span></a>
                               </div>
-                              <br>
-                              {{$transfer->transfer_datetime}}
+                            </td>
+                              <td>{{$transfer->transfer_datetime}}
                             </td>
                               <td>
                                   @if(isset($transfer->branchFrom))
@@ -359,6 +369,9 @@
                               <td>
                                 {{$transfer->transfer_notes}}
                               </td>
+                              <td>
+                                <button class="btn btn-dark">طباعة</button>
+                            </td>
                             </tr>
                             @endforeach
                           @endif
@@ -371,12 +384,14 @@
                         <table class="table mb-0" id="manual_add">
                             <thead>
                               <tr>
-                                <th> العملية</th>
+                                <th> رقم العملية</th>
+                                <th> التاريخ</th>
                                 <th> الكمية</th>
                                 <th> الفرع</th>
                                 <th> سعر الشراء</th>
                                 <th> الصلاحيات</th>
                                 <th> الملاحظات</th>
+                                <th> التحكم</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -385,18 +400,22 @@
                                     <td><div class="badge border-info info badge-border">
                                         <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$add->id}}</span></a>
                                     </div>
-                                    <br>
+                                  </td><td>
                                     {{$add->qty_datetime}}
                                   </td>
                                 <td>{{$add->qty}}</td>
                                 <td>
-                                    {{$add->branch->branch_name}}
+
+                                    <div class="badge badge-success">
+                                        <i class="la la-flag font-medium-2"></i>
+                                            <span>{{$add->branch->branch_name}}</span>
+                                        </div>
                                     <br>
                                     المخزون قبل: {{$add->qty_before_add}}
                                     <br>
                                     المخزون بعد: {{$add->qty_after_add}}
                                 </td>
-                                <td>{{$add->qty_price}} جنية</td>
+                                <td>{{$add->qty_price}} ج.م</td>
                                 <td>
                                     قام بالإضافة
                                     <div class="badge border-primary primary badge-border">
@@ -413,7 +432,9 @@
                                         </div>
                                   </td>
                                 <td>{{$add->qty_notes}}</td>
-
+                                <td>
+                                  <button class="btn btn-dark">طباعة</button>
+                              </td>
                               </tr>
                               @endforeach
                             </tbody>
@@ -422,110 +443,86 @@
                 </div>
                 <div class="tab-pane" id="link35" role="tabpanel" aria-labelledby="link-tab35" aria-expanded="false">
                     <div class="table-responsive">
-                        <table class="table mb-0" id="purchase_order">
+                        <table class="table mb-0" id="purchases_orders">
                             <thead>
                               <tr>
-                                <th> العملية</th>
-                                <th> الوقت</th>
-                                <th> حركة</th>
-                                <th>الحالة</th>
-                              </tr>
+                                <th>رقم الأمر</th>
+                                <th>التاريخ</th>
+                                <th>تم الدفع؟</th>
+                                <th>تم الإستلام؟</th>
+                                <th>الإجمالي</th>
+                                <th>التحكم</th>
+                               </tr>
                             </thead>
                             <tbody>
-                                @foreach ($productPurchasesOrders as $item)
-                                    @if($item->productInOrder->sum('product_qty'))
-                                <tr>
-                                    <td><div class="badge border-info info badge-border">
-                                        <a href="#" target="_blank" style="color: #1e9ff2"><span>
-                                            أمر شرا (#{{$item->id}})
-                                        </span></a>
-
-                                    </div></td>
-                                    <td>{{$item->purchase_date}}</td>
-                                    <td><b><font color="green">+</font></b> {{$item->productInOrder->sum('product_qty')}}</td>
-                                    <td>
-                                        @if($item->already_delivered > 0)
-                                        <div class="badge badge-success">
-                                          <i class="la la-truck font-medium-2"></i>
-                                          <span>تم الإستلام</span>
+                                @foreach($productPurchasesOrders as $purchase)
+                              <tr>
+                                <td>
+                                    <div class="badge border-warning warning badge-border">
+                                      <a href="#" target="_blank" style="color: #ff9149"><span>{{$purchase->id}}</span></a>
+                                  <i class="la la-barcode font-medium-2"></i>
+                                  </div>
+                                </td>
+                                <td>{{$purchase->purchase_date}}</td>
+                                <td>@if($purchase->already_paid > 0)
+                                    <div class="badge badge-success">
+                                      <i class="la la-money font-medium-2"></i>
+                                          <span>مدفوع</span>
                                       </div>
-                                        @else
-                                        <div class="badge badge-danger">
-                                          <i class="la la-truck font-medium-2"></i>
-                                          <span>لم يستلم</span>
+                                    @else
+                                    <div class="badge badge-danger">
+                                      <i class="la la-money font-medium-2"></i>
+                                          <span>لم يدفع</span>
                                       </div>
-                                        @endif
-
-                                        @if($item->already_paid > 0)
-                                        <div class="badge badge-success">
-                                          <i class="la la-money font-medium-2"></i>
-                                              <span>مدفوع</span>
-                                          </div>
-                                        @else
-                                        <div class="badge badge-danger">
-                                          <i class="la la-money font-medium-2"></i>
-                                              <span>لم يدفع</span>
-                                          </div>
-                                        @endif
-                                    </td>
-                                  </tr>
-                                  @endif
+                                    @endif</td>
+                                <td>@if($purchase->already_delivered > 0)
+                                    <div class="badge badge-success">
+                                      <i class="la la-truck font-medium-2"></i>
+                                      <span>تم الإستلام</span>
+                                  </div>
+                                    @else
+                                    <div class="badge badge-danger">
+                                      <i class="la la-truck font-medium-2"></i>
+                                      <span>لم يستلم</span>
+                                  </div>
+                                    @endif</td>
+                                <td>{{$purchase->purchase_total}} ج.م</td>
+                                <td>
+                                    <button class="btn btn-success">استعراض أمر الشراء</button>
+                                    <button class="btn btn-dark">طباعة أمر الشراء</button>
+                                </td>
+                              </tr>
                               @endforeach
-
                             </tbody>
                           </table>
                     </div>
                 </div>
                 <div class="tab-pane" id="link36" role="tabpanel" aria-labelledby="link-tab36" aria-expanded="false">
                     <div class="table-responsive">
-                        <table class="table mb-0" id="invoices">
+                        <table class="table mb-0" id="reciepts">
                             <thead>
                               <tr>
-                                <th> العملية</th>
-                                <th> الوقت</th>
-                                <th> حركة</th>
-                                <th>المخزون بعد</th>
-                                <th>الحالة</th>
+                                <th>رقم الفاتورة</th>
+                                <th>التاريخ</th>
+                                <th>الإجمالي</th>
+                                <th>التحكم</th>
                               </tr>
                             </thead>
                             <tbody>
+                                @foreach ($productInvoices as $item)
                               <tr>
-
-                                <td><div class="badge border-success info badge-border">
-                                    <a href="#" target="_blank" style="color: #28d094"><span>
-                                      فاتورة (#00001)
-                                  </span></a>
+                                <td><div class="badge border-info info badge-border">
+                                    <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$item->id}}</span></a>
+                                <i class="la la-barcode font-medium-2"></i>
                                 </div></td>
-                                <td>22/11/2020 22:52</td>
-                                <td><b><font color="red">-</font></b> 22</td>
-                                <td>900</td>
+                                <td>{{$item->invoice_date}}</td>
+                                <td>{{$item->invoice_total}} ج.م</td>
                                 <td>
-
-                                  <div class="badge badge-success">
-                                      <i class="la la-money font-medium-2"></i>
-                                          <span>مدفوع</span>
-                                      </div>
+                                    <button class="btn btn-success">استعراض الفاتورة</button>
+                                    <button class="btn btn-dark">طباعة الفاتورة</button>
                                 </td>
                               </tr>
-                              <tr>
-
-                                  <td><div class="badge border-info info badge-border">
-                                      <a href="#" target="_blank" style="color: #1e9ff2"><span>
-                                          أمر شرا (#4)
-                                      </span></a>
-
-                                  </div></td>
-                                  <td>22/11/2020 22:51</td>
-                                  <td><b><font color="green">+</font></b> 10</td>
-                                  <td>2000</td>
-                                  <td>
-
-                                          <div class="badge badge-danger">
-                                              <i class="la la-truck font-medium-2"></i>
-                                              <span>لم يستلم</span>
-                                          </div>
-                                  </td>
-                                </tr>
+                              @endforeach
                             </tbody>
                           </table>
                     </div>
@@ -554,17 +551,216 @@
 @section('pageJs')
 <!-- BEGIN: Page Vendor JS-->
 <script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/datatables.min.js') }}"></script>
-<!-- END: Page Vendor JS-->
+<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.colVis.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.print.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/dataTables.select.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/js/scripts/tables/datatables-extensions/datatable-button/datatable-print.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/jszip.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/pdfmake.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/vfs_fonts.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.html5.min.js') }}"></script><!-- END: Page Vendor JS-->
 <script>
 
-$("#reciepts").DataTable();
-$("#suppliers").DataTable();
-$("#due").DataTable();
-$("#most-ordered").DataTable();
-$("#manual_add").DataTable();
-$("#purchase_order").DataTable();
+    $("#branches_qty").DataTable( {
+            dom: 'Bfrtip',
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+            },
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'حفظ كملف EXCEL',
+                    messageTop: 'رصيد الفروع للصنف: {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [2,1,0 ]
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'حفظ كملف PDF',
+                    messageTop: 'رصيد الفروع للصنف: \n {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [2,1,0 ],
+                    },
 
-$("#invoices").DataTable();
+                },
+                {
+                    extend: 'print',
+                    text: 'طباعة',
+                    messageTop: 'رصيد الفروع للصنف: {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [ 0, 1, 2 ]
+                    }
+                }
+            ]
+        });
+        $("#product_suppliers").DataTable( {
+            dom: 'Bfrtip',
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+            },
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'حفظ كملف EXCEL',
+                    messageTop: 'موردين الصنف: {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [5,4,3,2,1,0 ],
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'حفظ كملف PDF',
+                    messageTop: 'موردين الصنف: \n {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [5,4,3,2,1,0 ],
+                    },
+
+                },
+                {
+                    extend: 'print',
+                    text: 'طباعة',
+                    messageTop: 'موردين الصنف:  {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [ 0, 1, 2,3,4,5 ]
+                    }
+                }
+            ]
+        });
+        $("#qty_transfers").DataTable( {
+            dom: 'Bfrtip',
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+            },
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'حفظ كملف EXCEL',
+                    messageTop: 'التحويلات بين الفروع للصنف: {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [6,5,4,3,2,1,0 ],
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'حفظ كملف PDF',
+                    messageTop: 'التحويلات بين الفروع للصنف: \n {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [6,5,4,3,2,1,0 ],
+                    },
+
+                },
+                {
+                    extend: 'print',
+                    text: 'طباعة',
+                    messageTop: 'التحويلات بين الفروع للصنف: {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [ 0, 1, 2,3,4,5,6 ]
+                    }
+                }
+            ]
+        });
+        $("#manual_add").DataTable( {
+            dom: 'Bfrtip',
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+            },
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'حفظ كملف EXCEL',
+                    messageTop: 'الكميات المضافة يدويا للصنف: {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [6,5,4,3,2,1,0 ],
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'حفظ كملف PDF',
+                    messageTop: 'الكميات المضافة يدويا للصنف: \n {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [6,5,4,3,2,1,0 ],
+                    },
+
+                },
+                {
+                    extend: 'print',
+                    text: 'طباعة',
+                    messageTop: 'الكميات المضافة يدويا للصنف: {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [ 0, 1, 2,3,4,5,6 ]
+                    }
+                }
+            ]
+        });
+        $("#purchases_orders").DataTable( {
+            dom: 'Bfrtip',
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+            },
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'حفظ كملف EXCEL',
+                    messageTop: 'أوامر الشراء للصنف: {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [4,3,2,1,0 ],
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'حفظ كملف PDF',
+                    messageTop: 'أوامر الشراء للصنف: \n {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [4,3,2,1,0 ],
+                    },
+
+                },
+                {
+                    extend: 'print',
+                    text: 'طباعة',
+                    messageTop: 'أوامر الشراء للصنف: {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [ 0, 1, 2, 3, 4 ]
+                    }
+                }
+            ]
+        });
+        $("#reciepts").DataTable( {
+            dom: 'Bfrtip',
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+            },
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'حفظ كملف EXCEL',
+                    messageTop: 'فواتير البيع للصنف: {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [2,1,0 ]
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'حفظ كملف PDF',
+                    messageTop: 'فواتير البيع للصنف: \n {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [2,1,0 ],
+                    },
+
+                },
+                {
+                    extend: 'print',
+                    text: 'طباعة',
+                    messageTop: 'فواتير البيع للصنف: {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [ 0, 1, 2 ]
+                    }
+                }
+            ]
+        });
 
 
 
