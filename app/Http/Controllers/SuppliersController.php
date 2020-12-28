@@ -79,12 +79,15 @@ class SuppliersController extends Controller
         ->selectRaw('purchases_orders_products.*, sum(product_qty) as quantity, min(product_price) as minprice, max(product_price) as maxprice, count(id) as counttimes, product_id')
         ->get();
         $countProducts = PurchasesOrdersProducts::groupBy('product_id')
-        // ->where('status','delivered')
+        ->where('status','delivered')
         ->where('supplier_id',$supplier->id)
+        ->get()
         ->count();
 
+        //return $countProducts;
+
         $supplierInstallments  = PurchasesOrdersPayments::where('supplier_id',$supplier->id)->get();
-        return view('suppliers.profile',compact('countProducts','sumPurchases','supplier','purchases','countPurchases','supplierProducts','supplierInstallments'));
+         return view('suppliers.profile',compact('countProducts','sumPurchases','supplier','purchases','countPurchases','supplierProducts','supplierInstallments'));
     }
     public function edit(Suppliers $supplier){
         $supplier = Suppliers::find($supplier);
