@@ -352,8 +352,8 @@
                                 <br>
                                  برجاء اختيار طريقة الدفع و ادخال البيانات من هنا
                                 </label>
-                        <select class="form-control" id="payment_method" name="payment_method">
-                            <option value="none">إختر طريقة الدفع</option>
+                        <select class="form-control" id="payment_method" name="payment_method" required>
+                            <option value="">إختر طريقة الدفع</option>
                             <option value="cash">كاش</option>
                             <option value="visa">فيزا</option>
                             <option value="later">اجل (دفعات)</option>
@@ -367,7 +367,7 @@
                         {{-- <input type="text" class="form-control" name="safe_payment_id"/> --}}
 
 
-                            <select class="select2-rtl form-control" data-placeholder="رقم العملية في الخزنة" name="safe_payment_id">
+                            <select class="select2-rtl form-control" data-placeholder="رقم العملية في الخزنة" name="safe_payment_id" id="safe_payment_id">
                                 <option></option>
                                 @foreach ($safe_payment_id as $payment)
                                 <option value="{{$payment->id}}">عملية رقم: {{$payment->id}} - {{$payment->transaction_notes}}</option>
@@ -444,7 +444,7 @@
                         </th>
                         <td>
                             <fieldset class="form-group">
-                            <input type="date" class="form-control" id="date" value="2020-08-19" name="later[1][date]">
+                            <input type="date" class="form-control" id="date"  name="later[1][date]">
                         </fieldset>
                         <fieldset class="form-group">
                             <div class="labrl">الملاحظات</div>
@@ -842,6 +842,9 @@ $('#hasPaid').change(function () {
         //$('#yesPaid2').show();
         $('#other_box').hide();
         $('#later_box').hide();
+        $('#payment_method').prop('required',false);
+        $('#safe_payment_id').prop('required',true);
+
 
 
 
@@ -849,6 +852,10 @@ $('#hasPaid').change(function () {
         $('#yesPaid').hide();
         $('#yesPaid2').hide();
         $('#notPaid').show();
+        $('#payment_method').att
+        $('#payment_method').prop('required',true);
+        $('#safe_payment_id').prop('required',false);
+
 
     }
     });

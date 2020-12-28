@@ -34,7 +34,7 @@ class PurchasesOrdersController extends Controller
         $products = Products::all();
         $safes = Safes::all();
         $branches = Branches::all();
-        $safe_payment_id = SafesTransactions::all();
+        $safe_payment_id = SafesTransactions::where('transaction_type',1)->get();
         return view('purchases_orders.add', compact('safe_payment_id','user_id', 'suppliers', 'products', 'safes', 'branches'));
     }
 
@@ -51,7 +51,11 @@ class PurchasesOrdersController extends Controller
         $purchase->purchase_note = $request->purchase_note;
         $purchase->discount_percentage = $request->discount_percentage;
         $purchase->discount_amount = $request->discount_amount;
-        $purchase->payment_method = $request->payment_method;
+        if(!isset($request->payment_method)){
+            $purchase->payment_method = 'none';
+        }else{
+            $purchase->payment_method = $request->payment_method;
+        }
         $purchase->purchase_date = Carbon::now();
         if ($request->already_paid == 'on') {
             $purchase->safe_id = $request->safe_id_if_paid;
@@ -80,8 +84,7 @@ class PurchasesOrdersController extends Controller
                             ->decrement('safe_balance', $request->purchase_total);
             }
         }
-        $purchase->payment_method = $request->payment_method;
-        if ($request->already_delivered == 'on') {
+         if ($request->already_delivered == 'on') {
             if (!empty($purchase->delivery_date)) {
                 $updateStock = 0;
             } else {
@@ -234,9 +237,9 @@ class PurchasesOrdersController extends Controller
         $purchase->payment_method = $request->payment_method;
         $purchase->purchase_date = Carbon::now();
         if ($request->already_paid == 'on') {
-            $purchase->safe_id = $request->safe_id_if_paid;
-            $purchase->safe_payment_id = $request->safe_payment_id;
-            $purchase->already_paid = 1;
+            //$purchase->safe_id = $request->safe_id_if_paid;
+            //$purchase->safe_payment_id = $request->safe_payment_id;
+            //$purchase->already_paid = 1;
         } else {
             $purchase->safe_payment_id = NULL;
             $purchase->safe_id = NULL;
@@ -354,16 +357,49 @@ class PurchasesOrdersController extends Controller
                 $da->amount = $item['amount'];
                 $da->date = $item['date'];
                 $da->notes = $item['notes'];
-                if (!empty($item['paid'])) {
+
+
+                if (!empty($item['paynow'])) {
+                    if (!empty($item['safe_payment_id'])) {
+                        $da->paid = 'Yes';
+                        $da->safe_payment_id = $item['safe_payment_id'];
+                        $da->safe_id = $item['safe_id'];
+                    }
+                    else{
+
                     $da->paid = 'Yes';
+                    //pay here
+                        $payment = new SafesTransactions();
+                        $payment->safe_id = $item['safe_id'];
+                        $payment->transaction_type = 1;
+                        $payment->transaction_amount = $item['amount'];
+                        $payment->transaction_datetime = Carbon::now();
+                        $payment->done_by = $request->added_by;
+                        $payment->authorized_by = $request->added_by;
+                        $payment->transaction_notes = 'قسط على أمر شراء رقم' . $purchaseId;
+                        $payment->save();
+                        $payment_id = $payment->id;
                     $da->safe_id = $item['safe_id'];
-                    $da->safe_payment_id = $item['safe_payment_id'];
-                } else {
+                    $da->safe_payment_id = $payment_id;
+                    Safes::where('id', $item['safe_id'])->decrement('safe_balance', $item['amount']);
+                }
+            } else {
                     $da->paid = 'No';
                 }
                 $da->save();
                 $listOfDates[] = $da;
             }
+            $checkAllPaid = PurchasesOrdersPayments::where('purchase_id',$purchaseId)
+                                   ->where('paid','No')
+                                   ->count();
+                                   if($checkAllPaid > 0){
+                                    PurchasesOrders::where('id', $purchaseId)
+                                                   ->update(['already_paid' => 0]);
+                                   }else{
+                                    PurchasesOrders::where('id', $purchaseId)
+                                    ->update(['already_paid' => 1]);
+                                   }
+
         }
 
 

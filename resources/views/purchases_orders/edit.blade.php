@@ -339,14 +339,24 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                         <fieldset class="checkboxsas">
+                        @if($purchaseOrder->already_paid)
+                        <h2 class="text-success"><span class="la la-check-circle"></span>تم الدفع</h2>
+                        <br>
+                            @if($purchaseOrder->payment_method !='later')
+                        <p><label>رقم فاتورة الدفع: </label> {{$purchaseOrder->safe_payment_id}}</p>
+                        <p><label>الخزنة المخصوم منها: </label> {{$purchaseOrder->safe->safe_name}}</p>
+                            @endif
+                        @else
+                        <h2 class="text-danger"><span class="la la-exclamation-circle"></span>لم يتم الدفع</h2>
+                         {{-- <fieldset class="checkboxsas">
                             <label>
-                              <input type="checkbox" name="already_paid" id="hasPaid" @if($purchaseOrder->already_paid) checked  @endif>
                               هل تم الدفع بالفعل؟
                                           </label>
-                        </fieldset>
-
+                        </fieldset> --}}
+                        @endif
                     </div>
+                    <input type="checkbox" name="already_paid" id="hasPaid" style="display: none" @if($purchaseOrder->already_paid) checked @endif>
+
                     <div class="col-md-6" id="notPaid" @if($purchaseOrder->already_paid) style="display: none" @else style="display: block" @endif>
                         <div class="form-group">
                         <select class="form-control" id="payment_method" name="payment_method">
@@ -359,25 +369,21 @@
                     </div>
                     </div>
                     <div class="col-md-3" @if($purchaseOrder->already_paid) style="display: block" @else style="display: none" @endif  id="yesPaid">
+                        @if($purchaseOrder->payment_method !='later')
                         <div class="form-group">
-                            <div class="label">رقم العملية في الخزنة</div>
-                        <input type="text" class="form-control" name="safe_payment_id" value="{{$purchaseOrder->safe_payment_id}}"/>
+                            <a href="#" class="btn btn-info" target="_blank">استعراض الفاتورة</a>
+                        <input type="hidden" class="form-control" name="safe_payment_id" value="{{$purchaseOrder->safe_payment_id}}"/>
                     </div>
+                    @endif
                     </div>
                     <div class="col-md-3" @if($purchaseOrder->already_paid) style="display: block" @else style="display: none" @endif id="yesPaid2">
+                        @if($purchaseOrder->payment_method !='later')
                         <div class="form-group">
-                        <label for="projectinput3">خصمت من:</label>
-                        <select class="select2-rtl form-control" data-placeholder="تعديل" name="safe_id_if_paid">
-                            @if($purchaseOrder->already_paid)
-                            <option value="{{$purchaseOrder->safe_id}}">{{$purchaseOrder->safe->safe_name}}</option>
-                            @else
-                            <option></option>
-                            @endif
-                            @foreach ($safes as $safe)
-                            <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
-                            @endforeach
-                        </select>
+                            <a href="#" class="btn btn-dark" target="_blank">طباعة الفاتورة</a>
+
+
                     </div>
+                    @endif
                     </div>
                 </div>
             </div>
@@ -427,33 +433,98 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($laterDates as $key2 => $item)
+                    @if ($laterDates->isEmpty())
                     <tr>
                         <th scope="row">
                             <div class="form-group">
-                                <input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later[{{$key2+1}}][amount]" value="{{$item->amount}}">
+                                <input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later[1][amount]" value="0">
                             </div>
                         </th>
                         <td>
                             <fieldset class="form-group">
-                            <input type="date" class="form-control" id="date"   name="later[{{$key2+1}}][date]"  value="{{$item->date}}">
+                            <input type="date" class="form-control" id="date"  name="later[1][date]" required>
                         </fieldset>
                         <fieldset class="form-group">
-                            <div class="label">الملاحظات</div>
-                            <textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later[{{$key2+1}}][notes]">{{$item->notes}}</textarea>
+                            <div class="labrl">الملاحظات</div>
+                            <textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later[1][notes]"></textarea>
                         </fieldset>
                     </td>
 
                         <td>
                             <fieldset class="checkboxsas">
                                 <label>
+                                    دفع الان
+                                  <input type="checkbox" name="later[1][paynow]" onchange="return payNow(1)">
+                                </label>
+                            </fieldset>
+                            <div class="form-group" style="display:none;" id="pay_now_1">
+                                <label for="projectinput3">خصم من:</label>
+                                <select class="select2-rtl form-control" data-placeholder="الخزنة" name="later[1][safe_id]" id="sel_xx_1">
+                                    <option></option>
+                                    @foreach ($safes as $safe)
+                                    <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+
+                    @else
+                    @foreach ($laterDates as $key2 => $item)
+                    <tr>
+                        <th scope="row">
+                            <div class="form-group">
+                                <input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later[{{$key2+1}}][amount]" value="{{$item->amount}}" @if($item->paid != 'No') readonly @endif>
+                            </div>
+                        </th>
+                        <td>
+                            <fieldset class="form-group">
+                            <input type="date" class="form-control" id="date"   name="later[{{$key2+1}}][date]"  value="{{$item->date}}" @if($item->paid != 'No') readonly @endif>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <div class="label">الملاحظات</div>
+                            <textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later[{{$key2+1}}][notes]" @if($item->paid != 'No') readonly @endif>{{$item->notes}}</textarea>
+                        </fieldset>
+                    </td>
+
+                        <td>
+                            @if($item->paid != 'No')
+                        <p class="text-success"> <input type="checkbox" name="later[{{$key2+1}}][paynow]" checked onclick="return false;"/> تم الدفع</p>
+                        <p><label>رقم فاتورة الدفع: </label> {{$item->safe_payment_id}}</p>
+                        <a href="#" class="btn btn-info" target="_blank">استعراض الفاتورة</a>
+                        <a href="#" class="btn btn-dark" target="_blank">طباعة الفاتورة</a>
+                        <input type="hidden" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later[{{$key2+1}}][safe_payment_id]" value="{{$item->safe_payment_id}}">
+                        <input type="hidden" name="later[{{$key2+1}}][safe_id]" value="{{$item->safe_id}}">
+                            @else
+                            <fieldset class="checkboxsas">
+                                <label>
+                                    دفع الان
+                                  <input type="checkbox" name="later[{{$key2+1}}][paynow]" onchange="return payNow({{$key2+1}})">
+                                </label>
+                            </fieldset>
+                            <div class="form-group" style="display:none;" id="pay_now_{{$key2+1}}">
+                                <label for="projectinput3">خصم من:</label>
+                                <select class="select2-rtl form-control" data-placeholder="الخزنة" name="later[{{$key2+1}}][safe_id]" id="sel_xx_{{$key2+1}}">
+                                    <option></option>
+                                    @foreach ($safes as $safe)
+                                    <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @endif
+
+
+
+
+                            {{-- <fieldset class="checkboxsas">
+                                <label>
                                     مدفوعه
                                   <input type="checkbox" name="later[{{$key2+1}}][paid]" @if($item->paid != 'No') checked  @endif onchange="return laterPaid({{$key2+1}})">
                                 </label>
-                            </fieldset>
+                            </fieldset> --}}
 
 
-                            <div id="later_dates_{{$key2+1}}" @if($item->paid != 'No') style="display: block" @else style="display:none;"  @endif>
+                            {{-- <div id="later_dates_{{$key2+1}}" @if($item->paid != 'No') style="display: block" @else style="display:none;"  @endif>
                             <div class="form-group">
                                 <div class="label">رقم العملية في الخزنة:</div>
                                 <input type="text" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later[{{$key2+1}}][safe_payment_id]" value="{{$item->safe_payment_id}}">
@@ -475,11 +546,13 @@
                                     @endforeach
                                 </select>
                             </div>
-                            </div>
+                            </div> --}}
 
                         </td>
                     </tr>
                     @endforeach
+                    @endif
+
                 </tbody>
             </table>
             </div>
@@ -552,16 +625,24 @@ function numbersOnly(input){
     input.value = input.value.replace(/(\..*)\./g, '$1');
 }
 
-
-
-function laterPaid(row){
-    if($('#later_dates_'+row+':visible').length == 0)
+function payNow(row){
+    if($('#pay_now_'+row+':visible').length == 0)
         {
-            $('#later_dates_'+row).show();
+            $('#pay_now_'+row).show();
         }else{
-            $('#later_dates_'+row).hide();
+            $('#pay_now_'+row).hide();
         }
 }
+
+
+// function laterPaid(row){
+//     if($('#later_dates_'+row+':visible').length == 0)
+//         {
+//             $('#later_dates_'+row).show();
+//         }else{
+//             $('#later_dates_'+row).hide();
+//         }
+// }
 
 
 function updateTotal() {
@@ -741,15 +822,16 @@ var currentCell = currentRow.insertCell(-1);
 currentCell.innerHTML = '<div class="form-group"><input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later['+currentIndex+'][amount]" value="0" required></div>';
 
 var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="form-control" id="date"  name="later['+currentIndex+'][date]"></fieldset><fieldset class="form-group"><label>الملاحظات</label><textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later['+currentIndex+'][notes]"></textarea></fieldset>';
+currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="form-control" id="date"  name="later['+currentIndex+'][date]" required></fieldset><fieldset class="form-group"><label>الملاحظات</label><textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later['+currentIndex+'][notes]"></textarea></fieldset>';
 
 //var currentCell = currentRow.insertCell(-1);
 //currentCell.innerHTML = '<fieldset class="checkboxsas"><label><input type="checkbox" name="later['+currentIndex+'][paid]">مدفوعه</label></fieldset>';
 
 
 var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = '<fieldset class="checkboxsas"><label>مدفوعه<input type="checkbox" name="later['+currentIndex+'][paid]" onchange="return laterPaid('+currentIndex+')"></label></fieldset><div id="later_dates_'+currentIndex+'" style="display:none;"><div class="form-group"><div class="label">رقم العملية في الخزنة:</div><input type="text" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later['+currentIndex+'][safe_payment_id]"></div><div class="form-group"><label for="projectinput3">خصمت من:</label><select class="select2-rtl form-control" data-placeholder="تعديل" name="later['+currentIndex+'][safe_id]"><option></option> @foreach ($safes as $safe) <option value="{{$safe->id}}">{{$safe->safe_name}}</option> @endforeach </select></div></div>';
-
+// currentCell.innerHTML = '<fieldset class="checkboxsas"><label>مدفوعه<input type="checkbox" name="later['+currentIndex+'][paid]" onchange="return laterPaid('+currentIndex+')"></label></fieldset><div id="later_dates_'+currentIndex+'" style="display:none;"><div class="form-group"><div class="label">رقم العملية في الخزنة:</div><input type="text" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later['+currentIndex+'][safe_payment_id]"></div><div class="form-group"><label for="projectinput3">خصمت من:</label><select class="select2-rtl form-control" data-placeholder="تعديل" name="later['+currentIndex+'][safe_id]"><option></option> @foreach ($safes as $safe) <option value="{{$safe->id}}">{{$safe->safe_name}}</option> @endforeach </select></div></div>';
+currentCell.innerHTML = '<fieldset class="checkboxsas"><label> دفع الان<input type="checkbox" name="later['+currentIndex+'][paynow]" onchange="return payNow('+currentIndex+')"></label></fieldset><div class="form-group" style="display:none;" id="pay_now_'+currentIndex+'"><label for="projectinput3">خصم من:</label><br><select class="select2-rtl form-control" data-placeholder="الخزنة" id="sel_xx_'+currentIndex+'" name="later['+currentIndex+'][safe_id]"><option></option>@foreach ($safes as $safe)<option value="{{$safe->id}}">{{$safe->safe_name}}</option>@endforeach</select></div>';
+$('#sel_xx_' + currentIndex).select2();
 
 
 }
