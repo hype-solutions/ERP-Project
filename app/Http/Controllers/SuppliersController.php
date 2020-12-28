@@ -79,7 +79,7 @@ class SuppliersController extends Controller
         ->selectRaw('purchases_orders_products.*, sum(product_qty) as quantity, min(product_price) as minprice, max(product_price) as maxprice, count(id) as counttimes, product_id')
         ->get();
         $countProducts = PurchasesOrdersProducts::groupBy('product_id')
-        ->where('status','delivered')
+        // ->where('status','delivered')
         ->where('supplier_id',$supplier->id)
         ->count();
 

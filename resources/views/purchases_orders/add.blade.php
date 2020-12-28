@@ -758,7 +758,7 @@ var currentCell = currentRow.insertCell(-1);
 currentCell.innerHTML = '<div class="form-group"><input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later['+currentIndex+'][amount]" value="0" required></div>';
 
 var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="form-control" id="date" value="2011-08-19" name="later['+currentIndex+'][date]"></fieldset><fieldset class="form-group"><textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later['+currentIndex+'][notes]"></textarea></fieldset>';
+currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="form-control" id="date"  name="later['+currentIndex+'][date]"></fieldset><fieldset class="form-group"><textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later['+currentIndex+'][notes]"></textarea></fieldset>';
 
 var currentCell = currentRow.insertCell(-1);
 //currentCell.innerHTML = '<fieldset class="checkboxsas"><label><input type="checkbox" name="later['+currentIndex+'][paid]">مدفوعه</label></fieldset>';
