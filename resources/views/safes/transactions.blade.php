@@ -22,7 +22,7 @@
 <div class="content-wrapper">
     <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2">
-          <h3 class="content-header-title mb-0">قائمة الخزن</h3>
+          <h3 class="content-header-title mb-0">قائمة عمليات كل الخزن</h3>
           <div class="row breadcrumbs-top">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
@@ -144,6 +144,7 @@
                     <thead>
                       <tr>
                         <th>رقم العملية</th>
+                        <th>الخزنة</th>
                         <th>التاريخ</th>
                         <th>النوع </th>
                         <th>التفاصيل</th>
@@ -160,6 +161,7 @@
                             <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$transaction->id}}</span></a>
                         </div>
                       </td>
+                      <td>{{$transaction->safe->safe_name}}</td>
                       <td>{{$transaction->transaction_datetime}}</td>
                         <td>
                               @if($transaction->transaction_type == 2)

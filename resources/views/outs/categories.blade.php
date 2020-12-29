@@ -122,7 +122,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>الجهة</th>
+                            <th>البند</th>
                             <th>التحكم</th>
                         </tr>
                     </thead>
