@@ -1,0 +1,41 @@
+
+/* ========================
+UIkit bootstrap-ecommerce.com 
+===================== */
+
+@import "variables-custom"; 
+
+
+@import "ui-pos/base"; 
+
+/* ================== HELPERS  =================== */
+@import "ui-pos/helpers/mixins";
+@import "ui-pos/helpers/helper-classes"; 
+@import "ui-pos/helpers/bg";
+@import "ui-pos/helpers/typography"; 
+@import "ui-pos/helpers/grid-24";
+
+
+
+/* ================== SECTIONS =================== */
+@import "ui-pos/sections/header";
+@import "ui-pos/sections/footer";
+@import "ui-pos/sections/sidebar";
+
+/* ================== PAGES =================== */
+@import "ui-pos/pages/page-home";
+@import "ui-pos/pages/page-common";
+@import "ui-pos/pages/page-detail";
+
+/* ================== COMPONENTS =================== */
+@import "ui-pos/components/plugin-styles";
+@import "ui-pos/components/buttons";
+@import "ui-pos/components/items";
+@import "ui-pos/components/lists";
+@import "ui-pos/components/cards-product";
+@import "ui-pos/components/elements.scss";
+@import "ui-pos/components/menu";
+
+
+
+

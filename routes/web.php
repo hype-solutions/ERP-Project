@@ -14,6 +14,7 @@ use App\Http\Controllers\InvoicesPriceQuotationController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\InsController;
 use App\Http\Controllers\OutsController;
+use App\Http\Controllers\PosController;
 
 
 /*
@@ -112,6 +113,8 @@ Route::post('/invoices/price_quotations/adding', [InvoicesPriceQuotationControll
 Route::get('/invoices/price_quotations/edit/{invoice}', [InvoicesPriceQuotationController::class, 'edit'])->name('invoicespricequotations.edit');
 Route::patch('/invoices/price_quotations/update/{invoice}', [InvoicesPriceQuotationController::class, 'update'])->name('invoicespricequotations.update');
 
+//POS
+Route::get('/pos', [PosController::class, 'index'])->name('pos.index');
 
 /*************************
  ******* Projects ********
