@@ -119,19 +119,12 @@
                 <tr>
                     <td> الفئة: </td>
                     <td>@if(isset($product->product_category))
-                      {{ $product->product_category }}
+                      <a href="#">{{ $product->cat->cat_name }}</a>
                       @else
                       <small style="font-style: italic;color:red;">غير مسجل</small>
                       @endif</td>
                   </tr>
-                  <tr>
-                    <td> الفئة الفرعية:</td>
-                    <td>@if(isset($product->product_sub_category))
-                      {{ $product->product_sub_category }}
-                      @else
-                      <small style="font-style: italic;color:red;">غير مسجل</small>
-                      @endif</td>
-                  </tr>
+
                   <tr>
                     <td>  سعر البيع:</td>
                     <td>@if(isset($product->product_price))

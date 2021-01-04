@@ -86,7 +86,7 @@
                     <h4 class="form-section"><i class="ft-user"></i> بيانات المنتج</h4>
                     <div class="row">
 
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="timesheetinput2">اسم المنتج</label>
                                 <span style="color:red">*</span>
@@ -98,6 +98,9 @@
                                 </div>
                             </div>
                         </div>
+
+                    </div>
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="timesheetinput2">كود المنتج</label>
@@ -109,34 +112,21 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-4">
                     <div class="form-group">
                         <div class="text-bold-600 font-medium-2">
                          الفئة
                         </div>
                         <select class="select2-rtl form-control" data-placeholder="إختر الفئة..." name="product_category">
-                            <option>اختر الفئة...</option>
-                            <option value="HI">الطفايات</option>
+                            <option> </option>
+                            @foreach ($categories as $item)
+                            <option value="{{$item->id}}">{{$item->cat_name}}</option>
+                            @endforeach
+
                         </select>
                       </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <div class="text-bold-600 font-medium-2">
-                                  الفئة الفرعية
-                                </div>
-                                <select class="select2-rtl form-control"  name="product_sub_category">
-                                    <option>اختر الفئة الفرعية...</option>
-                                    <option value="NV">Nevada</option>
-                                    <option value="OR">Oregon</option>
-                                    <option value="WA">Washington</option>
-
-                                </select>
-                              </div>
-                                </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="timesheetinput2">الماركة</label>
@@ -198,8 +188,6 @@
                         </div>
 
                     </div>
-
-
 
                     <div class="form-group">
                         <label for="projectinput8">ملاحظات داخلية</label>

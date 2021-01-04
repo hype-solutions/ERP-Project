@@ -12,7 +12,7 @@ class Products extends Model
     protected $fillable =
     [
         'product_code',
-        'procuct_category',
+        'product_category',
         'product_sub_category',
         'product_name',
         'product_price',
@@ -24,5 +24,10 @@ class Products extends Model
         'product_low_stock_thershold',
         'product_notes',
     ];
+
+    public function cat()
+    {
+        return $this->hasOne('App\Models\Products\ProductsCategories','id','product_category');
+    }
 
 }

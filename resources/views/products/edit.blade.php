@@ -148,6 +148,9 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                </div>
+                                <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="timesheetinput2">كود المنتج</label>
@@ -159,34 +162,25 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-md-4">
                                 <div class="form-group">
                                     <div class="text-bold-600 font-medium-2">
                                      الفئة
                                     </div>
                                     <select class="select2-rtl form-control" data-placeholder="إختر الفئة..." name="product_category">
-                                        <option value="{{$product->product_category}}">تغيير الفئة...</option>
-                                        <option value="HI">الطفايات</option>
+                                        @if($product->product_category > 0)
+                                        <option value="{{$product->product_category}}">{{$product->cat->cat_name}}</option>
+                                        @else
+                                        <option></option>
+                                        @endif
+                                        @foreach ($otherCategories as $item)
+                                        <option value="{{$item->id}}">{{$item->cat_name}}</option>
+                                        @endforeach
                                     </select>
                                   </div>
                                     </div>
 
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <div class="text-bold-600 font-medium-2">
-                                              الفئة الفرعية
-                                            </div>
-                                            <select class="select2-rtl form-control"  name="product_sub_category">
-                                                <option value="{{$product->product_code}}">تغيير الفئة الفرعية...</option>
-                                                <option value="NV">Nevada</option>
-                                                <option value="OR">Oregon</option>
-                                                <option value="WA">Washington</option>
 
-                                            </select>
-                                          </div>
-                                            </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="timesheetinput2">الماركة</label>

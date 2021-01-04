@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Products\Products;
 use App\Models\Branches\BranchesProducts;
 use App\Models\Invoices\Invoices;
- use App\Models\Products\ProductsTransfers;
+use App\Models\Products\ProductsCategories;
+use App\Models\Products\ProductsTransfers;
 use App\Models\Products\ProductsManualQuantities;
 use App\Models\PurchasesOrders\PurchasesOrders;
 use App\Models\PurchasesOrders\PurchasesOrdersProducts;
@@ -26,7 +27,7 @@ class ProductsController extends Controller
         return request()->validate(
             [
                 'product_code' => 'unique:products',
-                'procuct_category' => '',
+                'product_category' => '',
                 'product_sub_category' => '',
                 'product_name' => 'required|max:255',
                 'product_price' => 'required',
@@ -47,7 +48,7 @@ class ProductsController extends Controller
     {
         return request()->validate([
             'product_code' => '',
-            'procuct_category' => '',
+            'product_category' => '',
             'product_sub_category' => '',
             'product_name' => 'required|max:255',
             'product_price' => 'required',
@@ -64,7 +65,8 @@ class ProductsController extends Controller
 
     public function add()
     {
-        return view('products.add');
+        $categories = ProductsCategories::all();
+        return view('products.add',compact('categories'));
     }
 
     public function store()
@@ -107,7 +109,13 @@ class ProductsController extends Controller
     }
     public function edit(products $product)
     {
-        return view('products.edit', compact('product'));
+        if($product->product_category > 0 ){
+            $otherCategories = ProductsCategories::where('id','!=',$product->product_category)->get();
+        }else{
+            $otherCategories = ProductsCategories::all();
+        }
+
+          return view('products.edit', compact('product','otherCategories'));
     }
 
     public function update(products $product)
