@@ -296,7 +296,7 @@
                                  <td class="text-center">
                                     <div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="...">
                                        <button type="button" class="m-btn btn btn-default btn-xs" onclick="return decrementProduct({{$item->product_id}},'{{$item->product_name}}',{{$item->product_price}})"><i class="fa fa-minus"></i></button>
-                                       <button type="button" class="m-btn btn btn-default btn-xs" disabled>{{$item->product_qty}}</button>
+                                       <button type="button" class="m-btn btn btn-default btn-xs" disabled  id="item_qty_{{$item->product_id}}">{{$item->product_qty}}</button>
                                        <button type="button" class="m-btn btn btn-default" onclick="return incrementProduct({{$item->product_id}},'{{$item->product_name}}',{{$item->product_price}})"><i class="fa fa-plus"></i></button>
                                     </div>
                                  </td>
