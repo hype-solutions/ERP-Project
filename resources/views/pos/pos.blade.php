@@ -302,7 +302,7 @@
                                  </td>
                                  <td>
                                     <div class="price-wrap">
-                                       <var class="price">{{$item->product_qty * $item->product_price}} ج.م</var>
+                                       <var class="price"><span id="tot_{{$item->product_id}}">{{$item->product_qty * $item->product_price}}</span> ج.م</var>
                                     </div>
                                     <!-- price-wrap .// -->
                                  </td>
