@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/pos/css/ui.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/pos/fonts/fontawesome/css/fontawesome-all.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/pos/css/OverlayScrollbars.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme/pos/css/easy-numpad.css') }}">
 
     <!-- BEGIN: Custom CSS-->
     {{-- <link rel="stylesheet" type="text/css" href="{{ asset('theme/assets/css/style-rtl.css') }}"> --}}
@@ -181,7 +182,7 @@
                                     <a href="#" class="title">{{$item->product_name}}</a>
                                     <div class="action-wrap">
                                         @if($item->product_total_in - $item->product_total_out > 0)
-                                       <button type="button" class="btn btn-primary btn-sm float-right" onclick="return addToCart({{$item->id}})"> <i class="fa fa-cart-plus"></i> إضافة </button>
+                                       <button type="button" class="btn btn-primary btn-sm float-right" onclick="return addToCart({{$item->id}},'{{$item->product_name}}',{{$item->product_price}})"> <i class="fa fa-cart-plus"></i> إضافة </button>
                                        @else
                                        <button type="button" class="btn btn-primary btn-sm float-right" disabled> <i class="fa fa-cart-plus"></i> إضافة </button>
                                        @endif
@@ -282,7 +283,7 @@
                               </tr>
                            </thead>
                            <tbody>
-
+                        @if(!empty($currentCart))
                             @foreach ($currentCart as $item)
                             <tr>
                                  <td>
@@ -310,7 +311,7 @@
                                  </td>
                               </tr>
                               @endforeach
-
+                            @endif
 
 
                            </tbody>
@@ -318,27 +319,82 @@
                      </span>
                   </div>
                   <!-- card.// -->
+                  <div class="">
+                      <div class="row">
+                          <div class="col-md-6 pl-0">
+                              <button class="btn btn-info btn-block btn-lg"><i class="far fa-id-card"></i> ملف العميل</button>
+                          </div>
+                          <div class="col-md-6 pr-0">
+                            <button class="btn btn-block btn-warning btn-lg" data-toggle="modal" data-target="#discounts"><i class="fas fa-percent"></i> إضافة خصم</button>
+                        </div>
+
+                      </div>
+                  </div>
                   <div class="box">
-                     <dl class="dlist-align">
-                        <dt>الضريبة: </dt>
-                        <dd class="text-right">0%</dd>
-                     </dl>
-                     <dl class="dlist-align">
-                        <dt>الخصم:</dt>
-                        <dd class="text-right"><a href="#">0%</a></dd>
-                     </dl>
-                     <dl class="dlist-align">
-                        <dt>الإجمالي:</dt>
-                        <dd class="text-right">0 ج.م</dd>
-                     </dl>
-                     <dl class="dlist-align">
-                        <dt>الإجمالي: </dt>
-                        <dd class="text-right h4 b"> 0 ج.م </dd>
-                     </dl>
+                    <div class="modal fade" id="discounts" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content modal-info">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="compose-grids">
+                                            <div>
+
+                                                <h2 style="text-align: center"> اضافة خصم (نسبة)</h2>
+                                           <button class="btn btn-success" style="width:113px;height:60px;" onclick="applyPercentage(5)">5%</button>
+                                           <button class="btn btn-success" style="width:113px;height:60px;" onclick="applyPercentage(10)">10%</button>
+                                           <button class="btn btn-success" style="width:113px;height:60px;" onclick="applyPercentage(15)">15%</button>
+                                           <button class="btn btn-success" style="width:113px;height:60px;" onclick="applyPercentage(20)">20%</button>
+                                           <br>
+                                           <br>
+                                           <button class="btn btn-warning" style="width:113px;height:60px;" onclick="applyPercentage(25)">25%</button>
+                                           <button class="btn btn-warning" style="width:113px;height:60px;" onclick="applyPercentage(50)">50%</button>
+                                           <button class="btn btn-danger" style="width:113px;height:60px;" onclick="applyPercentage(75)">75%</button>
+                                           <button class="btn btn-danger" style="width:113px;height:60px;" onclick="applyPercentage(100)">100%</button>
+                                                <br/>
+                                                <br/>
+                                           <input id="curr_per" type="number" readonly="true"  max="100" min="0" style="width: 100%" placeholder="النسبة" />
+
+                                        </div>
+
+                                           <div>
+                                            <hr/>
+                                             <h2 style="text-align: center">  اضافة خصم (مبلغ)</h2>
+
+                                             <input id="curr_amount" type="number" readonly="true" min="0" onclick="show_easy_numpad(this);" style="width: 100%" placeholder="المبلغ"  onblur="return calculateDiscount(2)"/>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <table style="width: 100%;text-align: right;" class="table table-border">
+                        <tr>
+                            <th>الإجمالي</th>
+                            <td><span id="total_after_all">0</span> ج.م</td>
+                        </tr>
+                        <tr id="hidden-row-1" style="display: none">
+                            <th>الخصم (النسبة)</th>
+                            <td>[<span id="discount_percentage" style="color: goldenrod">0</span> %] <span id="discount_percentage_amount">0</span> ج.م</td>
+                        </tr>
+                        <tr id="hidden-row-2" style="display: none">
+                            <th>الخصم (المبلغ)</th>
+                            <td><span id="discount_amount">0</span> ج.م</td>
+                        </tr>
+                        <tr>
+                            <th>الإجمالي</th>
+                            <td><span id="total_after_all2">0</span> ج.م</td>
+                        </tr>
+                    </table>
                      <div class="row">
 
-                        <div class="col-md-12">
-                           <a href="#" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> إنهاء </a>
+                        <div class="col-md-6">
+                           <a href="#" class="btn  btn-success btn-lg btn-block"><i class="fa fa-shopping-bag"></i> حساب </a>
+                        </div>
+                        <div class="col-md-6">
+                           <a href="#" class="btn  btn-danger btn-lg btn-block"><i class="fa fa-save"></i> حفظ و عدم حساب </a>
                         </div>
                      </div>
                   </div>
@@ -352,97 +408,148 @@
     <script src="{{ asset('theme/pos/js/jquery-2.0.0.min.js') }}"></script>
     <script src="{{ asset('theme/pos/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('theme/pos/js/OverlayScrollbars.js') }}"></script>
+    <script src="{{ asset('theme/pos/js/easy-numpad.js') }}"></script>
 
     <!-- END: Theme JS-->
 
     <script>
 
-function refreshSummary(){
+function applyPercentage(per){
+    $('#curr_per').val(per);
+    calculateDiscount(1);
+}
+
+function calculateDiscount(theType) {
+//clear old discount
+$('#discount_percentage').text(0);
+$('#discount_percentage_amount').text(0);
+$('#discount_amount').text(0);
+// if discount type is percentage
+if (theType == 1) {
+  var theValue = $('#curr_per').val();
+  if ($('#curr_per').val().length === 0) {
+    theValue = 0;
+  }
+  if (theValue > 0) {
+    $('#hidden-row-1').show();
+  } else {
+    $('#hidden-row-1').hide();
+  }
+  $('#curr_amount').val(0);
+  var currentDiscountP = $('#discount_percentage').text();
+  currentDiscountP = parseInt(currentDiscountP);
+  var currentInvoiceTotal = $("#total_after_all").text();
+  currentInvoiceTotal = parseInt(currentInvoiceTotal);
+  var newInvoiceTotal = currentInvoiceTotal - (currentInvoiceTotal * (theValue / 100));
+  var discount_amount = currentInvoiceTotal - newInvoiceTotal;
+  discount_amount = Math.floor(discount_amount);
+  $('#discount_percentage').text(theValue);
+  $('#discount_percentage_amount').text(discount_amount);
+}
+//if discount type is fixed
+else if (theType == 2) {
+  var theValue = $('#curr_amount').val();
+  if ($('#curr_amount').val().length === 0) {
+    theValue = 0;
+  }
+  if (theValue > 0) {
+    $('#hidden-row-2').show();
+  } else {
+    $('#hidden-row-2').hide();
+  }
+  $('#curr_per').val(0);
+  var currentDiscountA = $('#discount_amount').text();
+  currentDiscountA = parseInt(currentDiscountA);
+  var currentInvoiceTotal = $("#total_after_all").text();
+  currentInvoiceTotal = parseInt(currentInvoiceTotal);
+  var newInvoiceTotal = parseInt(currentInvoiceTotal) + parseInt(currentDiscountA) - parseInt(theValue);
+  $('#discount_amount').text(theValue);
+}
+updateTotal();
+}
+
+function updateTotal() {
+
+//get sub total
+var getSubTotal = $("#total_after_all").text();
+getSubTotal = parseInt(getSubTotal);
+//get discount amount
+var getDiscountAmount_1 = $('#discount_percentage_amount').text();
+var getDiscountAmount_2 = $('#discount_amount').text();
+getDiscountAmount_1 = parseInt(getDiscountAmount_1);
+getDiscountAmount_2 = parseInt(getDiscountAmount_2);
+//add them all
+var invoiceTotal = getSubTotal  - getDiscountAmount_1 - getDiscountAmount_2;
+$('#total_after_all2').text(invoiceTotal);
+$('#totalToSave').val(invoiceTotal);
 
 }
 
-function removeFromCart(productId){
-    $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-            }
-                    });
-            var formData = {
-                product: productId,
-                sess: {{$sessionId}},
-            };
-            var type = "POST";
-            var ajaxurl = "{{route('pos.removeFromCart')}}";
-            $.ajax({
-            type: type,
-            url: ajaxurl,
-            data: formData,
-            dataType: 'json',
-            success: function (data) {
-                console.log(data);
-                refreshCart();
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-}
 
-function incrementProduct(productId){
-    $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-            }
-                    });
-            var formData = {
-                product: productId,
-                sess: {{$sessionId}},
-            };
-            var type = "POST";
-            var ajaxurl = "{{route('pos.increment')}}";
-            $.ajax({
-            type: type,
-            url: ajaxurl,
-            data: formData,
-            dataType: 'json',
-            success: function (data) {
-                console.log(data);
-                refreshCart();
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
+function incrementProduct(productId,productName,productPrice){
+    var getCurrentQty = $('#item_qty_'+productId).text();
+        var productQty = 1 + parseInt(getCurrentQty);
+        var oldTotalPrice = parseInt(getCurrentQty) * parseInt(productPrice);
+        var newTotalPrice = (parseInt(getCurrentQty) + 1) * parseInt(productPrice);
+        oldTotalPrice = parseInt(oldTotalPrice);
+        newTotalPrice = parseInt(newTotalPrice);
+        $('#cart_item_' + productId).html('<td><figure class="media"><figcaption class="media-body"><h6 class="title text-truncate">'+productName+'</h6></figcaption></figure></td><td class="text-center"><div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="..."><button type="button" class="m-btn btn btn-default btn-xs" onclick="return decrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-minus"></i></button><button type="button" class="m-btn btn btn-default btn-xs" disabled id="item_qty_'+productId+'">'+productQty+'</button><button type="button" class="m-btn btn btn-default"  onclick="return incrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-plus"></i></button></div></td><td><div class="price-wrap"><var class="price"><span id="tot_'+productId+'">'+productPrice * productQty+'</span> ج.م</var></div></td><td class="text-right"><a href="#" class="btn btn-outline-danger" onclick="return removeFromCart('+productId+','+productPrice+')"> <i class="fa fa-trash"></i></a></td>');
+        reCalculate(productId,oldTotalPrice,newTotalPrice);
 }
 
 
-function decrementProduct(productId){
-    $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-            }
-                    });
-            var formData = {
-                product: productId,
-                sess: {{$sessionId}},
-            };
-            var type = "POST";
-            var ajaxurl = "{{route('pos.decrement')}}";
-            $.ajax({
-            type: type,
-            url: ajaxurl,
-            data: formData,
-            dataType: 'json',
-            success: function (data) {
-                console.log(data);
-                refreshCart();
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
+function decrementProduct(productId,productName,productPrice){
+    var getCurrentQty = $('#item_qty_'+productId).text();
+        var productQty =  parseInt(getCurrentQty) - 1;
+        var oldTotalPrice = parseInt(getCurrentQty) * parseInt(productPrice);
+        var newTotalPrice = (parseInt(getCurrentQty) - 1) * parseInt(productPrice);
+        oldTotalPrice = parseInt(oldTotalPrice);
+        newTotalPrice = parseInt(newTotalPrice);
+        if(getCurrentQty == 1){
+            $('#cart_item_' + productId).remove();
+        }else{
+            $('#cart_item_' + productId).html('<td><figure class="media"><figcaption class="media-body"><h6 class="title text-truncate">'+productName+'</h6></figcaption></figure></td><td class="text-center"><div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="..."><button type="button" class="m-btn btn btn-default btn-xs" onclick="return decrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-minus"></i></button><button type="button" class="m-btn btn btn-default btn-xs" disabled id="item_qty_'+productId+'">'+productQty+'</button><button type="button" class="m-btn btn btn-default"  onclick="return incrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-plus"></i></button></div></td><td><div class="price-wrap"><var class="price"><span id="tot_'+productId+'">'+productPrice * productQty+'</span> ج.م</var></div></td><td class="text-right"><a href="#" class="btn btn-outline-danger" onclick="return removeFromCart('+productId+','+productPrice+')"> <i class="fa fa-trash"></i></a></td>');
+        }
+        reCalculate(productId,oldTotalPrice,newTotalPrice);
+}
+function removeFromCart(productId,productPrice){
+    var getCurrentQty = $('#item_qty_'+productId).text();
+    var oldTotalPrice = parseInt(getCurrentQty) * parseInt(productPrice);
+        var newTotalPrice = 0;
+        oldTotalPrice = parseInt(oldTotalPrice);
+        newTotalPrice = parseInt(newTotalPrice);
+    $('#cart_item_' + productId).remove();
+
+    reCalculate(productId,oldTotalPrice,newTotalPrice);
 }
 
+function updateDiscount() {
+var discount_percentage = $('#curr_per').val();
+var discount_amount = $('#curr_amount').val();
+if (discount_percentage > 0) {
+  discount_percentage = parseInt(discount_percentage);
+  calculateDiscount(1, discount_percentage);
+}
+
+if (discount_amount > 0) {
+  discount_amount = parseInt(discount_amount);
+  calculateDiscount(2, discount_amount);
+}
+
+}
+
+function reCalculate(productId,oldTotalPrice,newTotalPrice) {
+    console.log(oldTotalPrice);
+    console.log(newTotalPrice);
+    var currentTotal = $("#total_after_all").text();
+    currentTotal = parseInt(currentTotal);
+    var newTotal = currentTotal - oldTotalPrice;
+    newTotal = newTotal + newTotalPrice;
+    $('#total_after_all').text(newTotal);
+    updateDiscount();
+    updateTotal();
+
+}
 
 function refreshCart(){
 $('#cart').find('tbody').empty();
@@ -477,31 +584,22 @@ $.ajaxSetup({
 }
 
 
-function addToCart(productId){
-    $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-            }
-                    });
-            var formData = {
-                product: productId,
-                sess: {{$sessionId}},
-            };
-            var type = "POST";
-            var ajaxurl = "{{route('pos.addtocart')}}";
-            $.ajax({
-            type: type,
-            url: ajaxurl,
-            data: formData,
-            dataType: 'json',
-            success: function (data) {
-                console.log(data);
-                refreshCart();
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
+function addToCart(productId,productName,productPrice){
+
+    if($("#cart_item_" + productId).length > 0) {
+        var getCurrentQty = $('#item_qty_'+productId).text();
+        var productQty = 1 + parseInt(getCurrentQty);
+        $('#cart_item_' + productId).html('<td><figure class="media"><figcaption class="media-body"><h6 class="title text-truncate">'+productName+'</h6></figcaption></figure></td><td class="text-center"><div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="..."><button type="button" class="m-btn btn btn-default btn-xs" onclick="return decrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-minus"></i></button><button type="button" class="m-btn btn btn-default btn-xs" disabled id="item_qty_'+productId+'">'+productQty+'</button><button type="button" class="m-btn btn btn-default"  onclick="return incrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-plus"></i></button></div></td><td><div class="price-wrap"><var class="price"><span id="tot_'+productId+'">'+productPrice * productQty+'</span> ج.م</var></div></td><td class="text-right"><a href="#" class="btn btn-outline-danger" onclick="return removeFromCart('+productId+','+productPrice+')"> <i class="fa fa-trash"></i></a></td>');
+    }else{
+        var productQty = 1;
+        var getCurrentQty = 0;
+        $('#cart').find('tbody').append('<tr id="cart_item_'+productId+'"><td><figure class="media"><figcaption class="media-body"><h6 class="title text-truncate">'+productName+'</h6></figcaption></figure></td><td class="text-center"><div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="..."><button type="button" class="m-btn btn btn-default btn-xs" onclick="return decrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-minus"></i></button><button type="button" class="m-btn btn btn-default btn-xs" disabled id="item_qty_'+productId+'">'+productQty+'</button><button type="button" class="m-btn btn btn-default"  onclick="return incrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-plus"></i></button></div></td><td><div class="price-wrap"><var class="price"><span id="tot_'+productId+'">'+productPrice * productQty+'</span> ج.م</var></div></td><td class="text-right"><a href="#" class="btn btn-outline-danger" onclick="return removeFromCart('+productId+','+productPrice+')"> <i class="fa fa-trash"></i></a></td></tr>');
+    }
+        var oldTotalPrice = parseInt(getCurrentQty) * parseInt(productPrice);
+        var newTotalPrice = (parseInt(getCurrentQty) + 1) * parseInt(productPrice);
+            oldTotalPrice = parseInt(oldTotalPrice);
+            newTotalPrice = parseInt(newTotalPrice);
+        reCalculate(productId,oldTotalPrice,newTotalPrice);
 }
 
 
