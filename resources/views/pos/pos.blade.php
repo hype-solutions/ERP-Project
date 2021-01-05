@@ -285,7 +285,7 @@
                            <tbody>
                         @if(!empty($currentCart))
                             @foreach ($currentCart as $item)
-                            <tr>
+                            <tr id="cart_item_{{$item->product_id}}">
                                  <td>
                                     <figure class="media">
                                        <figcaption class="media-body">
@@ -295,9 +295,9 @@
                                  </td>
                                  <td class="text-center">
                                     <div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="...">
-                                       <button type="button" class="m-btn btn btn-default btn-xs" onclick="return decrementProduct({{$item->product_id}})"><i class="fa fa-minus"></i></button>
+                                       <button type="button" class="m-btn btn btn-default btn-xs" onclick="return decrementProduct({{$item->product_id}},'{{$item->product_name}}',{{$item->product_price}})"><i class="fa fa-minus"></i></button>
                                        <button type="button" class="m-btn btn btn-default btn-xs" disabled>{{$item->product_qty}}</button>
-                                       <button type="button" class="m-btn btn btn-default" onclick="return incrementProduct({{$item->product_id}})"><i class="fa fa-plus"></i></button>
+                                       <button type="button" class="m-btn btn btn-default" onclick="return incrementProduct({{$item->product_id}},'{{$item->product_name}}',{{$item->product_price}})"><i class="fa fa-plus"></i></button>
                                     </div>
                                  </td>
                                  <td>
@@ -307,7 +307,7 @@
                                     <!-- price-wrap .// -->
                                  </td>
                                  <td class="text-right">
-                                    <a href="#" class="btn btn-outline-danger" onclick="return removeFromCart({{$item->product_id}})"> <i class="fa fa-trash"></i></a>
+                                    <a href="#" class="btn btn-outline-danger" onclick="return removeFromCart({{$item->product_id}},{{$item->product_price}})"> <i class="fa fa-trash"></i></a>
                                  </td>
                               </tr>
                               @endforeach

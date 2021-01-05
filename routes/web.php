@@ -118,11 +118,11 @@ Route::get('/pos/landing', [PosController::class, 'landing'])->name('pos.landing
 Route::get('/pos/{sessionId}', [PosController::class, 'index'])->name('pos.index');
 Route::post('/pos/search', [PosController::class, 'search'])->name('pos.search');
 Route::post('/pos/barcode', [PosController::class, 'barcode'])->name('pos.barcode');
-Route::post('/pos/addtocart', [PosController::class, 'addtocart'])->name('pos.addtocart');
+// Route::post('/pos/addtocart', [PosController::class, 'addtocart'])->name('pos.addtocart');
 Route::post('/pos/refreshcart', [PosController::class, 'refreshcart'])->name('pos.refreshcart');
-Route::post('/pos/increment', [PosController::class, 'increment'])->name('pos.increment');
-Route::post('/pos/decrement', [PosController::class, 'decrement'])->name('pos.decrement');
-Route::post('/pos/removeFromCart', [PosController::class, 'removeFromCart'])->name('pos.removeFromCart');
+// Route::post('/pos/increment', [PosController::class, 'increment'])->name('pos.increment');
+// Route::post('/pos/decrement', [PosController::class, 'decrement'])->name('pos.decrement');
+// Route::post('/pos/removeFromCart', [PosController::class, 'removeFromCart'])->name('pos.removeFromCart');
 Route::post('/pos/start', [PosController::class, 'start'])->name('pos.start');
 
 /*************************

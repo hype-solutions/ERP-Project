@@ -111,45 +111,45 @@ class PosController extends Controller
         return response()->json(array('data' => $cart), 200);
     }
 
-    public function increment(Request $request)
-    {
-        $product_id = $request->product;
-        $pos_session_id = $request->sess;
+    // public function increment(Request $request)
+    // {
+    //     $product_id = $request->product;
+    //     $pos_session_id = $request->sess;
 
-        Cart::where('pos_session_id', $pos_session_id)
-            ->where('product_id', $product_id)
-            ->increment('product_qty', 1);
-        return 1;
-    }
+    //     Cart::where('pos_session_id', $pos_session_id)
+    //         ->where('product_id', $product_id)
+    //         ->increment('product_qty', 1);
+    //     return 1;
+    // }
 
-    public function decrement(Request $request)
-    {
-        $product_id = $request->product;
-        $pos_session_id = $request->sess;
-        $currentQty = Cart::where('pos_session_id', $pos_session_id)
-            ->where('product_id', $product_id)
-            ->first();
-        if ($currentQty->product_qty == 1) {
-            Cart::where('pos_session_id', $pos_session_id)
-                ->where('product_id', $product_id)
-                ->delete();
-        } else {
-            Cart::where('pos_session_id', $pos_session_id)
-                ->where('product_id', $product_id)
-                ->decrement('product_qty', 1);
-        }
-        return 1;
-    }
+    // public function decrement(Request $request)
+    // {
+    //     $product_id = $request->product;
+    //     $pos_session_id = $request->sess;
+    //     $currentQty = Cart::where('pos_session_id', $pos_session_id)
+    //         ->where('product_id', $product_id)
+    //         ->first();
+    //     if ($currentQty->product_qty == 1) {
+    //         Cart::where('pos_session_id', $pos_session_id)
+    //             ->where('product_id', $product_id)
+    //             ->delete();
+    //     } else {
+    //         Cart::where('pos_session_id', $pos_session_id)
+    //             ->where('product_id', $product_id)
+    //             ->decrement('product_qty', 1);
+    //     }
+    //     return 1;
+    // }
 
-    public function removeFromCart(Request $request)
-    {
-        $product_id = $request->product;
-        $pos_session_id = $request->sess;
+    // public function removeFromCart(Request $request)
+    // {
+    //     $product_id = $request->product;
+    //     $pos_session_id = $request->sess;
 
-        Cart::where('pos_session_id', $pos_session_id)
-            ->where('product_id', $product_id)
-            ->delete();
+    //     Cart::where('pos_session_id', $pos_session_id)
+    //         ->where('product_id', $product_id)
+    //         ->delete();
 
-        return 1;
-    }
+    //     return 1;
+    // }
 }
