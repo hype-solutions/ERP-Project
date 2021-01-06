@@ -18,12 +18,12 @@
 <div class="content-wrapper">
     <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2">
-          <h3 class="content-header-title mb-0">فواتير البيع</h3>
+          <h3 class="content-header-title mb-0">المشاريع</h3>
           <div class="row breadcrumbs-top">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('home')}}">البرنامج</a></li>
-            <li class="breadcrumb-item"><a href="{{route('projects.list')}}">فواتير البيع</a></li>
+            <li class="breadcrumb-item"><a href="{{route('projects.list')}}">المشاريع</a></li>
                 <li class="breadcrumb-item active">استعراض
                 </li>
               </ol>

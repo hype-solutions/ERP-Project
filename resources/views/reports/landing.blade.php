@@ -49,21 +49,21 @@
                         <div class="card-body">
 
 
-                            <form class="form">
+                            <form class="form" action=" " method="POST">
                                 <div class="form-body">
-                                    <h4 class="form-section"><i class="ft-clipboard"></i> التحكم</h4>
+                                    <h4 class="form-section"><i class="ft-settings"></i> التحكم</h4>
                                     <div class="row">
                                         <div class="form-group col-md-6 mb-2">
                                             <label>من</label>
-                                            <input type="date" class="form-control"/>
+                                            <input type="date" class="form-control" name="from"/>
                                         </div>
                                         <div class="form-group col-md-6 mb-2">
                                             <label>الى</label>
-                                            <input type="date" class="form-control"/>
+                                            <input type="date" class="form-control" name="to"/>
                                         </div>
                                         <div class="form-group col-md-12 mb-2">
                                             <label class="sr-only" for="projectinput6">الفرع</label>
-                                            <select id="projectinput6" name="interested" class="form-control">
+                                            <select id="projectinput6" name="branch" class="form-control">
                                                  <option value="0">كل الفروع</option>
                                                  @foreach($branches as $branch)
                                                 <option value="{{$branch->id}}">{{$branch->branch_name}}</option>
@@ -83,9 +83,47 @@
                             </form>
                         </div>
                     </div>
+
+                </div>
+                <div class="row">
+                <div class="col-xl-6 col-md-6 col-12">
+                    <div class="card">
+                      <div class="card-content">
+                        <div class="card-body">
+                          <div class="media d-flex">
+                            <div class="media-body text-left">
+                              <h3 class="warning">{{$customersCount}}</h3>
+                              <span>إجمالي عدد العملاء</span>
+                            </div>
+                            <div class="align-self-center">
+                              <i class="icon-users warning font-large-2 float-right"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-md-6 col-12">
+                    <div class="card">
+                      <div class="card-content">
+                        <div class="card-body">
+                          <div class="media d-flex">
+                            <div class="media-body text-left">
+                              <h3 class="info">{{$suppliersCount}}</h3>
+                              <span>إجمالي عدد الموردين</span>
+                            </div>
+                            <div class="align-self-center">
+                              <i class="icon-social-dropbox info font-large-2 float-right"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
             </div>
-            <div class="col-md-6">
+
+            {{-- <div class="col-md-6">
                 <div class="row">
 
                     <div class="col-xl-12 col-md-6 col-12 ">
@@ -117,7 +155,7 @@
                                 <span>إجمالي عدد العملاء</span>
                               </div>
                               <div class="align-self-center">
-                                <i class="icon-user-following warning font-large-2 float-right"></i>
+                                <i class="icon-users warning font-large-2 float-right"></i>
                               </div>
                             </div>
                           </div>
@@ -142,14 +180,165 @@
                       </div>
                     </div>
                   </div>
+            </div> --}}
+
+            <div class="col-md-6">
+                {{-- <div class="row">
+                    <div class="col-xl-12 col-md-6 col-12 ">
+                        <div class="card bg-success">
+                            <div class="card-content">
+                              <div class="card-body">
+                                <div class="media d-flex">
+                                  <div class="align-self-center">
+                                    <i class="icon-lock text-white font-large-2 float-left"></i>
+                                  </div>
+                                  <div class="media-body text-white text-center">
+                                    <h2 class="text-white">{{$safesSum}} <small>ج.م</small></h2>
+                                    <span>رصيد الخزنة / الخزن</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                    </div>
+                </div> --}}
+                <div class="card">
+                    <div class="card-header">
+                        <h3>الملخص</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="table-responsive">
+                            <table class="table mb-0 table-lg">
+
+                                <tbody>
+                                    <tr class="bg-success white">
+                                        <th scope="row">المبيعات</th>
+                                        <td>{{$posInvoicesSum + $invoicesSum}} ج.م</td>
+                                    </tr>
+                                    <tr class="bg-success white">
+                                        <th scope="row">المشاريع</th>
+                                        <td>{{$projectsSum}} ج.م</td>
+                                    </tr>
+                                    <tr class="bg-success white">
+                                        <th scope="row">الدواخل و الإيداع</th>
+                                        <td>{{$income}} ج.م</td>
+                                    </tr>
+                                    <tr class="bg-success white">
+                                        <th scope="row">فواتير الدائن</th>
+                                        <td>{{$laterSumInv}} ج.م</td>
+                                    </tr>
+                                    <tr class="bg-danger white">
+                                        <th scope="row">المصاريف و السحب</th>
+                                        <td>{{$expenses}} ج.م</td>
+                                    </tr>
+
+                                    <tr class="bg-danger white">
+                                        <th scope="row">فواتير المدين</th>
+                                        <td>{{$laterSumPO}} ج.م</td>
+
+                                    </tr>
+                                    <tr class="bg-danger white">
+                                        <th scope="row">فواتير الشراء</th>
+                                        <td>{{$purchasesOrders}} ج.م</td>
+
+                                    </tr>
+                                    <tr class="bg-info white">
+                                        <th scope="row">الإجمالي</th>
+                                        <td>{{$posInvoicesSum + $invoicesSum + $projectsSum + $income + $laterSumInv - $laterSumPO - $expenses - $purchasesOrders}} ج.م</td>
+
+                                    </tr>
+                                    <tr class="bg-info white">
+                                        <th scope="row">الربح الصافي</th>
+                                        <td>{{$posInvoicesSum + $invoicesSum + $projectsSum + $income + $laterSumInv - $laterSumPO - $expenses - $purchasesOrders}} ج.م</td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
 
+    <section id="grouped-stats" class="grouped-stats">
+        <div class="row">
+            <div class="col-12">
+              <div class="card bg-gradient-x-success">
+                <div class="card-content">
+                  <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-12 card-gradient-md-border border-right-success border-right-lighten-3">
+                      <div class="card-body text-center">
+                        <h1 class="display-4 text-white">{{$posInvoicesSum + $invoicesSum}} <small>ج.م</small></h1>
+                        <span class="text-white">المبيعات</span>
+                        <br><br>
+                        <button class="btn btn-dark btn-block">التفاصيل</button>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12 card-gradient-md-border border-right-success border-right-lighten-3">
+                      <div class="card-body text-center">
+                        <h1 class="display-4 text-white">{{$projectsSum}} <small>ج.م</small></h1>
+                        <span class="text-white">المشاريع</span>
+                        <br><br>
+                        <button class="btn btn-dark btn-block">التفاصيل</button>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12 card-gradient-md-border border-right-success border-right-lighten-3">
+                      <div class="card-body text-center">
+                        <h1 class="display-4 text-white">{{$income}} <small>ج.م</small></h1>
+                        <span class="text-white">الدواخل و الإيداع</span>
+                        <br><br>
+                        <button class="btn btn-dark btn-block">التفاصيل</button>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12 card-gradient-md-border">
+                      <div class="card-body text-center">
+                        <h1 class="display-4 text-white">{{$laterSumInv}} <small>ج.م</small></h1>
+                        <span class="text-white">فواتير الدائن</span>
+                        <br><br>
+                        <button class="btn btn-dark btn-block">التفاصيل</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="card bg-gradient-x-danger">
+                <div class="card-content">
+                  <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 card-gradient-md-border border-right-danger border-right-lighten-3">
+                        <div class="card-body text-center">
+                          <h1 class="display-4 text-white">{{$expenses}} <small>ج.م</small></h1>
+                          <span class="text-white">المصاريف و السحب	</span>
+                          <br><br>
+                          <button class="btn btn-dark btn-block">التفاصيل</button>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-12 card-gradient-md-border border-right-danger border-right-lighten-3">
+                        <div class="card-body text-center">
+                          <h1 class="display-4 text-white">{{$laterSumPO}} <small>ج.م</small></h1>
+                          <span class="text-white">فواتير المدين	</span>
+                          <br><br>
+                          <button class="btn btn-dark btn-block">التفاصيل</button>
+                        </div>
+                      </div>
 
 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
+    </section>
+
+{{--
 
     <section id="grouped-stats" class="grouped-stats">
         <div class="row">
@@ -157,27 +346,28 @@
               <div class="card">
                 <div class="card-content">
                   <div class="row">
-                    <div class="col-lg-3 col-md-12 col-sm-12 border-right-blue-grey border-right-lighten-5">
+                    <div class="col-lg-6 col-md-12 col-sm-12 border-right-blue-grey border-right-lighten-5">
                       <div class="p-1 text-center">
                         <div>
-                          <h3 class="display-4 blue-grey darken-1">{{$posInvoicesSum}} <small>ج.م</small></h3>
-                          <span class="blue-grey darken-1">فواتير نقاط البيع</span>
+                          <h3 class="display-4 blue-grey darken-1">{{$posInvoicesSum + $invoicesSum}} <small>ج.م</small></h3>
+                          <span class="blue-grey darken-1">المبيعات</span>
                         </div>
                         <div class="card-content">
                           <ul class="list-inline clearfix">
                             <li class="border-right-blue-grey border-right-lighten-2 pr-1">
-                              <h1 class="danger text-bold-400">{{$posInvoicesCount}}</h1>
+                              <h1 class="danger text-bold-400">{{$posInvoicesCount + $invoicesCount}}</h1>
                               <span class="blue-grey darken-1"><i class="la la-caret-up"></i> عدد الفواتير</span>
                             </li>
                             <li class="pl-1">
-                              <h1 class="success text-bold-400">{{$posInvoicesDone}}</h1>
+                              <h1 class="success text-bold-400">{{$posInvoicesDone + $invoicesDone}}</h1>
                               <span class="blue-grey darken-1"><i class="la la-caret-down"></i> منتهية</span>
                             </li>
                           </ul>
+                          <button class="btn btn-info btn-block">إستعراض التفاصيل</button>
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-3 col-md-12 col-sm-12 border-right-blue-grey border-right-lighten-5">
+                     <div class="col-lg-3 col-md-12 col-sm-12 border-right-blue-grey border-right-lighten-5">
                       <div class="p-1 text-center">
                         <div>
                           <h3 class="display-4 blue-grey darken-1">{{$invoicesSum}} <small>ج.م</small></h3>
@@ -194,10 +384,11 @@
                               <span class="blue-grey darken-1"><i class="la la-caret-down"></i> منتهية</span>
                             </li>
                           </ul>
+                          <button class="btn btn-info btn-block">إستعراض التفاصيل</button>
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-3 col-md-12 col-sm-12 border-right-blue-grey border-right-lighten-5">
+                     <div class="col-lg-3 col-md-12 col-sm-12 border-right-blue-grey border-right-lighten-5">
                       <div class="p-1 text-center">
                         <div>
                           <h3 class="display-4 blue-grey darken-1">{{$invoicesPriceQuotationsSum}} <small>ج.م</small></h3>
@@ -214,10 +405,11 @@
                               <span class="blue-grey darken-1"><i class="la la-caret-down"></i> مصدقة</span>
                             </li>
                           </ul>
+                          <button class="btn btn-info btn-block">إستعراض التفاصيل</button>
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-3 col-md-12 col-sm-12 border-right-blue-grey border-right-lighten-5">
+                    <div class="col-lg-6 col-md-12 col-sm-12 border-right-blue-grey border-right-lighten-5">
                         <div class="p-1 text-center">
                           <div>
                             <h3 class="display-4 blue-grey darken-1">{{$projectsSum}} <small>ج.م</small></h3>
@@ -234,6 +426,7 @@
                                 <span class="blue-grey darken-1"><i class="la la-caret-down"></i> منتهية</span>
                               </li>
                             </ul>
+                            <button class="btn btn-info btn-block">إستعراض التفاصيل</button>
                           </div>
                         </div>
                       </div>
@@ -242,7 +435,7 @@
               </div>
             </div>
           </div>
-    </section>
+    </section> --}}
 
 <!-- users list ends -->
   </div>

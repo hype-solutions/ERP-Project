@@ -198,3 +198,4 @@ Route::delete('/outs/delete/{out}', [OutsController::class, 'delete'])->name('ou
  ******** Reports ********
  *************************/
 Route::get('/reports', [ReportsController::class, 'landing'])->name('reports.landing');
+Route::post('/reports/branch/{branch}/from/{from}/to/{to}', [ReportsController::class, 'fromto'])->name('reports.fromto');
