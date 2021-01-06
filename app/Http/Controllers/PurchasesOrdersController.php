@@ -26,6 +26,22 @@ class PurchasesOrdersController extends Controller
         // $this->middleware('subscribed')->except('store');
     }
 
+    public function view(PurchasesOrders $order)
+    {
+        $purchaseOrder = PurchasesOrders::find($order->id);
+        $user = Auth::user();
+        $user_id = $user->id;
+        $currentProducts = PurchasesOrdersProducts::where('purchase_id', $purchaseOrder->id)->get();
+        if ($purchaseOrder->safe_id > 0) {
+            $safes = Safes::where('id', '!=', $purchaseOrder->safe_id)->get();
+        } else {
+            $safes = Safes::all();
+        }
+        $laterDates = PurchasesOrdersPayments::where('purchase_id', $order->id)->get();
+        return view('purchases_orders.profile', compact('purchaseOrder', 'user_id', 'currentProducts', 'safes', 'laterDates'));
+
+    }
+
     public function add()
     {
         $user = Auth::user();

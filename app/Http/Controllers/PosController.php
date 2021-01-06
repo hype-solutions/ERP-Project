@@ -61,7 +61,7 @@ class PosController extends Controller
         return response()->json(array('datax' => $products), 200);
     }
 
-    public function addtocart(Request $request)
+    public function finish(Request $request)
     {
         //get product id & session id
         $product_id = $request->product;

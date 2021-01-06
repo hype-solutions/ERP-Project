@@ -227,13 +227,10 @@
                                     <td id="TotalValue" class="text-left"><code><span id="total_after_all2">0</span></code>&nbsp;ج.م</td>
                                     <td></td>
                                  </tr>
-
                             </tbody>
                         </table>
 
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -348,11 +345,6 @@
                             @endif
                         @else
                         <h2 class="text-danger"><span class="la la-exclamation-circle"></span>لم يتم الدفع</h2>
-                         {{-- <fieldset class="checkboxsas">
-                            <label>
-                              هل تم الدفع بالفعل؟
-                                          </label>
-                        </fieldset> --}}
                         @endif
                     </div>
                     <input type="checkbox" name="already_paid" id="hasPaid" style="display: none" @if($purchaseOrder->already_paid) checked @endif>

@@ -36,6 +36,21 @@ class InvoicesController extends Controller
         return view('invoices.add', compact('user_id', 'customers', 'products', 'safes', 'branches'));
     }
 
+
+    public function view(Invoices $invoice)
+    {
+
+        $user = Auth::user();
+        $user_id = $user->id;
+        $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
+        $currentProducts = InvoicesProducts::where('invoice_id', $invoice->id)->get();
+        $products = Products::all();
+        $safes = Safes::all();
+        $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
+        $laterDates = InvoicesPayments::where('invoice_id', $invoice->id)->get();
+        return view('invoices.profile', compact('laterDates','currentProducts','invoice','user_id', 'customers', 'products', 'safes', 'branches'));
+    }
+
     public function edit(Invoices $invoice)
     {
 

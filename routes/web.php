@@ -91,6 +91,7 @@ Route::post('/products/selecting', [ProductsController::class, 'selecting'])->na
 Route::get('/purchase_orders', [PurchasesOrdersController::class, 'purchasesordersList'])->name('purchasesorders.list');
 Route::get('/purchase_orders/add', [PurchasesOrdersController::class, 'add'])->name('purchasesorders.add');
 Route::post('/purchase_orders/adding', [PurchasesOrdersController::class, 'store'])->name('purchasesorders.adding');
+Route::get('/purchase_orders/view/{order}', [PurchasesOrdersController::class, 'view'])->name('purchasesorders.view');
 Route::get('/purchase_orders/edit/{order}', [PurchasesOrdersController::class, 'edit'])->name('purchasesorders.edit');
 Route::patch('/purchase_orders/update/{order}', [PurchasesOrdersController::class, 'update'])->name('purchasesorders.update');
 
@@ -102,6 +103,7 @@ Route::patch('/purchase_orders/update/{order}', [PurchasesOrdersController::clas
 Route::get('/invoices', [InvoicesController::class, 'invoicesList'])->name('invoices.list');
 Route::get('/invoices/add', [InvoicesController::class, 'add'])->name('invoices.add');
 Route::post('/invoices/adding', [InvoicesController::class, 'store'])->name('invoices.adding');
+Route::get('/invoices/view/{invoice}', [InvoicesController::class, 'view'])->name('invoices.view');
 Route::get('/invoices/edit/{invoice}', [InvoicesController::class, 'edit'])->name('invoices.edit');
 //Route::post('/invoices/getOtherProducts', [InvoicesController::class, 'getOtherProducts'])->name('invoices.getOtherProducts');
 Route::patch('/invoices/update/{invoice}', [InvoicesController::class, 'update'])->name('invoices.update');
@@ -111,6 +113,7 @@ Route::get('/invoices/price_quotations', [InvoicesPriceQuotationController::clas
 Route::get('/invoices/price_quotations/add', [InvoicesPriceQuotationController::class, 'add'])->name('invoicespricequotations.add');
 Route::post('/invoices/price_quotations/adding', [InvoicesPriceQuotationController::class, 'store'])->name('invoicespricequotations.adding');
 Route::get('/invoices/price_quotations/edit/{invoice}', [InvoicesPriceQuotationController::class, 'edit'])->name('invoicespricequotations.edit');
+Route::get('/invoices/price_quotations/view/{invoice}', [InvoicesPriceQuotationController::class, 'view'])->name('invoicespricequotations.view');
 Route::patch('/invoices/price_quotations/update/{invoice}', [InvoicesPriceQuotationController::class, 'update'])->name('invoicespricequotations.update');
 
 //POS
@@ -118,12 +121,12 @@ Route::get('/pos/landing', [PosController::class, 'landing'])->name('pos.landing
 Route::get('/pos/{sessionId}', [PosController::class, 'index'])->name('pos.index');
 Route::post('/pos/search', [PosController::class, 'search'])->name('pos.search');
 Route::post('/pos/barcode', [PosController::class, 'barcode'])->name('pos.barcode');
-// Route::post('/pos/addtocart', [PosController::class, 'addtocart'])->name('pos.addtocart');
 Route::post('/pos/refreshcart', [PosController::class, 'refreshcart'])->name('pos.refreshcart');
 // Route::post('/pos/increment', [PosController::class, 'increment'])->name('pos.increment');
 // Route::post('/pos/decrement', [PosController::class, 'decrement'])->name('pos.decrement');
 // Route::post('/pos/removeFromCart', [PosController::class, 'removeFromCart'])->name('pos.removeFromCart');
 Route::post('/pos/start', [PosController::class, 'start'])->name('pos.start');
+Route::post('/pos/finish', [PosController::class, 'finish'])->name('pos.finish');
 
 /*************************
  ******* Projects ********

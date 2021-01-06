@@ -16,6 +16,7 @@ class PurchasesOrders extends Model
         'discount_amount',
         'discount_reason',
         'shipping_fees',
+        'purchase_total',
         'purchase_note',
         'already_paid',
         'payment_method',

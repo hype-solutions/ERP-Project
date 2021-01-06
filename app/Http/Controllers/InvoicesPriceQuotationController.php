@@ -39,6 +39,18 @@ class InvoicesPriceQuotationController extends Controller
         return view('invoices_price_quotations.add', compact('user_id', 'customers', 'products'));
     }
 
+
+    public function view(InvoicesPriceQuotation $invoice)
+    {
+
+        $user = Auth::user();
+        $user_id = $user->id;
+        $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
+        $currentProducts = InvoicesPriceQuotationsProducts::where('quotation_id', $invoice->id)->get();
+        $products = Products::all();
+        return view('invoices_price_quotations.profile', compact('currentProducts','invoice','user_id', 'customers', 'products'));
+    }
+
     public function edit(InvoicesPriceQuotation $invoice)
     {
 

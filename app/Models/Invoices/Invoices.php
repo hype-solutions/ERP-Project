@@ -35,6 +35,10 @@ class Invoices extends Model
         return $this->hasOne('App\Models\Customers\Customers', 'id', 'customer_id');
     }
 
+    public function safe()
+    {
+        return $this->hasOne('App\Models\Safes\Safes', 'id', 'safe_id');
+    }
 
     public function branch()
     {

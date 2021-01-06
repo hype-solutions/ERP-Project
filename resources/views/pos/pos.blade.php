@@ -270,7 +270,9 @@
                 </div>
                    {{-- </div> --}}
                </div>
+
                <div class="col-md-4">
+                <form action="{{route('pos.finish')}}" method="POST">
                   <div class="card">
                      <span id="cart">
                         <table class="table table-hover shopping-cart-wrap">
@@ -322,10 +324,10 @@
                   <div class="">
                       <div class="row">
                           <div class="col-md-6 pl-0">
-                              <button class="btn btn-info btn-block btn-lg"><i class="far fa-id-card"></i> ملف العميل</button>
+                              <button type="button" class="btn btn-info btn-block btn-lg"><i class="far fa-id-card"></i> ملف العميل</button>
                           </div>
                           <div class="col-md-6 pr-0">
-                            <button class="btn btn-block btn-warning btn-lg" data-toggle="modal" data-target="#discounts"><i class="fas fa-percent"></i> إضافة خصم</button>
+                            <button  type="button" class="btn btn-block btn-warning btn-lg" data-toggle="modal" data-target="#discounts"><i class="fas fa-percent"></i> إضافة خصم</button>
                         </div>
 
                       </div>
@@ -342,16 +344,16 @@
                                             <div>
 
                                                 <h2 style="text-align: center"> اضافة خصم (نسبة)</h2>
-                                           <button class="btn btn-success" style="width:113px;height:60px;" onclick="applyPercentage(5)">5%</button>
-                                           <button class="btn btn-success" style="width:113px;height:60px;" onclick="applyPercentage(10)">10%</button>
-                                           <button class="btn btn-success" style="width:113px;height:60px;" onclick="applyPercentage(15)">15%</button>
-                                           <button class="btn btn-success" style="width:113px;height:60px;" onclick="applyPercentage(20)">20%</button>
+                                           <button class="btn btn-success" type="button" style="width:113px;height:60px;" onclick="applyPercentage(5)">5%</button>
+                                           <button class="btn btn-success" type="button" style="width:113px;height:60px;" onclick="applyPercentage(10)">10%</button>
+                                           <button class="btn btn-success" type="button" style="width:113px;height:60px;" onclick="applyPercentage(15)">15%</button>
+                                           <button class="btn btn-success" type="button" style="width:113px;height:60px;" onclick="applyPercentage(20)">20%</button>
                                            <br>
                                            <br>
-                                           <button class="btn btn-warning" style="width:113px;height:60px;" onclick="applyPercentage(25)">25%</button>
-                                           <button class="btn btn-warning" style="width:113px;height:60px;" onclick="applyPercentage(50)">50%</button>
-                                           <button class="btn btn-danger" style="width:113px;height:60px;" onclick="applyPercentage(75)">75%</button>
-                                           <button class="btn btn-danger" style="width:113px;height:60px;" onclick="applyPercentage(100)">100%</button>
+                                           <button class="btn btn-warning" type="button" style="width:113px;height:60px;" onclick="applyPercentage(25)">25%</button>
+                                           <button class="btn btn-warning" type="button" style="width:113px;height:60px;" onclick="applyPercentage(50)">50%</button>
+                                           <button class="btn btn-danger" type="button" style="width:113px;height:60px;" onclick="applyPercentage(75)">75%</button>
+                                           <button class="btn btn-danger" type="button" style="width:113px;height:60px;" onclick="applyPercentage(100)">100%</button>
                                                 <br/>
                                                 <br/>
                                            <input id="curr_per" type="number" readonly="true"  max="100" min="0" style="width: 100%" placeholder="النسبة" />
@@ -391,14 +393,15 @@
                      <div class="row">
 
                         <div class="col-md-6">
-                           <a href="#" class="btn  btn-success btn-lg btn-block"><i class="fa fa-shopping-bag"></i> حساب </a>
+                           <button  type="submit" class="btn  btn-success btn-lg btn-block"><i class="fa fa-shopping-bag"></i> حساب </button>
                         </div>
                         <div class="col-md-6">
-                           <a href="#" class="btn  btn-danger btn-lg btn-block"><i class="fa fa-save"></i> حفظ و عدم حساب </a>
+                           <button  type="button" class="btn  btn-danger btn-lg btn-block"><i class="fa fa-save"></i> حفظ و عدم حساب </button>
                         </div>
                      </div>
                   </div>
                   <!-- box.// -->
+                </form>
                </div>
             </div>
          </div>
