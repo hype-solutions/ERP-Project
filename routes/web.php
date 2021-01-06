@@ -15,6 +15,7 @@ use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\InsController;
 use App\Http\Controllers\OutsController;
 use App\Http\Controllers\PosController;
+use App\Http\Controllers\ReportsController;
 
 
 /*
@@ -38,7 +39,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-/*************************
+/**************************
  ******** Customers *******
  **************************/
 Route::get('/customers', [CustomersController::class, 'customersList'])->name('customers.list');
@@ -50,7 +51,7 @@ Route::patch('/customers/update/{customer}', [CustomersController::class, 'updat
 Route::delete('/customers/delete/{customer}', [CustomersController::class, 'delete'])->name('customers.delete');
 
 
-/*************************
+/**************************
  ******** Suppliers *******
  **************************/
 Route::get('/suppliers', [SuppliersController::class, 'suppliersList'])->name('suppliers.list');
@@ -62,7 +63,7 @@ Route::patch('/suppliers/update/{supplier}', [SuppliersController::class, 'updat
 Route::delete('/suppliers/delete/{supplier}', [SuppliersController::class, 'delete'])->name('suppliers.delete');
 
 
-/*************************
+/**************************
  ******** Products ********
  **************************/
 Route::get('/products', [ProductsController::class, 'productsList'])->name('products.list');
@@ -85,7 +86,7 @@ Route::get('/products/select', [ProductsController::class, 'productSelect'])->na
 Route::post('/products/selecting', [ProductsController::class, 'selecting'])->name('products.selecting');
 
 
-/*************************
+/**************************
  **** Purchases orders ****
  **************************/
 Route::get('/purchase_orders', [PurchasesOrdersController::class, 'purchasesordersList'])->name('purchasesorders.list');
@@ -96,7 +97,7 @@ Route::get('/purchase_orders/edit/{order}', [PurchasesOrdersController::class, '
 Route::patch('/purchase_orders/update/{order}', [PurchasesOrdersController::class, 'update'])->name('purchasesorders.update');
 
 
-/*************************
+/**************************
  **** Selling Channels ****
  **************************/
 //Invoices
@@ -130,7 +131,7 @@ Route::post('/pos/finish', [PosController::class, 'finish'])->name('pos.finish')
 
 /*************************
  ******* Projects ********
- **************************/
+ *************************/
 Route::get('/projects', [ProjectsController::class, 'projectsList'])->name('projects.list');
 Route::get('/projects/add', [ProjectsController::class, 'add'])->name('projects.add');
 Route::post('/projects/adding', [ProjectsController::class, 'store'])->name('projects.adding');
@@ -140,8 +141,8 @@ Route::patch('/projects/update/{project}', [ProjectsController::class, 'update']
 
 
 /*************************
- ******** Branches ********
- **************************/
+ ******* Branches ********
+ *************************/
 Route::get('/branches', [BranchesController::class, 'branchesList'])->name('branches.list');
 Route::get('/branches/add', [BranchesController::class, 'add'])->name('branches.add');
 Route::post('/branches/adding', [BranchesController::class, 'store'])->name('branches.adding');
@@ -152,8 +153,8 @@ Route::delete('/branches/delete/{branch}', [BranchesController::class, 'delete']
 
 
 /*************************
- ********* Safes **********
- **************************/
+ ********* Safes *********
+ *************************/
 Route::get('/safes', [SafesController::class, 'safesList'])->name('safes.list');
 Route::get('/safes/transactions', [SafesController::class, 'transactions'])->name('safes.transactions');
 Route::post('/safes/adding', [SafesController::class, 'store'])->name('safes.adding');
@@ -168,7 +169,7 @@ Route::post('/products/fetchothersafes', [SafesController::class, 'fetchOtherSaf
 
 /*************************
  ********** Ins **********
- **************************/
+ *************************/
 Route::get('/ins', [InsController::class, 'insList'])->name('ins.list');
 Route::get('/ins/categories', [InsController::class, 'categories'])->name('ins.categories');
 Route::get('/ins/add', [InsController::class, 'add'])->name('ins.add');
@@ -181,7 +182,7 @@ Route::delete('/ins/delete/{in}', [InsController::class, 'delete'])->name('ins.d
 
 /*************************
  ********* Outs **********
- **************************/
+ *************************/
 Route::get('/outs', [OutsController::class, 'outsList'])->name('outs.list');
 Route::get('/outs/categories', [OutsController::class, 'categories'])->name('outs.categories');
 Route::get('/outs/entities', [OutsController::class, 'entities'])->name('outs.entities');
@@ -191,3 +192,9 @@ Route::get('/outs/view/{out}', [OutsController::class, 'view'])->name('outs.view
 Route::get('/outs/edit/{out}', [OutsController::class, 'edit'])->name('outs.edit');
 Route::patch('/outs/update/{out}', [OutsController::class, 'update'])->name('outs.update');
 Route::delete('/outs/delete/{out}', [OutsController::class, 'delete'])->name('outs.delete');
+
+
+/*************************
+ ******** Reports ********
+ *************************/
+Route::get('/reports', [ReportsController::class, 'landing'])->name('reports.landing');

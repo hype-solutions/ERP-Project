@@ -15,7 +15,7 @@
         </li> --}}
         <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/menu/1.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>البيع</a>
           <ul class="menu-content">
-            <li><a class="menu-item" href="{{route('pos.landing')}}"><i class="la la-arrows-v"></i><span data-i18n="Vertical">عملية بيع جديدة</span></a>
+            <li><a class="menu-item" href="{{route('pos.landing')}}"><i class="la la-arrows-v"></i><span data-i18n="Vertical">نقاط البيع</span></a>
 
               </li>
             <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">عروض أسعار</span></a>
@@ -137,7 +137,7 @@
             </ul>
           </li>
         </li>
-        <li class=" nav-item"><a href="#" target="_blank"><img src="{{ asset('theme/app-assets/images/custom/menu/10.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>التقارير</a>
+        <li class=" nav-item"><a href="{{route('reports.landing')}}"><img src="{{ asset('theme/app-assets/images/custom/menu/10.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>التقارير</a>
         </li>
         {{-- <li class=" nav-item"><a href="#"><i class="mbri-website-theme"></i><span class="menu-title" data-i18n="Admin Panels">Admin Panels</span></a>
           <ul class="menu-content">
