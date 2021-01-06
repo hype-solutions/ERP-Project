@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/extensions/buttons.dataTables.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/forms/selects/select2.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/fonts/simple-line-icons/style.min.css') }}">
 
     <!-- END: Page CSS-->
 @endsection
@@ -53,6 +54,14 @@
                                     <h4 class="form-section"><i class="ft-clipboard"></i> التحكم</h4>
                                     <div class="row">
                                         <div class="form-group col-md-6 mb-2">
+                                            <label>من</label>
+                                            <input type="date" class="form-control"/>
+                                        </div>
+                                        <div class="form-group col-md-6 mb-2">
+                                            <label>الى</label>
+                                            <input type="date" class="form-control"/>
+                                        </div>
+                                        <div class="form-group col-md-12 mb-2">
                                             <label class="sr-only" for="projectinput6">الفرع</label>
                                             <select id="projectinput6" name="interested" class="form-control">
                                                  <option value="0">كل الفروع</option>
@@ -62,15 +71,6 @@
                                             </select>
                                         </div>
 
-                                        <div class="form-group col-md-6 mb-2">
-                                            <label class="sr-only" for="projectinput7">العميل</label>
-                                            <select id="projectinput7" name="budget" class="form-control">
-                                                <option value="less than 5000$">كل العملاء</option>
-                                                @foreach ($customers as $customer)
-                                                <option value="{{$customer->id}}">{{$customer->customer_name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
                                     </div>
 
                                 </div>
@@ -94,7 +94,7 @@
                               <div class="card-body">
                                 <div class="media d-flex">
                                   <div class="align-self-center">
-                                    <i class="icon-graph text-white font-large-2 float-left"></i>
+                                    <i class="icon-lock text-white font-large-2 float-left"></i>
                                   </div>
                                   <div class="media-body text-white text-center">
                                     <h2 class="text-white">{{$safesSum}} <small>ج.م</small></h2>
@@ -117,7 +117,7 @@
                                 <span>إجمالي عدد العملاء</span>
                               </div>
                               <div class="align-self-center">
-                                <i class="icon-pie-chart warning font-large-2 float-right"></i>
+                                <i class="icon-user-following warning font-large-2 float-right"></i>
                               </div>
                             </div>
                           </div>
@@ -134,7 +134,7 @@
                                 <span>إجمالي عدد الموردين</span>
                               </div>
                               <div class="align-self-center">
-                                <i class="icon-support info font-large-2 float-right"></i>
+                                <i class="icon-social-dropbox info font-large-2 float-right"></i>
                               </div>
                             </div>
                           </div>
@@ -230,7 +230,7 @@
                                 <span class="blue-grey darken-1"><i class="la la-caret-up"></i> عدد المشاريع</span>
                               </li>
                               <li class="pl-1">
-                                <h1 class="success text-bold-400">498</h1>
+                                <h1 class="success text-bold-400">0</h1>
                                 <span class="blue-grey darken-1"><i class="la la-caret-down"></i> منتهية</span>
                               </li>
                             </ul>
@@ -269,6 +269,7 @@
 <script src="{{ asset('theme/app-assets/vendors/js/tables/vfs_fonts.js') }}"></script>
 <script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.html5.min.js') }}"></script>
 <script src="{{ asset('theme/app-assets/js/scripts/forms/select/form-select2.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/js/scripts/cards/card-statistics.min.js') }}"></script>
 
 <script>
 

@@ -23,7 +23,6 @@ class ReportsController extends Controller
     {
         //Options
         $branches = Branches::all();
-        $customers = Customers::all();
 
         //Customers
         $customersCount = Customers::count();
@@ -48,7 +47,6 @@ class ReportsController extends Controller
 
         return view('reports.landing',compact(
             'branches',
-            'customers',
             'customersCount',
             'suppliersCount',
             'safesSum',
