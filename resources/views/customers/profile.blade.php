@@ -56,8 +56,8 @@
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
             <a class="dropdown-item" href="{{ route('customers.view', $customer->id) }}">استعراض الملف</a>
             <a class="dropdown-item" href="{{ route('customers.edit', $customer->id) }}">تعديل الملف</a>
-            <a class="dropdown-item" href="#">فاتورة جديد</a>
-            <a class="dropdown-item" href="#">عرض سعر جديد</a>
+            <a class="dropdown-item" href="{{ route('invoices.add') }}">فاتورة جديد</a>
+            <a class="dropdown-item" href="{{ route('invoicespricequotations.add') }}">عرض سعر جديد</a>
             <div class="dropdown-divider"></div>
             <form action="{{route('customers.delete',$customer->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا العميل نهائيا و جميع تفاصيله من البرنامج')">
                 @csrf
@@ -199,9 +199,9 @@
           <div class="col-xl-6 col-lg-12 mb-1">
             <div class="form-group text-center">
                 <!-- Floating Outline button with text -->
-                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">{{$customerInvoicesCount}}</i><span>عدد فواتير الشراء</span></button>
-            <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">{{$customerInvoicesSum}} ج,م</i><span>إجمالي المبالغ من الفواتير</span></button>
-                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">{{$customerPriceQuotationCount}}</i><span>عدد عروض الأسعار</span></button>
+                <button type="button" class="btn btn-float btn-outline-cyan" style="cursor: context-menu"><i class="">{{$customerInvoicesCount}}</i><span>عدد فواتير الشراء</span></button>
+            <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"  style="cursor: context-menu"><i class="">{{$customerInvoicesSum}} ج,م</i><span>إجمالي المبالغ من الفواتير</span></button>
+                <button type="button" class="btn btn-float btn-outline-cyan"  style="cursor: context-menu"><i class="">{{$customerPriceQuotationCount}}</i><span>عدد عروض الأسعار</span></button>
             </div>
         </div>
         </div>
@@ -256,8 +256,7 @@
                               <td>{{$item->invoice_date}}</td>
                               <td>{{$item->invoice_total}} ج.م</td>
                               <td>
-                                  <button class="btn btn-success">استعراض الفاتورة</button>
-                                  <button class="btn btn-dark">طباعة الفاتورة</button>
+                                  <a class="btn btn-success" href="{{route('invoices.view',$item->id)}}" target="_blank">استعراض الفاتورة</a>
                               </td>
                             </tr>
                             @endforeach
@@ -305,8 +304,7 @@
                                     </div>
                                 @endif</td>
                                 <td>
-                                    <button class="btn btn-success">استعراض عرض السعر</button>
-                                    <button class="btn btn-dark">طباعة عرض السعر</button>
+                                    <a class="btn btn-success" href="{{route('invoicespricequotations.view',$item->id)}}" target="_blank">استعراض عرض السعر</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -343,12 +341,11 @@
                               </td>
                               <td>{{$item->amount}} ج.م</td>
                               <td>
-                                @if($item->paid == 'Yes')
-                                <button class="btn btn-primary">استعراض فاتورة البيع</button>
+                                 @if($item->paid == 'Yes')
+                                <a target="_blank" href="{{route('invoices.view',$item->id)}}" class="btn btn-primary">استعراض فاتورة البيع</a>
                                 <button class="btn btn-info">استعراض فاتورة التسديد</button>
-                                <button class="btn btn-dark">طباعة فاتورة التسديد</button>
                                 @else
-                                <button class="btn btn-primary">استعراض فاتورة البيع</button>
+                                <a target="_blank" href="{{route('invoices.view',$item->id)}}" class="btn btn-primary">استعراض فاتورة البيع</a>
                                 <button class="btn btn-success">دفع الان</button>
                                 <button class="btn btn-warning">ارسال تذكير للمورد</button>
                                 @endif

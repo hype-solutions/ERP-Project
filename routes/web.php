@@ -165,6 +165,10 @@ Route::get('/safes/transfer/', [SafesController::class, 'transfer'])->name('safe
 Route::post('/safes/transfering', [SafesController::class, 'transfering'])->name('safes.transfering');
 Route::post('/safes/fetchamount', [SafesController::class, 'fetchAmount'])->name('safes.fetchAmount');
 Route::post('/products/fetchothersafes', [SafesController::class, 'fetchOtherSafes'])->name('safes.fetchOtherSafes');
+Route::get('/safes/deposit/{safe}', [SafesController::class, 'deposit'])->name('safes.deposit');
+Route::get('/safes/withdraw/{safe}', [SafesController::class, 'withdraw'])->name('safes.withdraw');
+Route::post('/safes/depositing', [SafesController::class, 'depositing'])->name('safes.depositing');
+Route::post('/safes/withdrawing', [SafesController::class, 'withdrawing'])->name('safes.withdrawing');
 
 
 /*************************

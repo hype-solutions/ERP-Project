@@ -80,8 +80,8 @@
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
             <a class="dropdown-item" href="{{ route('customers.view', $customer->id) }}">استعراض الملف</a>
             <a class="dropdown-item" href="{{ route('customers.edit', $customer->id) }}">تعديل الملف</a>
-            <a class="dropdown-item" href="#">فاتورة جديد</a>
-            <a class="dropdown-item" href="#">عرض سعر جديد</a>
+            <a class="dropdown-item" href="{{ route('invoices.add') }}">فاتورة جديد</a>
+            <a class="dropdown-item" href="{{ route('invoicespricequotations.add') }}">عرض سعر جديد</a>
             <div class="dropdown-divider"></div>
             <form action="{{route('customers.delete',$customer->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا العميل نهائيا و جميع تفاصيله من البرنامج')">
                 @csrf

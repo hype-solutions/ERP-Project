@@ -187,6 +187,7 @@
                             <th>كود الخزنة</th>
                             <th>بيانات الخزنة</th>
                             <th>الرصيد</th>
+                            <th>العمليات</th>
                             <th>التحكم</th>
                         </tr>
                     </thead>
@@ -204,12 +205,19 @@
                             </td>
                             <td><li class="la la-money"></li> {{ $safe->safe_balance }} جنية</td>
 
-
+                            <td>
+                                <a class="btn grey btn-outline-success" href="{{ route('safes.deposit',$safe->id) }}"> إيداع</a>
+                                <a class="btn grey btn-outline-warning" href="{{ route('safes.withdraw',$safe->id) }}"> سحب</a>
+                                <a class="btn grey btn-outline-info" href="{{ route('safes.transfer') }}"> تحويل</a>
+                            </td>
                             <td>
                                 <a href="{{ route('safes.view', $safe->id) }}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
 
                                 @if($safe->branch_id == 0)
                             <button  class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#edit_safe_{{$safe->id}}"><i class="la la-pencil-square-o"></i> تعديل</button>
+
+
+
                             <div class="modal fade text-left" id="edit_safe_{{$safe->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -243,8 +251,9 @@
                                                     </div>
 
 
-                                                    <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
+                                                            <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
                                                             <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> تسجيل</button>
+
                                                         </form>
                                         </div>
                                     </div>
@@ -255,6 +264,7 @@
                                 <a class="btn btn-light btn-sm" style="cursor: not-allowed" title="لا يمكن تعديلها لأنها مربوطة بفرع"><i class="la la-pencil-square-o" ></i> تعديل</a>
                                 @endif
                         </td>
+
                         </tr>
                         @endforeach
                      </tbody>

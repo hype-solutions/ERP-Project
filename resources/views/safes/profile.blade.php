@@ -55,6 +55,8 @@
         <button type="button" class="btn btn-warning btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">التحكم السريع</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
             <a class="dropdown-item" href="{{ route('safes.transfer') }}"> تحويل رصيد</a>
+            <a class="dropdown-item" href="{{ route('safes.deposit',$safe->id) }}"> إيداع</a>
+            <a class="dropdown-item" href="{{ route('safes.withdraw',$safe->id) }}"> سحب</a>
             @if($safe->branch_id == 0)
             <div class="dropdown-divider"></div>
             <form action="{{route('safes.delete',$safe->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا الخزنة نهائيا و جميع تفاصيله من البرنامج')">
@@ -159,8 +161,7 @@
                             <th>التفاصيل</th>
                             <th>المبلغ</th>
                             <th>الصلاحيات</th>
-                            <th>الملاحظات</th>
-                            <th>التحكم</th>
+                             <th>التحكم</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -189,7 +190,7 @@
                             </td>
                             <td>{{$transaction->transaction_amount}} ج.م</td>
                             <td>
-                              قام بالتحويل
+                              قام بالعملية
                               <div class="badge border-primary primary badge-border">
                                   <i class="la la-user font-medium-2"></i>
                                       <span>{{$transaction->done_user->username}}</span>
@@ -197,15 +198,13 @@
 
 
                                 <br>
-                              صرح بالتحويل
+                              صرح بالعملية
                               <div class="badge border-success success badge-square badge-border">
                                   <i class="la la-user font-medium-2"></i>
                                       <span>{{$transaction->auth_user->username}}</span>
                                   </div>
                             </td>
-                            <td>
-                              {{$transaction->transaction_notes}}
-                            </td>
+
                             <td>
                                 <button class="btn btn-success">استعراض</button>
                                 <button class="btn btn-dark">طباعة</button>

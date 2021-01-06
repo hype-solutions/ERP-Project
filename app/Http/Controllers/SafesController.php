@@ -42,6 +42,43 @@ class SafesController extends Controller
     }
 
 
+    public function deposit(Safes $safe){
+        return view('safes.deposit',compact('safe'));
+
+    }
+    public function depositing(Request $request){
+        $user = Auth::user();
+        $user_id = $user->id;
+        $payment = new SafesTransactions();
+        $payment->safe_id = $request->safe_id;
+        $payment->transaction_type = 2;
+        $payment->transaction_amount = $request->amount;
+        $payment->transaction_datetime = Carbon::now();
+        $payment->done_by = $user_id;
+        $payment->authorized_by = $user_id;
+        $payment->transaction_notes = $request->notes;
+        $payment->save();
+        return back()->with('success', 'deposited');
+    }
+    public function withdraw(Safes $safe){
+        return view('safes.withdraw',compact('safe'));
+
+    }
+    public function withdrawing(Request $request){
+        $user = Auth::user();
+        $user_id = $user->id;
+        $payment = new SafesTransactions();
+        $payment->safe_id = $request->safe_id;
+        $payment->transaction_type = 1;
+        $payment->transaction_amount = $request->amount;
+        $payment->transaction_datetime = Carbon::now();
+        $payment->done_by = $user_id;
+        $payment->authorized_by = $user_id;
+        $payment->transaction_notes = $request->notes;
+        $payment->save();
+        return back()->with('success', 'withdrawed');
+    }
+
     public function add()
     {
         return view('safes.add');
