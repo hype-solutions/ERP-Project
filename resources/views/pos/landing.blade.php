@@ -34,14 +34,7 @@
             </div>
           </div>
         </div>
-        <div class="content-header-right text-md-right col-md-6 col-12">
-          <div class="btn-group">
-          <a href="{{route('products.add')}}" class="btn btn-outline-success block btn-lg" >
-                إضافه منتج جديد
-            </a>
 
-          </div>
-        </div>
       </div>
   <div class="content-body"><!-- users list start -->
 <section class="users-list-wrapper">
@@ -101,6 +94,7 @@
                             <div class="card-body">
                                 <h4 class="card-title text-white">زائر</h4>
                                 <p class="card-text">عميل ليس له حساب و لا يريد التسجيل</p>
+                                <br/>
                                 <form action="{{ route('pos.start') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="type" value="3"/>

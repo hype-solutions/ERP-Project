@@ -108,6 +108,8 @@ Route::get('/invoices/view/{invoice}', [InvoicesController::class, 'view'])->nam
 Route::get('/invoices/edit/{invoice}', [InvoicesController::class, 'edit'])->name('invoices.edit');
 //Route::post('/invoices/getOtherProducts', [InvoicesController::class, 'getOtherProducts'])->name('invoices.getOtherProducts');
 Route::patch('/invoices/update/{invoice}', [InvoicesController::class, 'update'])->name('invoices.update');
+Route::post('/invoices/installment/pay', [InvoicesController::class, 'installment'])->name('invoices.installment');
+
 
 //Price Quotations
 Route::get('/invoices/price_quotations', [InvoicesPriceQuotationController::class, 'invoicesPriceQuotationsList'])->name('invoicespricequotations.list');

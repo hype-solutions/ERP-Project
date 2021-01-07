@@ -346,8 +346,68 @@
                                 <button class="btn btn-info">استعراض فاتورة التسديد</button>
                                 @else
                                 <a target="_blank" href="{{route('invoices.view',$item->id)}}" class="btn btn-primary">استعراض فاتورة البيع</a>
-                                <button class="btn btn-success">دفع الان</button>
-                                <button class="btn btn-warning">ارسال تذكير للمورد</button>
+                                <button class="btn btn-success" data-toggle="modal" data-target="#pay">تحصيل الان</button>
+                                <button class="btn btn-warning">ارسال تذكير للعميل</button>
+
+                                <div class="modal fade text-left" id="pay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="myModalLabel1">إيداع</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form" method="post" action="{{route('invoices.installment')}}">
+                                                    <input type="hidden" name="installment_invoice" value="{{$item->id}}" />
+                                                    @csrf
+                                                    <div class="form-body">
+                                                        <h4 class="form-section"><i class="ft-user"></i> عملية إيداع</h4>
+                                                        <div class="row">
+
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="projectinput3">إختر الخزنة</label>
+                                                                    <select class="select2-rtl form-control" data-placeholder="إختر الخزنة..." name="safe_id">
+                                                                        <option></option>
+                                                                        @foreach ($safes as $safe)
+                                                                        <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="timesheetinput2">المبلغ</label>
+                                                                    <div class="position-relative has-icon-left">
+                                                                        <input type="number" id="timesheetinput2" class="form-control"  name="amount" value="{{$item->amount}}" required readonly>
+                                                                        <div class="form-control-position">
+                                                                            <i class="la la-money"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="form-group">
+                                                            <label for="projectinput8">تفاصيل الإيداع</label>
+                                                            <div class="position-relative has-icon-left">
+                                                            <textarea id="projectinput8" rows="3" class="form-control" name="notes" readonly>قسط على فاتورة رقم {{$item->id}}</textarea>
+                                                            <div class="form-control-position">
+                                                                <i class="la la-sticky-note"></i>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
+                                                                <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> تسجيل</button>
+                                                            </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
                                 @endif
                             </td>
 

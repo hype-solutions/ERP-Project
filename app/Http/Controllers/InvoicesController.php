@@ -365,6 +365,23 @@ if ($invoice->payment_method == 'later') {
     return back();
 }
 
+public function installment(Request $request){
+    $user = Auth::user();
+    $user_id = $user->id;
+    $payment = new SafesTransactions();
+    $payment->safe_id = $request->safe_id;
+    $payment->transaction_type = 2;
+    $payment->transaction_amount = $request->amount;
+    $payment->transaction_datetime = Carbon::now();
+    $payment->done_by = $user_id;
+    $payment->authorized_by = $user_id;
+    $payment->transaction_notes = $request->notes;
+    $payment->save();
+
+    InvoicesPayments::where('id', $request->installment_invoice)->update(['paid'=>'Yes']);
+    return back()->with('success', 'deposited');
+}
+
 
     // public function getOtherProducts(Request $request)
     // {

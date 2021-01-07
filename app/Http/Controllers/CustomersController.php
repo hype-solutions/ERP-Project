@@ -8,6 +8,7 @@ use App\Models\Invoices\Invoices;
 use App\Models\Invoices\InvoicesPayments;
 use App\Models\Invoices\InvoicesPriceQuotation;
 use App\Models\Invoices\InvoicesProducts;
+use App\Models\Safes\Safes;
 use Illuminate\Support\Facades\DB;
 
 class CustomersController extends Controller
@@ -88,7 +89,7 @@ class CustomersController extends Controller
         $customerPriceQuotation = InvoicesPriceQuotation::where('customer_id',$customer->id)->get();
         $customerPriceQuotationCount = InvoicesPriceQuotation::where('customer_id',$customer->id)->count();
         $customerInvoicesPayments = InvoicesPayments::where('customer_id',$customer->id)->get();
-
+        $safes = Safes::all();
 $mostOrdered = InvoicesProducts::with('product')
 ->where('customer_id',$customer->id)
 ->select('product_id', DB::raw('COUNT(product_id) as count'))
@@ -96,7 +97,7 @@ $mostOrdered = InvoicesProducts::with('product')
 ->orderBy('count', 'desc')
 ->get();
 
-        return view('customers.profile',compact('customerPriceQuotationCount','customerInvoicesCount','customerInvoicesSum','customer','customerInvoices','customerPriceQuotation','customerInvoicesPayments','mostOrdered'));
+        return view('customers.profile',compact('safes','customerPriceQuotationCount','customerInvoicesCount','customerInvoicesSum','customer','customerInvoices','customerPriceQuotation','customerInvoicesPayments','mostOrdered'));
     }
     public function edit(Customers $customer){
         //$customer = Customers::find($customer);
