@@ -1,5 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
 body {
-    font-family: 'Roboto','Helvetica';
+    font-family: 'Cairo', sans-serif;
 }
 a {
     text-decoration: none;

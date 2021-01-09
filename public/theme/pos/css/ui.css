@@ -3,6 +3,7 @@ UIkit bootstrap-ecommerce.com
 ===================== */
 /* ==================== INCLUDE FONTS ======================= */
 @import url("../fonts/roboto/font.css");
+@import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
 html {
   font-size: 15px; }
 
@@ -441,7 +442,7 @@ article:after,
   color: #fff; }
 
 .font-title {
-  font-family: "Roboto", sans-serif; }
+    font-family: 'Cairo', sans-serif; }
 
 .text-lg {
   font-size: 125%; }

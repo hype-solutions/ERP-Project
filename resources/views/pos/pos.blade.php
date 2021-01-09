@@ -314,8 +314,6 @@
                               </tr>
                               @endforeach
                             @endif
-
-
                            </tbody>
                         </table>
                      </span>
