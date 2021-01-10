@@ -101,7 +101,7 @@ class PosController extends Controller
 
 
 
-        return redirect()->route('pos.landing');
+        return redirect()->route('pos.landing')->with('popup', 'open');;
         // //get product id & session id
         // $product_id = $request->product;
         // $pos_session_id = $request->sess;

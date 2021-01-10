@@ -38,6 +38,21 @@
 
       </div>
   <div class="content-body"><!-- users list start -->
+    <script type="text/javascript">
+    function pay(url) {
+        popupWindow = window.open(
+        url,'popUpWindow','height=700,width=300,left=10,top=10,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no')
+    }
+
+    </script>
+    @if (session()->has('popup'))
+    <script>
+    pay('https://google.com');
+    </script>
+    @endif
+
+
+
 <section class="users-list-wrapper">
     <form action="{{ route('pos.start') }}" method="POST" id="start">
         @csrf
