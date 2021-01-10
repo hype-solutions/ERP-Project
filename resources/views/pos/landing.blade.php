@@ -39,6 +39,9 @@
       </div>
   <div class="content-body"><!-- users list start -->
 <section class="users-list-wrapper">
+    <form action="{{ route('pos.start') }}" method="POST" id="start">
+        @csrf
+        <input type="hidden" name="type" id="type" value="3"/>
     <section id="stats-icon-subtitle">
 <div class="row">
     <div class="col-xl-12 col-md-12">
@@ -51,7 +54,7 @@
               <div class="media-body p-2">
                 <div class="form-group">
                     <label class="sr-only"  for="projectinput6">الفرع</label>
-                    <select id="projectinput6" name="branch"   class="select2-rtl form-control" data-placeholder="الفرع">
+                    <select name="branch" id="branch"  class="select2-rtl form-control" data-placeholder="الفرع" required>
                          <option></option>
                          @foreach($branches as $branch)
                         <option value="{{$branch->id}}">{{$branch->branch_name}}</option>
@@ -75,9 +78,6 @@
                     <div class="card text-white bg-primary text-center" style="height: 217px;">
                         <div class="card-content">
                             <div class="card-body">
-                                <form action="{{ route('pos.start') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="type" value="1"/>
                                 <h4 class="card-title text-white">عميل جديد</h4>
                                 <div class="col-md-12">
                                     <fieldset class="form-group">
@@ -90,8 +90,7 @@
                                     </fieldset>
                                 </div>
                                 <br>
-                                <button class="btn btn-primary btn-darken-3 btn-block" style="bottom: 0;position: absolute;right: 0;">عملية جديدة</button>
-                                </form>
+                                <button id="btnOne" class="btn btn-primary btn-darken-3 btn-block" style="bottom: 0;position: absolute;right: 0;">عملية جديدة</button>
                             </div>
                         </div>
                     </div>
@@ -101,9 +100,6 @@
                         <div class="card-content">
                             <div class="card-body">
                                 <h3 class="card-title text-white">عميل حالي</h3>
-                                <form action="{{ route('pos.start') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="type" value="2"/>
                                 <div class="form-group">
                                     <select class="select2-rtl form-control" data-placeholder="إختر العميل..." name="customer_id"   required>
                                         <option></option>
@@ -112,8 +108,7 @@
                                         @endforeach
                                     </select>
                                   </div>
-                                <button class="btn btn-primary btn-darken-3 btn-block" style="bottom: 0;position: absolute;right: 0;">عملية جديدة</button>
-                                </form>
+                                <button id="btnTwo" class="btn btn-primary btn-darken-3 btn-block" style="bottom: 0;position: absolute;right: 0;">عملية جديدة</button>
                             </div>
                         </div>
                     </div>
@@ -125,11 +120,7 @@
                                 <h4 class="card-title text-white">زائر</h4>
                                 <p class="card-text">عميل ليس له حساب و لا يريد التسجيل</p>
                                 <br/>
-                                <form action="{{ route('pos.start') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="type" value="3"/>
-                                <button class="btn btn-primary btn-darken-3 btn-block" style="bottom: 0;position: absolute;right: 0;">عملية جديدة</button>
-                                </form>
+                                <button id="btnThree" class="btn btn-primary btn-darken-3 btn-block" style="bottom: 0;position: absolute;right: 0;">عملية جديدة</button>
                             </div>
                         </div>
                     </div>
@@ -151,6 +142,7 @@
             </div>
 
         </div>
+    </form>
         <div class="col-md-6"><div class="users-list-table">
             <div class="card">
                 <div class="card-content">
@@ -224,6 +216,39 @@
 <script src="{{ asset('theme/app-assets/js/scripts/forms/select/form-select2.min.js') }}"></script>
 
 <script>
+
+$(function() {
+                $("#btnOne").click(function(e){
+                   e.preventDefault();
+                    $('#type').val(1);
+                    if ($("#branch").val() === "") {
+                        alert('إختر الفرع');
+                    }else{
+                        $("#start").submit(); // Submit the form
+                    }
+
+                });
+                $("#btnTwo").click(function(e){
+                    e.preventDefault();
+                    $('#type').val(2);
+                    if ($("#branch").val() === "") {
+                        alert('إختر الفرع');
+                    }else{
+                        $("#start").submit(); // Submit the form
+                    }
+                });
+                $("#btnThree").click(function(e){
+                   e.preventDefault();
+                    $('#type').val(3);
+                    if ($("#branch").val() === "") {
+                        alert('إختر الفرع');
+                    }else{
+                        $("#start").submit(); // Submit the form
+                    }
+                });
+
+            });
+
 
 $("#list").DataTable( {
         dom: 'Bfrtip',

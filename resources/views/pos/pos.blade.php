@@ -762,23 +762,12 @@ function addToCart(productId,productName,productPrice){
         }
         });
 
-
         	$(function() {
-
-
                 $("#saveCart").click(function(e){
                     e.preventDefault();
                     $('#end_or_save').val(0);
                     $("#theCart").submit(); // Submit the form
                 });
-
-
-
-
-
-
-
-
 
 	//The passed argument has to be at least a empty object or a object with your desired options
 	//$("body").overlayScrollbars({ });
