@@ -64,22 +64,37 @@ class InvoicesPriceQuotationController extends Controller
 
     public function store(Request $request)
     {
+
+
         // Get Branch Safe ID
+        if($request->new_customer_name != ''){
+            $customer = new Customers();
+            $customer->customer_name = $request->new_customer_name;
+            $customer->customer_mobile = $request->new_customer_mobile;
+            $customer->save();
+            $customerId = $customer->id;
+        }else{
+            $customerId = $request->customer_id;
+        }
+
         $quotation = new InvoicesPriceQuotation();
-        $quotation->customer_id = $request->customer_id;
+        $quotation->customer_id = $customerId;
         $quotation->quotation_note = $request->quotation_note;
         $quotation->discount_percentage = $request->discount_percentage;
         $quotation->discount_amount = $request->discount_amount;
+        $quotation->quotation_tax = $request->tax;
         $quotation->quotation_date = Carbon::now();
         $quotation->quotation_total = $request->quotation_total;
         $quotation->shipping_fees = $request->shipping_fees;
         $quotation->sold_by = $request->sold_by;
+        $quotation->quotation_status = 'Pending Approval';
         $quotation->authorized_by = $request->sold_by;
         $quotation->save();
 
         $quotationId = $quotation->id;
         $product = $request->product;
-        $customerId = $request->customer_id;
+
+
 
         //Save Items
         $listOfProducts = [];

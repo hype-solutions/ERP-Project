@@ -137,25 +137,33 @@
                             <td>{{$quotation->quotation_total}} ج.م</td>
                             <td>{{$quotation->quotation_date}}</td>
                             <td>
-                                @if($quotation->quotation_status == 'Pending')
+                                @if($quotation->quotation_status == 'Pending Approval')
                                 <div class="badge badge-warning">
-                                  <i class="la la-money font-medium-2"></i>
-                                      <span>قيد التنفيذ</span>
+                                  <i class="la la-hourglass-half font-medium-2"></i>
+                                      <span>في إنتظار موافقة الإدارة</span>
                                   </div>
-                                @elseif($quotation->quotation_status == 'Accepted')
+                                @elseif($quotation->quotation_status == 'Approved')
                                 <div class="badge badge-success">
-                                  <i class="la la-money font-medium-2"></i>
+                                  <i class="la la-star font-medium-2"></i>
                                       <span>تمت الموافقة </span>
                                   </div>
                                   @else
                                   <div class="badge badge-danger">
-                                    <i class="la la-money font-medium-2"></i>
+                                    <i class="la la-times-circle font-medium-2"></i>
                                         <span>تم الرفض</span>
                                     </div>
                                 @endif</td>
                             <td>
                                 <a href="{{route('invoicespricequotations.view',$quotation->id)}}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
                                 <a href="{{route('invoicespricequotations.edit',$quotation->id)}}" class="btn btn-primary btn-sm"><i class="la la-pencil-square-o"></i> تعديل</a>
+                                @if($quotation->quotation_status == 'Pending Approval')
+                                <br/>
+                                <button type="button" class="btn btn-success btn-sm"><i class="la la-check"></i> تصديق على عرض السعر</button>
+                                @endif
+                                @if($quotation->quotation_status == 'Approved')
+                                <br/>
+                                <button type="button" class="btn btn-danger btn-sm"><i class="la la-file"></i> تحويل الى فاتورة</button>
+                                @endif
                              </td>
                         </tr>
                         @endforeach

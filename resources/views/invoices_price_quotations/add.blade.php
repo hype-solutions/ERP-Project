@@ -92,17 +92,31 @@
                             <h4 class="form-section"><i class="la la-flag"></i> عرض سعر جديد</h4>
                             <div class="row">
 
-                                <div class="col-md-12">
+                                <div class="col-md-6" style="border-left: 6px solid #28d094;
+                                height: 140px;">
                                     <div class="form-group">
                                         <div class="text-bold-600 font-medium-2">
-                                         اختر العميل
+                                         عميل حالي
                                         </div>
-                                        <select class="select2-rtl form-control" data-placeholder="إختر العميل..." name="customer_id"   required>
+                                        <select class="select2-rtl form-control" data-placeholder="إختر العميل..." name="customer_id" id="customer_id"   required>
                                             <option></option>
                                             @foreach ($customers as $customer)
                                             <option value="{{$customer->id}}">{{$customer->customer_name}}</option>
                                             @endforeach
                                         </select>
+                                      </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="text-bold-600 font-medium-2">
+                                         عميل جديد
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="new_customer_name" id="new_customer_name" placeholder="اسم العميل" onblur="return chooseCustomerType()"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="new_customer_mobile" id="new_customer_mobile" placeholder="موبايل العميل"  onblur="return chooseCustomerType()"/>
+                                        </div>
                                       </div>
                                 </div>
 
@@ -131,6 +145,9 @@
                         <li class="nav-item">
                           <a class="nav-link" id="base-tab13" data-toggle="tab" aria-controls="tab13" href="#tab13" aria-expanded="false">الشحن</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="base-tab14" data-toggle="tab" aria-controls="tab14" href="#tab14" aria-expanded="false">الضريبة</a>
+                          </li>
                       </ul>
                       <div class="tab-content px-1 pt-1">
                           <div role="tabpanel" class="tab-pane active" id="tab11" aria-expanded="true" aria-labelledby="base-tab11">
@@ -165,6 +182,17 @@
                                     <div class="form-group">
                                         <label for="projectinput3">مصاريف الشحن</label>
                                         <input type="number" id="shipping_fees" class="form-control" placeholder="" name="shipping_fees" value="0" onblur="return updateShipping()" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane" id="tab14" aria-labelledby="base-tab14">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="projectinput3">نسبة الضريبة</label>
+                                        <input type="number" id="tax_fees" class="form-control" placeholder="" name="tax" value="0" onblur="return updateTax()" required>
                                     </div>
                                 </div>
                             </div>
@@ -208,7 +236,7 @@
                                 <tr id="row_1">
                                     <td>
                                         <div class="form-group product_sel">
-                                            <select class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product[1][id]" id="sel_x_1" required>
+                                            <select class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product[1][id]" id="sel_x_1" required  onchange="return getProductInfo(this,1)">
                                                 <option></option>
                                                 @foreach ($products as $product)
                                                 <option value="{{$product->id}}">{{$product->product_name}}</option>
@@ -239,23 +267,28 @@
                                     <td></td>
                                 </tr>
                                 <tr id="hidden-row-1" style="display: none">
-                                    <td colspan="4" class="text-right"><strong> الخصم (النسبة)[<span id="discount_percentage" style="color: goldenrod">0</span>%]</strong></td>
-                                    <td id="TotalValue" class="text-left"><code><span id="discount_percentage_amount">0</span></code>&nbsp;ج.م</td>
+                                    <td colspan="4" class="text-right"><strong> الخصم<span id="discount_percentage" style="color: goldenrod">0</span>%]</strong></td>
+                                    <td  class="text-left"><code><span id="discount_percentage_amount">0</span></code>&nbsp;ج.م</td>
                                     <td></td>
                                  </tr>
                                  <tr id="hidden-row-2" style="display: none">
-                                    <td colspan="4" class="text-right"><strong>الخصم (المبلغ)</strong></td>
-                                    <td id="TotalValue" class="text-left"><code><span id="discount_amount">0</span></code>&nbsp;ج.م</td>
+                                    <td colspan="4" class="text-right"><strong>الخصم</strong></td>
+                                    <td  class="text-left"><code><span id="discount_amount">0</span></code>&nbsp;ج.م</td>
                                     <td></td>
                                  </tr>
                                  <tr id="hidden-row-3" style="display: none">
                                     <td colspan="4" class="text-right"><strong>الشحن</strong></td>
-                                    <td id="TotalValue" class="text-left"><code><span id="shipping">0</span></code>&nbsp;ج.م</td>
+                                    <td  class="text-left"><code><span id="shipping">0</span></code>&nbsp;ج.م</td>
+                                    <td></td>
+                                 </tr>
+                                 <tr id="hidden-row-4" style="display: none">
+                                    <td colspan="4" class="text-right"><strong> الضريبة[<span id="tax" style="color: goldenrod">0</span>%]</strong></td>
+                                    <td  class="text-left"><code><span id="tax_amount">0</span></code>&nbsp;ج.م</td>
                                     <td></td>
                                  </tr>
                                 <tr>
                                     <td colspan="4" class="text-right"><strong>الإجمالي</strong></td>
-                                    <td id="TotalValue" class="text-left"><code><span id="total_after_all2">0</span></code>&nbsp;ج.م</td>
+                                    <td class="text-left"><code><span id="total_after_all2">0</span></code>&nbsp;ج.م</td>
                                     <td></td>
                                  </tr>
 
@@ -279,7 +312,7 @@
 
                     <fieldset class="form-group">
                         <p class="text-muted">الشروط /  الملاحظات</p>
-                        <textarea class="form-control" name="quotation_note" rows="4"  ></textarea>
+                        <textarea id="terms-conditions" class="form-control" name="quotation_note" rows="4"  ></textarea>
                     </fieldset>
 
               </div>
@@ -324,6 +357,7 @@
 <script src="{{ asset('theme/app-assets/vendors/js/forms/toggle/bootstrap-switch.min.js') }}"></script>
 <script src="{{ asset('theme/app-assets/vendors/js/forms/toggle/switchery.min.js') }}"></script>
 <script src="{{ asset('theme/app-assets/vendors/js/forms/toggle/bootstrap-checkbox.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/editors/ckeditor/ckeditor-super-build.js') }}"></script>
 
 <!-- BEGIN: Theme JS-->
     <script src="{{ asset('theme/app-assets/js/core/app-menu.min.js') }}"></script>
@@ -334,6 +368,32 @@
     <script src="{{ asset('theme/app-assets/js/scripts/forms/select/form-select2.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/js/scripts/forms/switch.min.js') }}"></script>
     <script>
+
+
+
+
+function chooseCustomerType(){
+    newCustomerName = $('#new_customer_name').val().length;
+    newCustomerMobile = $('#new_customer_mobile').val().length;
+    OldCustomerSelect = $('#customer_id').val().length;
+    if (newCustomerName > 0 ) {
+        $("#customer_id").attr({"required" : false });
+        $("#new_customer_name").attr({"required" : true });
+        $("#new_customer_mobile").attr({"required" : true });
+    }else{
+        $("#customer_id").attr({"required" : true });
+        $("#new_customer_name").attr({"required" : false });
+        $("#new_customer_mobile").attr({"required" : false });
+    }
+}
+
+
+
+
+
+
+CKEDITOR.ClassicEditor.create( document.querySelector( '#terms-conditions' ) ).catch( error => {console.error( error );} );
+
 
 $(document).ready(function () {
 
@@ -361,6 +421,75 @@ $('#hasPaid').change(function () {
     });
     });
 
+function getProductInfo(product,row){
+
+var branch_id = 1;
+
+var get_branch_id = $('#branch_id').val();
+
+  if(get_branch_id > 0 ){
+    branch_id = get_branch_id;
+      }else{
+         branch_id = 1;
+    }
+    if(isNaN(product.value)){
+        $("#p_q_"+row).attr({"placeholder" : "صنف غير موجود" });
+    }else{
+//ajax call to get product available amount in this branch and selling price
+$.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+        }
+                    });
+    var formData = {
+        branch: branch_id,
+        product: product.value,
+    };
+    var type = "POST";
+    var ajaxurl = "{{route('products.fetchQty')}}";
+    $.ajax({
+        type: type,
+        url: ajaxurl,
+        data: formData,
+        dataType: 'json',
+        beforeSend: function () {
+            $("#addingRowBtn").prop("disabled",true);
+        },
+        success: function (data) {
+
+           // $("#p_q_1").val(data.amount);
+            //  $("#p_q_"+row).attr({"max" : data.amount });
+             $("#p_q_"+row).attr({"placeholder" : "متاح: "+data.amount });
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+
+    var ajaxurl = "{{route('products.fetchPrice')}}";
+    $.ajax({
+        type: type,
+        url: ajaxurl,
+        data: formData,
+        dataType: 'json',
+        success: function (data) {
+            $("#p_p_"+row).val(data.price);
+            reCalculate(row);
+            $("#addingRowBtn").prop("disabled",false);
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+    }
+
+
+//currentProductIds.push(product.value);
+
+// console.log(currentProductIds);
+
+}
+
 
 function updateTotal() {
 
@@ -375,8 +504,11 @@ getDiscountAmount_2 = parseInt(getDiscountAmount_2);
 //get shipping
 var getShipping = $('#shipping').text();
 getShipping = parseInt(getShipping);
+//get Tax
+var getTax = $('#tax_amount').text();
+getTax = parseInt(getTax);
 //add them all
-var invoiceTotal = getSubTotal + getShipping - getDiscountAmount_1 - getDiscountAmount_2;
+var invoiceTotal = getSubTotal + getShipping + getTax - getDiscountAmount_1 - getDiscountAmount_2;
 $('#total_after_all2').text(invoiceTotal);
 $('#totalToSave').val(invoiceTotal);
 
@@ -473,6 +605,39 @@ $('#shipping').html(newShipping);
 updateTotal();
 }
 
+function updateTax() {
+newTax = $('#tax_fees').val();
+if ($('#tax_fees').val().length === 0) {
+    newTax = 0;
+}
+if (newTax > 0) {
+  $('#hidden-row-4').show();
+} else {
+  $('#hidden-row-4').hide();
+}
+
+
+
+  var currentInvoiceTotal = $("#total_after_all").text();
+  currentInvoiceTotal = parseInt(currentInvoiceTotal);
+  var newInvoiceTotal = currentInvoiceTotal - (currentInvoiceTotal * (newTax / 100));
+  var taxAmount = currentInvoiceTotal - newInvoiceTotal;
+  taxAmount = Math.floor(taxAmount);
+  $('#tax_amount').text(taxAmount);
+
+
+
+
+
+
+
+
+
+
+$('#tax').html(newTax);
+updateTotal();
+}
+
 function reCalculate(rowNum) {
 var oldRowTotal = $("#tot_" + rowNum).text();
 oldRowTotal = parseInt(oldRowTotal);
@@ -489,6 +654,7 @@ $('#total_after_all').text(newTotal);
 
 updateDiscount();
 updateShipping();
+updateTax();
 updateTotal();
 }
 
@@ -558,7 +724,7 @@ function addField(argument) {
 
 var myTable = document.getElementById("myTable");
 var currentIndex = myTable.rows.length;
-var currentRow = myTable.insertRow(myTable.rows.length - 5);
+var currentRow = myTable.insertRow(myTable.rows.length - 6);
 
 var product_id = document.createElement("input");
 // product_id.setAttribute("name", "product_id[" + currentIndex + "]");
@@ -579,15 +745,15 @@ product_price.setAttribute("onblur", "return reCalculate(" + currentIndex + ")")
 
 var product_qty = document.createElement("input");
 product_qty.setAttribute("name", "product[" + currentIndex + "][qty]");
-product_price.setAttribute("type", "number");
-product_price.setAttribute("min", "0");
+product_qty.setAttribute("type", "number");
+product_qty.setAttribute("min", "0");
 product_qty.setAttribute("class", "product_input");
 product_qty.setAttribute("id", "p_q_" + currentIndex);
 product_qty.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
 product_qty.setAttribute("placeholder", "0");
 
 var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_' + currentIndex + '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product['+currentIndex+'][id]" required><option></option> @foreach ($products as $product) <option value="{{$product->id}}">{{$product->product_name}}</option>  @endforeach</select></div>';
+currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_' + currentIndex + '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product['+currentIndex+'][id]" required onchange="return getProductInfo(this,'+currentIndex+')"><option></option> @foreach ($products as $product) <option value="{{$product->id}}">{{$product->product_name}}</option>  @endforeach</select></div>';
 
 //currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_' + currentIndex + '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product['+currentIndex+'][id]" required onchange="return getProductInfo(this,'+currentIndex+')"> </select></div>';
 
