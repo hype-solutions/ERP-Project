@@ -69,7 +69,7 @@
     <th>الإجمالي</th>
     </tr>
 
-        <tr>
+    <tr>
             <span style="display: none">{{$subtotal = 0}}</span>
 @foreach($currentCart as $item)
     <td align='center'>{{$item->product_name}}</b></td>

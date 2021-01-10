@@ -275,7 +275,7 @@
                 <form action="{{route('pos.finish')}}" method="POST" id="theCart">
                     @csrf
                     <input type="hidden" name="session" value="{{$sessionId}}" />
-                    <input type="hidden" name="added_by" value="{{ $user_id }}" />
+                    <input type="hidden" name="sold_by" value="{{ $user_id }}" />
                     <input type="hidden"id="end_or_save" name="end_or_save" value="1" />
 
                     <input type="hidden" name="total" id="totalToSave" value="{{$currentSession->total}}" />
@@ -336,7 +336,7 @@
                   <div class="">
                       <div class="row">
                           <div class="col-md-6 pl-0">
-                              <button type="button" class="btn btn-info btn-block btn-lg"><i class="far fa-id-card"></i> ملف العميل</button>
+                              <button type="button" class="btn btn-info btn-block btn-lg"  data-toggle="modal" data-target="#profile"><i class="far fa-id-card"></i> ملف العميل</button>
                           </div>
                           <div class="col-md-6 pr-0">
                             <button  type="button" class="btn btn-block btn-warning btn-lg" data-toggle="modal" data-target="#discounts"><i class="fas fa-percent"></i> إضافة خصم</button>
@@ -345,6 +345,67 @@
                       </div>
                   </div>
                   <div class="box">
+                    <div class="modal fade" id="profile" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content modal-info">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    @if ($currentSession->customer_id > 0)
+                                    <table class="table" style="text-align: right">
+
+                                        <tbody>
+                                            <tr>
+                                                <th>إسم العميل</th>
+                                                <td>{{$currentSession->customer->customer_name}}</td>
+                                             </tr>
+                                            <tr>
+                                                <th>رقم الموبايل</th>
+                                                <td>{{$currentSession->customer->customer_mobile}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>التليفون:</th>
+                                                <td>@if(isset($currentSession->customer->customer_phone))
+                                                  {{ $currentSession->customer->customer_phone }}
+                                                  @else
+                                                  <small style="font-style: italic;color:red;">غير مسجل</small>
+                                                  @endif</td>
+                                              </tr>
+                                              <tr>
+                                                 <th>الايميل:</th>
+                                                 <td>@if(isset($currentSession->customer->customer_email))
+                                                  {{ $currentSession->customer->customer_email }}
+                                                  @else
+                                                  <small style="font-style: italic;color:red;">غير مسجل</small>
+                                                  @endif</td>
+                                              </tr>
+
+                                              <tr>
+                                                 <th>العنوان:</th>
+                                                 <td> @if(isset($currentSession->customer->customer_address))
+                                                  {{ $currentSession->customer->customer_address }}
+                                                  @else
+                                                  <small style="font-style: italic;color:red;">غير مسجل </small>
+                                                   @endif</td>
+                                              </tr>
+                                              <tr>
+                                                <th>عدد مرات التعامل السابقة:</th>
+                                                <td>{{$customerVisits}}</td>
+                                             </tr>
+                                             <tr>
+                                                <th>الأكثر طلبا للعميل:</th>
+                                                <td></td>
+                                             </tr>
+                                        </tbody>
+                                    </table>
+                                    @else
+                                    <h2>عميل زائر</h2>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="modal fade" id="discounts" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content modal-info">

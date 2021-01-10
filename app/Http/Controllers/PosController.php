@@ -25,12 +25,25 @@ class PosController extends Controller
 
     public function start(Request $request)
     {
+        $customerId = 0;
         $user = Auth::user();
         $user_id = $user->id;
         $type = $request->type;
+        if($type == 1){
+            $customer = new Customers();
+            $customer->customer_name = $request->customer_name;
+            $customer->customer_mobile = $request->customer_mobile;
+            $customer->save();
+            $customerId = $customer->id;
+        }else if($type == 2){
+            $customerId = $request->customer_id;
+        }
+
         $session = new PosSessions();
+        $session->branch_id = $request->branch;
+        $session->customer_id = $customerId;
         $session->open_by = $user_id;
-        $session->sold_by = $user_id;
+        // $session->sold_by = $user_id;
         $session->save();
         $newSessionId = $session->id;
         return redirect()->route('pos.index', $newSessionId);
@@ -57,7 +70,12 @@ class PosController extends Controller
         $productsCategories = ProductsCategories::all();
         $currentCart = Cart::where('pos_session_id', $sessionId)->get();
         $currentSession = PosSessions::find($sessionId);
-        return view('pos.pos', compact('user_id','products', 'productsCategories', 'currentCart', 'sessionId','currentSession'));
+        if($currentSession->customer_id > 0){
+            $customerVisits = PosSessions::where('customer_id',$currentSession->customer_id)->count();
+        }else{
+            $customerVisits = 0;
+        }
+        return view('pos.pos', compact('user_id','products', 'productsCategories', 'currentCart', 'sessionId','currentSession','customerVisits'));
     }
 
     public function search(Request $request)
@@ -97,6 +115,7 @@ class PosController extends Controller
     $upd->discount_amount = $request->discount_amount;
     $upd->discount_percentage = $request->discount_percentage;
     $upd->total = $request->total;
+    $upd->sold_by = $request->sold_by;
     $upd->sold_when = Carbon::now();
     if($request->end_or_save == 1){
         $upd->status = 1;

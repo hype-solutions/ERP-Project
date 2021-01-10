@@ -11,6 +11,7 @@ class PosSessions extends Model
     protected $table = 'pos_sessions';
     protected $fillable = [
         'branch_id',
+        'customer_id',
         'status',
         'total',
         'discount_amount',
@@ -34,6 +35,10 @@ class PosSessions extends Model
     public function branch()
     {
         return $this->hasOne('App\Models\Branches\Branches', 'id', 'branch_id');
+    }
+    public function customer()
+    {
+        return $this->hasOne('App\Models\Customers\Customers', 'id', 'customer_id');
     }
 }
 

@@ -96,12 +96,12 @@
                                 <h4 class="card-title text-white">عميل جديد</h4>
                                 <div class="col-md-12">
                                     <fieldset class="form-group">
-                                        <input type="text" class="form-control" placeholder="الإسم">
+                                        <input type="text" class="form-control" placeholder="الإسم" name="customer_name">
                                     </fieldset>
                                 </div>
                                 <div class="col-md-12">
                                     <fieldset class="form-group">
-                                        <input type="text" class="form-control" placeholder="رقم التليفون">
+                                        <input type="text" class="form-control" placeholder="رقم التليفون" name="customer_mobile">
                                     </fieldset>
                                 </div>
                                 <br>
