@@ -272,10 +272,11 @@
                </div>
 
                <div class="col-md-4">
-                <form action="{{route('pos.finish')}}" method="POST">
+                <form action="{{route('pos.finish')}}" method="POST" id="theCart">
                     @csrf
                     <input type="hidden" name="session" value="{{$sessionId}}" />
                     <input type="hidden" name="added_by" value="{{ $user_id }}" />
+                    <input type="hidden"id="end_or_save" name="end_or_save" value="1" />
 
                     <input type="hidden" name="total" id="totalToSave" value="{{$currentSession->total}}" />
 
@@ -407,7 +408,7 @@
                            <button  type="submit" class="btn  btn-success btn-lg btn-block"><i class="fa fa-shopping-bag"></i> حساب </button>
                         </div>
                         <div class="col-md-6">
-                           <button onclick="return EndWithNoPrint()" type="button" class="btn  btn-danger btn-lg btn-block"><i class="fa fa-save"></i> حفظ و عدم حساب </button>
+                           <button id="saveCart" type="button" class="btn  btn-danger btn-lg btn-block"><i class="fa fa-save"></i> حفظ و عدم حساب </button>
                         </div>
                      </div>
                   </div>
@@ -763,6 +764,22 @@ function addToCart(productId,productName,productPrice){
 
 
         	$(function() {
+
+
+                $("#saveCart").click(function(e){
+                    e.preventDefault();
+                    $('#end_or_save').val(0);
+                    $("#theCart").submit(); // Submit the form
+                });
+
+
+
+
+
+
+
+
+
 	//The passed argument has to be at least a empty object or a object with your desired options
 	//$("body").overlayScrollbars({ });
 	$("#items").height(552);

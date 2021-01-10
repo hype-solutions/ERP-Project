@@ -87,7 +87,10 @@ class PosController extends Controller
         $upd->discount_amount = $request->discount_amount;
         $upd->discount_percentage = $request->discount_percentage;
         $upd->total = $request->total;
-        // $upd->status = 1;
+        if($request->end_or_save == 1){
+            $upd->status = 1;
+        }
+
         $upd->save();
     }
 
