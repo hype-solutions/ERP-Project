@@ -131,7 +131,6 @@
                       <tbody>
                         <span style="display: none">{{$subtotal = 0}}</span>
                         @foreach ($currentProducts as $key => $product)
-
                         <tr>
                           <th scope="row">{{++$key}}</th>
                           <td>

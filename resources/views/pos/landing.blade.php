@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/extensions/buttons.dataTables.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/forms/selects/select2.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/fonts/simple-line-icons/style.min.css') }}">
 
     <!-- END: Page CSS-->
 @endsection
@@ -38,6 +39,35 @@
       </div>
   <div class="content-body"><!-- users list start -->
 <section class="users-list-wrapper">
+    <section id="stats-icon-subtitle">
+<div class="row">
+    <div class="col-xl-12 col-md-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="media align-items-stretch">
+              <div class="p-2 media-middle">
+                <h1 class="dark">إختر الفرع</h1>
+              </div>
+              <div class="media-body p-2">
+                <div class="form-group">
+                    <label class="sr-only"  for="projectinput6">الفرع</label>
+                    <select id="projectinput6" name="branch"   class="select2-rtl form-control" data-placeholder="الفرع">
+                         <option></option>
+                         @foreach($branches as $branch)
+                        <option value="{{$branch->id}}">{{$branch->branch_name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+              </div>
+              <div class="media-right bg-dark p-2 media-middle rounded-right">
+                <i class="icon-home font-large-2 text-white"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+    </section>
     <div class="row">
         <div class="col-md-6">
             <div class="row match-height">

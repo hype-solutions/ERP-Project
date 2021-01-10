@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Branches\Branches;
 use App\Models\Customers\Customers;
 use App\Models\Pos\Cart;
 use App\Models\Pos\PosSessions;
@@ -38,15 +39,19 @@ class PosController extends Controller
     {
         $sessions = PosSessions::where('status', 0)->get();
         $customers = Customers::all();
-        return view('pos.landing', compact('sessions', 'customers'));
+        $branches = Branches::all();
+        return view('pos.landing', compact('sessions', 'customers','branches'));
     }
 
     public function index($sessionId)
     {
         $products = Products::all();
+        $user = Auth::user();
+        $user_id = $user->id;
         $productsCategories = ProductsCategories::all();
         $currentCart = Cart::where('pos_session_id', $sessionId)->get();
-        return view('pos.pos', compact('products', 'productsCategories', 'currentCart', 'sessionId'));
+        $currentSession = PosSessions::find($sessionId);
+        return view('pos.pos', compact('user_id','products', 'productsCategories', 'currentCart', 'sessionId','currentSession'));
     }
 
     public function search(Request $request)
@@ -63,45 +68,76 @@ class PosController extends Controller
 
     public function finish(Request $request)
     {
-        //get product id & session id
-        $product_id = $request->product;
-        $pos_session_id = $request->sess;
-        //check if it was sent successfully
-        if ($product_id) {
-            //get product details
-            $product = Products::find($product_id);
-            //check if product has qty
-            if ($product->product_total_in - $product->product_total_out > 0) {
-                //check if user already has this product in cart
-                $checkCart = Cart::where('pos_session_id', $pos_session_id)
-                    ->where('product_id', $product_id)
-                    ->first();
-                if ($checkCart) {
-                    $item = Cart::where('pos_session_id', $pos_session_id)
-                        ->where('product_id', $product_id)
-                        ->increment('product_qty', 1);
-                } else {
-                    $item = new Cart();
-                    $item->pos_session_id = $pos_session_id;
-                    $item->product_id = $product_id;
-                    $item->product_name = $product->product_name;
-                    $item->product_qty = 1;
-                    $item->product_price = $product->product_price;
-                    $item->included_by = 1;
-                    $item->added_at = 1;
-                    $item->save();
-                }
-
-                //$whatHappened = 1;
-            } else {
-                $item = 0;
-            }
-        } else {
-            $item = 0;
+        $pos_session_id = $request->session;
+        $items = $request->item;
+        if($items){
+        Cart::where('pos_session_id', $pos_session_id)->delete();
+        $listOfItems = [];
+        foreach ($items as $item) {
+            $pro = new Cart();
+            $pro->pos_session_id = $pos_session_id;
+            $pro->product_id = $item['id'];
+            $pro->product_name = $item['name'];
+            $pro->product_qty = $item['qty'];
+            $pro->product_price = $item['price'];
+            $pro->save();
+            $listOfItems[] = $pro;
         }
+        $upd = PosSessions::find($pos_session_id);
+        $upd->discount_amount = $request->discount_amount;
+        $upd->discount_percentage = $request->discount_percentage;
+        $upd->total = $request->total;
+        // $upd->status = 1;
+        $upd->save();
+    }
 
-        // return response()->json(array('data' => $item), 200);
-        return 1;
+
+
+
+
+
+
+
+        return redirect()->route('pos.landing');
+        // //get product id & session id
+        // $product_id = $request->product;
+        // $pos_session_id = $request->sess;
+        // //check if it was sent successfully
+        // if ($product_id) {
+        //     //get product details
+        //     $product = Products::find($product_id);
+        //     //check if product has qty
+        //     if ($product->product_total_in - $product->product_total_out > 0) {
+        //         //check if user already has this product in cart
+        //         $checkCart = Cart::where('pos_session_id', $pos_session_id)
+        //             ->where('product_id', $product_id)
+        //             ->first();
+        //         if ($checkCart) {
+        //             $item = Cart::where('pos_session_id', $pos_session_id)
+        //                 ->where('product_id', $product_id)
+        //                 ->increment('product_qty', 1);
+        //         } else {
+        //             $item = new Cart();
+        //             $item->pos_session_id = $pos_session_id;
+        //             $item->product_id = $product_id;
+        //             $item->product_name = $product->product_name;
+        //             $item->product_qty = 1;
+        //             $item->product_price = $product->product_price;
+        //             $item->included_by = 1;
+        //             $item->added_at = 1;
+        //             $item->save();
+        //         }
+
+        //         //$whatHappened = 1;
+        //     } else {
+        //         $item = 0;
+        //     }
+        // } else {
+        //     $item = 0;
+        // }
+
+        // // return response()->json(array('data' => $item), 200);
+        // return 1;
     }
 
     public function refreshcart(Request $request)
