@@ -178,7 +178,7 @@
                               <tbody>
                                   @foreach ($sessions as $key => $session)
                                   <tr>
-                                      <td>{{ ++$key }}</td>
+                                      <td>{{ $session->id }}</td>
                                       <td>{{ $session->created_at->diffForHumans() }}</td>
                                       <td><div class="badge border-primary primary badge-border">
                                         <i class="la la-user font-medium-2"></i>
