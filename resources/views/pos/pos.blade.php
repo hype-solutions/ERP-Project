@@ -400,7 +400,25 @@
                                         </tbody>
                                     </table>
                                     @else
+                                    <div class="div" style="text-align: center">
                                     <h2>عميل زائر</h2>
+                                    <hr/>
+                                    <p>تسجيل عميل جديد؟</p>
+                                    <hr/>
+                                    </div>
+                                    <div class="div" style="text-align: right">
+                                    <div class="form-group">
+                                        <label>اسم العميل</label>
+                                        <input type="text" name="" placeholder="" class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>موبايل العميل</label>
+                                        <input type="text" name="" placeholder="" class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                    <button type="button" class="btn btn-block btn-dark">حفظ</button>
+                                    </div>
+                                </div>
                                     @endif
                                 </div>
                             </div>
