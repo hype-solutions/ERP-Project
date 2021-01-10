@@ -83,19 +83,19 @@ class PosController extends Controller
             $pro->save();
             $listOfItems[] = $pro;
         }
-        $upd = PosSessions::find($pos_session_id);
-        $upd->discount_amount = $request->discount_amount;
-        $upd->discount_percentage = $request->discount_percentage;
-        $upd->total = $request->total;
-        if($request->end_or_save == 1){
-            $upd->status = 1;
-        }
 
-        $upd->save();
     }
 
 
+    $upd = PosSessions::find($pos_session_id);
+    $upd->discount_amount = $request->discount_amount;
+    $upd->discount_percentage = $request->discount_percentage;
+    $upd->total = $request->total;
+    if($request->end_or_save == 1){
+        $upd->status = 1;
+    }
 
+    $upd->save();
 
 
 
