@@ -47,7 +47,7 @@
     </script>
     @if (session()->has('popup'))
     <script>
-    pay('https://google.com');
+    pay('{{route('pos.receipt',session()->get('session'))}}');
     </script>
     @endif
 

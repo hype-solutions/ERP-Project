@@ -8,6 +8,7 @@ use App\Models\Pos\Cart;
 use App\Models\Pos\PosSessions;
 use App\Models\Products\Products;
 use App\Models\Products\ProductsCategories;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,6 +44,11 @@ class PosController extends Controller
         return view('pos.landing', compact('sessions', 'customers','branches'));
     }
 
+    public function receipt($sessionId){
+        $currentCart = Cart::where('pos_session_id', $sessionId)->get();
+        $currentSession = PosSessions::find($sessionId);
+        return view('pos.receipt', compact('currentCart', 'sessionId','currentSession'));
+    }
     public function index($sessionId)
     {
         $products = Products::all();
@@ -91,6 +97,7 @@ class PosController extends Controller
     $upd->discount_amount = $request->discount_amount;
     $upd->discount_percentage = $request->discount_percentage;
     $upd->total = $request->total;
+    $upd->sold_when = Carbon::now();
     if($request->end_or_save == 1){
         $upd->status = 1;
     }
@@ -101,7 +108,7 @@ class PosController extends Controller
 
 
 
-        return redirect()->route('pos.landing')->with('popup', 'open');;
+        return redirect()->route('pos.landing')->with('popup', 'open')->with('session', $pos_session_id);
         // //get product id & session id
         // $product_id = $request->product;
         // $pos_session_id = $request->sess;

@@ -130,6 +130,7 @@ Route::post('/pos/refreshcart', [PosController::class, 'refreshcart'])->name('po
 // Route::post('/pos/removeFromCart', [PosController::class, 'removeFromCart'])->name('pos.removeFromCart');
 Route::post('/pos/start', [PosController::class, 'start'])->name('pos.start');
 Route::post('/pos/finish', [PosController::class, 'finish'])->name('pos.finish');
+Route::get('/pos/receipt/{sessionId}', [PosController::class, 'receipt'])->name('pos.receipt');
 
 /*************************
  ******* Projects ********
