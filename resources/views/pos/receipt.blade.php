@@ -1,13 +1,14 @@
 
 <html>
     <head>
+
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
      @font-face {
-        font-family: "DroidArabicKufiRegular";
-        src: url(../../fonts/DroidKufi/DroidKufi-Bold.ttf) format("truetype");
+        font-family: 'Cairo', sans-serif;
     }
     body {
-        font-family: 'DroidArabicKufiRegular';
+        font-family: 'Cairo', sans-serif;
         font-style: normal;
 
       }
@@ -113,7 +114,7 @@
      </tr> --}}
 
     </table>
-    <p style="font-size: 10px;">تاريخ الطباعة: 10-01-2021 05:36:46 PM</p>
+    {{-- <p style="font-size: 10px;">تاريخ الطباعة: 10-01-2021 05:36:46 PM</p> --}}
         </font>
     </body>
     </html>
