@@ -278,6 +278,7 @@ class InvoicesPriceQuotationController extends Controller
         $quotation->shipping_fees = $request->shipping_fees;
         $quotation->sold_by = $request->sold_by;
         $quotation->authorized_by = $request->sold_by;
+        $quotation->quotation_status = 'Pending Approval';
         $quotation->save();
 
         $quotationId = $quotation->id;

@@ -214,7 +214,7 @@
                       <p class="mb-0 mt-1">التوقيع</p>
                       <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
                       <h6>إسم الشخص</h6>
-                      <p class="text-muted">مدير المشتريات</p>
+                      <p class="text-muted">الوظيفة</p>
                     </div>
                   </div>
                 </div>
@@ -225,7 +225,7 @@
                 <div class="row">
                   <div class="col-sm-7 col-12 text-center text-sm-left">
                     <h6>الشروط / الملاحظات</h6>
-                    {{$invoice->quotation_note}}
+                    {!!$invoice->quotation_note!!}
                   </div>
                   <div class="col-sm-5 col-12 text-center">
                     <button type="button" class="btn btn-info btn-print btn-lg my-1"><i class="la la-paper-plane-o mr-50"></i>
