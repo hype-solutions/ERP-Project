@@ -237,7 +237,7 @@ class InvoicesPriceQuotationController extends Controller
             $listOfProducts[] = $pro;
         }
 
-        return redirect()->route('invoices.edit',$invoiceId);
+        return redirect()->route('invoices.view',$invoiceId);
 
 
     }

@@ -160,7 +160,7 @@
                             @if($checkError == 0)
                             <a class="btn btn-block btn-primary" href="{{route('invoicespricequotations.converting',$invoice->id)}}">تحويل الى عرض سعر</a>
                             @else
-                            <button class="btn btn-block btn-primary" title="برجاء مراجعة الأصناف" disabled>تحويل الى عرض سعر</button>
+                            <button class="btn btn-block btn-primary" title="برجاء مراجعة الأصناف" disabled>تحويل الى فاتورة مبيعات</button>
                             @endif
                         </div>
                     </div>

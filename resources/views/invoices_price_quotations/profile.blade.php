@@ -37,6 +37,29 @@
                 </div>
               </div>
             </div>
+            <div class="content-header-right text-md-right col-md-6 col-12">
+                @if($invoice->quotation_status == 'Pending Approval')
+                <div class="badge badge-warning">
+                  <i class="la la-hourglass-half font-medium-2"></i>
+                      <span>في إنتظار موافقة الإدارة</span>
+                  </div>
+                @elseif($invoice->quotation_status == 'Approved')
+                <div class="badge badge-success">
+                  <i class="la la-star font-medium-2"></i>
+                      <span>تمت الموافقة من الإدارة </span>
+                  </div>
+                  @elseif($invoice->quotation_status == 'Declined')
+                  <div class="badge badge-danger">
+                    <i class="la la-times-circle font-medium-2"></i>
+                        <span>تم الرفض</span>
+                    </div>
+                    @elseif($invoice->quotation_status == 'ToInvoice')
+                    <div class="badge badge-primary">
+                      <i class="la la-newspaper-o font-medium-2"></i>
+                          <span>تم التحويل الى فاتورة</span>
+                      </div>
+                @endif
+            </div>
 
           </div>
           <div class="content-body"><section class="card">
@@ -96,22 +119,7 @@
                 </div>
                 <div class="col-sm-6 col-12 text-center text-sm-right">
                   <p><span class="text-muted">تاريخ عرض السعر: </span> {{$invoice->quotation_date}}</p>
-                     @if($invoice->quotation_status == 'Pending')
-                                <div class="badge badge-warning">
-                                  <i class="la la-money font-medium-2"></i>
-                                      <span>قيد التنفيذ</span>
-                                  </div>
-                                @elseif($invoice->quotation_status == 'Accepted')
-                                <div class="badge badge-success">
-                                  <i class="la la-money font-medium-2"></i>
-                                      <span>تمت الموافقة </span>
-                                  </div>
-                                  @else
-                                  <div class="badge badge-danger">
-                                    <i class="la la-money font-medium-2"></i>
-                                        <span>تم الرفض</span>
-                                    </div>
-                                @endif
+
 
 
                 </div>
@@ -221,7 +229,7 @@
                   </div>
                   <div class="col-sm-5 col-12 text-center">
                     <button type="button" class="btn btn-info btn-print btn-lg my-1"><i class="la la-paper-plane-o mr-50"></i>
-                      طباعة الفاتورة</button>
+                      طباعة عرض السعر</button>
                   </div>
                 </div>
               </div>
