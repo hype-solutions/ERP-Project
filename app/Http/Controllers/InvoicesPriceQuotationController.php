@@ -122,6 +122,50 @@ class InvoicesPriceQuotationController extends Controller
         return redirect('/invoices/price_quotations')->with('success', 'invoice added');
     }
 
+    public function toinvoice(InvoicesPriceQuotation $invoice){
+        $currentProducts = InvoicesPriceQuotationsProducts::where('quotation_id', $invoice->id)
+        ->with('check')
+        ->get();
+        // return $currentProducts;
+        return view('invoices_price_quotations.check', compact('invoice','currentProducts'));
+
+    }
+
+    public function converting($invoice){
+
+
+        $quotation = InvoicesPriceQuotation::find($invoice);
+        $quotation->quotation_status = 'ToInvoice';
+        $quotation->save();
+        InvoicesPriceQuotationsProducts::where('quotation_id', $invoice)
+        ->update(['status' => 'ToInvoice']);
+
+        return redirect()->route('invoicespricequotations.list');
+
+
+    }
+
+    public function status($invoice,$status){
+
+        if($status == 1){
+            $quotation = InvoicesPriceQuotation::find($invoice);
+            $quotation->quotation_status = 'Approved';
+            $quotation->save();
+            InvoicesPriceQuotationsProducts::where('quotation_id', $invoice)
+            ->update(['status' => 'Approved']);
+        }else if($status == 2){
+            $quotation = InvoicesPriceQuotation::find($invoice);
+            $quotation->quotation_status = 'Declined';
+            $quotation->save();
+            InvoicesPriceQuotationsProducts::where('quotation_id', $invoice)
+            ->update(['status' => 'Declined']);
+        }
+
+        return redirect()->route('invoicespricequotations.list');
+    }
+
+
+
     public function update(Request $request, $invoice)
     {
 
@@ -131,6 +175,7 @@ class InvoicesPriceQuotationController extends Controller
         $quotation->quotation_note = $request->quotation_note;
         $quotation->discount_percentage = $request->discount_percentage;
         $quotation->discount_amount = $request->discount_amount;
+        $quotation->quotation_tax = $request->tax_fees;
         $quotation->quotation_date = Carbon::now();
         $quotation->quotation_total = $request->quotation_total;
         $quotation->shipping_fees = $request->shipping_fees;

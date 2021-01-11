@@ -44,6 +44,19 @@
 <div class="content-overlay"></div>
       <div class="content-wrapper">
         <div class="content-header row">
+            <div class="content-header-left col-md-6 col-12 mb-2">
+                <h3 class="content-header-title mb-0">عروض الأسعار</h3>
+                <div class="row breadcrumbs-top">
+                  <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="{{route('home')}}">البرنامج</a></li>
+                  <li class="breadcrumb-item"><a href="{{route('invoicespricequotations.list')}}">عروض الأسعار</a></li>
+                      <li class="breadcrumb-item active">إضافة
+                      </li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
         </div>
         <div class="content-body"><!-- users view start -->
 <section class="users-view">
@@ -333,8 +346,7 @@
         <div class="card">
             <div class="card-content collapse show">
                 <div class="card-body">
-                    <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
-                    <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> إضافة</button>
+                     <button type="submit" class="btn btn-outline-primary btn-block"><i class="la la-check-square-o"></i> إضافة</button>
 
                 </div>
             </div>

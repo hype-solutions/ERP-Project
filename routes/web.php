@@ -118,6 +118,9 @@ Route::post('/invoices/price_quotations/adding', [InvoicesPriceQuotationControll
 Route::get('/invoices/price_quotations/edit/{invoice}', [InvoicesPriceQuotationController::class, 'edit'])->name('invoicespricequotations.edit');
 Route::get('/invoices/price_quotations/view/{invoice}', [InvoicesPriceQuotationController::class, 'view'])->name('invoicespricequotations.view');
 Route::patch('/invoices/price_quotations/update/{invoice}', [InvoicesPriceQuotationController::class, 'update'])->name('invoicespricequotations.update');
+Route::get('/invoices/price_quotations/status/{invoice}/{status}', [InvoicesPriceQuotationController::class, 'status'])->name('invoicespricequotations.status');
+Route::get('/invoices/price_quotations/toinvoice/{invoice}', [InvoicesPriceQuotationController::class, 'toinvoice'])->name('invoicespricequotations.toinvoice');
+Route::get('/invoices/price_quotations/converting/{invoice}', [InvoicesPriceQuotationController::class, 'converting'])->name('invoicespricequotations.converting');
 
 //POS
 Route::get('/pos/landing', [PosController::class, 'landing'])->name('pos.landing');

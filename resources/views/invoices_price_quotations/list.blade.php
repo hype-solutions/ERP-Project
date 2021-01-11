@@ -147,22 +147,30 @@
                                   <i class="la la-star font-medium-2"></i>
                                       <span>تمت الموافقة </span>
                                   </div>
-                                  @else
+                                  @elseif($quotation->quotation_status == 'Declined')
                                   <div class="badge badge-danger">
                                     <i class="la la-times-circle font-medium-2"></i>
                                         <span>تم الرفض</span>
                                     </div>
+                                    @elseif($quotation->quotation_status == 'ToInvoice')
+                                    <div class="badge badge-primary">
+                                      <i class="la la-newspaper-o font-medium-2"></i>
+                                          <span>تم التحويل الى فاتورة</span>
+                                      </div>
                                 @endif</td>
                             <td>
                                 <a href="{{route('invoicespricequotations.view',$quotation->id)}}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
+                                @if($quotation->quotation_status != 'ToInvoice')
                                 <a href="{{route('invoicespricequotations.edit',$quotation->id)}}" class="btn btn-primary btn-sm"><i class="la la-pencil-square-o"></i> تعديل</a>
+                                @endif
                                 @if($quotation->quotation_status == 'Pending Approval')
                                 <br/>
-                                <button type="button" class="btn btn-success btn-sm"><i class="la la-check"></i> تصديق على عرض السعر</button>
+                                <a class="btn btn-success btn-sm"  href="{{route('invoicespricequotations.status',[$quotation->id,1])}}"><i class="la la-check"></i> تصديق على عرض السعر</a>
+                                <a class="btn btn-danger btn-sm" href="{{route('invoicespricequotations.status',[$quotation->id,2])}}"><i class="la la-close" ></i> رفض</a>
                                 @endif
                                 @if($quotation->quotation_status == 'Approved')
                                 <br/>
-                                <button type="button" class="btn btn-danger btn-sm"><i class="la la-file"></i> تحويل الى فاتورة</button>
+                                <a href="{{route('invoicespricequotations.toinvoice',$quotation->id)}}" class="btn btn-dark btn-sm"><i class="la la-file"></i> تحويل الى فاتورة</a>
                                 @endif
                              </td>
                         </tr>
