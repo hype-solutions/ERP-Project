@@ -287,7 +287,7 @@
                                             </select>
                                           </div>
                                     </td>
-                                    <td><input type="text" class="product_input" name="product[{{$key+1}}][desc]" value="{{$item->product_desc}}/></td>
+                                    <td><input type="text" class="product_input" name="product[{{$key+1}}][desc]" value="{{$item->product_desc}}"/></td>
                                     <td><input type="number" class="product_input" id="p_p_{{$key+1}}" name="product[{{$key+1}}][price]" value="{{$item->product_price}}" onblur="return reCalculate({{$key+1}})" min="0"/></td>
                                     <td><input type="number" class="product_input" id="p_q_{{$key+1}}" name="product[{{$key+1}}][qty]" value="{{$item->product_qty}}" onblur="return reCalculate({{$key+1}})" min="0" placeholder="0"/></td>
                                     <td>
