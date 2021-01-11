@@ -63,7 +63,7 @@
                 <a class="btn btn-danger btn-block"  href="{{route('invoicespricequotations.status',[$invoice->id,2])}}"><i class="la la-close"></i> رفض عرض السعر</a>
                 @endif
                 @if($invoice->quotation_status == 'Approved')
-                <a href="{{route('invoicespricequotations.check',$invoice->id)}}" class="btn btn-dark btn-block"><i class="la la-file"></i> تحويل الى فاتورة</a>
+                <a href="{{route('invoicespricequotations.toinvoice',$invoice->id)}}" class="btn btn-dark btn-block"><i class="la la-file"></i> تحويل الى فاتورة</a>
                 @endif
               </div>
         </div>
