@@ -25,7 +25,7 @@ class InvoicesPriceQuotationsProducts extends Model
     }
         public function check()
     {
-        return $this->hasOne('App\Models\Branches\BranchesProducts', 'id', 'product_id')->where('branch_id','=', 1);
+        return $this->hasOne('App\Models\Branches\BranchesProducts', 'product_id', 'product_id')->where('branch_id','=', 1);
     }
 
 }

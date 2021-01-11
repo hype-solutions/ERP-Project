@@ -63,6 +63,7 @@ class ProductsController extends Controller
     }
 
 
+
     public function add()
     {
         $categories = ProductsCategories::all();

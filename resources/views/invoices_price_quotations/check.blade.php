@@ -53,6 +53,9 @@
                                     </p>
                             </div>
                             <div class="table-responsive">
+                                <span style="display: none">
+                                {{$checkError = 0}}
+                                </span>
                                 <table class="table">
                                     <thead class="bg-dark white">
                                         <tr>
@@ -66,8 +69,8 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($currentProducts as $key => $item)
-
-                                        <tr>
+                                        {{-- Select all from branches_products where product_id = $item->id and branch_id = 1 --}}
+                                        <tr >
                                             <th scope="row">{{++$key}}</th>
                                             <td>
                                                 @if ($item->product_id > 0)
@@ -78,8 +81,74 @@
                                             </td>
                                             <td>{{$item->product_desc}}</td>
                                             <td>{{$item->product_qty}}</td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>
+                                                @if ($item->product_id > 0)
+                                                <div class="badge badge-primary">
+                                                    <i class="la la-check font-medium-2"></i>
+                                                        <span>صنف موجود بالمخزن</span>
+                                                    </div>
+                                                    <br>
+                                                @else
+                                                <span style="display: none">{{$checkError = 1}}</span>
+                                                <div class="badge badge-danger">
+                                                    <i class="la la-info-circle font-medium-2"></i>
+                                                        <span>صنف غير موجود بالمخزن</span>
+                                                    </div>
+                                                    <br>
+                                                @endif
+                                                @if(isset($item->check->id))
+                                                    @if($item->check->amount < $item->product_qty)
+                                                    <span style="display: none">{{$checkError = 1}}</span>
+                                                <div class="badge badge-warning">
+                                                    <i class="la la-info-circle font-medium-2"></i>
+                                                        <span>الكمية المعروضة أقل من الموجودة بالمخزن</span>
+                                                    </div>
+                                                    @else
+                                                    <div class="badge badge-success">
+                                                        <i class="la la-check font-medium-2"></i>
+                                                            <span>الكمية المعروضة موجودة بالمخزن</span>
+                                                        </div>
+                                                    @endif
+                                                @else
+                                                <span style="display: none">{{$checkError = 1}}</span>
+                                                <div class="badge badge-warning">
+                                                    <i class="la la-info-circle font-medium-2"></i>
+                                                        <span>لا توجد كمية</span>
+                                                    </div>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($item->product_id > 0)
+                                                    @if(!isset($item->check->id))
+                                                    <a class="btn btn-success" target="_blank" href="{{route('products.view',$item->product_id)}}">
+                                                        <i class="la la-plus font-medium-2"></i>
+                                                            <span>فتح ملف المنتج لإضافة كميات</span>
+                                                    </a>
+                                                    @endif
+                                                @else
+                                                <form action="{{route('invoicespricequotations.quickadd')}}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="product_name" value="{{$item->product_temp}}" />
+                                                    <input type="hidden" name="product_price" value="{{$item->product_price}}" />
+                                                    <input type="hidden" name="quotation_id" value="{{$invoice->id}}" />
+                                                    <input type="hidden" name="record" value="{{$item->id}}" />
+                                                <button class="btn btn-success">
+                                                    <i class="la la-plus font-medium-2"></i>
+                                                        <span>إضافته كصنف جديد</span>
+                                                    </button>
+                                                </form>
+                                                @endif
+                                                @if(isset($item->check->id))
+                                                    @if($item->check->amount < $item->product_qty)
+                                                    <a class="btn btn-success" target="_blank" href="{{route('products.view',$item->product_id)}}">
+                                                        <i class="la la-plus font-medium-2"></i>
+                                                            <span>فتح ملف المنتج لإضافة كميات</span>
+                                                    </a>
+                                                    @endif
+                                                @else
+
+                                                @endif
+                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -88,7 +157,11 @@
                             </div>
                             <br>
                             <br>
+                            @if($checkError == 0)
                             <a class="btn btn-block btn-primary" href="{{route('invoicespricequotations.converting',$invoice->id)}}">تحويل الى عرض سعر</a>
+                            @else
+                            <button class="btn btn-block btn-primary" title="برجاء مراجعة الأصناف" disabled>تحويل الى عرض سعر</button>
+                            @endif
                         </div>
                     </div>
                 </div>

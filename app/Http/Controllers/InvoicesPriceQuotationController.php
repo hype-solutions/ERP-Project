@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branches\Branches;
+use App\Models\Branches\BranchesProducts;
 use App\Models\Customers\Customers;
+use App\Models\Invoices\Invoices;
 use App\Models\Invoices\InvoicesPriceQuotation;
 use App\Models\Invoices\InvoicesPriceQuotationsProducts;
+use App\Models\Invoices\InvoicesProducts;
 use App\Models\Products\Products;
 use App\Models\Safes\Safes;
+use App\Models\Safes\SafesTransactions;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -122,6 +126,26 @@ class InvoicesPriceQuotationController extends Controller
         return redirect('/invoices/price_quotations')->with('success', 'invoice added');
     }
 
+
+    public function quickadd(Request $request)
+    {
+        $product = new Products();
+        $product->product_name = $request->product_name;
+        $product->product_price = $request->product_price;
+        $product->save();
+        $productId = $product->id;
+
+        $quotation = InvoicesPriceQuotationsProducts::find($request->record);
+        $quotation->product_temp = '';
+        $quotation->product_id = $productId;
+        $quotation->save();
+
+        return redirect()->route('invoicespricequotations.toinvoice',$request->quotation_id);
+
+    }
+
+
+
     public function toinvoice(InvoicesPriceQuotation $invoice){
         $currentProducts = InvoicesPriceQuotationsProducts::where('quotation_id', $invoice->id)
         ->with('check')
@@ -131,16 +155,89 @@ class InvoicesPriceQuotationController extends Controller
 
     }
 
-    public function converting($invoice){
+    public function converting($invoicex){
 
 
-        $quotation = InvoicesPriceQuotation::find($invoice);
+        $quotation = InvoicesPriceQuotation::find($invoicex);
         $quotation->quotation_status = 'ToInvoice';
         $quotation->save();
-        InvoicesPriceQuotationsProducts::where('quotation_id', $invoice)
+        InvoicesPriceQuotationsProducts::where('quotation_id', $invoicex)
         ->update(['status' => 'ToInvoice']);
 
-        return redirect()->route('invoicespricequotations.list');
+        $safe_id = Safes::where('branch_id', 1)->value('id');
+        $invoice = new Invoices();
+        $invoice->customer_id = $quotation->customer_id;
+        $invoice->branch_id = 1;
+        $invoice->invoice_note = $quotation->quotation_note;
+        $invoice->discount_percentage = $quotation->discount_percentage;
+        $invoice->discount_amount = $quotation->discount_amount;
+        $invoice->price_quotation_id = $invoicex;
+        $invoice->was_price_quotation = 1;
+        $invoice->payment_method = 'cash';
+        $invoice->invoice_date = Carbon::now();
+        $invoice->already_paid = 1;
+
+        $payment = new SafesTransactions();
+        $payment->safe_id = $safe_id;
+        $payment->transaction_type = 2;
+        $payment->transaction_amount = $quotation->quotation_total;
+        $payment->transaction_datetime = Carbon::now();
+        $payment->done_by = $quotation->sold_by;
+        $payment->authorized_by = $quotation->sold_by;
+        $payment->save();
+        $payment_id = $payment->id;
+
+        $invoice->safe_id = $safe_id;
+        $invoice->safe_transaction_id = $payment->id;
+
+        $invoice->invoice_total = $quotation->quotation_total;
+        $invoice->shipping_fees = $quotation->shipping_fees;
+        $invoice->sold_by = $quotation->sold_by;
+        $invoice->authorized_by = $quotation->sold_by;
+        $invoice->save();
+
+        $invoiceId = $invoice->id;
+        $customerId = $quotation->customer_id;
+
+        $edtPayment = SafesTransactions::find($payment_id);
+        $edtPayment->transaction_notes = 'فاتورة مبيعات رقم  ' . $invoiceId;
+        $edtPayment->save();
+
+
+        $quotationProducts = InvoicesPriceQuotationsProducts::where('quotation_id', $invoicex)->get();
+        foreach ($quotationProducts as $product) {
+            //search for products at branches
+            $checkIfRecordExsists = BranchesProducts::where('branch_id', 1)
+            ->where('product_id', $product->product_id)
+            ->first();
+
+            Products::where('id', $product->product_id)->increment('product_total_out', $product->product_qty);
+            if (isset($checkIfRecordExsists)) {
+                BranchesProducts::where('product_id', $product->product_id)
+                    ->where('branch_id', 1)
+                    ->decrement('amount', $product->product_qty);
+            } else {
+                $prox = new BranchesProducts();
+                $prox->branch_id = 1;
+                $prox->product_id = $product->product_id;
+                $prox->amount = $product->product_qty;
+                $prox->save();
+                $listOfProductsx[] = $prox;
+            }
+
+            $pro = new InvoicesProducts();
+            $pro->invoice_id = $invoiceId;
+            $pro->customer_id = $customerId;
+            $pro->product_id = $product->product_id;
+            $pro->product_desc = $product->product_desc;
+            $pro->product_price = $product->product_price;
+            $pro->product_qty = $product->product_qty;
+            $pro->status = 'no';
+            $pro->save();
+            $listOfProducts[] = $pro;
+        }
+
+        return redirect()->route('invoices.edit',$invoiceId);
 
 
     }

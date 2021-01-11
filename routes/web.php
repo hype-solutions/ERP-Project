@@ -86,6 +86,8 @@ Route::get('/products/select', [ProductsController::class, 'productSelect'])->na
 Route::post('/products/selecting', [ProductsController::class, 'selecting'])->name('products.selecting');
 
 
+
+
 /**************************
  **** Purchases orders ****
  **************************/
@@ -121,6 +123,7 @@ Route::patch('/invoices/price_quotations/update/{invoice}', [InvoicesPriceQuotat
 Route::get('/invoices/price_quotations/status/{invoice}/{status}', [InvoicesPriceQuotationController::class, 'status'])->name('invoicespricequotations.status');
 Route::get('/invoices/price_quotations/toinvoice/{invoice}', [InvoicesPriceQuotationController::class, 'toinvoice'])->name('invoicespricequotations.toinvoice');
 Route::get('/invoices/price_quotations/converting/{invoice}', [InvoicesPriceQuotationController::class, 'converting'])->name('invoicespricequotations.converting');
+Route::post('/products/quickadd', [InvoicesPriceQuotationController::class, 'quickadd'])->name('invoicespricequotations.quickadd');
 
 //POS
 Route::get('/pos/landing', [PosController::class, 'landing'])->name('pos.landing');

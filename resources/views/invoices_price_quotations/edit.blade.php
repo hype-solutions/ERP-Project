@@ -376,7 +376,6 @@
         <div class="card">
             <div class="card-content collapse show">
                 <div class="card-body">
-                    <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
                     <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> حفظ</button>
 
                 </div>
