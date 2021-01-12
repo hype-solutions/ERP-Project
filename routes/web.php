@@ -122,7 +122,7 @@ Route::get('/invoices/price_quotations/view/{invoice}', [InvoicesPriceQuotationC
 Route::patch('/invoices/price_quotations/update/{invoice}', [InvoicesPriceQuotationController::class, 'update'])->name('invoicespricequotations.update');
 Route::get('/invoices/price_quotations/status/{invoice}/{status}', [InvoicesPriceQuotationController::class, 'status'])->name('invoicespricequotations.status');
 Route::get('/invoices/price_quotations/toinvoice/{invoice}', [InvoicesPriceQuotationController::class, 'toinvoice'])->name('invoicespricequotations.toinvoice');
-Route::get('/invoices/price_quotations/converting/{invoice}', [InvoicesPriceQuotationController::class, 'converting'])->name('invoicespricequotations.converting');
+Route::post('/invoices/price_quotations/converting/{invoice}', [InvoicesPriceQuotationController::class, 'converting'])->name('invoicespricequotations.converting');
 Route::post('/products/quickadd', [InvoicesPriceQuotationController::class, 'quickadd'])->name('invoicespricequotations.quickadd');
 
 //POS

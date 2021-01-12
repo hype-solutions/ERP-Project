@@ -165,6 +165,8 @@
                 </div>
                 <div class="row">
                   <div class="col-sm-7 col-12 text-center text-sm-left">
+                         <h6>الشروط / الملاحظات</h6>
+                        {!!$invoice->quotation_note!!}
 
 
                   </div>
@@ -184,7 +186,7 @@
                             <td>الخصم (النسبة)</td>
                             <td class="text-right">
                                 [{{$invoice->discount_percentage}} %]
-                                {{(($invoice->discount_percentage / 100) * $subtotal)}} ج.م
+                                {{round(($invoice->discount_percentage / 100) * $subtotal)}} ج.م
                             </td>
                           </tr>
                           @endif
@@ -194,10 +196,15 @@
                             <td class="text-right">{{$invoice->discount_amount}} ج.م</td>
                           </tr>
                           @endif
+                          @if($invoice->quotation_tax > 0)
                           <tr>
                             <td>الضريبة</td>
-                            <td class="text-right">0</td>
+                            <td class="text-right">
+                                [{{$invoice->quotation_tax}} %]
+                                {{round(($invoice->quotation_tax / 100) * $subtotal)}}  ج.م</td>
                           </tr>
+                          @endif
+
                           <tr>
                             <td>الشحن</td>
                             <td class="text-right">{{$invoice->shipping_fees}} ج.م</td>
@@ -223,10 +230,7 @@
               <!-- Invoice Footer -->
               <div id="invoice-footer">
                 <div class="row">
-                  <div class="col-sm-7 col-12 text-center text-sm-left">
-                    <h6>الشروط / الملاحظات</h6>
-                    {!!$invoice->quotation_note!!}
-                  </div>
+
                   <div class="col-sm-5 col-12 text-center">
                     <button type="button" class="btn btn-info btn-print btn-lg my-1"><i class="la la-paper-plane-o mr-50"></i>
                       طباعة عرض السعر</button>
