@@ -658,7 +658,7 @@ function reCalculate(productId,oldTotalPrice,newTotalPrice) {
 //                 sess: {{$sessionId}},
 //             };
 //             var type = "POST";
-//             var ajaxurl = "{{route('pos.refreshcart')}}";
+//             var ajaxurl =   
 //             $.ajax({
 //             type: type,
 //             url: ajaxurl,
