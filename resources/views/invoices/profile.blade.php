@@ -152,7 +152,7 @@
                           <table class="table table-borderless table-sm">
                             <tbody>
                               <tr>
-                                <td>طريقة الدفع</td>
+                                <td><strong>طريقة الدفع</strong></td>
                                 <td class="text-right">
                                     @if($invoice->payment_method == 'cash')
                                     <span>كاش</span>
@@ -166,11 +166,11 @@
                               @if($invoice->already_paid)
                                 @if($invoice->payment_method !='later')
                                     <tr>
-                                        <td>رقم فاتورة الدفع:</td>
+                                        <td><strong>رقم ايصال الدفع:</strong></td>
                                         <td class="text-right">{{$invoice->safe_transaction_id}}</td>
                                     </tr>
                                     <tr>
-                                        <td>الخزنة المخصوم منها:</td>
+                                        <td><strong>الخزنة التي تم الإيداع بها:</strong></td>
                                         <td class="text-right">{{$invoice->safe->safe_name}}</td>
                                     </tr>
                                 @endif
@@ -232,7 +232,7 @@
                             <td>الخصم (النسبة)</td>
                             <td class="text-right">
                                 [{{$invoice->discount_percentage}} %]
-                                {{(($invoice->discount_percentage / 100) * $subtotal)}} ج.م
+                                {{round(($invoice->discount_percentage / 100) * $subtotal)}} ج.م
                             </td>
                           </tr>
                           @endif
@@ -242,14 +242,21 @@
                             <td class="text-right">{{$invoice->discount_amount}} ج.م</td>
                           </tr>
                           @endif
+                          @if($invoice->invoice_tax > 0)
                           <tr>
                             <td>الضريبة</td>
-                            <td class="text-right">0</td>
+                            <td class="text-right">
+                                [{{$invoice->invoice_tax}} %]
+                                {{round(($invoice->invoice_tax / 100) * $subtotal)}} ج.م
+                            </td>
                           </tr>
+                          @endif
+                          @if($invoice->shipping_fees > 0)
                           <tr>
                             <td>الشحن</td>
                             <td class="text-right">{{$invoice->shipping_fees}} ج.م</td>
                           </tr>
+                          @endif
                           <tr>
                             <td class="text-bold-800">الإجمالي</td>
                             <td class="text-bold-800 text-right"> {{$invoice->invoice_total}} ج.م</td>
@@ -258,12 +265,12 @@
                         </tbody>
                       </table>
                     </div>
-                    <div class="text-center">
+                    {{-- <div class="text-center">
                       <p class="mb-0 mt-1">التوقيع</p>
                       <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
                       <h6>إسم الشخص</h6>
                       <p class="text-muted">مدير المشتريات</p>
-                    </div>
+                    </div> --}}
                   </div>
                 </div>
               </div>

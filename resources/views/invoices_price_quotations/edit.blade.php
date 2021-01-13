@@ -15,6 +15,9 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/colors/palette-switch.min.css') }}">
 
 <style>
+        .ck-editor__editable {
+    min-height:150px;
+}
     .product_input{
     width: 100%;
     padding: 0 4px;
@@ -355,7 +358,7 @@
 
                     <fieldset class="form-group">
                         <p class="text-muted">الشروط /  الملاحظات</p>
-                        <textarea class="form-control" name="quotation_note" rows="4" id="terms-conditions" ></textarea>
+                        <textarea class="form-control" name="quotation_note" rows="4" id="terms-conditions" >{{$invoice->quotation_note}}</textarea>
                     </fieldset>
 
               </div>
@@ -376,7 +379,7 @@
         <div class="card">
             <div class="card-content collapse show">
                 <div class="card-body">
-                    <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> حفظ</button>
+                    <button type="submit" class="btn btn-outline-primary btn-block"><i class="la la-check-square-o"></i> حفظ</button>
 
                 </div>
             </div>

@@ -15,6 +15,9 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/colors/palette-switch.min.css') }}">
 
 <style>
+    .ck-editor__editable {
+    min-height:150px;
+}
     .product_input{
     width: 100%;
     padding: 0 4px;
@@ -91,7 +94,7 @@
                         <div class="form-body">
                             <h4 class="form-section"><i class="la la-flag"></i> فاتورة جديدة</h4>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <div class="text-bold-600 font-medium-2">
                                          اختر الفرع
@@ -103,18 +106,40 @@
                                             @endforeach
                                         </select>
                                       </div>
+                                      <div class="form-group">
+                                        <div class="text-bold-600 font-medium-2">
+                                            رقم الفاتورة الورقية
+                                           </div>
+                                        <input type="text" class="form-control" name="invoice_paper_num" placeholder="أدخل الرقم"/>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
+
+                                <div class="col-md-4" style="border-left: 6px solid #28d094;
+                                height: 170px;">
                                     <div class="form-group">
                                         <div class="text-bold-600 font-medium-2">
-                                         اختر العميل
+                                         عميل حالي
                                         </div>
-                                        <select class="select2-rtl form-control" data-placeholder="إختر العميل..." name="customer_id"   required>
+                                        <select class="select2-rtl form-control" data-placeholder="إختر العميل..." name="customer_id" id="customer_id"   required>
                                             <option></option>
                                             @foreach ($customers as $customer)
                                             <option value="{{$customer->id}}">{{$customer->customer_name}}</option>
                                             @endforeach
                                         </select>
+                                      </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>أو</label>
+                                        <div class="text-bold-600 font-medium-2">
+                                         عميل جديد
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="new_customer_name" id="new_customer_name" placeholder="اسم العميل" onblur="return chooseCustomerType()"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="new_customer_mobile" id="new_customer_mobile" placeholder="موبايل العميل"  onblur="return chooseCustomerType()"/>
+                                        </div>
                                       </div>
                                 </div>
 
@@ -136,7 +161,7 @@
 
                     <fieldset class="form-group">
                         <p class="text-muted">الشروط /  الملاحظات</p>
-                        <textarea class="form-control" name="invoice_note" rows="4"  ></textarea>
+                        <textarea class="form-control" name="invoice_note" rows="8"  id="terms-conditions" ></textarea>
                     </fieldset>
 
 
@@ -219,6 +244,11 @@
                                     <td id="TotalValue" class="text-left"><code><span id="shipping">0</span></code>&nbsp;ج.م</td>
                                     <td></td>
                                  </tr>
+                                 <tr id="hidden-row-4" style="display: none">
+                                    <td colspan="4" class="text-right"><strong> الضريبة[<span id="tax" style="color: goldenrod">0</span>%]</strong></td>
+                                    <td  class="text-left"><code><span id="tax_amount">0</span></code>&nbsp;ج.م</td>
+                                    <td></td>
+                                 </tr>
                                 <tr>
                                     <td colspan="4" class="text-right"><strong>الإجمالي</strong></td>
                                     <td id="TotalValue" class="text-left"><code><span id="total_after_all2">0</span></code>&nbsp;ج.م</td>
@@ -247,6 +277,9 @@
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" id="base-tab13" data-toggle="tab" aria-controls="tab13" href="#tab13" aria-expanded="false">الشحن</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="base-tab14" data-toggle="tab" aria-controls="tab14" href="#tab14" aria-expanded="false">الضريبة</a>
                       </li>
                     </ul>
                     <div class="tab-content px-1 pt-1">
@@ -287,7 +320,17 @@
                           </div>
 
                       </div>
+                      <div class="tab-pane" id="tab14" aria-labelledby="base-tab14">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="projectinput3">نسبة الضريبة</label>
+                                    <input type="number" id="tax_fees" class="form-control" placeholder="" name="tax" value="0" onblur="return updateTax()" required>
+                                </div>
+                            </div>
+                        </div>
 
+                    </div>
                     </div>
               </div>
             </div>
@@ -373,7 +416,7 @@
             </div>
         </div>
     </div>
-    {{-- <div class="col-md-12" id="other_box" style="display: none">
+    <div class="col-md-12" id="other_box" style="display: none">
         <div class="card">
             <div class="card-body">
 
@@ -390,6 +433,12 @@
                     </select>
                 </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="projectinput3">الملاحظات</label>
+                        <textarea placeholder="مثال: رقم الحوالة" class="form-control"></textarea>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -399,7 +448,7 @@
 
             </div>
         </div>
-    </div> --}}
+    </div>
 
     <div class="col-md-12" id="later_box" style="display: none">
         <div class="card">
@@ -501,8 +550,7 @@
         <div class="card">
             <div class="card-content collapse show">
                 <div class="card-body">
-                    <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
-                    <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> إضافة</button>
+                    <button type="submit" class="btn btn-outline-primary btn-block"><i class="la la-check-square-o"></i> إضافة</button>
 
                 </div>
             </div>
@@ -525,6 +573,7 @@
 <script src="{{ asset('theme/app-assets/vendors/js/forms/toggle/bootstrap-switch.min.js') }}"></script>
 <script src="{{ asset('theme/app-assets/vendors/js/forms/toggle/switchery.min.js') }}"></script>
 <script src="{{ asset('theme/app-assets/vendors/js/forms/toggle/bootstrap-checkbox.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/js/editors/ckeditor/ckeditor-super-build.js') }}"></script>
 
 <!-- BEGIN: Theme JS-->
     <script src="{{ asset('theme/app-assets/js/core/app-menu.min.js') }}"></script>
@@ -535,6 +584,31 @@
     <script src="{{ asset('theme/app-assets/js/scripts/forms/select/form-select2.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/js/scripts/forms/switch.min.js') }}"></script>
     <script>
+
+
+function updateTax() {
+newTax = $('#tax_fees').val();
+if ($('#tax_fees').val().length === 0) {
+    newTax = 0;
+}
+if (newTax > 0) {
+  $('#hidden-row-4').show();
+} else {
+  $('#hidden-row-4').hide();
+}
+
+  var currentInvoiceTotal = $("#total_after_all").text();
+  currentInvoiceTotal = parseInt(currentInvoiceTotal);
+  var newInvoiceTotal = currentInvoiceTotal - (currentInvoiceTotal * (newTax / 100));
+  var taxAmount = currentInvoiceTotal - newInvoiceTotal;
+  taxAmount = Math.floor(taxAmount);
+  $('#tax_amount').text(taxAmount);
+
+$('#tax').html(newTax);
+updateTotal();
+}
+
+CKEDITOR.ClassicEditor.create( document.querySelector( '#terms-conditions' ) ).catch( error => {console.error( error );} );
 
 $(document).ready(function () {
 
@@ -547,8 +621,6 @@ $('#hasPaid').change(function () {
         $('#yesPaid2').show();
         $('#other_box').hide();
         $('#later_box').hide();
-
-
 
         }else{
         $('#yesPaid').hide();
@@ -637,8 +709,11 @@ getDiscountAmount_2 = parseInt(getDiscountAmount_2);
 //get shipping
 var getShipping = $('#shipping').text();
 getShipping = parseInt(getShipping);
+//get Tax
+var getTax = $('#tax_amount').text();
+getTax = parseInt(getTax);
 //add them all
-var invoiceTotal = getSubTotal + getShipping - getDiscountAmount_1 - getDiscountAmount_2;
+var invoiceTotal = getSubTotal + getShipping + getTax - getDiscountAmount_1 - getDiscountAmount_2;
 $('#total_after_all2').text(invoiceTotal);
 $('#totalToSave').val(invoiceTotal);
 
@@ -751,6 +826,7 @@ $('#total_after_all').text(newTotal);
 
 updateDiscount();
 updateShipping();
+updateTax();
 updateTotal();
 }
 
@@ -765,6 +841,7 @@ var newTotal = currentTotal - oldRowTotal;
 $('#total_after_all').text(newTotal);
 updateDiscount();
 updateShipping();
+updateTax();
 updateTotal();
 $("#tot_" + rowNum).closest('tr').remove();
 
@@ -775,18 +852,18 @@ $("#tot_" + rowNum).closest('tr').remove();
 $('#payment_method').on('change', function() {
 if (this.value == 'later') {
   //$('#init_box').hide();
-  //$('#other_box').hide();
+  $('#other_box').hide();
   $('#later_box').show();
   $('#hasPaid').prop( "checked", false );
 
 } else if (this.value == 'cash' || this.value == 'visa' || this.value == 'bankTransfer') {
   //$('#init_box').hide();
   $('#later_box').hide();
-  //$('#other_box').show();
+  $('#other_box').show();
   $('#hasPaid').prop( "checked", true );
 } else {
   $('#later_box').hide();
-  //$('#other_box').hide();
+  $('#other_box').hide();
   $('#init_box').show();
   $('#hasPaid').prop( "checked", false );
 }
@@ -868,7 +945,7 @@ function addField(argument) {
 
 var myTable = document.getElementById("myTable");
 var currentIndex = myTable.rows.length;
-var currentRow = myTable.insertRow(myTable.rows.length - 5);
+var currentRow = myTable.insertRow(myTable.rows.length - 6);
 
 var product_id = document.createElement("input");
 // product_id.setAttribute("name", "product_id[" + currentIndex + "]");
@@ -889,8 +966,8 @@ product_price.setAttribute("onblur", "return reCalculate(" + currentIndex + ")")
 
 var product_qty = document.createElement("input");
 product_qty.setAttribute("name", "product[" + currentIndex + "][qty]");
-product_price.setAttribute("type", "number");
-product_price.setAttribute("min", "0");
+product_qty.setAttribute("type", "number");
+product_qty.setAttribute("min", "0");
 product_qty.setAttribute("class", "product_input");
 product_qty.setAttribute("id", "p_q_" + currentIndex);
 product_qty.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");

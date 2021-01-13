@@ -15,6 +15,9 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/colors/palette-switch.min.css') }}">
 
 <style>
+        .ck-editor__editable {
+    min-height:150px;
+}
     .product_input{
     width: 100%;
     padding: 0 4px;
@@ -681,6 +684,7 @@ var newTotal = currentTotal - oldRowTotal;
 $('#total_after_all').text(newTotal);
 updateDiscount();
 updateShipping();
+updateTax();
 updateTotal();
 $("#tot_" + rowNum).closest('tr').remove();
 

@@ -78,6 +78,7 @@ class InvoicesController extends Controller
         $invoice->invoice_note = $request->invoice_note;
         $invoice->discount_percentage = $request->discount_percentage;
         $invoice->discount_amount = $request->discount_amount;
+        $invoice->invoice_tax = $request->tax;
         $invoice->payment_method = $request->payment_method;
         $invoice->invoice_date = Carbon::now();
         if ($request->already_paid == 'on') {
@@ -224,6 +225,7 @@ $invoice->customer_id = $request->customer_id;
 $invoice->branch_id = $request->branch_id;
 $invoice->invoice_note = $request->invoice_note;
 $invoice->discount_percentage = $request->discount_percentage;
+$invoice->invoice_tax = $request->tax;
 $invoice->discount_amount = $request->discount_amount;
 //$invoice->payment_method = $request->payment_method;
 $invoice->invoice_date = Carbon::now();

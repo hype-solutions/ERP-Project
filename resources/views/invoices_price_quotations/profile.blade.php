@@ -204,11 +204,12 @@
                                 {{round(($invoice->quotation_tax / 100) * $subtotal)}}  ج.م</td>
                           </tr>
                           @endif
-
+                          @if($invoice->shipping_fees > 0)
                           <tr>
                             <td>الشحن</td>
                             <td class="text-right">{{$invoice->shipping_fees}} ج.م</td>
                           </tr>
+                          @endif
                           <tr>
                             <td class="text-bold-800">الإجمالي</td>
                             <td class="text-bold-800 text-right"> {{$invoice->quotation_total}} ج.م</td>
