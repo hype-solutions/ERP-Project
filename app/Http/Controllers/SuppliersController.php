@@ -106,6 +106,14 @@ class SuppliersController extends Controller
         return redirect('/suppliers')->with('success', 'Supplier deleted');
     }
 
+    public function checksupplier(Request $request){
+        $checkMobile = Suppliers::where('supplier_mobile',$request->supplier_mobile)->first();
+        if($checkMobile){
+            return response()->json(array('data' => 1), 200);
+        }else{
+            return response()->json(array('data' => 0), 200);
+    }}
+
     public function suppliersList()
     {
         $suppliers = Suppliers::all();

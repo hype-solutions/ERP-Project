@@ -63,7 +63,18 @@ class PurchasesOrdersController extends Controller
     public function store(Request $request)
     {
         $purchase = new PurchasesOrders;
-        $purchase->supplier_id = $request->supplier_id;
+         // Get Branch Safe ID
+         if ($request->new_supplier_name != '') {
+            $supplier = new Suppliers();
+            $supplier->supplier_name = $request->new_supplier_name;
+            $supplier->supplier_mobile = $request->new_supplier_mobile;
+            $supplier->save();
+            $supplierId = $supplier->id;
+        } else {
+            $supplierId = $request->supplier_id;
+        }
+
+        $purchase->supplier_id = $supplierId;
         $purchase->purchase_note = $request->purchase_note;
         $purchase->discount_percentage = $request->discount_percentage;
         $purchase->discount_amount = $request->discount_amount;
@@ -123,7 +134,6 @@ class PurchasesOrdersController extends Controller
         $purchaseId = $purchase->id;
         $product = $request->product;
         $date = $request->later;
-        $supplierId = $purchase->supplier_id;
 
 
 

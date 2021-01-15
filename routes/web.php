@@ -62,6 +62,7 @@ Route::get('/suppliers/view/{supplier}', [SuppliersController::class, 'view'])->
 Route::get('/suppliers/edit/{supplier}', [SuppliersController::class, 'edit'])->name('suppliers.edit');
 Route::patch('/suppliers/update/{supplier}', [SuppliersController::class, 'update'])->name('suppliers.update');
 Route::delete('/suppliers/delete/{supplier}', [SuppliersController::class, 'delete'])->name('suppliers.delete');
+Route::post('/suppliers/checksupplier', [SuppliersController::class, 'checksupplier'])->name('suppliers.checksupplier');
 
 
 /**************************

@@ -73,7 +73,20 @@ class InvoicesController extends Controller
         // Get Branch Safe ID
         $safe_id = Safes::where('branch_id', $request->branch_id)->value('id');
         $invoice = new Invoices;
-        $invoice->customer_id = $request->customer_id;
+
+         // Get Branch Safe ID
+         if ($request->new_customer_name != '') {
+            $customer = new Customers();
+            $customer->customer_name = $request->new_customer_name;
+            $customer->customer_mobile = $request->new_customer_mobile;
+            $customer->save();
+            $customerId = $customer->id;
+        } else {
+            $customerId = $request->customer_id;
+        }
+
+
+        $invoice->customer_id = $customerId;
         $invoice->branch_id = $request->branch_id;
         $invoice->invoice_note = $request->invoice_note;
         $invoice->discount_percentage = $request->discount_percentage;
@@ -112,7 +125,6 @@ class InvoicesController extends Controller
         $invoiceId = $invoice->id;
         $product = $request->product;
         $date = $request->later;
-        $customerId = $request->customer_id;
 
         $updateStock = 1;
 

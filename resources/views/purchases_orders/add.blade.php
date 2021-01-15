@@ -105,12 +105,13 @@
                         <div class="form-body">
                             <h4 class="form-section"><i class="la la-flag"></i> أمر شراء جديد</h4>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6" style="border-left: 6px solid #28d094;
+                                height: 140px;">
                                     <div class="form-group">
                                         <div class="text-bold-600 font-medium-2">
                                          اختر المورد
                                         </div>
-                                        <select class="select2-rtl form-control" data-placeholder="إختر المورد..." name="supplier_id"   required>
+                                        <select class="select2-rtl form-control" data-placeholder="إختر المورد..." name="supplier_id" id="supplier_id"   required>
                                             <option></option>
                                             @foreach ($suppliers as $supplier)
                                             <option value="{{$supplier->id}}">{{$supplier->supplier_name}}
@@ -122,7 +123,22 @@
                                         </select>
                                       </div>
                                 </div>
-
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="text-bold-600 font-medium-2">
+                                         مورد جديد
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="new_supplier_name" id="new_supplier_name" placeholder="اسم المورد" onblur="return chooseSupplierType()"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="new_supplier_mobile" id="new_supplier_mobile" placeholder="موبايل المورد"  onblur="return chooseSupplierType()"/>
+                                            <small id="supplierHelp" class="text-danger" style="display: none">
+                                                هذا الرقم مسجل بالفعل
+                                              </small>
+                                        </div>
+                                      </div>
+                                </div>
                             </div>
 
 
@@ -520,7 +536,7 @@
             <div class="card-content collapse show">
                 <div class="card-body">
                     {{-- <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button> --}}
-                    <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> إضافة</button>
+                    <button type="submit" class="btn btn-outline-primary btn-block" id="saveBtn"><i class="la la-check-square-o"></i> إضافة</button>
 
                 </div>
             </div>
@@ -569,6 +585,57 @@ function numbersOnly(input){
     input.value = input.value.replace(/(\..*)\./g, '$1');
 }
 
+
+function chooseSupplierType(){
+    newSupplierName = $('#new_supplier_name').val().length;
+    newSupplierMobile = $('#new_supplier_mobile').val().length;
+    OldSupplierSelect = $('#supplier_id').val().length;
+    if (newSupplierName > 0 ) {
+
+        $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+        }
+                    });
+    var formData = {
+        supplier_mobile: $('#new_supplier_mobile').val(),
+    };
+    var type = "POST";
+        var ajaxurl = "{{route('suppliers.checksupplier')}}";
+    $.ajax({
+        type: type,
+        url: ajaxurl,
+        data: formData,
+        dataType: 'json',
+        success: function (data) {
+            if(data.data > 0){
+                $('#supplierHelp').css('display','block');
+                $('#new_supplier_mobile').addClass('is-invalid');
+                $('#new_supplier_mobile').removeClass('is-valid');
+                $("#saveBtn").prop("disabled",true);
+            }else{
+                $('#supplierHelp').css('display','none');
+                $('#new_supplier_mobile').addClass('is-valid');
+                $('#new_supplier_mobile').removeClass('is-invalid');
+                $("#saveBtn").prop("disabled",false);
+            }
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+
+
+
+        $("#supplier_id").attr({"required" : false });
+        $("#new_supplier_name").attr({"required" : true });
+        $("#new_supplier_mobile").attr({"required" : true });
+    }else{
+        $("#supplier_id").attr({"required" : true });
+        $("#new_supplier_name").attr({"required" : false });
+        $("#new_supplier_mobile").attr({"required" : false });
+    }
+}
 
 
 
