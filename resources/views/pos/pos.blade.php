@@ -400,24 +400,68 @@
                                         </tbody>
                                     </table>
                                     @else
-                                    <div class="div" style="text-align: center">
+                                    <div class="div" style="text-align: center" id="new_customer_1">
                                     <h2>عميل زائر</h2>
                                     <hr/>
                                     <p>تسجيل عميل جديد؟</p>
                                     <hr/>
                                     </div>
-                                    <div class="div" style="text-align: right">
+                                    <div class="div" style="text-align: right"  id="new_customer_2">
+                                        <div class="alert alert-icon-left alert-danger alert-dismissible mb-2" role="alert" style="display: none" id="new_customer_error">
+                                            <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                            <strong>خطأ!</strong> هذا الرقم مستخدم بالفعل, برجاء اختيار رقم موبايل اخر
+                                        </div>
                                     <div class="form-group">
                                         <label>اسم العميل</label>
-                                        <input type="text" name="" placeholder="" class="form-control" />
+                                        <input type="text" name="new_customer_name" placeholder="" class="form-control" id="new_customer_name"/>
                                     </div>
                                     <div class="form-group">
                                         <label>موبايل العميل</label>
-                                        <input type="text" name="" placeholder="" class="form-control" />
+                                        <input type="text" name="new_customer_mobile" placeholder="" class="form-control" id="new_customer_mobile"/>
                                     </div>
                                     <div class="form-group">
-                                    <button type="button" class="btn btn-block btn-dark">حفظ</button>
+                                    <button type="button" id="addCustomerBtn" onclick="return addCustomer();" class="btn btn-block btn-dark">حفظ</button>
                                     </div>
+                                </div>
+                                <div  id="new_customer_3" style="display: none">
+                                <span class="text-success">تم تسجيل بيانات العميل بنجاح</span>
+                                <table class="table" style="text-align: right">
+
+                                    <tbody>
+                                        <tr>
+                                            <th>إسم العميل</th>
+                                            <td><span id="saved_name"></span></td>
+                                         </tr>
+                                        <tr>
+                                            <th>رقم الموبايل</th>
+                                            <td><span id="saved_mobile"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>التليفون:</th>
+                                            <td><small style="font-style: italic;color:red;">غير مسجل</small></td>
+                                          </tr>
+                                          <tr>
+                                             <th>الايميل:</th>
+                                             <td><small style="font-style: italic;color:red;">غير مسجل</small></td>
+                                          </tr>
+
+                                          <tr>
+                                             <th>العنوان:</th>
+                                             <td><small style="font-style: italic;color:red;">غير مسجل </small></td>
+                                          </tr>
+                                          <tr>
+                                            <th>عدد مرات التعامل السابقة:</th>
+                                            <td>0</td>
+                                         </tr>
+                                         <tr>
+                                            <th>الأكثر طلبا للعميل:</th>
+                                            <td></td>
+                                         </tr>
+                                    </tbody>
+                                </table>
                                 </div>
                                     @endif
                                 </div>
@@ -647,37 +691,45 @@ function reCalculate(productId,oldTotalPrice,newTotalPrice) {
 
 }
 
-// function refreshCart(){
-// $('#cart').find('tbody').empty();
-// $.ajaxSetup({
-//             headers: {
-//                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-//             }
-//                     });
-//             var formData = {
-//                 sess: {{$sessionId}},
-//             };
-//             var type = "POST";
-//             var ajaxurl =   
-//             $.ajax({
-//             type: type,
-//             url: ajaxurl,
-//             data: formData,
-//             dataType: 'json',
-//             success: function (data) {
-//                 for(var i = 0; i < data.data.length; i++){
+function addCustomer(){
+    $('#addCustomerBtn').attr('disabled',true);
+$.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+            }
+                    });
+            var formData = {
+                customer_name: $('#new_customer_name').val(),
+                customer_mobile: $('#new_customer_mobile').val(),
+                session: {{$sessionId}},
+            };
+            var type = "POST";
+            var ajaxurl = "{{route('pos.quickadd')}}";
+            $.ajax({
+            type: type,
+            url: ajaxurl,
+            data: formData,
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                if(data.data > 0){
+                    $('#saved_name').text($('#new_customer_name').val());
+                    $('#saved_mobile').text($('#new_customer_mobile').val());
+                $('#new_customer_1').css('display','none');
+                $('#new_customer_2').css('display','none');
+                $('#new_customer_3').css('display','block');
+                }else{
+                    $('#new_customer_error').css('display','block');
+                }
+                $('#addCustomerBtn').attr('disabled',false);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
 
-//                 $('#cart').find('tbody').append('<tr><td><figure class="media"><figcaption class="media-body"><h6 class="title text-truncate">'+data.data[i].product_name+'</h6></figcaption></figure></td><td class="text-center"><div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="..."><button type="button" class="m-btn btn btn-default btn-xs" onclick="return decrementProduct('+data.data[i].product_id+')"><i class="fa fa-minus"></i></button><button type="button" class="m-btn btn btn-default btn-xs" disabled>'+data.data[i].product_qty+'</button><button type="button" class="m-btn btn btn-default"  onclick="return incrementProduct('+data.data[i].product_id+')"><i class="fa fa-plus"></i></button></div></td><td><div class="price-wrap"><var class="price">'+data.data[i].product_price * data.data[i].product_qty+' ج.م</var></div></td><td class="text-right"><a href="#" class="btn btn-outline-danger" onclick="return removeFromCart('+data.data[i].product_id+')"> <i class="fa fa-trash"></i></a></td></tr>');
-//                     refreshSummary();
-//                 }
-//             },
-//             error: function (data) {
-//                 console.log(data);
-//             }
-//         });
 
-
-// }
+}
 
 
 function addToCart(productId,productName,productPrice){

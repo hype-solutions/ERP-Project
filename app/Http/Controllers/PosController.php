@@ -25,6 +25,12 @@ class PosController extends Controller
 
     public function start(Request $request)
     {
+        $checkMobile = Customers::where('customer_mobile',$request->customer_mobile)->first();
+            if($checkMobile){
+                return back()->with('error','phone not unique');
+            }else{
+
+
         $customerId = 0;
         $user = Auth::user();
         $user_id = $user->id;
@@ -47,6 +53,7 @@ class PosController extends Controller
         $session->save();
         $newSessionId = $session->id;
         return redirect()->route('pos.index', $newSessionId);
+    }
     }
 
     public function landing()
@@ -169,11 +176,23 @@ class PosController extends Controller
         // return 1;
     }
 
-    public function refreshcart(Request $request)
+    public function quickadd(Request $request)
     {
-        $pos_session_id = $request->sess;
-        $cart = Cart::where('pos_session_id', $pos_session_id)->get();
-        return response()->json(array('data' => $cart), 200);
+        $checkMobile = Customers::where('customer_mobile',$request->customer_mobile)->first();
+        if($checkMobile){
+            return response()->json(array('data' => 0), 200);
+        }else{
+        $customer = new Customers();
+        $customer->customer_name = $request->customer_name;
+        $customer->customer_mobile = $request->customer_mobile;
+        $customer->save();
+
+        $update = PosSessions::find($request->session);
+        $update->customer_id = $customer->id;
+        $update->save();
+
+        return response()->json(array('data' => $customer->id), 200);
+        }
     }
 
     // public function increment(Request $request)

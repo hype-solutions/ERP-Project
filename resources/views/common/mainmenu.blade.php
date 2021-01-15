@@ -15,7 +15,7 @@
         </li> --}}
         <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/menu/1.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>البيع</a>
           <ul class="menu-content">
-            <li><a class="menu-item" href="{{route('pos.landing')}}"><i class="la la-arrows-v"></i><span data-i18n="Vertical">نقاط البيع</span></a>
+            <li><a class="menu-item" href="{{route('pos.landing')}}"><i class="la la-arrows-v"></i><span data-i18n="Vertical">بيع سريع</span></a>
 
               </li>
             <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">عروض أسعار</span></a>

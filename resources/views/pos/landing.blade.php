@@ -54,6 +54,17 @@
 
 
 <section class="users-list-wrapper">
+    @if(session()->has('error'))
+    @if(session()->get('error') == 'phone not unique' )
+<div class="alert alert-icon-left alert-danger alert-dismissible mb-2" role="alert">
+    <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+    <strong>خطأ!</strong> هذا الرقم مستخدم بالفعل, برجاء اختيار رقم موبايل اخر
+</div>
+    @endif
+@endif
     <form action="{{ route('pos.start') }}" method="POST" id="start">
         @csrf
         <input type="hidden" name="type" id="type" value="3"/>
@@ -144,7 +155,7 @@
                     <div class="card text-white bg-danger text-center" style="height: 217px;">
                         <div class="card-content">
                             <div class="card-body">
-                                <h4 class="card-title text-white">توصيل الطلبات</h4>
+                                <h4 class="card-title text-white">شحن طلبات</h4>
                                 <p class="card-text">قريبا</p>
                                 <br>
                                 <button class="btn btn-primary btn-darken-3 btn-block" disabled style="bottom: 0;position: absolute;right: 0;">عملية جديدة</button>

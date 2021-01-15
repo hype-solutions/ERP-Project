@@ -133,6 +133,7 @@ Route::post('/pos/barcode', [PosController::class, 'barcode'])->name('pos.barcod
 Route::post('/pos/start', [PosController::class, 'start'])->name('pos.start');
 Route::post('/pos/finish', [PosController::class, 'finish'])->name('pos.finish');
 Route::get('/pos/receipt/{sessionId}', [PosController::class, 'receipt'])->name('pos.receipt');
+Route::post('/customers/quickadd', [PosController::class, 'quickadd'])->name('pos.quickadd');
 
 /*************************
  ******* Projects ********
