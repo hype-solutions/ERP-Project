@@ -153,11 +153,13 @@
                                 </div>
 
 
+
                     </div>
                     <div class="row" >
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="timesheetinput2">سعر البيع</label>
+                                <span style="color:red">*</span>
                                 <div class="position-relative has-icon-left">
                                     <input type="number" id="timesheetinput2" class="form-control"  name="product_price" required>
                                     <div class="form-control-position">

@@ -67,7 +67,8 @@ class ProductsController extends Controller
     public function add()
     {
         $categories = ProductsCategories::all();
-        return view('products.add',compact('categories'));
+        $branches = Branches::all();
+        return view('products.add',compact('categories','branches'));
     }
 
     public function store()

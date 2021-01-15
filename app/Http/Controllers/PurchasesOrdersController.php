@@ -431,6 +431,6 @@ class PurchasesOrdersController extends Controller
 
 
 
-        return back();
+        return redirect()->route('purchasesorders.purchasesordersList');
     }
 }
