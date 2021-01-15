@@ -116,6 +116,15 @@ $mostOrdered = InvoicesProducts::with('product')
         return redirect('/customers')->with('success', 'Customer deleted');
     }
 
+    public function checkcustomer(Request $request){
+        $checkMobile = Customers::where('customer_mobile',$request->customer_mobile)->first();
+        if($checkMobile){
+            return response()->json(array('data' => 1), 200);
+        }else{
+            return response()->json(array('data' => 0), 200);
+    }}
+
+
     public function customersList()
     {
         $customers = Customers::all();

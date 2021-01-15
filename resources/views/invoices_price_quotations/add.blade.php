@@ -132,6 +132,9 @@
                                         </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="new_customer_mobile" id="new_customer_mobile" placeholder="موبايل العميل"  onblur="return chooseCustomerType()"/>
+                                            <small id="customerHelp" class="text-danger" style="display: none">
+                                                هذا الرقم مسجل بالفعل
+                                              </small>
                                         </div>
                                       </div>
                                 </div>
@@ -349,7 +352,7 @@
         <div class="card">
             <div class="card-content collapse show">
                 <div class="card-body">
-                     <button type="submit" class="btn btn-outline-primary btn-block"><i class="la la-check-square-o"></i> إضافة</button>
+                     <button type="submit" id="saveBtn" class="btn btn-outline-primary btn-block"><i class="la la-check-square-o"></i> إضافة</button>
 
                 </div>
             </div>
@@ -392,6 +395,42 @@ function chooseCustomerType(){
     newCustomerMobile = $('#new_customer_mobile').val().length;
     OldCustomerSelect = $('#customer_id').val().length;
     if (newCustomerName > 0 ) {
+
+        $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+        }
+                    });
+    var formData = {
+        customer_mobile: $('#new_customer_mobile').val(),
+    };
+    var type = "POST";
+        var ajaxurl = "{{route('customers.checkcustomer')}}";
+    $.ajax({
+        type: type,
+        url: ajaxurl,
+        data: formData,
+        dataType: 'json',
+        success: function (data) {
+            if(data.data > 0){
+                $('#customerHelp').css('display','block');
+                $('#new_customer_mobile').addClass('is-invalid');
+                $('#new_customer_mobile').removeClass('is-valid');
+                $("#saveBtn").prop("disabled",true);
+            }else{
+                $('#customerHelp').css('display','none');
+                $('#new_customer_mobile').addClass('is-valid');
+                $('#new_customer_mobile').removeClass('is-invalid');
+                $("#saveBtn").prop("disabled",false);
+            }
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+
+
+
         $("#customer_id").attr({"required" : false });
         $("#new_customer_name").attr({"required" : true });
         $("#new_customer_mobile").attr({"required" : true });

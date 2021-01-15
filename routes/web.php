@@ -49,6 +49,7 @@ Route::get('/customers/view/{customer}', [CustomersController::class, 'view'])->
 Route::get('/customers/edit/{customer}', [CustomersController::class, 'edit'])->name('customers.edit');
 Route::patch('/customers/update/{customer}', [CustomersController::class, 'update'])->name('customers.update');
 Route::delete('/customers/delete/{customer}', [CustomersController::class, 'delete'])->name('customers.delete');
+Route::post('/customers/checkcustomer', [CustomersController::class, 'checkcustomer'])->name('customers.checkcustomer');
 
 
 /**************************
