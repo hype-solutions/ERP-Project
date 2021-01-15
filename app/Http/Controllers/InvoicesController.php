@@ -87,6 +87,7 @@ class InvoicesController extends Controller
 
 
         $invoice->customer_id = $customerId;
+        $invoice->invoice_paper_num = $request->invoice_paper_num;
         $invoice->branch_id = $request->branch_id;
         $invoice->invoice_note = $request->invoice_note;
         $invoice->discount_percentage = $request->discount_percentage;
