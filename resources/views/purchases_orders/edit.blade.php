@@ -335,6 +335,13 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
+                    <script type="text/javascript">
+                        function pay(url) {
+                            popupWindow = window.open(
+                            url,'popUpWindow','height=700,width=300,left=10,top=10,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no')
+                        }
+
+                        </script>
                     <div class="col-md-6">
                         @if($purchaseOrder->already_paid)
                         <h2 class="text-success"><span class="la la-check-circle"></span>تم الدفع</h2>
@@ -360,23 +367,15 @@
                         </select>
                     </div>
                     </div>
-                    <div class="col-md-3" @if($purchaseOrder->already_paid) style="display: block" @else style="display: none" @endif  id="yesPaid">
+                    <div class="col-md-6" @if($purchaseOrder->already_paid) style="display: block" @else style="display: none" @endif  id="yesPaid">
                         @if($purchaseOrder->payment_method !='later')
                         <div class="form-group">
-                            <a href="#" class="btn btn-info" target="_blank">استعراض الفاتورة</a>
+                            <button type="button" class="btn btn-dark" onclick="return pay('{{route('safes.receipt',$purchaseOrder->safe_payment_id)}}');">استعراض إيصال الدفع</button>
                         <input type="hidden" class="form-control" name="safe_payment_id" value="{{$purchaseOrder->safe_payment_id}}"/>
                     </div>
                     @endif
                     </div>
-                    <div class="col-md-3" @if($purchaseOrder->already_paid) style="display: block" @else style="display: none" @endif id="yesPaid2">
-                        @if($purchaseOrder->payment_method !='later')
-                        <div class="form-group">
-                            <a href="#" class="btn btn-dark" target="_blank">طباعة الفاتورة</a>
 
-
-                    </div>
-                    @endif
-                    </div>
                 </div>
             </div>
         </div>
@@ -483,8 +482,7 @@
                             @if($item->paid != 'No')
                         <p class="text-success"> <input type="checkbox" name="later[{{$key2+1}}][paynow]" checked onclick="return false;"/> تم الدفع</p>
                         <p><label>رقم فاتورة الدفع: </label> {{$item->safe_payment_id}}</p>
-                        <a href="#" class="btn btn-info" target="_blank">استعراض الفاتورة</a>
-                        <a href="#" class="btn btn-dark" target="_blank">طباعة الفاتورة</a>
+                        <button class="btn btn-dark" type="button" onclick="return pay('{{route('safes.receipt',$item->safe_payment_id)}}');">استعراض الفاتورة</button>
                         <input type="hidden" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later[{{$key2+1}}][safe_payment_id]" value="{{$item->safe_payment_id}}">
                         <input type="hidden" name="later[{{$key2+1}}][safe_id]" value="{{$item->safe_id}}">
                             @else

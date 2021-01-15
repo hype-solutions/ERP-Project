@@ -211,8 +211,8 @@
                                           </div>
                                     </td>
                                     <td><input type="text" class="product_input" name="product[1][desc]"/></td>
-                                    <td><input type="number" class="product_input" id="p_p_1" name="product[1][price]" onblur="return reCalculate(1)" min="0"/></td>
-                                    <td><input type="number" class="product_input" id="p_q_1" name="product[1][qty]" onblur="return reCalculate(1)" min="0" placeholder="0"/></td>
+                                    <td><input type="number" class="product_input" id="p_p_1" name="product[1][price]" onblur="return reCalculate(1)" min="0" required/></td>
+                                    <td><input type="number" class="product_input" id="p_q_1" name="product[1][qty]" onblur="return reCalculate(1)" min="0" placeholder="0" required/></td>
                                     <td>
                                         <span id="tot_1">0</span> ج.م
                                     </td>
@@ -456,7 +456,7 @@
     <div class="col-md-12" id="later_box" style="display: none">
         <div class="card">
             <div class="card-body">
-
+           <span class="text-danger" style="display: none" id="dof3aError">إجمالي الدفعات لا تساوي إجمالي المبلغ</span>
         <div >
             <h4 class="form-section"><i class="la la-flag"></i> الدفعات <button onclick="addDofaa()" type="button" class="btn btn-success btn-sm"><i class="la la-plus"></i></button></h4>
             <div class="table-responsive">
@@ -472,12 +472,12 @@
                     <tr>
                         <th scope="row">
                             <div class="form-group">
-                                <input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later[1][amount]" value="0">
+                                <input type="number" id="" class="form-control dof3aSum" placeholder="أدخل المبلغ" name="later[1][amount]" value="0">
                             </div>
                         </th>
                         <td>
                             <fieldset class="form-group">
-                            <input type="date" class="form-control" id="date" value="2020-08-19" name="later[1][date]">
+                            <input type="date" class="form-control" name="later[1][date]" required>
                         </fieldset>
                         <fieldset class="form-group">
                             <div class="labrl">الملاحظات</div>
@@ -486,44 +486,14 @@
                     </td>
 
                         <td>
-                            {{-- <fieldset class="checkboxsas">
-                                <label>
-                                    مدفوعه مسبقا
-                                  <input type="checkbox" name="later[1][paid]"  onchange="return laterPaid(1)">
-                                </label>
-                            </fieldset> --}}
                             <fieldset class="checkboxsas">
                                 <label>
                                     دفع الان
                                   <input type="checkbox" name="later[1][paynow]">
                                 </label>
                             </fieldset>
-                            {{-- <div id="later_dates_1" style="display:none;">
-                            <div class="form-group">
-                                <div class="label">رقم العملية في الخزنة:</div>
-                                <input type="text" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later[1][safe_payment_id]">
-                            </div>
-                            <div class="form-group">
-                                <label for="projectinput3">الخزنة:</label>
-                                <select class="select2-rtl form-control" data-placeholder="تعديل" name="later[1][safe_id]">
-                                    <option></option>
-                                    @foreach ($safes as $safe)
-                                    <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            </div> --}}
-                            {{-- <div id="pay_now_1" style="display:none;">
-                                <div class="form-group">
-                                    <label for="projectinput3">توريد:</label>
-                                    <select class="select2-rtl form-control" data-placeholder="تعديل" name="later[1][safe_id]">
-                                        <option></option>
-                                        @foreach ($safes as $safe)
-                                        <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                </div> --}}
+
+
                         </td>
                     </tr>
 
@@ -591,7 +561,23 @@
 
 
 
+$(document).on("keyup", ".dof3aSum", function() {
+    var sum = 0;
+    var total = $('#total_after_all2').text();
+    total = parseInt(total);
+    $(".dof3aSum").each(function(){
+        sum += +$(this).val();
+    });
+    if(total != sum){
+        $('#dof3aError').css('display','block');
+        $('#saveBtn').attr('disabled',true);
+    }else{
+        $('#dof3aError').css('display','none');
+        $('#saveBtn').attr('disabled',false);
 
+
+    }
+});
 
 function chooseCustomerType(){
     newCustomerName = $('#new_customer_name').val().length;
@@ -647,6 +633,14 @@ function chooseCustomerType(){
 
 
 
+function payNow(row){
+    if($('#pay_now_'+row+':visible').length == 0)
+        {
+            $('#pay_now_'+row).show();
+        }else{
+            $('#pay_now_'+row).hide();
+        }
+}
 
 
 
@@ -919,17 +913,20 @@ if (this.value == 'later') {
   $('#other_box').hide();
   $('#later_box').show();
   $('#hasPaid').prop( "checked", false );
+  $('#saveBtn').attr('disabled',true);
 
 } else if (this.value == 'cash' || this.value == 'visa' || this.value == 'bankTransfer') {
   //$('#init_box').hide();
   $('#later_box').hide();
   $('#other_box').show();
   $('#hasPaid').prop( "checked", true );
+  $('#saveBtn').attr('disabled',false);
 } else {
   $('#later_box').hide();
   $('#other_box').hide();
   $('#init_box').show();
   $('#hasPaid').prop( "checked", false );
+  $('#saveBtn').attr('disabled',false);
 }
 });
 
@@ -943,10 +940,10 @@ var currentRow = dofaaTable.insertRow(-1);
 
 
 var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = '<div class="form-group"><input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later['+currentIndex+'][amount]" value="0" required></div>';
+currentCell.innerHTML = '<div class="form-group"><input type="number" id="" class="form-control dof3aSum" placeholder="أدخل المبلغ" name="later['+currentIndex+'][amount]" value="0" required></div>';
 
 var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="form-control" id="date" value="2011-08-19" name="later['+currentIndex+'][date]"></fieldset><fieldset class="form-group"><textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later['+currentIndex+'][notes]"></textarea></fieldset>';
+currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="form-control"  name="later['+currentIndex+'][date]" required></fieldset><fieldset class="form-group"><textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later['+currentIndex+'][notes]"></textarea></fieldset>';
 
 var currentCell = currentRow.insertCell(-1);
 //currentCell.innerHTML = '<fieldset class="checkboxsas"><label><input type="checkbox" name="later['+currentIndex+'][paid]">مدفوعه</label></fieldset>';
@@ -1024,6 +1021,7 @@ var product_price = document.createElement("input");
 product_price.setAttribute("name", "product[" + currentIndex + "][price]");
 product_price.setAttribute("type", "number");
 product_price.setAttribute("min", "0");
+product_price.setAttribute("required", true);
 product_price.setAttribute("class", "product_input");
 product_price.setAttribute("id", "p_p_" + currentIndex);
 product_price.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
@@ -1032,6 +1030,7 @@ var product_qty = document.createElement("input");
 product_qty.setAttribute("name", "product[" + currentIndex + "][qty]");
 product_qty.setAttribute("type", "number");
 product_qty.setAttribute("min", "0");
+product_qty.setAttribute("required", true);
 product_qty.setAttribute("class", "product_input");
 product_qty.setAttribute("id", "p_q_" + currentIndex);
 product_qty.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");

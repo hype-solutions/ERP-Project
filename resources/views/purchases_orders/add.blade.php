@@ -353,7 +353,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display: none">
                          <fieldset class="checkboxsas">
                             <label>
                               <input type="checkbox" name="already_paid" id="hasPaid">
@@ -364,10 +364,10 @@
                     </div>
                     <div class="col-md-6" id="notPaid">
                         <div class="form-group">
-                            <label class="text-warning">في حالة عدم الدفع المسبق للمبلغ بالكامل
+                            {{-- <label class="text-warning">في حالة عدم الدفع المسبق للمبلغ بالكامل
                                 <br>
                                  برجاء اختيار طريقة الدفع و ادخال البيانات من هنا
-                                </label>
+                                </label> --}}
                         <select class="form-control" id="payment_method" name="payment_method" required>
                             <option value="">إختر طريقة الدفع</option>
                             <option value="cash">كاش</option>
@@ -439,7 +439,7 @@
     <div class="col-md-12" id="later_box" style="display: none">
         <div class="card">
             <div class="card-body">
-
+                <span class="text-danger" style="display: none" id="dof3aError">إجمالي الدفعات لا تساوي إجمالي المبلغ</span>
         <div >
             <h4 class="form-section"><i class="la la-flag"></i> الدفعات <button onclick="addDofaa()" type="button" class="btn btn-success btn-sm"><i class="la la-plus"></i></button></h4>
             <div class="table-responsive">
@@ -455,7 +455,7 @@
                     <tr>
                         <th scope="row">
                             <div class="form-group">
-                                <input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later[1][amount]" value="0">
+                                <input type="number" id="" class="form-control dof3aSum" placeholder="أدخل المبلغ" name="later[1][amount]" value="0">
                             </div>
                         </th>
                         <td>
@@ -484,28 +484,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            {{-- <fieldset class="checkboxsas">
-                                <label>
-                                    مدفوعه
-                                  <input type="checkbox" name="later[1][paid]"  onchange="return laterPaid(1)">
-                                </label>
-                            </fieldset> --}}
-                            {{-- <div id="later_dates_1" style="display:none;">
-                            <div class="form-group">
-                                <div class="label">رقم العملية في الخزنة:</div>
-                                <input type="text" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later[1][safe_payment_id]">
-                            </div>
-                            <div class="form-group">
-                                <label for="projectinput3">خصمت من:</label>
-                                <select class="select2-rtl form-control" data-placeholder="تعديل" name="later[1][safe_id]">
-                                    <option></option>
-                                    @foreach ($safes as $safe)
-                                    <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            </div>
---}}
+
                         </td>
                     </tr>
 
@@ -573,6 +552,25 @@
     <script>
 
 
+
+
+$(document).on("keyup", ".dof3aSum", function() {
+    var sum = 0;
+    var total = $('#total_after_all2').text();
+    total = parseInt(total);
+    $(".dof3aSum").each(function(){
+        sum += +$(this).val();
+    });
+    if(total != sum){
+        $('#dof3aError').css('display','block');
+        $('#saveBtn').attr('disabled',true);
+    }else{
+        $('#dof3aError').css('display','none');
+        $('#saveBtn').attr('disabled',false);
+
+
+    }
+});
 
 CKEDITOR.ClassicEditor.create( document.querySelector( '#terms-conditions' ) ).catch( error => {console.error( error );} );
 
@@ -822,7 +820,7 @@ var currentRow = dofaaTable.insertRow(-1);
 
 
 var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = '<div class="form-group"><input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later['+currentIndex+'][amount]" value="0" required></div>';
+currentCell.innerHTML = '<div class="form-group"><input type="number" id="" class="form-control dof3aSum" placeholder="أدخل المبلغ" name="later['+currentIndex+'][amount]" value="0" required></div>';
 
 var currentCell = currentRow.insertCell(-1);
 currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="form-control" id="date"  name="later['+currentIndex+'][date]"></fieldset><fieldset class="form-group"><textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later['+currentIndex+'][notes]"></textarea></fieldset>';

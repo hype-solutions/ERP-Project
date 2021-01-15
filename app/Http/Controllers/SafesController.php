@@ -204,4 +204,9 @@ class SafesController extends Controller
         return $otherSafes;
     }
 
+    public function receipt(SafesTransactions $transactionId){
+
+        return view('safes.receipt', compact('transactionId'));
+    }
+
 }

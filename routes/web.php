@@ -177,6 +177,7 @@ Route::get('/safes/deposit/{safe}', [SafesController::class, 'deposit'])->name('
 Route::get('/safes/withdraw/{safe}', [SafesController::class, 'withdraw'])->name('safes.withdraw');
 Route::post('/safes/depositing', [SafesController::class, 'depositing'])->name('safes.depositing');
 Route::post('/safes/withdrawing', [SafesController::class, 'withdrawing'])->name('safes.withdrawing');
+Route::get('/safes/receipt/{transactionId}', [SafesController::class, 'receipt'])->name('safes.receipt');
 
 
 /*************************

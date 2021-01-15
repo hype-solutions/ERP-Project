@@ -48,7 +48,7 @@ class InvoicesController extends Controller
         $safes = Safes::all();
         $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
         $laterDates = InvoicesPayments::where('invoice_id', $invoice->id)->get();
-        return view('invoices.profile', compact('laterDates','currentProducts','invoice','user_id', 'customers', 'products', 'safes', 'branches'));
+        return view('invoices.profile', compact('laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
     }
 
     public function edit(Invoices $invoice)
@@ -60,9 +60,10 @@ class InvoicesController extends Controller
         $currentProducts = InvoicesProducts::where('invoice_id', $invoice->id)->get();
         $products = Products::all();
         $safes = Safes::all();
+        $safes2 = Safes::all();
         $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
         $laterDates = InvoicesPayments::where('invoice_id', $invoice->id)->get();
-        return view('invoices.edit', compact('laterDates','currentProducts','invoice','user_id', 'customers', 'products', 'safes', 'branches'));
+        return view('invoices.edit', compact('safes2', 'laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
     }
 
 
@@ -74,8 +75,8 @@ class InvoicesController extends Controller
         $safe_id = Safes::where('branch_id', $request->branch_id)->value('id');
         $invoice = new Invoices;
 
-         // Get Branch Safe ID
-         if ($request->new_customer_name != '') {
+        // Get Branch Safe ID
+        if ($request->new_customer_name != '') {
             $customer = new Customers();
             $customer->customer_name = $request->new_customer_name;
             $customer->customer_mobile = $request->new_customer_mobile;
@@ -95,9 +96,13 @@ class InvoicesController extends Controller
         $invoice->invoice_tax = $request->tax;
         $invoice->payment_method = $request->payment_method;
         $invoice->invoice_date = Carbon::now();
+        $invoice->invoice_total = $request->invoice_total;
+        $invoice->shipping_fees = $request->shipping_fees;
+        $invoice->sold_by = $request->sold_by;
+        $invoice->authorized_by = $request->sold_by;
+
         if ($request->already_paid == 'on') {
             $invoice->already_paid = 1;
-
             $payment = new SafesTransactions();
             $payment->safe_id = $safe_id;
             $payment->transaction_type = 2;
@@ -107,7 +112,6 @@ class InvoicesController extends Controller
             $payment->authorized_by = $request->sold_by;
             $payment->save();
             $payment_id = $payment->id;
-
             $invoice->safe_id = $safe_id;
             $invoice->safe_transaction_id = $payment->id;
             $updateLater = 1;
@@ -117,48 +121,20 @@ class InvoicesController extends Controller
             $invoice->already_paid = 0;
         }
 
-        $invoice->invoice_total = $request->invoice_total;
-        $invoice->shipping_fees = $request->shipping_fees;
-        $invoice->sold_by = $request->sold_by;
-        $invoice->authorized_by = $request->sold_by;
         $invoice->save();
 
         $invoiceId = $invoice->id;
         $product = $request->product;
         $date = $request->later;
 
-        $updateStock = 1;
-
-        if (isset($updateStock)) {
-            if ($updateStock == 1) {
-
-                //Save Items
-                $listOfProductsx = [];
-                foreach ($product as $item) {
-
-                    //search for products at branches
-                    $checkIfRecordExsists = BranchesProducts::where('branch_id', $request->branch_id)
-                        ->where('product_id', $item['id'])
-                        ->first();
-
-                    Products::where('id', $item['id'])->increment('product_total_out', $item['qty']);
-
-
-                    if (isset($checkIfRecordExsists)) {
-                        BranchesProducts::where('product_id', $item['id'])
-                            ->where('branch_id', $request->branch_id)
-                            ->decrement('amount', $item['qty']);
-                    } else {
-                        $prox = new BranchesProducts();
-                        $prox->branch_id = $request->branch_id;
-                        $prox->product_id = $item['id'];
-                        $prox->amount = $item['qty'];
-                        $prox->save();
-                        $listOfProductsx[] = $prox;
-                    }
-                }
-            }
+        //Save Items
+        foreach ($product as $item) {
+            Products::where('id', $item['id'])->increment('product_total_out', $item['qty']);
+            BranchesProducts::where('product_id', $item['id'])
+                ->where('branch_id', $request->branch_id)
+                ->decrement('amount', $item['qty']);
         }
+
 
         if (isset($updateLater)) {
             if ($updateLater == 1) {
@@ -177,11 +153,7 @@ class InvoicesController extends Controller
             $pro->product_desc = $item['desc'];
             $pro->product_price = $item['price'];
             $pro->product_qty = $item['qty'];
-            if (isset($updateStock)) {
-                if ($updateStock == 1) {
-                    $pro->status = 'shipped';
-                }
-            }
+            $pro->status = 'shipped';
             $pro->save();
             $listOfProducts[] = $pro;
         }
@@ -198,18 +170,19 @@ class InvoicesController extends Controller
                 if (!empty($item['paynow'])) {
                     $da->paid = 'Yes';
                     //pay here
-                        $payment = new SafesTransactions();
-                        $payment->safe_id = $safe_id;
-                        $payment->transaction_type = 2;
-                        $payment->transaction_amount = $item['amount'];
-                        $payment->transaction_datetime = Carbon::now();
-                        $payment->done_by = $request->sold_by;
-                        $payment->authorized_by = $request->sold_by;
-                        $payment->transaction_notes = 'قسط على فاتورة رقم' . $invoiceId;
-                        $payment->save();
-                        $payment_id = $payment->id;
+                    $payment = new SafesTransactions();
+                    $payment->safe_id = $safe_id;
+                    $payment->transaction_type = 2;
+                    $payment->transaction_amount = $item['amount'];
+                    $payment->transaction_datetime = Carbon::now();
+                    $payment->done_by = $request->sold_by;
+                    $payment->authorized_by = $request->sold_by;
+                    $payment->transaction_notes = 'قسط على فاتورة رقم' . $invoiceId;
+                    $payment->save();
+                    $payment_id = $payment->id;
                     $da->safe_id = $safe_id;
                     $da->safe_payment_id = $payment_id;
+                    Safes::where('id', $safe_id)->increment('safe_balance', $item['amount']);
                 } else {
                     $da->paid = 'No';
                 }
@@ -231,178 +204,151 @@ class InvoicesController extends Controller
 
     public function update(Request $request, $invoice)
     {
-// Get Branch Safe ID
-$safe_id = Safes::where('branch_id', $request->branch_id)->value('id');
-$invoice = Invoices::find($invoice);
-$invoice->customer_id = $request->customer_id;
-$invoice->branch_id = $request->branch_id;
-$invoice->invoice_note = $request->invoice_note;
-$invoice->discount_percentage = $request->discount_percentage;
-$invoice->invoice_tax = $request->tax;
-$invoice->discount_amount = $request->discount_amount;
-//$invoice->payment_method = $request->payment_method;
-$invoice->invoice_date = Carbon::now();
-// if ($request->already_paid == 'on') {
-//     $invoice->already_paid = 1;
+        // Get Branch Safe ID
+        $safe_id = Safes::where('branch_id', $request->branch_id)->value('id');
+        //Get invoice data and update it
+        $invoice = Invoices::find($invoice);
+        $invoice->customer_id = $request->customer_id;
+        $invoice->branch_id = $request->branch_id;
+        $invoice->invoice_note = $request->invoice_note;
+        $invoice->discount_percentage = $request->discount_percentage;
+        $invoice->invoice_tax = $request->tax;
+        $invoice->discount_amount = $request->discount_amount;
+        $invoice->payment_method = $request->payment_method;
+        $invoice->invoice_date = Carbon::now();
+        $invoice->invoice_total = $request->invoice_total;
+        $invoice->shipping_fees = $request->shipping_fees;
+        $invoice->sold_by = $request->sold_by;
+        $invoice->authorized_by = $request->sold_by;
 
-//     $payment = new SafesTransactions();
-//     $payment->safe_id = $safe_id;
-//     $payment->transaction_type = 2;
-//     $payment->transaction_amount = $request->invoice_total;
-//     $payment->transaction_notes = 'فاتورة مبيعات رقم  ' . $invoiceId;
-//     $payment->transaction_datetime = Carbon::now();
-//     $payment->done_by = $request->sold_by;
-//     $payment->authorized_by = $request->sold_by;
-//     $payment->save();
-//     $payment_id = $payment->id;
-
-//     $invoice->safe_id = $safe_id;
-//     $invoice->safe_transaction_id = $payment->id;
-//     $updateLater = 1;
-// } else {
-//     $invoice->safe_transaction_id = 0;
-//     $invoice->safe_id = 0;
-//     $invoice->already_paid = 0;
-// }
-
-$invoice->invoice_total = $request->invoice_total;
-$invoice->shipping_fees = $request->shipping_fees;
-$invoice->sold_by = $request->sold_by;
-$invoice->authorized_by = $request->sold_by;
-$invoice->save();
-
-$invoiceId = $invoice->id;
-$product = $request->product;
-$date = $request->later;
-$customerId = $request->customer_id;
-
-$updateStock = 1;
-
-if (isset($updateStock)) {
-    if ($updateStock == 1) {
-
-        //Save Items
-        $listOfProductsx = [];
-        foreach ($product as $item) {
-
-            //search for products at branches
-            $checkIfRecordExsists = BranchesProducts::where('branch_id', $request->branch_id)
-                ->where('product_id', $item['id'])
-                ->first();
-
-            Products::where('id', $item['id'])->increment('product_total_out', $item['qty']);
-
-
-            if (isset($checkIfRecordExsists)) {
-                BranchesProducts::where('product_id', $item['id'])
-                    ->where('branch_id', $request->branch_id)
-                    ->decrement('amount', $item['qty']);
+        //If already paid is checked
+        if ($request->already_paid == 'on') {
+            //If the invoice is paid before
+            if ($invoice->already_paid > 0) {
+                //Do nothing
             } else {
-                $prox = new BranchesProducts();
-                $prox->branch_id = $request->branch_id;
-                $prox->product_id = $item['id'];
-                $prox->amount = $item['qty'];
-                $prox->save();
-                $listOfProductsx[] = $prox;
-            }
-        }
-    }
-}
-
-// if (isset($updateLater)) {
-//     if ($updateLater == 1) {
-//         $edtPayment = SafesTransactions::find($payment_id);
-//         $edtPayment->transaction_notes = 'فاتورة مبيعات رقم  ' . $invoiceId;
-//         $edtPayment->save();
-//     }
-// }
-
-InvoicesProducts::where('invoice_id', $invoiceId)->delete();
-
-//Save Items
-$listOfProducts = [];
-foreach ($product as $item) {
-    $pro = new InvoicesProducts();
-    $pro->invoice_id = $invoiceId;
-    $pro->customer_id = $customerId;
-    $pro->product_id = $item['id'];
-    $pro->product_desc = $item['desc'];
-    $pro->product_price = $item['price'];
-    $pro->product_qty = $item['qty'];
-    if (isset($updateStock)) {
-        if ($updateStock == 1) {
-            $pro->status = 'shipped';
-        }
-    }
-    $pro->save();
-    $listOfProducts[] = $pro;
-}
-
-InvoicesPayments::where('invoice_id', $invoiceId)->delete();
-
-if ($invoice->payment_method == 'later') {
-    $listOfDates = [];
-    foreach ($date as $item) {
-        $da = new InvoicesPayments();
-        $da->invoice_id = $invoiceId;
-        $da->customer_id = $customerId;
-        $da->amount = $item['amount'];
-        $da->date = $item['date'];
-        $da->notes = $item['notes'];
-        if (!empty($item['paynow'])) {
-            $da->paid = 'Yes';
-            //pay here
+                $invoice->safe_id = $request->safe_id_not_paid;
                 $payment = new SafesTransactions();
-                $payment->safe_id = $safe_id;
+                $payment->safe_id = $request->safe_id_not_paid;
                 $payment->transaction_type = 2;
-                $payment->transaction_amount = $item['amount'];
+                $payment->transaction_amount = $request->invoice_total;
+                $payment->transaction_notes = 'فاتورة مبيعات رقم  ' . $invoice;
                 $payment->transaction_datetime = Carbon::now();
-                $payment->done_by = $request->sold_by;
-                $payment->authorized_by = $request->sold_by;
-                $payment->transaction_notes = 'قسط على فاتورة رقم' . $invoiceId;
+                $payment->done_by = 1;
+                $payment->authorized_by    = 1;
                 $payment->save();
                 $payment_id = $payment->id;
-            $da->safe_id = $safe_id;
-            $da->safe_payment_id = $payment_id;
+                $invoice->safe_transaction_id = $payment_id;
+                $invoice->already_paid = 1;
+            }
         } else {
-            $da->paid = 'No';
+            $invoice->safe_transaction_id = NULL;
+            $invoice->safe_id = NULL;
+            $invoice->already_paid = 0;
         }
-        $da->save();
-        $listOfDates[] = $da;
+        $invoice->save();
+
+        //Assigning variable to use
+        $invoiceId = $invoice->id;
+        $product = $request->product;
+        $date = $request->later;
+        $customerId = $request->customer_id;
+
+        //Save Items
+        foreach ($product as $item) {
+            //Updating stock
+            Products::where('id', $item['id'])
+                ->increment('product_total_out', $item['qty']);
+            BranchesProducts::where('product_id', $item['id'])
+                ->where('branch_id', $request->branch_id)
+                ->decrement('amount', $item['qty']);
+        }
+        //Delete old records
+        InvoicesProducts::where('invoice_id', $invoiceId)->delete();
+        //Save new records
+        $listOfProducts = [];
+        foreach ($product as $item) {
+            $pro = new InvoicesProducts();
+            $pro->invoice_id = $invoiceId;
+            $pro->customer_id = $customerId;
+            $pro->product_id = $item['id'];
+            $pro->product_desc = $item['desc'];
+            $pro->product_price = $item['price'];
+            $pro->product_qty = $item['qty'];
+            $pro->status = 'shipped';
+            $pro->save();
+            $listOfProducts[] = $pro;
+        }
+
+
+        if ($invoice->payment_method == 'later') {
+            //Delete old payment records
+            InvoicesPayments::where('invoice_id', $invoiceId)->delete();
+            //Save new payment records
+            $listOfDates = [];
+            foreach ($date as $item) {
+                $da = new InvoicesPayments();
+                $da->invoice_id = $invoiceId;
+                $da->customer_id = $customerId;
+                $da->amount = $item['amount'];
+                $da->date = $item['date'];
+                $da->notes = $item['notes'];
+                //If paynow is checked
+                if (!empty($item['paynow'])) {
+                    //If the user has paid before and transaction id is saved
+                    if (!empty($item['safe_payment_id'])) {
+                        $da->paid = 'Yes';
+                        $da->safe_payment_id = $item['safe_payment_id'];
+                        $da->safe_id = $safe_id;
+                    } else {
+                        $da->paid = 'Yes';
+                        $payment = new SafesTransactions();
+                        $payment->safe_id = $safe_id;
+                        $payment->transaction_type = 1;
+                        $payment->transaction_amount = $item['amount'];
+                        $payment->transaction_datetime = Carbon::now();
+                        $payment->done_by = $request->sold_by;
+                        $payment->authorized_by = $request->sold_by;
+                        $payment->transaction_notes = 'قسط على فاتورة رقم' . $invoiceId;
+                        $payment->save();
+                        $payment_id = $payment->id;
+                        $da->safe_id = $safe_id;
+                        $da->safe_payment_id = $payment_id;
+                        Safes::where('id', $safe_id)->decrement('safe_balance', $item['amount']);
+                    }
+                } else {
+                    $da->paid = 'No';
+                }
+                $da->save();
+                $listOfDates[] = $da;
+            }
+            $checkAllPaid = InvoicesPayments::where('invoice_id', $invoiceId)
+                ->where('paid', 'No')
+                ->count();
+            if ($checkAllPaid > 0) {
+                Invoices::where('id', $invoiceId)->update(['already_paid' => 0]);
+            } else {
+                Invoices::where('id', $invoiceId)->update(['already_paid' => 1]);
+            }
+        }
+        return back();
     }
 
+    public function installment(Request $request)
+    {
+        $user = Auth::user();
+        $user_id = $user->id;
+        $payment = new SafesTransactions();
+        $payment->safe_id = $request->safe_id;
+        $payment->transaction_type = 2;
+        $payment->transaction_amount = $request->amount;
+        $payment->transaction_datetime = Carbon::now();
+        $payment->done_by = $user_id;
+        $payment->authorized_by = $user_id;
+        $payment->transaction_notes = $request->notes;
+        $payment->save();
 
-
+        InvoicesPayments::where('id', $request->installment_invoice)->update(['paid' => 'Yes']);
+        return back()->with('success', 'deposited');
     }
-
-
-
-    return back();
-}
-
-public function installment(Request $request){
-    $user = Auth::user();
-    $user_id = $user->id;
-    $payment = new SafesTransactions();
-    $payment->safe_id = $request->safe_id;
-    $payment->transaction_type = 2;
-    $payment->transaction_amount = $request->amount;
-    $payment->transaction_datetime = Carbon::now();
-    $payment->done_by = $user_id;
-    $payment->authorized_by = $user_id;
-    $payment->transaction_notes = $request->notes;
-    $payment->save();
-
-    InvoicesPayments::where('id', $request->installment_invoice)->update(['paid'=>'Yes']);
-    return back()->with('success', 'deposited');
-}
-
-
-    // public function getOtherProducts(Request $request)
-    // {
-    //     $other_ids = $request->other_ids;
-    //     $otherProducts = Products::whereNotIn('id', $other_ids)->get();
-    //     return $otherProducts;
-    // }
-
 }

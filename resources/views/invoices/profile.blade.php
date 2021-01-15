@@ -280,7 +280,7 @@
                 <div class="row">
                   <div class="col-sm-7 col-12 text-center text-sm-left">
                     <h6>الشروط / الملاحظات</h6>
-                    {{$invoice->invoice_note}}
+                    {!!$invoice->invoice_note!!}
                   </div>
                   <div class="col-sm-5 col-12 text-center">
                     <button type="button" class="btn btn-info btn-print btn-lg my-1"><i class="la la-paper-plane-o mr-50"></i>
