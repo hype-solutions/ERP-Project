@@ -26,7 +26,7 @@ class ProductsController extends Controller
     {
         return request()->validate(
             [
-                'product_code' => 'unique:products',
+                'product_code' => '',
                 'product_category' => '',
                 'product_sub_category' => '',
                 'product_name' => 'required|max:255',
@@ -40,7 +40,7 @@ class ProductsController extends Controller
                 'product_notes' => '',
             ],
             [
-                'product_code.unique' => 'برجاء إختيار كود اخر, هذا الكود مستخدم بالفعل',
+                // 'product_code.unique' => 'برجاء إختيار كود اخر, هذا الكود مستخدم بالفعل',
             ]
         );
     }
