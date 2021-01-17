@@ -14,7 +14,7 @@
           <ul class="nav navbar-nav mr-auto float-left">
             <li class="nav-item d-none d-md-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu"></i></a></li>
             <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand" href="#"><i class="ficon ft-maximize"></i></a></li>
-            <li class="dropdown nav-item mega-dropdown d-none d-lg-block"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown">Mega</a>
+            <li class="dropdown nav-item mega-dropdown d-none d-lg-block" style="display: none"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown">Mega</a>
               <ul class="mega-dropdown-menu dropdown-menu row p-1">
                 <li class="col-md-4 bg-mega p-2">
                   <h3 class="text-white mb-1 font-weight-bold">Mega Menu Sidebar</h3>
