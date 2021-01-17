@@ -100,20 +100,19 @@ class ProductsController extends Controller
         $productSuppliers = PurchasesOrdersProducts::where('product_id',$product->id)
         ->where('status','delivered')
         ->get();
+
+
         $product_id = $product->id;
-        // $productPurchasesOrders = PurchasesOrders::with(['productInOrder' => function($q) use ($product_id){
-        //    $q->where('product_id', $product_id);
-        // }])->get();
 
         $productPurchasesOrders = PurchasesOrdersProducts::where('product_id',$product_id)->with('purchase')->get();
-        // $productInvoices = Invoices::with(['productInInvoice' => function($q) use ($product_id){
-        //     $q->where('product_id', $product_id);
-        //  }])->get();
 
         $productInvoices = InvoicesProducts::where('product_id',$product_id)->with('invoice')->get();
 
-         //return $productInvoices;
-        return view('products.profile', compact('productInvoices','supplierProducts','product', 'branches', 'productransfers','productManual','productSuppliers','productPurchasesOrders'));
+
+        $productCost = PurchasesOrdersProducts::where('product_id',$product_id)->avg('product_price');
+
+
+        return view('products.profile', compact('productCost','productInvoices','supplierProducts','product', 'branches', 'productransfers','productManual','productSuppliers','productPurchasesOrders'));
     }
     public function edit(products $product)
     {

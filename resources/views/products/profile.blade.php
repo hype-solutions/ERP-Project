@@ -174,7 +174,7 @@
           <div class="col-xl-6 col-lg-12 mb-1">
             <div class="form-group text-center">
                 <!-- Floating Outline button with text -->
-                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">0 ج.م</i><span>متوسط سعر التكلفة</span></button>
+                <button type="button" class="btn btn-float btn-outline-cyan"><i class="">{{$productCost}} ج.م</i><span>متوسط سعر التكلفة</span></button>
             <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">{{$product->product_total_out }}</i><span>إجمالي القطع المباعة</span></button>
                 <button type="button" class="btn btn-float btn-outline-cyan"><i class="">{{ $product->product_total_in - $product->product_total_out }}</i><span>كمية المخزون</span></button>
             </div>
