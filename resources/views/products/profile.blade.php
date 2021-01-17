@@ -211,9 +211,9 @@
                 <li class="nav-item">
                     <a class="nav-link" id="link-tab33" data-toggle="tab" href="#link33" aria-controls="link33" aria-expanded="false">التحويلات بين الفروع</a>
                   </li>
-                  <li class="nav-item">
+                  {{-- <li class="nav-item">
                     <a class="nav-link" id="link-tab34" data-toggle="tab" href="#link34" aria-controls="link34" aria-expanded="false">الكميات المضافة يدويا</a>
-                  </li>
+                  </li> --}}
                   <li class="nav-item">
                     <a class="nav-link" id="link-tab35" data-toggle="tab" href="#link35" aria-controls="link35" aria-expanded="false">أوامر الشراء</a>
                   </li>
@@ -372,7 +372,7 @@
                           </table>
                     </div>
                 </div>
-                <div class="tab-pane" id="link34" role="tabpanel" aria-labelledby="link-tab34" aria-expanded="false">
+                {{-- <div class="tab-pane" id="link34" role="tabpanel" aria-labelledby="link-tab34" aria-expanded="false">
                     <div class="table-responsive">
                         <table class="table mb-0" id="manual_add">
                             <thead>
@@ -433,7 +433,7 @@
                             </tbody>
                           </table>
                     </div>
-                </div>
+                </div> --}}
                 <div class="tab-pane" id="link35" role="tabpanel" aria-labelledby="link-tab35" aria-expanded="false">
                     <div class="table-responsive">
                         <table class="table mb-0" id="purchases_orders">

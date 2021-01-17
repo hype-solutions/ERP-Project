@@ -477,7 +477,7 @@
                         </th>
                         <td>
                             <fieldset class="form-group">
-                            <input type="date" class="form-control" name="later[1][date]" value="1/17/2021" required>
+                            <input type="date" class="form-control" name="later[1][date]" value="2020-01-10" required>
                         </fieldset>
                         <fieldset class="form-group">
                             <div class="labrl">الملاحظات</div>
