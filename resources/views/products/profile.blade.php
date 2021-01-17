@@ -452,12 +452,12 @@
                               <tr>
                                 <td>
                                     <div class="badge border-warning warning badge-border">
-                                      <a href="#" target="_blank" style="color: #ff9149"><span>{{$purchase->id}}</span></a>
+                                      <a href="#" target="_blank" style="color: #ff9149"><span>{{$purchase->purchase->id}}</span></a>
                                   <i class="la la-barcode font-medium-2"></i>
                                   </div>
                                 </td>
-                                <td>{{$purchase->purchase_date}}</td>
-                                <td>@if($purchase->already_paid > 0)
+                                <td>{{$purchase->purchase->purchase_date}}</td>
+                                <td>@if($purchase->purchase->already_paid > 0)
                                     <div class="badge badge-success">
                                       <i class="la la-money font-medium-2"></i>
                                           <span>مدفوع</span>
@@ -468,7 +468,7 @@
                                           <span>لم يدفع</span>
                                       </div>
                                     @endif</td>
-                                <td>@if($purchase->already_delivered > 0)
+                                <td>@if($purchase->purchase->already_delivered > 0)
                                     <div class="badge badge-success">
                                       <i class="la la-truck font-medium-2"></i>
                                       <span>تم الإستلام</span>
@@ -479,9 +479,9 @@
                                       <span>لم يستلم</span>
                                   </div>
                                     @endif</td>
-                                <td>{{$purchase->purchase_total}} ج.م</td>
+                                <td>{{$purchase->purchase->purchase_total}} ج.م</td>
                                 <td>
-                                    <a href="{{route('purchasesorders.view',$purchase->id)}}" class="btn btn-success">استعراض أمر الشراء</a>
+                                    <a href="{{route('purchasesorders.view',$purchase->purchase->id)}}" class="btn btn-success">استعراض أمر الشراء</a>
                                 </td>
                               </tr>
                               @endforeach
@@ -504,13 +504,13 @@
                                 @foreach ($productInvoices as $item)
                               <tr>
                                 <td><div class="badge border-info info badge-border">
-                                    <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$item->id}}</span></a>
+                                    <a href="#" target="_blank" style="color: #1e9ff2"><span>{{$item->invoice_id}}</span></a>
                                 <i class="la la-barcode font-medium-2"></i>
                                 </div></td>
-                                <td>{{$item->invoice_date}}</td>
-                                <td>{{$item->invoice_total}} ج.م</td>
+                                <td>{{$item->invoice->invoice_date}}</td>
+                                <td>{{$item->invoice->invoice_total}} ج.م</td>
                                 <td>
-                                    <a href="{{route('invoices.view',$item->id)}}" class="btn btn-success">استعراض الفاتورة</a>
+                                    <a href="{{route('invoices.view',$item->invoice_id)}}" class="btn btn-success">استعراض الفاتورة</a>
                                 </td>
                               </tr>
                               @endforeach

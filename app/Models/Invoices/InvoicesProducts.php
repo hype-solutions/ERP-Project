@@ -10,7 +10,7 @@ class InvoicesProducts extends Model
     use HasFactory;
     protected $table = 'invoices_products';
     protected $fillable = [
-        'purchase_id',
+        'invoice_id',
         'customer_id',
         'product_id',
         'product_desc',
@@ -25,4 +25,8 @@ class InvoicesProducts extends Model
     }
 
 
+    public function invoice()
+    {
+        return $this->belongsTo('App\Models\Invoices\Invoices', 'invoice_id', 'id');
+    }
 }

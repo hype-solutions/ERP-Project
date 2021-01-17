@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Products\Products;
 use App\Models\Branches\BranchesProducts;
 use App\Models\Invoices\Invoices;
+use App\Models\Invoices\InvoicesProducts;
 use App\Models\Products\ProductsCategories;
 use App\Models\Products\ProductsTransfers;
 use App\Models\Products\ProductsManualQuantities;
@@ -100,13 +101,18 @@ class ProductsController extends Controller
         ->where('status','delivered')
         ->get();
         $product_id = $product->id;
-        $productPurchasesOrders = PurchasesOrders::with(['productInOrder' => function($q) use ($product_id){
-           $q->where('product_id', $product_id);
-        }])->get();
-        $productInvoices = Invoices::with(['productInInvoice' => function($q) use ($product_id){
-            $q->where('product_id', $product_id);
-         }])->get();
+        // $productPurchasesOrders = PurchasesOrders::with(['productInOrder' => function($q) use ($product_id){
+        //    $q->where('product_id', $product_id);
+        // }])->get();
 
+        $productPurchasesOrders = PurchasesOrdersProducts::where('product_id',$product_id)->with('purchase')->get();
+        // $productInvoices = Invoices::with(['productInInvoice' => function($q) use ($product_id){
+        //     $q->where('product_id', $product_id);
+        //  }])->get();
+
+        $productInvoices = InvoicesProducts::where('product_id',$product_id)->with('invoice')->get();
+
+         //return $productInvoices;
         return view('products.profile', compact('productInvoices','supplierProducts','product', 'branches', 'productransfers','productManual','productSuppliers','productPurchasesOrders'));
     }
     public function edit(products $product)
