@@ -313,7 +313,7 @@
               </div>
             </div>
         </div>
-        <div class="card">
+        <div class="card" style="display: none">
             <div class="card-content collapse show">
                 <div class="card-body">
 
