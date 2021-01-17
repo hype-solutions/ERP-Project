@@ -510,8 +510,7 @@
                                 <td>{{$item->invoice_date}}</td>
                                 <td>{{$item->invoice_total}} ج.م</td>
                                 <td>
-                                    <button class="btn btn-success">استعراض الفاتورة</button>
-                                    <button class="btn btn-dark">طباعة الفاتورة</button>
+                                    <a href="{{route('invoices.view',$item->id)}}" class="btn btn-success">استعراض الفاتورة</a>
                                 </td>
                               </tr>
                               @endforeach
