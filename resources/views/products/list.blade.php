@@ -128,7 +128,6 @@
                             <th>بيانات المنتج</th>
                             <th>المخزون</th>
                             <th>سعر البيع</th>
-                            <th>سعر الشراء</th>
                             <th>التحكم</th>
                         </tr>
                     </thead>
@@ -166,10 +165,6 @@
                                 @else
                                 <span>غير مسجل</span>
                                 @endif
-                            </td><td>
-
-                                <li class="la la-truck"></li>
-                                0
                             </td>
 
                             <td>
