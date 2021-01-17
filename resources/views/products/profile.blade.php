@@ -481,8 +481,7 @@
                                     @endif</td>
                                 <td>{{$purchase->purchase_total}} ج.م</td>
                                 <td>
-                                    <button class="btn btn-success">استعراض أمر الشراء</button>
-                                    <button class="btn btn-dark">طباعة أمر الشراء</button>
+                                    <a href="{{route('purchasesorders.view',$purchase->id)}}" class="btn btn-success">استعراض أمر الشراء</a>
                                 </td>
                               </tr>
                               @endforeach
