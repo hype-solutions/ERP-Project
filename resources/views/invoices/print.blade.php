@@ -19,7 +19,9 @@
 @if($p == 3)
 <style>
     #invoice-template {
-    background-image:url(/uploads/letterHead1.jpg) !important;
+    /* background-image:url(/uploads/letterHead1.jpg) !important; */
+    background-image:url({{url('uploads/letterHead1.jpg')}}) !important;
+
     background-repeat:no-repeat;
     background-size: 100% 100%;
 }
