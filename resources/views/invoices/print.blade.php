@@ -314,7 +314,7 @@ window.onload = function () {
     window.print();
     // window.close();
 }
-window.onfocus = function () { setTimeout(function () { window.close(); }, 500); }
+// window.onfocus = function () { setTimeout(function () { window.close(); }, 500); }
 
         </script>
 
