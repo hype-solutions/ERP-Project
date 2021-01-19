@@ -16,7 +16,7 @@ use App\Http\Controllers\InsController;
 use App\Http\Controllers\OutsController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\ReportsController;
-
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -217,3 +217,17 @@ Route::delete('/outs/delete/{out}', [OutsController::class, 'delete'])->name('ou
  *************************/
 Route::get('/reports', [ReportsController::class, 'landing'])->name('reports.landing');
 Route::post('/reports/branch/{branch}/from/{from}/to/{to}', [ReportsController::class, 'fromto'])->name('reports.fromto');
+
+
+
+/*************************
+ ********* Users *********
+ *************************/
+Route::get('/users', [UsersController::class, 'usersList'])->name('users.list');
+Route::get('/users/add', [UsersController::class, 'add'])->name('users.add');
+Route::post('/users/adding', [UsersController::class, 'store'])->name('users.adding');
+Route::get('/users/view/{user}', [UsersController::class, 'view'])->name('users.view');
+Route::get('/users/edit/{user}', [UsersController::class, 'edit'])->name('users.edit');
+Route::patch('/users/update/{user}', [UsersController::class, 'update'])->name('users.update');
+Route::delete('/users/delete/{out}', [UsersController::class, 'delete'])->name('users.delete');
+

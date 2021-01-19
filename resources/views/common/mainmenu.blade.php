@@ -123,9 +123,9 @@
             <ul class="menu-content">
               <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical"> المستخدمين</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">إضافة مستخدم</span></a>
+                    <li><a class="menu-item" href="{{route('users.add')}}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">إضافة مستخدم</span></a>
                     </li>
-                    <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض المستخدمين</span></a>
+                    <li><a class="menu-item" href="{{route('users.list')}}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض المستخدمين</span></a>
                     </li>
                 </ul>
               </li>
