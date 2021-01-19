@@ -51,6 +51,32 @@ class InvoicesController extends Controller
         return view('invoices.profile', compact('laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
     }
 
+    function print2(Invoices $invoice){
+        $user = Auth::user();
+        $user_id = $user->id;
+        $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
+        $currentProducts = InvoicesProducts::where('invoice_id', $invoice->id)->get();
+        $products = Products::all();
+        $safes = Safes::all();
+        $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
+        $laterDates = InvoicesPayments::where('invoice_id', $invoice->id)->get();
+        $p = '2';
+        return view('invoices.print', compact('p','laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
+    }
+
+    function print3(Invoices $invoice){
+        $user = Auth::user();
+        $user_id = $user->id;
+        $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
+        $currentProducts = InvoicesProducts::where('invoice_id', $invoice->id)->get();
+        $products = Products::all();
+        $safes = Safes::all();
+        $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
+        $laterDates = InvoicesPayments::where('invoice_id', $invoice->id)->get();
+        $p = 3;
+        return view('invoices.print', compact('p','laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
+    }
+
     public function edit(Invoices $invoice)
     {
 
@@ -351,4 +377,5 @@ class InvoicesController extends Controller
         InvoicesPayments::where('id', $request->installment_invoice)->update(['paid' => 'Yes']);
         return back()->with('success', 'deposited');
     }
+
 }

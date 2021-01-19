@@ -1,79 +1,44 @@
-@extends('layouts.erp')
+    <html>
+    <head>
+        <title>طباعة</title>
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/vendors-rtl.min.css') }}">
 
-@section('pageCss')
-<!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/bootstrap-extended.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/colors.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/components.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/custom-rtl.min.css') }}">
+
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/menu/menu-types/vertical-compact-menu.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/colors/palette-gradient.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/fonts/mobiriseicons/24px/mobirise/style.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/pages/invoices.min2.css') }}" id="printCss">
-<!-- END: Page CSS-->
-{{-- <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/forms/selects/select2.min.css') }}"> --}}
-
-{{-- <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/forms/toggle/bootstrap-switch.min.css') }}"> --}}
-{{-- <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/forms/toggle/switchery.min.css') }}"> --}}
-{{-- <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/plugins/forms/switch.min.css') }}"> --}}
-{{-- <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/colors/palette-switch.min.css') }}"> --}}
+<link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/pages/invoices.min3.css') }}" id="printCss">
 
 
-@endsection
-
-@section('content')
-@include('common.header')
-@include('common.mainmenu')
-
+<link rel="stylesheet" type="text/css" href="{{ asset('theme/assets/css/style-rtl.css') }}">
+@if($p == 3)
+<style>
+    #invoice-template {
+    background-image:url(/uploads/letterHead1.jpg) !important;
+    background-repeat:no-repeat;
+    background-size: 100% 100%;
+}
+</style>
+@endif
+    </head>
+<body>
+<div class="app-content content">
 <div class="content-overlay"></div>
       <div class="content-wrapper">
-        <div class="content-header row">
-            <div class="content-header-left col-md-6 col-12 mb-2">
-              <h3 class="content-header-title mb-0">فواتير المبيعات</h3>
-              <div class="row breadcrumbs-top">
-                <div class="breadcrumb-wrapper col-12">
-                  <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('home')}}">البرنامج</a></li>
-                <li class="breadcrumb-item"><a href="{{route('invoices.list')}}">فواتير المبيعات</a></li>
-                    <li class="breadcrumb-item active">استعراض
-                    </li>
-                  </ol>
-                </div>
-              </div>
-            </div>
 
-          </div>
           <div class="content-body"><section class="card">
-            <div id="invoice-template" class="card-body p-4">
-              <!-- Invoice Company Details -->
-              <div id="invoice-company-details" class="row">
-                <div class="col-sm-6 col-12 text-center text-sm-left">
-                  <div class="media row">
-                    <div class="col-12 col-sm-3 col-xl-2">
-                      <img src="{{asset('theme/app-assets/images/custom/logo-placeholder.png')}}" alt="company logo" class="mb-1 mb-sm-0" style="width: 80px;height:80px;"/>
-                    </div>
-                    <div class="col-12 col-sm-9 col-xl-10">
-                      <div class="media-body">
-                        <ul class="ml-2 px-0 list-unstyled">
-                          <li class="text-bold-800">اسم الشركة</li>
-                          <li>العنوان 1</li>
-                          <li>العنوان 2</li>
-                          <li>المدينة</li>
-                          <li>الدولة</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-6 col-12 text-center text-sm-right">
-                  <h2>فاتورة مبيعات</h2>
-                  <p class="pb-sm-3">رقم {{$invoice->id}}</p>
-                  <ul class="px-0 list-unstyled">
-                    <li>إجمالي الفاتورة</li>
-                    <li class="lead text-bold-800">{{$invoice->invoice_total}} ج.م</li>
-                  </ul>
-                </div>
-              </div>
+            <div id="invoice-template" class="card-body p-4" style="min-height:1320px;">
+              <!-- Invoice Company Details  3508 x 2480   -->
+
               <!-- Invoice Company Details -->
 
               <!-- Invoice Customer Details -->
-              <div id="invoice-customer-details" class="row pt-2">
+              <div id="invoice-customer-details" class="row pt-2" style="    margin-top: 90px;">
                 <div class="col-12 text-center text-sm-left">
                   <p class="text-muted">بيانات العميل</p>
                 </div>
@@ -95,6 +60,12 @@
                   </ul>
                 </div>
                 <div class="col-sm-6 col-12 text-center text-sm-right">
+                    <h2>فاتورة مبيعات</h2>
+                  <p class="pb-sm-3">رقم {{$invoice->id}}</p>
+                  <ul class="px-0 list-unstyled">
+                    <li>إجمالي الفاتورة</li>
+                    <li class="lead text-bold-800">{{$invoice->invoice_total}} ج.م</li>
+                  </ul>
                   <p><span class="text-muted">تاريخ الفاتورة: </span> {{$invoice->invoice_date}}</p>
                   <p><span class="text-muted">الدفع:</span>
                     @if($invoice->already_paid)
@@ -152,7 +123,7 @@
                           <table class="table table-borderless table-sm">
                             <tbody>
                               <tr>
-                                <td><strong>طريقة الدفع</strong></td>
+                                <td>طريقة الدفع</td>
                                 <td class="text-right">
                                     @if($invoice->payment_method == 'cash')
                                     <span>كاش</span>
@@ -166,11 +137,11 @@
                               @if($invoice->already_paid)
                                 @if($invoice->payment_method !='later')
                                     <tr>
-                                        <td><strong>رقم ايصال الدفع:</strong></td>
+                                        <td>رقم ايصال الدفع:</td>
                                         <td class="text-right">{{$invoice->safe_transaction_id}}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>الخزنة التي تم الإيداع بها:</strong></td>
+                                        <td>الخزنة التي تم الإيداع بها:</td>
                                         <td class="text-right">{{$invoice->safe->safe_name}}</td>
                                     </tr>
                                 @endif
@@ -265,12 +236,12 @@
                         </tbody>
                       </table>
                     </div>
-                    {{-- <div class="text-center">
-                      <p class="mb-0 mt-1">التوقيع</p>
-                      <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
-                      <h6>إسم الشخص</h6>
-                      <p class="text-muted">مدير المشتريات</p>
-                    </div> --}}
+                     <div class="text-center">
+                      {{-- <p class="mb-0 mt-1">التوقيع</p> --}}
+                      {{-- <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" /> --}}
+                      {{-- <h6>إسم الشخص</h6> --}}
+                      {{-- <p class="text-muted">مدير المشتريات</p> --}}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -303,9 +274,9 @@
                     </div> --}}
                     {{-- <button type="button" class="btn btn-info btn-print-modal btn-lg my-1" data-toggle="modal" data-target="#printingOptions"><i class="la la-paper-plane-o mr-50"></i>
                       طباعة الفاتورة</button> --}}
-                                    <button class="btn btn-block btn-success btn-print" id="print1">طباعة على ورق أبيض</button>
-                                    <a target="_blank" href="{{route('invoices.print2',$invoice->id)}}" class="btn btn-block btn-info btn-print">طباعة على ورق ليتر هيد</a>
-                                    <a target="_blank" href="{{route('invoices.print3',$invoice->id)}}" class="btn btn-block btn-dark btn-print">طباعة بالتصميم</a>
+                                    {{-- <button class="btn btn-block btn-success btn-print" id="print1">طباعة على ورق أبيض</button>
+                                    <button class="btn btn-block btn-info btn-print" id="print2">طباعة على ورق ليتر هيد</button>
+                                    <button class="btn btn-block btn-dark btn-print" id="print3">طباعة بالتصميم</button> --}}
                   </div>
                 </div>
               </div>
@@ -316,11 +287,8 @@
 
                   </div>
       </div>
+      </div>
 
-@include('common.footer')
-@endsection
-
-@section('pageJs')
 
 {{-- <script src="{{ asset('theme/app-assets/vendors/js/forms/select/select2.full.min.js') }}"></script> --}}
 {{-- <script src="{{ asset('theme/app-assets/vendors/js/forms/toggle/bootstrap-switch.min.js') }}"></script> --}}
@@ -328,20 +296,26 @@
 {{-- <script src="{{ asset('theme/app-assets/vendors/js/forms/toggle/bootstrap-checkbox.min.js') }}"></script> --}}
 {{-- <script src="{{ asset('theme/app-assets/vendors/js/editors/ckeditor/ckeditor-super-build.js') }}"></script> --}}
 
+<script src="{{ asset('theme/app-assets/vendors/js/vendors.min.js') }}"></script>
 <!-- BEGIN: Theme JS-->
     <script src="{{ asset('theme/app-assets/js/core/app-menu.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/js/core/app.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/js/scripts/footer.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/js/scripts/pages/invoice-template.min.js') }}"></script>
+    {{-- <script src="{{ asset('theme/app-assets/js/scripts/pages/invoice-template.min.js') }}"></script> --}}
     <!-- END: Theme JS-->
-
-    {{-- <script src="{{ asset('theme/app-assets/js/scripts/forms/select/form-select2.min.js') }}"></script> --}}
+      {{-- <script src="{{ asset('theme/app-assets/js/scripts/forms/select/form-select2.min.js') }}"></script> --}}
     {{-- <script src="{{ asset('theme/app-assets/js/scripts/forms/switch.min.js') }}"></script> --}}
     {{-- <script src="{{ asset('theme/app-assets/js/scripts/editors/editor-ckeditor.min.js') }}"></script> --}}
     <script>
 
+window.onload = function () {
+    window.print();
+    // window.close();
+}
+window.onfocus = function () { setTimeout(function () { window.close(); }, 500); }
 
         </script>
 
- @endsection
 
+</body>
+</html>

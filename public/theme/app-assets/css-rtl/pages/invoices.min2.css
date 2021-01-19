@@ -27,7 +27,7 @@
 
     #invoice-footer {
         position: relative;
-        top: -80px !important
+        /* top: -80px !important */
     }
 
     .table-responsive {

@@ -109,6 +109,11 @@ Route::get('/invoices', [InvoicesController::class, 'invoicesList'])->name('invo
 Route::get('/invoices/add', [InvoicesController::class, 'add'])->name('invoices.add');
 Route::post('/invoices/adding', [InvoicesController::class, 'store'])->name('invoices.adding');
 Route::get('/invoices/view/{invoice}', [InvoicesController::class, 'view'])->name('invoices.view');
+
+Route::get('/invoices/print2/{invoice}', [InvoicesController::class, 'print2'])->name('invoices.print2');
+Route::get('/invoices/print3/{invoice}', [InvoicesController::class, 'print3'])->name('invoices.print3');
+
+
 Route::get('/invoices/edit/{invoice}', [InvoicesController::class, 'edit'])->name('invoices.edit');
 //Route::post('/invoices/getOtherProducts', [InvoicesController::class, 'getOtherProducts'])->name('invoices.getOtherProducts');
 Route::patch('/invoices/update/{invoice}', [InvoicesController::class, 'update'])->name('invoices.update');
