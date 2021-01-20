@@ -46,9 +46,9 @@ class ReportsController extends Controller
         $branches = Branches::all();
 
         //Expenses
-        $expenses = Out::sum('amount');
+        $expenses = Out::whereBetween('updated_at', [$from, $to])->sum('amount');
         //Income
-        $income = In::sum('amount');
+        $income = In::whereBetween('updated_at', [$from, $to])->sum('amount');
         //Customers
         $customersCount = Customers::count();
         //Suppliers
