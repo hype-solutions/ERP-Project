@@ -42,27 +42,29 @@ class ReportsController extends Controller
             $branch = '1';
          }
 
+         $getBranchSafeId = Safes::where('branch_id',$branch)->value('id');
+
         //Options
         $branches = Branches::all();
 
         //Expenses
-        $expenses = Out::whereBetween('updated_at', [$from, $to])->sum('amount');
+        $expenses = Out::whereBetween('updated_at', [$from, $to])->where('safe_id',$getBranchSafeId)->sum('amount');
         //Income
-        $income = In::whereBetween('updated_at', [$from, $to])->sum('amount');
+        $income = In::whereBetween('updated_at', [$from, $to])->where('safe_id',$getBranchSafeId)->sum('amount');
         //Customers
         $customersCount = Customers::count();
         //Suppliers
         $suppliersCount = Suppliers::count();
         //Safes
-        $safesSum = Safes::sum('safe_balance');
+        $safesSum = Safes::where('branch_id',$branch)->sum('safe_balance');
         //POS
-        $posInvoicesCount = PosSessions::count();
-        $posInvoicesSum = PosSessions::Where('status',1)->whereBetween('updated_at', [$from, $to])->sum('total');
-        $posInvoicesDone = PosSessions::Where('status',1)->whereBetween('updated_at', [$from, $to])->count();
+        $posInvoicesCount = PosSessions::where('branch_id',$branch)->count();
+        $posInvoicesSum = PosSessions::Where('status',1)->whereBetween('updated_at', [$from, $to])->where('branch_id',$branch)->sum('total');
+        $posInvoicesDone = PosSessions::Where('status',1)->whereBetween('updated_at', [$from, $to])->where('branch_id',$branch)->count();
         //Invoices
         $invoicesCount = Invoices::count();
-        $invoicesSum = Invoices::where('already_paid',1)->whereBetween('invoice_date', [$from, $to])->sum('invoice_total');
-        $invoicesDone = Invoices::where('already_paid',1)->whereBetween('invoice_date', [$from, $to])->count();
+        $invoicesSum = Invoices::where('already_paid',1)->whereBetween('invoice_date', [$from, $to])->where('safe_id',$getBranchSafeId)->sum('invoice_total');
+        $invoicesDone = Invoices::where('already_paid',1)->whereBetween('invoice_date', [$from, $to])->where('safe_id',$getBranchSafeId)->count();
         //Price Quotation
         $invoicesPriceQuotationsCount = InvoicesPriceQuotation::count();
         $invoicesPriceQuotationsSum = InvoicesPriceQuotation::sum('quotation_total');
@@ -70,10 +72,10 @@ class ReportsController extends Controller
         $projectsCount = Projects::count();
         $projectsSum = Projects::sum('total');
         //Later Invoices
-        $laterSumInv = InvoicesPayments::where('paid','Yes')->whereBetween('date', [$from, $to])->sum('amount');
-        $laterSumPO = PurchasesOrdersPayments::where('paid','Yes')->whereBetween('date', [$from, $to])->sum('amount');
+        $laterSumInv = InvoicesPayments::where('paid','Yes')->whereBetween('date', [$from, $to])->where('safe_id',$getBranchSafeId)->sum('amount');
+        $laterSumPO = PurchasesOrdersPayments::where('paid','Yes')->whereBetween('date', [$from, $to])->where('safe_id',$getBranchSafeId)->sum('amount');
         //Purchases Orders
-        $purchasesOrders = PurchasesOrders::where('already_paid',1)->whereBetween('purchase_date', [$from, $to])->sum('purchase_total');
+        $purchasesOrders = PurchasesOrders::where('already_paid',1)->whereBetween('purchase_date', [$from, $to])->where('safe_id',$getBranchSafeId)->sum('purchase_total');
 
 
         return view('reports.landing',compact(
