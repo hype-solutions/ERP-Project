@@ -213,8 +213,12 @@
 
                                 <tbody>
                                     <tr class="bg-success white">
-                                        <th scope="row">المبيعات</th>
-                                        <td>{{$posInvoicesSum + $invoicesSum}} ج.م</td>
+                                        <th scope="row">البيع السريع</th>
+                                        <td>{{$posInvoicesSum}} ج.م</td>
+                                    </tr>
+                                    <tr class="bg-success white">
+                                        <th scope="row">فواتير المبيعات</th>
+                                        <td>{{$invoicesSum}} ج.م</td>
                                     </tr>
                                     <tr class="bg-success white">
                                         <th scope="row">المشاريع</th>
