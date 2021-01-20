@@ -49,17 +49,17 @@
                         <div class="card-body">
 
 
-                            <form class="form" action=" " method="POST">
+                            <form class="form" action="{{route('reports.landing')}}" method="GET">
                                 <div class="form-body">
                                     <h4 class="form-section"><i class="ft-settings"></i> التحكم</h4>
                                     <div class="row">
                                         <div class="form-group col-md-6 mb-2">
                                             <label>من</label>
-                                            <input type="date" class="form-control" name="from"/>
+                                            <input type="date" class="form-control" name="from" value="{{$from}}"/>
                                         </div>
                                         <div class="form-group col-md-6 mb-2">
                                             <label>الى</label>
-                                            <input type="date" class="form-control" name="to"/>
+                                            <input type="date" class="form-control" name="to" value="{{$to}}"/>
                                         </div>
                                         <div class="form-group col-md-12 mb-2">
                                             <label class="sr-only" for="projectinput6">الفرع</label>

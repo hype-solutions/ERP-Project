@@ -81,7 +81,7 @@ class ProductsController extends Controller
     public function view(products $product)
     {
         $branches = BranchesProducts::where('product_id', $product->id)
-            ->where('amount', '!=', 0)
+            // ->where('amount', '!=', 0)
             ->with('branch')->get();
         $supplierProducts = PurchasesOrdersProducts::groupBy('supplier_id')
         ->where('status','delivered')

@@ -30,8 +30,18 @@ class ReportsController extends Controller
     }
 
 
-    public function landing()
+    public function landing(Request $request)
     {
+         if(isset($request->from)){
+            $from = $request->from;
+            $to = $request->to;
+            $branch = $request->branch;
+         }else{
+            $from = date('Y-m-d',strtotime("-1 days"));
+            $to = date('Y-m-d');
+            $branch = '1';
+         }
+
         //Options
         $branches = Branches::all();
 
@@ -47,12 +57,12 @@ class ReportsController extends Controller
         $safesSum = Safes::sum('safe_balance');
         //POS
         $posInvoicesCount = PosSessions::count();
-        $posInvoicesSum = PosSessions::Where('status',1)->sum('total');
-        $posInvoicesDone = PosSessions::Where('status',1)->count();
+        $posInvoicesSum = PosSessions::Where('status',1)->whereBetween('updated_at', [$from, $to])->sum('total');
+        $posInvoicesDone = PosSessions::Where('status',1)->whereBetween('updated_at', [$from, $to])->count();
         //Invoices
         $invoicesCount = Invoices::count();
-        $invoicesSum = Invoices::where('already_paid',1)->sum('invoice_total');
-        $invoicesDone = Invoices::where('already_paid',1)->count();
+        $invoicesSum = Invoices::where('already_paid',1)->whereBetween('invoice_date', [$from, $to])->sum('invoice_total');
+        $invoicesDone = Invoices::where('already_paid',1)->whereBetween('invoice_date', [$from, $to])->count();
         //Price Quotation
         $invoicesPriceQuotationsCount = InvoicesPriceQuotation::count();
         $invoicesPriceQuotationsSum = InvoicesPriceQuotation::sum('quotation_total');
@@ -60,10 +70,11 @@ class ReportsController extends Controller
         $projectsCount = Projects::count();
         $projectsSum = Projects::sum('total');
         //Later Invoices
-        $laterSumInv = InvoicesPayments::where('paid','Yes')->sum('amount');
-        $laterSumPO = PurchasesOrdersPayments::where('paid','Yes')->sum('amount');
+        $laterSumInv = InvoicesPayments::where('paid','Yes')->whereBetween('date', [$from, $to])->sum('amount');
+        $laterSumPO = PurchasesOrdersPayments::where('paid','Yes')->whereBetween('date', [$from, $to])->sum('amount');
         //Purchases Orders
-        $purchasesOrders = PurchasesOrders::where('already_paid',1)->sum('purchase_total');
+        $purchasesOrders = PurchasesOrders::where('already_paid',1)->whereBetween('purchase_date', [$from, $to])->sum('purchase_total');
+
 
         return view('reports.landing',compact(
             'branches',
@@ -85,6 +96,8 @@ class ReportsController extends Controller
             'laterSumInv',
             'laterSumPO',
             'purchasesOrders',
+            'from',
+            'to',
         ));
     }
 }
