@@ -206,8 +206,75 @@
                     <div class="card-header">
                         <h3>الملخص</h3>
                     </div>
-                    <div class="card-content">
-                        <div class="table-responsive">
+                    <div class="card-content"><div class="table-responsive">
+                        <table class="table mb-0 table-lg">
+                            <thead>
+                              <tr>
+                                <th colspan="2">ملخص المبيعات</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>10000</td>
+                                <td>إجمالي المبيعات</td>
+                              </tr>
+                              <tr>
+                                <td>7500</td>
+                                <td>صافي ربح المبيعات</td>
+                              </tr>
+                              <tr>
+                                <td colspan="2">ملخص المشاريع</td>
+                              </tr>
+                              <tr>
+                                <td>800000</td>
+                                <td>إجمالي المشاريع</td>
+                              </tr>
+                              <tr>
+                                <td>200000</td>
+                                <td>صافي ربح المشاريع</td>
+                              </tr>
+                              <tr>
+                                <td colspan="2">الدواخل</td>
+                              </tr>
+                              <tr>
+                                <td>300</td>
+                                <td>الدواخل</td>
+                              </tr>
+                              <tr>
+                                <td>5000</td>
+                                <td>الإيداع</td>
+                              </tr>
+                              <tr>
+                                <td colspan="2">المصاريف</td>
+                              </tr>
+                              <tr>
+                                <td>600</td>
+                                <td>المصاريف</td>
+                              </tr>
+                              <tr>
+                                <td>4000</td>
+                                <td>السحب</td>
+                              </tr>
+                              <tr>
+                                <td>90000</td>
+                                <td>فواتير الشراء</td>
+                              </tr>
+                              <tr>
+                                <td colspan="2">الإجمالي</td>
+                              </tr>
+                              <tr>
+                                <td>5555555</td>
+                                <td>إجمالي الدخل</td>
+                              </tr>
+                              <tr>
+                                <td>256325</td>
+                                <td>صافي الربح</td>
+                              </tr>
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                        <div class="table-responsive" style="display: none">
                             <table class="table mb-0 table-lg">
 
                                 <tbody>

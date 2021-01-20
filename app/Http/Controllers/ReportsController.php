@@ -72,6 +72,7 @@ class ReportsController extends Controller
         $projectsCount = Projects::count();
         $projectsSum = Projects::sum('total');
         //Later Invoices
+        //add cond to display only those invoices which are not already paid
         $laterSumInv = InvoicesPayments::where('paid','Yes')->whereBetween('date', [$from, $to])->where('safe_id',$getBranchSafeId)->sum('amount');
         $laterSumPO = PurchasesOrdersPayments::where('paid','Yes')->whereBetween('date', [$from, $to])->where('safe_id',$getBranchSafeId)->sum('amount');
         //Purchases Orders
