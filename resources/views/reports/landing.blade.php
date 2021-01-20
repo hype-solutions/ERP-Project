@@ -206,72 +206,62 @@
                     <div class="card-header">
                         <h3>الملخص</h3>
                     </div>
+                    <style type="text/css">
+                        .tg  {border-collapse:collapse;border-spacing:0;}
+                        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+                          overflow:hidden;padding:10px 5px;word-break:normal;}
+                        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+                          font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+                        .tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
+                        .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+                        .tg .tg-dvpl{border-color:inherit;text-align:right;vertical-align:top}
+                        </style>
                     <div class="card-content"><div class="table-responsive">
-                        <table class="table mb-0 table-lg">
+                        <table class="tg">
                             <thead>
                               <tr>
-                                <th colspan="2">ملخص المبيعات</th>
+                                <th class="tg-c3ow" colspan="2">ملخص المبيعات</th>
                               </tr>
                             </thead>
                             <tbody>
                               <tr>
-                                <td>10000</td>
-                                <td>إجمالي المبيعات</td>
+                                <td class="tg-0pky">10000</td>
+                                <td class="tg-dvpl">إجمالي المبيعات</td>
                               </tr>
                               <tr>
-                                <td>7500</td>
-                                <td>صافي ربح المبيعات</td>
+                                <td class="tg-0pky">7500</td>
+                                <td class="tg-dvpl">صافي ربح المبيعات</td>
                               </tr>
                               <tr>
-                                <td colspan="2">ملخص المشاريع</td>
+                                <td class="tg-c3ow" colspan="2">ملخص المشاريع</td>
                               </tr>
                               <tr>
-                                <td>800000</td>
-                                <td>إجمالي المشاريع</td>
+                                <td class="tg-0pky">800000</td>
+                                <td class="tg-dvpl">إجمالي المشاريع</td>
                               </tr>
                               <tr>
-                                <td>200000</td>
-                                <td>صافي ربح المشاريع</td>
+                                <td class="tg-0pky">200000</td>
+                                <td class="tg-dvpl">صافي ربح المشاريع</td>
                               </tr>
                               <tr>
-                                <td colspan="2">الدواخل</td>
+                                <td class="tg-c3ow" colspan="2">الدواخل</td>
                               </tr>
                               <tr>
-                                <td>300</td>
-                                <td>الدواخل</td>
+                                <td class="tg-dvpl">300</td>
+                                <td class="tg-dvpl">الدواخل</td>
                               </tr>
                               <tr>
-                                <td>5000</td>
-                                <td>الإيداع</td>
+                                <td class="tg-dvpl">5000</td>
+                                <td class="tg-dvpl">الإيداع</td>
                               </tr>
                               <tr>
-                                <td colspan="2">المصاريف</td>
+                                <td class="tg-c3ow" colspan="2">المصاريف</td>
                               </tr>
                               <tr>
-                                <td>600</td>
-                                <td>المصاريف</td>
+                                <td class="tg-0pky">600</td>
+                                <td class="tg-dvpl">المصاريف</td>
                               </tr>
                               <tr>
-                                <td>4000</td>
-                                <td>السحب</td>
-                              </tr>
-                              <tr>
-                                <td>90000</td>
-                                <td>فواتير الشراء</td>
-                              </tr>
-                              <tr>
-                                <td colspan="2">الإجمالي</td>
-                              </tr>
-                              <tr>
-                                <td>5555555</td>
-                                <td>إجمالي الدخل</td>
-                              </tr>
-                              <tr>
-                                <td>256325</td>
-                                <td>صافي الربح</td>
-                              </tr>
-                            </tbody>
-                            </table>
                         </div>
                     </div>
                         <div class="table-responsive" style="display: none">
