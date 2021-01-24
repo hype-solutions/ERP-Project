@@ -314,4 +314,116 @@ class ReportsController extends Controller
 
         return view('reports.sales',compact('branch','posSumCash','branches','fromX','toX','invoicesSumVisa','invoicesSumCash','invoicesNetLater','invoicesNet','posInvoicesNet','invoices','sessions','posInvoicesSum','invoicesSum','invoicesSumLater'));
     }
+
+
+
+    public function income($from,$to,$branch,Request $request)
+    {
+        if(isset($from)){
+            $from = $from;
+            $to = $to;
+            $branch = $branch;
+         }else if($request->$from){
+            $from = $request->from;
+            $to = $request->to;
+            $branch = $request->branch;
+         }
+         else{
+            $from = date('Y-m-d',strtotime("-1 days"));
+            $to = date('Y-m-d');
+            $branch = '1';
+         }
+
+         $fromX = $from;
+         $toX = $to;
+         //Insure covering whole days
+         $from    = Carbon::parse($from)
+                 ->startOfDay()        // date 00:00:00.000000
+                 ->toDateTimeString(); // date 00:00:00
+
+        $to      = Carbon::parse($to)
+        ->endOfDay()          // date 23:59:59.000000
+        ->toDateTimeString(); // date 23:59:59
+        $branches = Branches::all();
+
+        $getBranchSafeId = Safes::where('branch_id',$branch)->value('id');
+
+        //Safe Deposit
+        $deposits = SafesTransactions::whereBetween('transaction_datetime', [$from, $to])
+        ->where('transaction_type',2)
+        ->where('direct',1)
+        ->where('safe_id',$getBranchSafeId)
+        ->get();
+
+        //Safe Deposit
+        $deposit = SafesTransactions::whereBetween('transaction_datetime', [$from, $to])
+                                    ->where('transaction_type',2)
+                                    ->where('direct',1)
+                                    ->where('safe_id',$getBranchSafeId)
+                                    ->sum('transaction_amount');
+
+        //Income
+        $income = In::whereBetween('updated_at', [$from, $to])
+        ->where('safe_id',$getBranchSafeId)->get();
+
+
+        return view('reports.income',compact('deposits','branch','branches','fromX','toX','income','deposit'));
+
+    }
+
+
+
+    public function expenses($from,$to,$branch,Request $request)
+    {
+        if(isset($from)){
+            $from = $from;
+            $to = $to;
+            $branch = $branch;
+         }else if($request->$from){
+            $from = $request->from;
+            $to = $request->to;
+            $branch = $request->branch;
+         }
+         else{
+            $from = date('Y-m-d',strtotime("-1 days"));
+            $to = date('Y-m-d');
+            $branch = '1';
+         }
+
+         $fromX = $from;
+         $toX = $to;
+         //Insure covering whole days
+         $from    = Carbon::parse($from)
+                 ->startOfDay()        // date 00:00:00.000000
+                 ->toDateTimeString(); // date 00:00:00
+
+        $to      = Carbon::parse($to)
+        ->endOfDay()          // date 23:59:59.000000
+        ->toDateTimeString(); // date 23:59:59
+        $branches = Branches::all();
+
+        $getBranchSafeId = Safes::where('branch_id',$branch)->value('id');
+
+        //Safe Deposit
+        $deposits = SafesTransactions::whereBetween('transaction_datetime', [$from, $to])
+        ->where('transaction_type',2)
+        ->where('direct',1)
+        ->where('safe_id',$getBranchSafeId)
+        ->get();
+
+        //Safe Deposit
+        $deposit = SafesTransactions::whereBetween('transaction_datetime', [$from, $to])
+                                    ->where('transaction_type',2)
+                                    ->where('direct',1)
+                                    ->where('safe_id',$getBranchSafeId)
+                                    ->sum('transaction_amount');
+
+        //Income
+        $income = In::whereBetween('updated_at', [$from, $to])
+        ->where('safe_id',$getBranchSafeId)->get();
+
+
+        return view('reports.expenses',compact('deposits','branch','branches','fromX','toX','income','deposit'));
+
+    }
 }

@@ -362,7 +362,7 @@
                       <span class="font-large-1 text-bold-300 success">تقارير الدواخل</span>
                       <br/>
                       <br/>
-                      <a href="#" class="btn btn-success btn-block">التفاصيل</a>
+                      <a href="{{route('reports.income',[$from,$to,$branch])}}" class="btn btn-success btn-block">التفاصيل</a>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-6 col-12">
@@ -370,7 +370,7 @@
                       <span class="font-large-1 text-bold-300  danger">تقارير المصاريف</span>
                       <br/>
                       <br/>
-                      <a href="#" class="btn btn-danger btn-block">التفاصيل</a>
+                      <a href="{{route('reports.expenses',[$from,$to,$branch])}}" class="btn btn-danger btn-block">التفاصيل</a>
                     </div>
                   </div>
                 </div>

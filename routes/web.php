@@ -215,6 +215,8 @@ Route::delete('/outs/delete/{out}', [OutsController::class, 'delete'])->name('ou
  *************************/
 Route::get('/reports', [ReportsController::class, 'landing'])->name('reports.landing');
 Route::get('/reports/sales/{from}/{to}/{branch}', [ReportsController::class, 'sales'])->name('reports.sales');
+Route::get('/reports/income/{from}/{to}/{branch}', [ReportsController::class, 'income'])->name('reports.income');
+Route::get('/reports/expenses/{from}/{to}/{branch}', [ReportsController::class, 'expenses'])->name('reports.expenses');
 
 
 
