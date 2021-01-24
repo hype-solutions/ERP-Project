@@ -14,9 +14,16 @@ class InvoicesPayments extends Model
         'invoice_id',
         'amount',
         'date',
+        'date_collected',
         'notes',
         'paid',
         'safe_id',
         'safe_payment_id'
     ];
+
+
+    public function invoice()
+    {
+        return $this->belongsTo('App\Models\Invoices\Invoices', 'invoice_id', 'id');
+    }
 }

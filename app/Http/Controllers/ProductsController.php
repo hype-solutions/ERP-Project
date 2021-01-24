@@ -114,6 +114,20 @@ class ProductsController extends Controller
 
         return view('products.profile', compact('productCost','productInvoices','supplierProducts','product', 'branches', 'productransfers','productManual','productSuppliers','productPurchasesOrders'));
     }
+
+    // public function test(){
+    //     $product = Products::find(1);
+    //     $product->avg = $product->purchasesOrders();
+
+    //     return $product->avg;
+    // }
+
+    public function productsList()
+    {
+        $products = Products::all();
+        return view('products.list', compact('products'));
+    }
+
     public function edit(products $product)
     {
         if($product->product_category > 0 ){
@@ -137,11 +151,7 @@ class ProductsController extends Controller
         return redirect('/products')->with('success', 'product deleted');
     }
 
-    public function productsList()
-    {
-        $products = Products::all();
-        return view('products.list', compact('products'));
-    }
+
     public function transfer(Products $product)
     {
         //$product = Products::find($product);
@@ -175,6 +185,17 @@ class ProductsController extends Controller
         $price = $product->product_price;
         return response()->json(array('price' => $price), 200);
     }
+
+    public function fetchCost(Request $request)
+    {
+        $product_id = $request->product;
+        $product= Products::where('id', $product_id)
+            ->first();
+        $cost = $product->purchasesOrders();
+        return response()->json(array('cost' => $cost), 200);
+    }
+
+
     public function fetchOtherBranches(Request $request)
     {
         $other_id = $request->other_id;

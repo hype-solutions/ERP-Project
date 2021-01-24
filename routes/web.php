@@ -80,15 +80,13 @@ Route::get('/products/qty/transfer/{product}', [ProductsController::class, 'tran
 Route::post('/products/qty/transfering', [ProductsController::class, 'transfering'])->name('products.transfering');
 Route::post('/products/qty/fetch', [ProductsController::class, 'fetchQty'])->name('products.fetchQty');
 Route::post('/products/qty/fetchprice', [ProductsController::class, 'fetchPrice'])->name('products.fetchPrice');
+Route::post('/products/qty/fetchcost', [ProductsController::class, 'fetchCost'])->name('products.fetchCost');
 Route::post('/products/qty/fetchotherbranches', [ProductsController::class, 'fetchOtherBranches'])->name('products.fetchOtherBranches');
 Route::get('/products/qty/add/{product}', [ProductsController::class, 'addQty'])->name('products.addQty');
 Route::post('/products/qty/adding', [ProductsController::class, 'addingQty'])->name('products.addingQty');
 
 Route::get('/products/select', [ProductsController::class, 'productSelect'])->name('products.select');
 Route::post('/products/selecting', [ProductsController::class, 'selecting'])->name('products.selecting');
-
-
-
 
 /**************************
  **** Purchases orders ****
@@ -216,7 +214,7 @@ Route::delete('/outs/delete/{out}', [OutsController::class, 'delete'])->name('ou
  ******** Reports ********
  *************************/
 Route::get('/reports', [ReportsController::class, 'landing'])->name('reports.landing');
-Route::post('/reports/branch/{branch}/from/{from}/to/{to}', [ReportsController::class, 'fromto'])->name('reports.fromto');
+Route::get('/reports/sales/{from}/{to}/{branch}', [ReportsController::class, 'sales'])->name('reports.sales');
 
 
 

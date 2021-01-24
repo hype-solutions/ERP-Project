@@ -178,6 +178,7 @@ class InvoicesController extends Controller
             $pro->product_id = $item['id'];
             $pro->product_desc = $item['desc'];
             $pro->product_price = $item['price'];
+            $pro->product_cost = $item['cost']*$item['qty'];
             $pro->product_qty = $item['qty'];
             $pro->status = 'shipped';
             $pro->save();
@@ -209,6 +210,7 @@ class InvoicesController extends Controller
                     $da->safe_id = $safe_id;
                     $da->safe_payment_id = $payment_id;
                     Safes::where('id', $safe_id)->increment('safe_balance', $item['amount']);
+                    Invoices::where('id',$invoiceId)->increment('amount_collected', $item['amount']);
                 } else {
                     $da->paid = 'No';
                 }
@@ -216,6 +218,10 @@ class InvoicesController extends Controller
                 $listOfDates[] = $da;
             }
         }
+        $sumCost = InvoicesProducts::where('invoice_id', $invoiceId)->sum('product_cost');
+        $edtInvoice = Invoices::find($invoiceId);
+                $edtInvoice->invoice_cost = $sumCost;
+                $edtInvoice->save();
         return redirect('/invoices')->with('success', 'invoice added');
     }
 
@@ -300,6 +306,7 @@ class InvoicesController extends Controller
             $pro->product_id = $item['id'];
             $pro->product_desc = $item['desc'];
             $pro->product_price = $item['price'];
+            $pro->product_cost = $item['cost']*$item['qty'];
             $pro->product_qty = $item['qty'];
             $pro->status = 'shipped';
             $pro->save();
@@ -341,6 +348,7 @@ class InvoicesController extends Controller
                         $da->safe_id = $safe_id;
                         $da->safe_payment_id = $payment_id;
                         Safes::where('id', $safe_id)->decrement('safe_balance', $item['amount']);
+                        Invoices::where('id',$invoiceId)->increment('amount_collected', $item['amount']);
                     }
                 } else {
                     $da->paid = 'No';
@@ -357,6 +365,10 @@ class InvoicesController extends Controller
                 Invoices::where('id', $invoiceId)->update(['already_paid' => 1]);
             }
         }
+        $sumCost = InvoicesProducts::where('invoice_id', $invoiceId)->sum('product_cost');
+        $edtInvoice = Invoices::find($invoiceId);
+                $edtInvoice->invoice_cost = $sumCost;
+                $edtInvoice->save();
         return back();
     }
 

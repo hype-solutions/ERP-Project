@@ -128,6 +128,7 @@
                             <th>بيانات المنتج</th>
                             <th>المخزون</th>
                             <th>سعر البيع</th>
+                            <th>متوسط سعر الشراء</th>
                             <th>التحكم</th>
                         </tr>
                     </thead>
@@ -161,10 +162,13 @@
                                 </td>
                             <td><li class="la la-shopping-cart"></li>
                                 @if(isset($product->product_price))
-                                {{ $product->product_price }}
+                                {{ $product->product_price }} ج.م
                                 @else
                                 <span>غير مسجل</span>
                                 @endif
+                            </td>
+                            <td>
+                                {{ $product->purchasesOrders() +0 }} ج.م
                             </td>
 
                             <td>

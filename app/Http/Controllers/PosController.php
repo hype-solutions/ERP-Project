@@ -101,6 +101,7 @@ class PosController extends Controller
     {
         $pos_session_id = $request->session;
         $items = $request->item;
+        $totalCost = 0;
         if($items){
         Cart::where('pos_session_id', $pos_session_id)->delete();
         $listOfItems = [];
@@ -113,6 +114,10 @@ class PosController extends Controller
             $pro->product_price = $item['price'];
             $pro->save();
             $listOfItems[] = $pro;
+
+            $product = Products::find($item['id']);
+            $avg = $product->purchasesOrders();
+            $totalCost += $avg * $item['qty'];
         }
 
     }
@@ -122,6 +127,7 @@ class PosController extends Controller
     $upd->discount_amount = $request->discount_amount;
     $upd->discount_percentage = $request->discount_percentage;
     $upd->total = $request->total;
+    $upd->cost = $totalCost;
     $upd->sold_by = $request->sold_by;
     $upd->sold_when = Carbon::now();
     if($request->end_or_save == 1){
@@ -132,6 +138,11 @@ class PosController extends Controller
 
 
 
+    if($request->end_or_save == 1){
+        return redirect()->route('pos.landing')->with('popup', 'open')->with('session', $pos_session_id);
+    }else{
+        return redirect()->route('pos.landing');
+    }
 
 
         return redirect()->route('pos.landing')->with('popup', 'open')->with('session', $pos_session_id);

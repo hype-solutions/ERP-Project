@@ -30,4 +30,9 @@ class Products extends Model
         return $this->hasOne('App\Models\Products\ProductsCategories','id','product_category');
     }
 
+    public function purchasesOrders()
+    {
+        return $this->belongsTo('App\Models\PurchasesOrders\PurchasesOrdersProducts','id','product_id')->avg('product_price');
+    }
+
 }

@@ -15,6 +15,7 @@ class Cart extends Model
         'product_name',
         'product_qty',
         'product_price',
+        'product_cost',
         'included_by',
         'added_at',
     ];

@@ -22,6 +22,7 @@ class Invoices extends Model
         'discount_reason',
         'shipping_fees',
         'invoice_total',
+        'invoice_cost',
         'invoice_note',
         'payment_method',
         'already_paid',
@@ -49,6 +50,12 @@ class Invoices extends Model
     public function productInInvoice()
     {
         return $this->hasMany('App\Models\Invoices\InvoicesProducts', 'invoice_id', 'id');
+    }
+
+    //check later
+    public function payments()
+    {
+        return $this->hasMany('App\Models\Invoices\InvoicesPayments','invoice_id','id');
     }
 }
 

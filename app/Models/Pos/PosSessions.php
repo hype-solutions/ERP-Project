@@ -14,6 +14,7 @@ class PosSessions extends Model
         'customer_id',
         'status',
         'total',
+        'cost',
         'discount_amount',
         'discount_percentage',
         'tax',

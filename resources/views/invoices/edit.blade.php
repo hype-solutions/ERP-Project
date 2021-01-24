@@ -188,7 +188,9 @@
                                           </div>
                                     </td>
                                     <td><input type="text" class="product_input" name="product[{{$key+1}}][desc]" value="{{$item->product_desc}}"/></td>
-                                    <td><input type="number" class="product_input" id="p_p_{{$key+1}}" name="product[{{$key+1}}][price]"  value="{{$item->product_price}}" onblur="return reCalculate({{$key+1}})" min="0"/></td>
+                                    <td><input type="number" class="product_input" id="p_p_{{$key+1}}" name="product[{{$key+1}}][price]"  value="{{$item->product_price}}" onblur="return reCalculate({{$key+1}})" min="0"/>
+                                        <input type="hidden" name="product[1][cost]" id="p_c_{{$key+1}}" value="{{$item->product_cost}}"/>
+                                    </td>
                                     <td><input type="number" class="product_input" id="p_q_{{$key+1}}" name="product[{{$key+1}}][qty]"  value="{{$item->product_qty}}" onblur="return reCalculate({{$key+1}})"  min="0"/></td>
                                     <td>
                                         <span id="tot_{{$key+1}}">0</span> ج.م
@@ -732,6 +734,23 @@ function getProductInfo(product,row){
             success: function (data) {
                 $("#p_p_"+row).val(data.price);
                 reCalculate(row);
+                // $("#addingRowBtn").prop("disabled",false);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+
+
+        var ajaxurl = "{{route('products.fetchCost')}}";
+        $.ajax({
+            type: type,
+            url: ajaxurl,
+            data: formData,
+            dataType: 'json',
+            success: function (data) {
+                $("#p_c_"+row).val(data.cost);
+                reCalculate(row);
                 $("#addingRowBtn").prop("disabled",false);
             },
             error: function (data) {
@@ -1013,6 +1032,11 @@ product_price.setAttribute("class", "product_input");
 product_price.setAttribute("id", "p_p_" + currentIndex);
 product_price.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
 
+var product_cost = document.createElement("input");
+product_cost.setAttribute("name","product[" + currentIndex + "][cost]");
+product_cost.setAttribute("type","hidden");
+product_cost.setAttribute("id","p_c_" + currentIndex);
+
 var product_qty = document.createElement("input");
 product_qty.setAttribute("name", "product[" + currentIndex + "][qty]");
 product_qty.setAttribute("type", "number");
@@ -1035,6 +1059,7 @@ currentCell.appendChild(product_desc);
 
 currentCell = currentRow.insertCell(-1);
 currentCell.appendChild(product_price);
+currentCell.appendChild(product_cost);
 
 currentCell = currentRow.insertCell(-1);
 currentCell.appendChild(product_qty);

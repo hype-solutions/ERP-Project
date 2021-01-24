@@ -12,7 +12,16 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/forms/selects/select2.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/fonts/simple-line-icons/style.min.css') }}">
-
+    <style type="text/css">
+        .tg  {border-collapse:collapse;border-spacing:0;}
+        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+          overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+          font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
+        .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+        .tg .tg-dvpl{border-color:inherit;text-align:right;vertical-align:top}
+        </style>
     <!-- END: Page CSS-->
 @endsection
 
@@ -120,6 +129,25 @@
                     </div>
                   </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card bg-success">
+                            <div class="card-content">
+                              <div class="card-body">
+                                <div class="media d-flex">
+                                  <div class="align-self-center">
+                                    <i class="icon-lock text-white font-large-2 float-left"></i>
+                                  </div>
+                                  <div class="media-body text-white text-center">
+                                    <h2 class="text-white">{{$safesSum}} <small>ج.م</small></h2>
+                                    <span>رصيد الخزنة / الخزن</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                </div>
             </div>
 
             {{-- <div class="col-md-6">
@@ -203,114 +231,98 @@
                     </div>
                 </div> --}}
                 <div class="card">
-                    <div class="card-header">
-                        <h3>الملخص</h3>
-                    </div>
-                    <style type="text/css">
-                        .tg  {border-collapse:collapse;border-spacing:0;}
-                        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-                          overflow:hidden;padding:10px 5px;word-break:normal;}
-                        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-                          font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-                        .tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
-                        .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
-                        .tg .tg-dvpl{border-color:inherit;text-align:right;vertical-align:top}
-                        </style>
-                    <div class="card-content"><div class="table-responsive">
-                        <table class="tg">
-                            <thead>
-                              <tr>
-                                <th class="tg-c3ow" colspan="2">ملخص المبيعات</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td class="tg-0pky">10000</td>
-                                <td class="tg-dvpl">إجمالي المبيعات</td>
-                              </tr>
-                              <tr>
-                                <td class="tg-0pky">7500</td>
-                                <td class="tg-dvpl">صافي ربح المبيعات</td>
-                              </tr>
-                              <tr>
-                                <td class="tg-c3ow" colspan="2">ملخص المشاريع</td>
-                              </tr>
-                              <tr>
-                                <td class="tg-0pky">800000</td>
-                                <td class="tg-dvpl">إجمالي المشاريع</td>
-                              </tr>
-                              <tr>
-                                <td class="tg-0pky">200000</td>
-                                <td class="tg-dvpl">صافي ربح المشاريع</td>
-                              </tr>
-                              <tr>
-                                <td class="tg-c3ow" colspan="2">الدواخل</td>
-                              </tr>
-                              <tr>
-                                <td class="tg-dvpl">300</td>
-                                <td class="tg-dvpl">الدواخل</td>
-                              </tr>
-                              <tr>
-                                <td class="tg-dvpl">5000</td>
-                                <td class="tg-dvpl">الإيداع</td>
-                              </tr>
-                              <tr>
-                                <td class="tg-c3ow" colspan="2">المصاريف</td>
-                              </tr>
-                              <tr>
-                                <td class="tg-0pky">600</td>
-                                <td class="tg-dvpl">المصاريف</td>
-                              </tr>
-                              <tr>
-                        </div>
-                    </div>
-                        <div class="table-responsive" style="display: none">
-                            <table class="table mb-0 table-lg">
 
+                        <div class="table-responsive">
+                            <table class="table mb-0 table-md">
+                                <thead>
+                                    <tr>
+                                      <th colspan="2" class="text-center">ملخص المبيعات</th>
+                                    </tr>
+                                  </thead>
                                 <tbody>
                                     <tr class="bg-success white">
-                                        <th scope="row">البيع السريع</th>
-                                        <td>{{$posInvoicesSum}} ج.م</td>
-                                    </tr>
-                                    <tr class="bg-success white">
-                                        <th scope="row">فواتير المبيعات</th>
-                                        <td>{{$invoicesSum}} ج.م</td>
-                                    </tr>
-                                    <tr class="bg-success white">
-                                        <th scope="row">المشاريع</th>
+                                        <td scope="row">إجمالي المبيعات</td>
+                                        <td>{{$posInvoicesSum + $invoicesSum + $invoicesSumLater}} ج.م</td>
+                                      </tr>
+                                      <tr class="bg-success white">
+                                        <td scope="row">صافي ربح المبيعات</td>
+                                        <td>{{$posInvoicesNet + $invoicesNet + $invoicesNetLater}} ج.م</td>
+                                      </tr>
+                                      <tr>
+                                        <th colspan="2" class="text-center">ملخص المشاريع</th>
+                                      </tr>
+                                      <tr class="bg-success white">
+                                        <td scope="row">إجمالي المشاريع</td>
                                         <td>{{$projectsSum}} ج.م</td>
-                                    </tr>
-                                    <tr class="bg-success white">
-                                        <th scope="row">الدواخل و الإيداع</th>
-                                        <td>{{$income}} ج.م</td>
-                                    </tr>
-                                    <tr class="bg-success white">
-                                        <th scope="row">فواتير الدائن</th>
+                                      </tr>
+                                      <tr class="bg-success white">
+                                        <td scope="row">صافي ربح المشاريع</td>
+                                        <td>{{$projectsNet}} ج.م</td>
+                                      </tr>
+                                      <tr>
+                                        <th colspan="2" class="text-center">الدواخل</th>
+                                      </tr>
+                                      {{-- <tr class="bg-success white">
+                                        <td scope="row">فواتير الدائن المحصلة</td>
                                         <td>{{$laterSumInv}} ج.م</td>
-                                    </tr>
-                                    <tr class="bg-danger white">
-                                        <th scope="row">المصاريف و السحب</th>
+                                      </tr> --}}
+                                      <tr class="bg-success white">
+                                        <td scope="row">دواخل أخرى</td>
+                                        <td>{{$income}} ج.م</td>
+                                      </tr>
+                                      <tr class="bg-success white">
+                                        <td scope="row">الإيداعات بالخزنة</td>
+                                        <td>{{$deposit}} ج.م</td>
+                                      </tr>
+                                      <tr>
+                                        <th colspan="2" class="text-center">المصاريف</th>
+                                      </tr>
+                                      <tr class="bg-danger white">
+                                        <td scope="row">مصاريف</td>
                                         <td>{{$expenses}} ج.م</td>
-                                    </tr>
-
-                                    <tr class="bg-danger white">
-                                        <th scope="row">فواتير المدين</th>
-                                        <td>{{$laterSumPO}} ج.م</td>
-
-                                    </tr>
-                                    <tr class="bg-danger white">
-                                        <th scope="row">فواتير الشراء</th>
+                                      </tr>
+                                      <tr class="bg-danger white">
+                                        <td scope="row">السحب من الخزنة</td>
+                                        <td>{{$withdrawal}} ج.م</td>
+                                      </tr>
+                                      <tr class="bg-danger white">
+                                        <td scope="row">فواتير الشراء (أوامر الشراء)</td>
                                         <td>{{$purchasesOrders}} ج.م</td>
+                                      </tr>
+                                      {{-- <tr class="bg-danger white">
+                                        <td scope="row">فواتير المدين المدفوعة</td>
+                                        <td>{{$laterSumPO}} ج.م</td>
+                                      </tr> --}}
 
-                                    </tr>
-                                    <tr class="bg-info white">
-                                        <th scope="row">الإجمالي</th>
-                                        <td>{{$posInvoicesSum + $invoicesSum + $projectsSum + $income + $laterSumInv - $laterSumPO - $expenses - $purchasesOrders}} ج.م</td>
+                                     <tr class="bg-info white">
+                                        <th scope="row">إجمالي الدخل</th>
+                                        <td>{{
+                                                $posInvoicesSum +
+                                                $invoicesSum +
+                                                $projectsSum +
+                                                $invoicesSumLater +
+                                                $income +
+                                                $deposit -
+                                                $expenses -
+                                                $withdrawal -
+                                                $purchasesOrders
+                                                }}
+                                                 ج.م</td>
 
                                     </tr>
                                     <tr class="bg-info white">
                                         <th scope="row">الربح الصافي</th>
-                                        <td>{{$posInvoicesSum + $invoicesSum + $projectsSum + $income + $laterSumInv - $laterSumPO - $expenses - $purchasesOrders}} ج.م</td>
+                                        <td>{{
+                                                $posInvoicesNet +
+                                                $invoicesNet +
+                                                $invoicesNetLater +
+                                                $projectsNet +
+                                                $income +
+                                                $deposit -
+                                                $expenses -
+                                                $withdrawal -
+                                                $purchasesOrders
+                                            }} ج.م</td>
 
                                     </tr>
 
@@ -322,42 +334,64 @@
             </div>
         </div>
     </section>
-
-
     <section id="grouped-stats" class="grouped-stats">
+    <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-content">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-6 col-12 border-right-blue-grey border-right-lighten-5">
+                    <div class="text-center">
+                      <span class="font-large-1 text-bold-300 info">تقارير المبيعات</span>
+                      <br/>
+                      <br/>
+                      <a href="{{route('reports.sales',[$from,$to,$branch])}}" class="btn btn-info btn-block">التفاصيل</a>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6 col-12 border-right-blue-grey border-right-lighten-5">
+                    <div class="text-center">
+                      <span class="font-large-1 text-bold-300 warning">تقارير المشاريع</span>
+                      <br/>
+                      <br/>
+                      <a href="#" class="btn btn-warning btn-block">التفاصيل</a>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6 col-12 border-right-blue-grey border-right-lighten-5">
+                    <div class="text-center">
+                      <span class="font-large-1 text-bold-300 success">تقارير الدواخل</span>
+                      <br/>
+                      <br/>
+                      <a href="#" class="btn btn-success btn-block">التفاصيل</a>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6 col-12">
+                    <div class="text-center">
+                      <span class="font-large-1 text-bold-300  danger">تقارير المصاريف</span>
+                      <br/>
+                      <br/>
+                      <a href="#" class="btn btn-danger btn-block">التفاصيل</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
         <div class="row">
-            <div class="col-12">
+            <div class="col-6">
               <div class="card bg-gradient-x-success">
                 <div class="card-content">
                   <div class="row">
-                    <div class="col-lg-3 col-md-6 col-sm-12 card-gradient-md-border border-right-success border-right-lighten-3">
-                      <div class="card-body text-center">
-                        <h1 class="display-4 text-white">{{$posInvoicesSum + $invoicesSum}} <small>ج.م</small></h1>
-                        <span class="text-white">المبيعات</span>
-                        <br><br>
-                        <button class="btn btn-dark btn-block">التفاصيل</button>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-12 card-gradient-md-border border-right-success border-right-lighten-3">
-                      <div class="card-body text-center">
-                        <h1 class="display-4 text-white">{{$projectsSum}} <small>ج.م</small></h1>
-                        <span class="text-white">المشاريع</span>
-                        <br><br>
-                        <button class="btn btn-dark btn-block">التفاصيل</button>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-12 card-gradient-md-border border-right-success border-right-lighten-3">
-                      <div class="card-body text-center">
-                        <h1 class="display-4 text-white">{{$income}} <small>ج.م</small></h1>
-                        <span class="text-white">الدواخل و الإيداع</span>
-                        <br><br>
-                        <button class="btn btn-dark btn-block">التفاصيل</button>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-12 card-gradient-md-border">
+
+
+
+                    <div class="col-lg-12 col-md-6 col-sm-12 card-gradient-md-border">
                       <div class="card-body text-center">
                         <h1 class="display-4 text-white">{{$laterSumInv}} <small>ج.م</small></h1>
-                        <span class="text-white">فواتير الدائن</span>
+                        <span class="text-white">أقساط الدائن المحصلة</span>
                         <br><br>
                         <button class="btn btn-dark btn-block">التفاصيل</button>
                       </div>
@@ -366,24 +400,16 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
+
+            <div class="col-6">
               <div class="card bg-gradient-x-danger">
                 <div class="card-content">
                   <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-12 card-gradient-md-border border-right-danger border-right-lighten-3">
-                        <div class="card-body text-center">
-                          <h1 class="display-4 text-white">{{$expenses}} <small>ج.م</small></h1>
-                          <span class="text-white">المصاريف و السحب	</span>
-                          <br><br>
-                          <button class="btn btn-dark btn-block">التفاصيل</button>
-                        </div>
-                      </div>
-                      <div class="col-lg-6 col-md-6 col-sm-12 card-gradient-md-border border-right-danger border-right-lighten-3">
+
+                      <div class="col-lg-12 col-md-6 col-sm-12 card-gradient-md-border border-right-danger border-right-lighten-3">
                         <div class="card-body text-center">
                           <h1 class="display-4 text-white">{{$laterSumPO}} <small>ج.م</small></h1>
-                          <span class="text-white">فواتير المدين	</span>
+                          <span class="text-white">أقساط المدين المدفوعة</span>
                           <br><br>
                           <button class="btn btn-dark btn-block">التفاصيل</button>
                         </div>

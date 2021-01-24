@@ -15,6 +15,7 @@ class InvoicesProducts extends Model
         'product_id',
         'product_desc',
         'product_price',
+        'product_cost',
         'product_qty',
         'status',
     ];

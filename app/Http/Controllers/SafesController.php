@@ -52,6 +52,7 @@ class SafesController extends Controller
         $payment = new SafesTransactions();
         $payment->safe_id = $request->safe_id;
         $payment->transaction_type = 2;
+        $payment->direct = 1;
         $payment->transaction_amount = $request->amount;
         $payment->transaction_datetime = Carbon::now();
         $payment->done_by = $user_id;
@@ -70,6 +71,7 @@ class SafesController extends Controller
         $payment = new SafesTransactions();
         $payment->safe_id = $request->safe_id;
         $payment->transaction_type = 1;
+        $payment->direct = 1;
         $payment->transaction_amount = $request->amount;
         $payment->transaction_datetime = Carbon::now();
         $payment->done_by = $user_id;

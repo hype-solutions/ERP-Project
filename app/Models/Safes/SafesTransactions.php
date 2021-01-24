@@ -12,6 +12,7 @@ class SafesTransactions extends Model
     protected $fillable = [
         'safe_id',
         'transaction_type',
+        'direct',
         'transaction_amount',
         'transaction_notes',
         'transaction_datetime',

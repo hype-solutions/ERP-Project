@@ -211,7 +211,9 @@
                                           </div>
                                     </td>
                                     <td><input type="text" class="product_input" name="product[1][desc]"/></td>
-                                    <td><input type="number" class="product_input" id="p_p_1" name="product[1][price]" onblur="return reCalculate(1)" min="0" required/></td>
+                                    <td><input type="number" class="product_input" id="p_p_1" name="product[1][price]" onblur="return reCalculate(1)" min="0" required/>
+                                    <input type="hidden" name="product[1][cost]" id="p_c_1" />
+                                    </td>
                                     <td><input type="number" class="product_input" id="p_q_1" name="product[1][qty]" onblur="return reCalculate(1)" min="0" placeholder="0" required/></td>
                                     <td>
                                         <span id="tot_1">0</span> ج.م
@@ -741,13 +743,29 @@ function getProductInfo(product,row){
             success: function (data) {
                 $("#p_p_"+row).val(data.price);
                 reCalculate(row);
-                $("#addingRowBtn").prop("disabled",false);
+                // $("#addingRowBtn").prop("disabled",false);
             },
             error: function (data) {
                 console.log(data);
             }
         });
 
+
+        var ajaxurl = "{{route('products.fetchCost')}}";
+        $.ajax({
+            type: type,
+            url: ajaxurl,
+            data: formData,
+            dataType: 'json',
+            success: function (data) {
+                $("#p_c_"+row).val(data.cost);
+                reCalculate(row);
+                $("#addingRowBtn").prop("disabled",false);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
 //currentProductIds.push(product.value);
 
 // console.log(currentProductIds);
@@ -1026,6 +1044,11 @@ product_price.setAttribute("class", "product_input");
 product_price.setAttribute("id", "p_p_" + currentIndex);
 product_price.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
 
+var product_cost = document.createElement("input");
+product_cost.setAttribute("name","product[" + currentIndex + "][cost]");
+product_cost.setAttribute("type","hidden");
+product_cost.setAttribute("id","p_c_" + currentIndex);
+
 var product_qty = document.createElement("input");
 product_qty.setAttribute("name", "product[" + currentIndex + "][qty]");
 product_qty.setAttribute("type", "number");
@@ -1041,7 +1064,6 @@ currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_'
 
 //currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_' + currentIndex + '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product['+currentIndex+'][id]" required onchange="return getProductInfo(this,'+currentIndex+')"> </select></div>';
 
-
 $('#sel_x_' + currentIndex).select2();
 
 currentCell = currentRow.insertCell(-1);
@@ -1049,6 +1071,7 @@ currentCell.appendChild(product_desc);
 
 currentCell = currentRow.insertCell(-1);
 currentCell.appendChild(product_price);
+currentCell.appendChild(product_cost);
 
 currentCell = currentRow.insertCell(-1);
 currentCell.appendChild(product_qty);

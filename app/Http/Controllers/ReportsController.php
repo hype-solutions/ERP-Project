@@ -14,7 +14,9 @@ use App\Models\Projects\Projects;
 use App\Models\PurchasesOrders\PurchasesOrders;
 use App\Models\PurchasesOrders\PurchasesOrdersPayments;
 use App\Models\Safes\Safes;
+use App\Models\Safes\SafesTransactions;
 use App\Models\Suppliers\Suppliers;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ReportsController extends Controller
@@ -24,10 +26,7 @@ class ReportsController extends Controller
         $this->middleware('auth');
     }
 
-    public function fromto($branch,$from,$to)
-    {
 
-    }
 
 
     public function landing(Request $request)
@@ -42,15 +41,125 @@ class ReportsController extends Controller
             $branch = '1';
          }
 
+         //Insure covering whole days
+         $from    = Carbon::parse($from)
+                 ->startOfDay()        // date 00:00:00.000000
+                 ->toDateTimeString(); // date 00:00:00
+
+        $to      = Carbon::parse($to)
+        ->endOfDay()          // date 23:59:59.000000
+        ->toDateTimeString(); // date 23:59:59
+
+         $branches = Branches::all();
          $getBranchSafeId = Safes::where('branch_id',$branch)->value('id');
 
-        //Options
-        $branches = Branches::all();
+        /*******SALES*********/
+        //Sales Gross
+        $posInvoicesSum = PosSessions::Where('status',1)
+                                     ->whereBetween('updated_at', [$from, $to])
+                                     ->where('branch_id',$branch)
+                                     ->sum('total');
 
-        //Expenses
-        $expenses = Out::whereBetween('updated_at', [$from, $to])->where('safe_id',$getBranchSafeId)->sum('amount');
+        $invoicesSum = Invoices::where('already_paid',1)
+                               ->whereBetween('invoice_date', [$from, $to])
+                               ->where('branch_id',$branch)
+                               ->sum('invoice_total');
+
+        $invoicesSumLater = Invoices::where('already_paid',0)
+                                    ->whereBetween('invoice_date', [$from, $to])
+                                    ->where('branch_id',$branch)
+                                    ->where('payment_method','later')
+                                    ->sum('amount_collected');
+        //Sales Cost
+        $posInvoicesCost = PosSessions::Where('status',1)
+                                      ->whereBetween('updated_at', [$from, $to])
+                                      ->where('branch_id',$branch)
+                                      ->sum('cost');
+
+        $invoicesCost = Invoices::where('already_paid',1)
+                                ->whereBetween('invoice_date', [$from, $to])
+                                ->where('branch_id',$branch)
+                                ->sum('invoice_cost');
+
+        $invoicesLaterCost = Invoices::where('already_paid',0)
+                                ->whereBetween('invoice_date', [$from, $to])
+                                ->where('branch_id',$branch)
+                                ->where('payment_method','later')
+                                ->sum('invoice_cost');
+        //Sales Net
+        $posInvoicesNet = $posInvoicesSum - $posInvoicesCost;
+        $invoicesNet = $invoicesSum - $invoicesCost;
+
+        $invoicesNetLater = $invoicesSumLater - $invoicesLaterCost;
+        /*******PROJECTS*********/
+        $projectsCount = Projects::count();
+        //Projetcs Gross
+        $projectsSum = Projects::sum('total');
+        //Projects Net
+        $projectsNet = 0;
+
+        /*******OTHER INCOME*********/
+        //Later Invoices
+        //add cond to display only those invoices which are not already paid
+        $laterSumInv = InvoicesPayments::where('paid','Yes')
+                                       ->whereBetween('date_collected', [$from, $to])
+                                       ->where('safe_id',$getBranchSafeId)
+                                       ->sum('amount');
+
         //Income
         $income = In::whereBetween('updated_at', [$from, $to])->where('safe_id',$getBranchSafeId)->sum('amount');
+
+        //Safe Deposit
+        $deposit = SafesTransactions::whereBetween('transaction_datetime', [$from, $to])
+                                    ->where('transaction_type',2)
+                                    ->where('direct',1)
+                                    ->where('safe_id',$getBranchSafeId)
+                                    ->sum('transaction_amount');
+
+
+        /*******OTHER Expenses*********/
+        //Expenses
+        $expenses = Out::whereBetween('updated_at', [$from, $to])->where('safe_id',$getBranchSafeId)->sum('amount');
+
+        //Safe Withdrawal
+        $withdrawal = SafesTransactions::whereBetween('transaction_datetime', [$from, $to])
+                                    ->where('transaction_type',1)
+                                    ->where('direct',1)
+                                    ->where('safe_id',$getBranchSafeId)
+                                    ->sum('transaction_amount');
+
+        //Purchases Orders
+        $purchasesOrders = PurchasesOrders::where('already_paid',1)
+                                          ->whereBetween('purchase_date', [$from, $to])
+                                          ->where('safe_id',$getBranchSafeId)
+                                          ->sum('purchase_total');
+
+        //Paid purchases orders installment
+        $laterSumPO = PurchasesOrdersPayments::where('paid','Yes')
+                                             ->whereBetween('date', [$from, $to])
+                                             ->where('safe_id',$getBranchSafeId)
+                                             ->sum('amount');
+
+
+
+
+
+
+        // $paidLaterInvCost = InvoicesPayments::where('paid','Yes')
+        // ->whereBetween('date_collected', [$from, $to])
+        // ->where('safe_id',$getBranchSafeId)
+        // ->with('invoiceSumCost')
+        // ->get();
+        // ->pluck('invoiceSumCost:invoice_cost')->flatten();
+        // ->with(['invoice' => function($query){
+        //     $query->sum('invoice_cost');
+        //  }])->get();
+
+            // ->get();
+        // ->withSum('invoice','invoice_cost')->get();
+
+        // $allPaidLaterCost = $paidLaterInvCost->invoice_sum_invoice_cost;
+
         //Customers
         $customersCount = Customers::count();
         //Suppliers
@@ -59,27 +168,26 @@ class ReportsController extends Controller
         $safesSum = Safes::where('branch_id',$branch)->sum('safe_balance');
         //POS
         $posInvoicesCount = PosSessions::where('branch_id',$branch)->count();
-        $posInvoicesSum = PosSessions::Where('status',1)->whereBetween('updated_at', [$from, $to])->where('branch_id',$branch)->sum('total');
         $posInvoicesDone = PosSessions::Where('status',1)->whereBetween('updated_at', [$from, $to])->where('branch_id',$branch)->count();
         //Invoices
         $invoicesCount = Invoices::count();
-        $invoicesSum = Invoices::where('already_paid',1)->whereBetween('invoice_date', [$from, $to])->where('safe_id',$getBranchSafeId)->sum('invoice_total');
         $invoicesDone = Invoices::where('already_paid',1)->whereBetween('invoice_date', [$from, $to])->where('safe_id',$getBranchSafeId)->count();
         //Price Quotation
         $invoicesPriceQuotationsCount = InvoicesPriceQuotation::count();
         $invoicesPriceQuotationsSum = InvoicesPriceQuotation::sum('quotation_total');
         //Projects
-        $projectsCount = Projects::count();
-        $projectsSum = Projects::sum('total');
-        //Later Invoices
-        //add cond to display only those invoices which are not already paid
-        $laterSumInv = InvoicesPayments::where('paid','Yes')->whereBetween('date', [$from, $to])->where('safe_id',$getBranchSafeId)->sum('amount');
-        $laterSumPO = PurchasesOrdersPayments::where('paid','Yes')->whereBetween('date', [$from, $to])->where('safe_id',$getBranchSafeId)->sum('amount');
-        //Purchases Orders
-        $purchasesOrders = PurchasesOrders::where('already_paid',1)->whereBetween('purchase_date', [$from, $to])->where('safe_id',$getBranchSafeId)->sum('purchase_total');
+
+// return $invoicesSumLater;
 
 
         return view('reports.landing',compact(
+            'invoicesNetLater',
+            'invoicesSumLater',
+            'projectsNet',
+            'withdrawal',
+            'deposit',
+            'posInvoicesNet',
+            'invoicesNet',
             'branches',
             'expenses',
             'income',
@@ -102,5 +210,108 @@ class ReportsController extends Controller
             'from',
             'to',
         ));
+    }
+
+    public function sales($from,$to,$branch,Request $request)
+    {
+        if(isset($from)){
+            $from = $from;
+            $to = $to;
+            $branch = $branch;
+         }else if($request->$from){
+            $from = $request->from;
+            $to = $request->to;
+            $branch = $request->branch;
+         }
+         else{
+            $from = date('Y-m-d',strtotime("-1 days"));
+            $to = date('Y-m-d');
+            $branch = '1';
+         }
+
+         $fromX = $from;
+         $toX = $to;
+         //Insure covering whole days
+         $from    = Carbon::parse($from)
+                 ->startOfDay()        // date 00:00:00.000000
+                 ->toDateTimeString(); // date 00:00:00
+
+        $to      = Carbon::parse($to)
+        ->endOfDay()          // date 23:59:59.000000
+        ->toDateTimeString(); // date 23:59:59
+
+
+        $invoices = Invoices::whereBetween('invoice_date', [$from, $to])
+                               ->where('branch_id',$branch)
+                               ->get();
+
+        $sessions = PosSessions::Where('status',1)
+                                     ->whereBetween('updated_at', [$from, $to])
+                                     ->where('branch_id',$branch)
+                                     ->get();
+
+
+        /*******SALES*********/
+        //Sales Gross
+        $posInvoicesSum = PosSessions::Where('status',1)
+        ->whereBetween('updated_at', [$from, $to])
+        ->where('branch_id',$branch)
+        ->sum('total');
+
+        $invoicesSum = Invoices::where('already_paid',1)
+        ->whereBetween('invoice_date', [$from, $to])
+        ->where('branch_id',$branch)
+        ->sum('invoice_total');
+
+        $invoicesSumLater = Invoices::where('already_paid',0)
+            ->whereBetween('invoice_date', [$from, $to])
+            ->where('branch_id',$branch)
+            ->where('payment_method','later')
+            ->sum('amount_collected');
+
+
+        //Sales Cost
+        $posInvoicesCost = PosSessions::Where('status',1)
+        ->whereBetween('updated_at', [$from, $to])
+        ->where('branch_id',$branch)
+        ->sum('cost');
+
+        $invoicesCost = Invoices::where('already_paid',1)
+        ->whereBetween('invoice_date', [$from, $to])
+        ->where('branch_id',$branch)
+        ->sum('invoice_cost');
+
+        $invoicesLaterCost = Invoices::where('already_paid',0)
+        ->whereBetween('invoice_date', [$from, $to])
+        ->where('branch_id',$branch)
+        ->where('payment_method','later')
+        ->sum('invoice_cost');
+        //Sales Net
+        $posInvoicesNet = $posInvoicesSum - $posInvoicesCost;
+        $invoicesNet = $invoicesSum - $invoicesCost;
+
+        $invoicesNetLater = $invoicesSumLater - $invoicesLaterCost;
+
+        $posSumCash = PosSessions::where('status',1)
+        ->whereBetween('updated_at', [$from, $to])
+        ->where('branch_id',$branch)
+        ->sum('total');
+
+        $invoicesSumCash = Invoices::where('already_paid',1)
+        ->whereBetween('invoice_date', [$from, $to])
+        ->where('branch_id',$branch)
+        ->where('payment_method','cash')
+        ->sum('invoice_total');
+
+
+        $invoicesSumVisa = Invoices::where('already_paid',1)
+        ->whereBetween('invoice_date', [$from, $to])
+        ->where('branch_id',$branch)
+        ->where('payment_method','cash')
+        ->sum('invoice_total');
+        $branches = Branches::all();
+
+
+        return view('reports.sales',compact('branch','posSumCash','branches','fromX','toX','invoicesSumVisa','invoicesSumCash','invoicesNetLater','invoicesNet','posInvoicesNet','invoices','sessions','posInvoicesSum','invoicesSum','invoicesSumLater'));
     }
 }

@@ -14,6 +14,7 @@ class PurchasesOrdersPayments extends Model
         'purchase_id',
         'amount',
         'date',
+        'date_collected',
         'notes',
         'paid',
         'safe_id',
