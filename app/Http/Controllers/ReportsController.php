@@ -41,6 +41,8 @@ class ReportsController extends Controller
             $branch = '1';
          }
 
+         $fromX = $from;
+         $toX = $to;
          //Insure covering whole days
          $from    = Carbon::parse($from)
                  ->startOfDay()        // date 00:00:00.000000
@@ -207,8 +209,8 @@ class ReportsController extends Controller
             'laterSumInv',
             'laterSumPO',
             'purchasesOrders',
-            'from',
-            'to',
+            'fromX',
+            'toX',
         ));
     }
 
@@ -405,25 +407,25 @@ class ReportsController extends Controller
         $getBranchSafeId = Safes::where('branch_id',$branch)->value('id');
 
         //Safe Deposit
-        $deposits = SafesTransactions::whereBetween('transaction_datetime', [$from, $to])
-        ->where('transaction_type',2)
+        $withdrawals = SafesTransactions::whereBetween('transaction_datetime', [$from, $to])
+        ->where('transaction_type',1)
         ->where('direct',1)
         ->where('safe_id',$getBranchSafeId)
         ->get();
 
         //Safe Deposit
-        $deposit = SafesTransactions::whereBetween('transaction_datetime', [$from, $to])
-                                    ->where('transaction_type',2)
+        $withdrawal = SafesTransactions::whereBetween('transaction_datetime', [$from, $to])
+                                    ->where('transaction_type',1)
                                     ->where('direct',1)
                                     ->where('safe_id',$getBranchSafeId)
                                     ->sum('transaction_amount');
 
         //Income
-        $income = In::whereBetween('updated_at', [$from, $to])
+        $expenses = Out::whereBetween('updated_at', [$from, $to])
         ->where('safe_id',$getBranchSafeId)->get();
 
 
-        return view('reports.expenses',compact('deposits','branch','branches','fromX','toX','income','deposit'));
+        return view('reports.expenses',compact('withdrawals','branch','branches','fromX','toX','expenses','withdrawal'));
 
     }
 }

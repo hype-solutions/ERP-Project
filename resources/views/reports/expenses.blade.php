@@ -158,7 +158,7 @@
                                     <tbody>
                                         <tr>
                                             <td>إجمالي المصاريف</td>
-                                            <td>{{$deposit}} ج.م</td>
+                                            <td>{{$withdrawal}} ج.م</td>
                                         </tr>
 
                                     </tbody>
@@ -195,14 +195,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($income as $in)
+                                @foreach ($expenses as $out)
                                 <tr>
-                                    <td>{{$in->id}}</td>
-                                    <td>{{$in->amount}} ج.م</td>
-                                    <td>{{$in->transaction_datetime}}</td>
+                                    <td>{{$out->id}}</td>
+                                    <td>{{$out->amount}} ج.م</td>
+                                    <td>{{$out->transaction_datetime}}</td>
 
                                     <td>
-                                        <a href="{{route('ins.view',$in->id)}}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
+                                        <a href="{{route('ins.view',$out->id)}}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
                                      </td>
                                 </tr>
                                 @endforeach
@@ -231,13 +231,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($deposits as $key => $deposit)
+                                @foreach ($withdrawals as $key => $withdrawal)
                                 <tr>
-                                    <td>{{ $deposit->id }}</td>
-                                    <td>{{ $deposit->transaction_amount }}</td>
-                                    <td>{{ $deposit->transaction_datetime }}</td>
+                                    <td>{{ $withdrawal->id }}</td>
+                                    <td>{{ $withdrawal->transaction_amount }}</td>
+                                    <td>{{ $withdrawal->transaction_datetime }}</td>
                                     <td>
-                                        <a href="{{ route('safes.receipt', $deposit->id) }}" target="_blank" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
+                                        <a href="{{ route('safes.receipt', $withdrawal->id) }}" target="_blank" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
 
                                      </td>
                                 </tr>

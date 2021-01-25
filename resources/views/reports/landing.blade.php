@@ -64,11 +64,11 @@
                                     <div class="row">
                                         <div class="form-group col-md-6 mb-2">
                                             <label>من</label>
-                                            <input type="date" class="form-control" name="from" value="{{$from}}"/>
+                                            <input type="date" class="form-control" name="from" value="{{$fromX}}"/>
                                         </div>
                                         <div class="form-group col-md-6 mb-2">
                                             <label>الى</label>
-                                            <input type="date" class="form-control" name="to" value="{{$to}}"/>
+                                            <input type="date" class="form-control" name="to" value="{{$toX}}"/>
                                         </div>
                                         <div class="form-group col-md-12 mb-2">
                                             <label class="sr-only" for="projectinput6">الفرع</label>
@@ -346,7 +346,7 @@
                       <span class="font-large-1 text-bold-300 info">تقارير المبيعات</span>
                       <br/>
                       <br/>
-                      <a href="{{route('reports.sales',[$from,$to,$branch])}}" class="btn btn-info btn-block">التفاصيل</a>
+                      <a href="{{route('reports.sales',[$fromX,$toX,$branch])}}" class="btn btn-info btn-block">التفاصيل</a>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-6 col-12 border-right-blue-grey border-right-lighten-5">
@@ -362,7 +362,7 @@
                       <span class="font-large-1 text-bold-300 success">تقارير الدواخل</span>
                       <br/>
                       <br/>
-                      <a href="{{route('reports.income',[$from,$to,$branch])}}" class="btn btn-success btn-block">التفاصيل</a>
+                      <a href="{{route('reports.income',[$fromX,$toX,$branch])}}" class="btn btn-success btn-block">التفاصيل</a>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-6 col-12">
@@ -370,7 +370,7 @@
                       <span class="font-large-1 text-bold-300  danger">تقارير المصاريف</span>
                       <br/>
                       <br/>
-                      <a href="{{route('reports.expenses',[$from,$to,$branch])}}" class="btn btn-danger btn-block">التفاصيل</a>
+                      <a href="{{route('reports.expenses',[$fromX,$toX,$branch])}}" class="btn btn-danger btn-block">التفاصيل</a>
                     </div>
                   </div>
                 </div>
