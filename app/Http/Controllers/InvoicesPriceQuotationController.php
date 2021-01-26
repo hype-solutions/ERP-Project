@@ -11,6 +11,7 @@ use App\Models\Invoices\InvoicesPriceQuotation;
 use App\Models\Invoices\InvoicesPriceQuotationsProducts;
 use App\Models\Invoices\InvoicesProducts;
 use App\Models\Products\Products;
+use App\Models\PurchasesOrders\PurchasesOrdersProducts;
 use App\Models\Safes\Safes;
 use App\Models\Safes\SafesTransactions;
 use Carbon\Carbon;
@@ -237,14 +238,18 @@ class InvoicesPriceQuotationController extends Controller
                 $listOfProductsx[] = $prox;
             }
 
+            $getCost = PurchasesOrdersProducts::where('product_id',$product->id)->avg('product_price');
+
             $pro = new InvoicesProducts();
             $pro->invoice_id = $invoiceId;
             $pro->customer_id = $customerId;
             $pro->product_id = $product->product_id;
             $pro->product_desc = $product->product_desc;
             $pro->product_price = $product->product_price;
+            $pro->product_cost = $getCost * $product->product_qty;
             $pro->product_qty = $product->product_qty;
-            $pro->status = 'no';
+            $pro->status = 'shipped';
+            // $pro->status = 'no';
             $pro->save();
             $listOfProducts[] = $pro;
         }
@@ -264,6 +269,11 @@ class InvoicesPriceQuotationController extends Controller
                 $listOfDates[] = $da;
             }
         }
+
+        $sumCost = InvoicesProducts::where('invoice_id', $invoiceId)->sum('product_cost');
+        $edtInvoice = Invoices::find($invoiceId);
+                $edtInvoice->invoice_cost = $sumCost;
+                $edtInvoice->save();
 
         return redirect()->route('invoices.view', $invoiceId);
     }
