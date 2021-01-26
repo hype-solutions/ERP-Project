@@ -240,7 +240,7 @@ class InvoicesPriceQuotationController extends Controller
                 $listOfProductsx[] = $prox;
             }
 
-            $getCost = PurchasesOrdersProducts::where('product_id',$product->id)->avg('product_price');
+            $getCost = PurchasesOrdersProducts::where('product_id',$product->product_id)->avg('product_price');
 
             $pro = new InvoicesProducts();
             $pro->invoice_id = $invoiceId;
@@ -277,7 +277,8 @@ class InvoicesPriceQuotationController extends Controller
         $edtInvoice = Invoices::find($invoiceId);
                 $edtInvoice->invoice_cost = $sumCost;
                 $edtInvoice->save();
-
+                // $getCosxt = PurchasesOrdersProducts::where('product_id',1)->avg('product_price');
+        // return $getCost;
         return redirect()->route('invoices.view', $invoiceId);
     }
 
