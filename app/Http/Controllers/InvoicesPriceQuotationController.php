@@ -193,7 +193,7 @@ class InvoicesPriceQuotationController extends Controller
 
             $invoice->safe_id = $safe_id;
             $invoice->safe_transaction_id = $payment->id;
-            Safes::where('id', $safe_id)->decrement('safe_balance', $quotation->quotation_total);
+            Safes::where('id', $safe_id)->increment('safe_balance', $quotation->quotation_total);
             $updateLater = 1;
         } else {
             $invoice->safe_transaction_id = 0;
@@ -267,7 +267,7 @@ class InvoicesPriceQuotationController extends Controller
                 $da->date = $item['date'];
                 $da->notes = $item['notes'];
                 $da->paid = 'No';
-                Safes::where('id', $safe_id)->decrement('safe_balance', $item['amount']);
+                Safes::where('id', $safe_id)->increment('safe_balance', $item['amount']);
                 $da->save();
                 $listOfDates[] = $da;
             }
