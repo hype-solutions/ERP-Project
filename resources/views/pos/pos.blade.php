@@ -276,7 +276,8 @@
                     @csrf
                     <input type="hidden" name="session" value="{{$sessionId}}" />
                     <input type="hidden" name="sold_by" value="{{ $user_id }}" />
-                    <input type="hidden"id="end_or_save" name="end_or_save" value="1" />
+                    <input type="hidden" name="branch_id" value="{{$currentSession->branch_id}}" />
+                    <input type="hidden" id="end_or_save" name="end_or_save" value="1" />
 
                     <input type="hidden" name="total" id="totalToSave" value="{{$currentSession->total}}" />
 

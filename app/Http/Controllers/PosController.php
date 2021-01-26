@@ -9,6 +9,8 @@ use App\Models\Pos\Cart;
 use App\Models\Pos\PosSessions;
 use App\Models\Products\Products;
 use App\Models\Products\ProductsCategories;
+use App\Models\Safes\Safes;
+use App\Models\Safes\SafesTransactions;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -146,7 +148,20 @@ class PosController extends Controller
     $upd->save();
 
 
+    if($request->end_or_save == 1){
+            $safe_id = Safes::where('branch_id',$request->branch_id)->value('id');
+            $payment = new SafesTransactions();
+            $payment->safe_id = $safe_id;
+            $payment->transaction_type = 2;
+            $payment->transaction_amount = $request->total;
+            $payment->transaction_datetime = Carbon::now();
+            $payment->done_by = $request->sold_by;
+            $payment->transaction_notes = 'عملية بيع سريع رقم  ' . $pos_session_id;
+            $payment->authorized_by = $request->sold_by;
+            $payment->save();
 
+            Safes::where('id', $safe_id)->increment('safe_balance', $request->total);
+    }
     if($request->end_or_save == 1){
         return redirect()->route('pos.landing')->with('popup', 'open')->with('session', $pos_session_id);
     }else{

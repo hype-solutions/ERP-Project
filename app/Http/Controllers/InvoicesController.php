@@ -141,6 +141,7 @@ class InvoicesController extends Controller
             $invoice->safe_id = $safe_id;
             $invoice->safe_transaction_id = $payment->id;
             $updateLater = 1;
+            Safes::where('id', $safe_id)->increment('safe_balance', $request->invoice_total);
         } else {
             $invoice->safe_transaction_id = 0;
             $invoice->safe_id = 0;
@@ -272,6 +273,7 @@ class InvoicesController extends Controller
                 $payment_id = $payment->id;
                 $invoice->safe_transaction_id = $payment_id;
                 $invoice->already_paid = 1;
+                Safes::where('id', $safe_id)->increment('safe_balance', $request->invoice_total);
             }
         } else {
             $invoice->safe_transaction_id = NULL;
