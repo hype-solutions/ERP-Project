@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branches\Branches;
+use App\Models\Branches\BranchesProducts;
 use App\Models\Customers\Customers;
 use App\Models\Pos\Cart;
 use App\Models\Pos\PosSessions;
@@ -105,6 +106,14 @@ class PosController extends Controller
         if($items){
         Cart::where('pos_session_id', $pos_session_id)->delete();
         $listOfItems = [];
+         //Save Items
+         foreach ($items as $item) {
+            Products::where('id', $item['id'])->increment('product_total_out', $item['qty']);
+            BranchesProducts::where('product_id', $item['id'])
+                ->where('branch_id', $request->branch_id)
+                ->decrement('amount', $item['qty']);
+        }
+
         foreach ($items as $item) {
             $pro = new Cart();
             $pro->pos_session_id = $pos_session_id;
