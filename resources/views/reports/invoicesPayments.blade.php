@@ -27,7 +27,7 @@
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('home')}}">البرنامج</a></li>
             <li class="breadcrumb-item"><a href="{{route('reports.landing')}}">التقارير</a></li>
-                <li class="breadcrumb-item active">تقارير المصاريف
+                <li class="breadcrumb-item active">تقارير الدواخل
                 </li>
               </ol>
             </div>
@@ -115,7 +115,7 @@
                 <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <form class="form" action="{{route('reports.expenses.search')}}" method="POST">
+                        <form class="form" action="{{route('reports.invoicespayments.search')}}" method="POST">
                             @csrf
                             <div class="form-body">
                                 <div class="row">
@@ -158,8 +158,8 @@
                                 <table class="table">
                                     <tbody>
                                         <tr>
-                                            <td>إجمالي المصاريف</td>
-                                            <td>{{$withdrawal}} ج.م</td>
+                                            <td>إجمالي المحصل</td>
+                                            <td>{{$laterSumInv}} ج.م</td>
                                         </tr>
 
                                     </tbody>
@@ -179,10 +179,10 @@
 </div>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="card">
             <div class="card-content">
-                <div class="card-header"><h4>المصاريف</h4></div>
+                <div class="card-header"><h4>أقساط الدائن المحصلة</h4></div>
                 <div class="card-body">
                     <!-- datatable start -->
                     <div class="table-responsive">
@@ -191,19 +191,21 @@
                                 <tr>
                                     <th>رقم الفاتورة</th>
                                     <th>المبلغ</th>
-                                    <th>التاريخ</th>
+                                    <th>تاريخ الإستحقاق</th>
+                                    <th>تاريخ الدفع</th>
                                     <th>التحكم</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($expenses as $out)
+                                @foreach ($laterInv as $in)
                                 <tr>
-                                    <td>{{$out->id}}</td>
-                                    <td>{{$out->amount}} ج.م</td>
-                                    <td>{{$out->transaction_datetime}}</td>
+                                    <td>{{$in->id}}</td>
+                                    <td>{{$in->amount}} ج.م</td>
+                                    <td>{{$in->date}}</td>
+                                    <td>{{$in->date_collected}}</td>
 
                                     <td>
-                                        <a href="{{route('ins.view',$out->id)}}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
+                                        <a href="{{route('ins.view',$in->id)}}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
                                      </td>
                                 </tr>
                                 @endforeach
@@ -215,42 +217,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-content">
-                <div class="card-header"><h4>السحب</h4></div>
-                <div class="card-body">
-                    <!-- datatable start -->
-                    <div class="table-responsive">
-                        <table id="sessions" class="table">
-                            <thead>
-                                <tr>
-                                    <th>رقم العملية</th>
-                                    <th>المبلغ</th>
-                                    <th>التاريخ</th>
-                                    <th>التحكم</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($withdrawals as $key => $withdrawal)
-                                <tr>
-                                    <td>{{ $withdrawal->id }}</td>
-                                    <td>{{ $withdrawal->transaction_amount }}</td>
-                                    <td>{{ $withdrawal->transaction_datetime }}</td>
-                                    <td>
-                                        <a href="{{ route('safes.receipt', $withdrawal->id) }}" target="_blank" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
 
-                                     </td>
-                                </tr>
-                                @endforeach
-                             </tbody>
-                        </table>
-                    </div>
-                    <!-- datatable ends -->
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 </section>
 <!-- users list ends -->

@@ -217,7 +217,14 @@ Route::get('/reports', [ReportsController::class, 'landing'])->name('reports.lan
 Route::get('/reports/sales/{from}/{to}/{branch}', [ReportsController::class, 'sales'])->name('reports.sales');
 Route::get('/reports/income/{from}/{to}/{branch}', [ReportsController::class, 'income'])->name('reports.income');
 Route::get('/reports/expenses/{from}/{to}/{branch}', [ReportsController::class, 'expenses'])->name('reports.expenses');
+Route::get('/reports/invoicespayments/{from}/{to}/{branch}', [ReportsController::class, 'invoicespayments'])->name('reports.invoicespayments');
+Route::get('/reports/purchasesorderspayments/{from}/{to}/{branch}', [ReportsController::class, 'purchasesorderspayments'])->name('reports.purchasesorderspayments');
 
+Route::post('/reports/sales/search', [ReportsController::class, 'searchsales'])->name('reports.sales.search');
+Route::post('/reports/income/search', [ReportsController::class, 'searchincome'])->name('reports.income.search');
+Route::post('/reports/expenses/search', [ReportsController::class, 'searchexpenses'])->name('reports.expenses.search');
+Route::post('/reports/invoicespayments/search', [ReportsController::class, 'searchinvoicespayments'])->name('reports.invoicespayments.search');
+Route::post('/reports/purchasesorderspayments/search', [ReportsController::class, 'searchexpensespurchasesorderspayments'])->name('reports.purchasesorderspayments.search');
 
 
 /*************************

@@ -115,7 +115,8 @@
                 <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <form class="form" action="{{route('reports.landing')}}" method="GET">
+                        <form class="form" action="{{route('reports.income.search')}}" method="POST">
+                            @csrf
                             <div class="form-body">
                                 <div class="row">
                                     <div class="form-group col-md-4 ">

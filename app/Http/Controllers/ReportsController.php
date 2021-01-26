@@ -214,6 +214,114 @@ class ReportsController extends Controller
         ));
     }
 
+    public function searchsales(Request $request){
+        return redirect()->route('reports.sales',[$request->from,$request->to,$request->branch]);
+    }
+
+    public function searchincome(Request $request){
+        return redirect()->route('reports.income',[$request->from,$request->to,$request->branch]);
+    }
+
+    public function searchexpenses(Request $request){
+        return redirect()->route('reports.expenses',[$request->from,$request->to,$request->branch]);
+    }
+
+    public function searchinvoicespayments(Request $request){
+        return redirect()->route('reports.invoicespayments',[$request->from,$request->to,$request->branch]);
+    }
+
+    public function searchexpensespurchasesorderspayments(Request $request){
+        return redirect()->route('reports.purchasesorderspayments',[$request->from,$request->to,$request->branch]);
+    }
+
+
+    public function invoicespayments($from,$to,$branch,Request $request){
+        if(isset($from)){
+            $from = $from;
+            $to = $to;
+            $branch = $branch;
+         }else if($request->$from){
+            $from = $request->from;
+            $to = $request->to;
+            $branch = $request->branch;
+         }
+         else{
+            $from = date('Y-m-d',strtotime("-1 days"));
+            $to = date('Y-m-d');
+            $branch = '1';
+         }
+
+         $fromX = $from;
+         $toX = $to;
+         //Insure covering whole days
+         $from    = Carbon::parse($from)
+                 ->startOfDay()        // date 00:00:00.000000
+                 ->toDateTimeString(); // date 00:00:00
+
+        $to      = Carbon::parse($to)
+        ->endOfDay()          // date 23:59:59.000000
+        ->toDateTimeString(); // date 23:59:59
+        $branches = Branches::all();
+        $getBranchSafeId = Safes::where('branch_id',$branch)->value('id');
+        $laterSumInv = InvoicesPayments::where('paid','Yes')
+                                       ->whereBetween('date_collected', [$from, $to])
+                                       ->where('safe_id',$getBranchSafeId)
+                                       ->sum('amount');
+
+        $laterInv = InvoicesPayments::where('paid','Yes')
+                                       ->whereBetween('date_collected', [$from, $to])
+                                       ->where('safe_id',$getBranchSafeId)
+                                       ->get();
+
+        return view('reports.invoicesPayments',compact('laterInv','laterSumInv','branch','branches','fromX','toX'));
+
+    }
+
+    public function purchasesorderspayments($from,$to,$branch,Request $request){
+        if(isset($from)){
+            $from = $from;
+            $to = $to;
+            $branch = $branch;
+         }else if($request->$from){
+            $from = $request->from;
+            $to = $request->to;
+            $branch = $request->branch;
+         }
+         else{
+            $from = date('Y-m-d',strtotime("-1 days"));
+            $to = date('Y-m-d');
+            $branch = '1';
+         }
+
+         $fromX = $from;
+         $toX = $to;
+         //Insure covering whole days
+         $from    = Carbon::parse($from)
+                 ->startOfDay()        // date 00:00:00.000000
+                 ->toDateTimeString(); // date 00:00:00
+
+        $to      = Carbon::parse($to)
+        ->endOfDay()          // date 23:59:59.000000
+        ->toDateTimeString(); // date 23:59:59
+        $branches = Branches::all();
+        $getBranchSafeId = Safes::where('branch_id',$branch)->value('id');
+
+        $laterSumPO = PurchasesOrdersPayments::where('paid','Yes')
+                                             ->whereBetween('date', [$from, $to])
+                                             ->where('safe_id',$getBranchSafeId)
+                                             ->sum('amount');
+
+        $laterPO = PurchasesOrdersPayments::where('paid','Yes')
+                                             ->whereBetween('date', [$from, $to])
+                                             ->where('safe_id',$getBranchSafeId)
+                                             ->get();
+        return view('reports.purchasesOrdersPayments',compact('branch','laterPO','laterSumPO','branches','fromX','toX'));
+
+    }
+
+
+
+
     public function sales($from,$to,$branch,Request $request)
     {
         if(isset($from)){

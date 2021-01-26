@@ -316,12 +316,8 @@
                                                 $posInvoicesNet +
                                                 $invoicesNet +
                                                 $invoicesNetLater +
-                                                $projectsNet +
-                                                $income +
-                                                $deposit -
-                                                $expenses -
-                                                $withdrawal -
-                                                $purchasesOrders
+                                                $projectsNet -
+                                                $expenses
                                             }} ج.م</td>
 
                                     </tr>
@@ -393,7 +389,7 @@
                         <h1 class="display-4 text-white">{{$laterSumInv}} <small>ج.م</small></h1>
                         <span class="text-white">أقساط الدائن المحصلة</span>
                         <br><br>
-                        <button class="btn btn-dark btn-block">التفاصيل</button>
+                        <a href="{{route('reports.invoicespayments',[$fromX,$toX,$branch])}}" class="btn btn-dark btn-block">التفاصيل</a>
                       </div>
                     </div>
                   </div>
@@ -411,7 +407,7 @@
                           <h1 class="display-4 text-white">{{$laterSumPO}} <small>ج.م</small></h1>
                           <span class="text-white">أقساط المدين المدفوعة</span>
                           <br><br>
-                          <button class="btn btn-dark btn-block">التفاصيل</button>
+                          <a href="{{route('reports.purchasesorderspayments',[$fromX,$toX,$branch])}}" class="btn btn-dark btn-block">التفاصيل</a>
                         </div>
                       </div>
 
