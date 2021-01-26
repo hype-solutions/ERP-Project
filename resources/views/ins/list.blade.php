@@ -129,7 +129,7 @@
                             <th>الملاحظات</th>
                             <th>المبلغ</th>
                             <th>الصلاحيات</th>
-                            <th>التحكم</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -137,7 +137,13 @@
                         <tr>
                             <td>{{ $in->id }}</td>
                             <td>{{ $in->transaction_datetime }}</td>
-                            <td> {{ $in->theCategory->category_name }}</td>
+                            <td>
+                                @if(isset($in->theCategory->category_name))
+                                {{ $in->theCategory->category_name }}
+                                @else
+                                بدون جهه
+                                @endif
+                            </td>
                             <td> {{ $in->safe->safe_name }}</td>
                             <td> {{ $in->safe_transaction_id }}</td>
                             <td> {{ $in->notes }}</td>
@@ -158,10 +164,7 @@
                                     </div>
                               </td>
 
-                            <td>
-                                <a href="{{ route('ins.view', $in->id) }}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
-                                <a href="{{ route('ins.edit', $in->id) }}" class="btn btn-primary btn-sm"><i class="la la-pencil-square-o"></i> تعديل</a>
-                             </td>
+
                         </tr>
                         @endforeach
                      </tbody>

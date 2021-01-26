@@ -64,7 +64,7 @@
           </li>
           <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/menu/5.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>المصاريف</a>
             <ul class="menu-content">
-              <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة مصروفات</span></a>
+              <li><a class="menu-item" href="{{ route('outs.add') }}"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة مصروفات</span></a>
               </li>
               <li><a class="menu-item" href="{{ route('outs.categories') }}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض بنود الخدمات</span></a>
               </li>
@@ -76,7 +76,7 @@
           </li>
           <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/menu/6.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>الدواخل</a>
             <ul class="menu-content">
-              <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة دواخل</span></a>
+              <li><a class="menu-item" href="{{ route('ins.add') }}"><i class="la la-arrows-v"></i><span data-i18n="Vertical">إضافة دواخل</span></a>
               </li>
               <li><a class="menu-item" href="{{ route('ins.categories') }}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض بنود الخدمات</span></a>
               </li>

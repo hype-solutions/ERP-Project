@@ -7,6 +7,8 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/fonts/mobiriseicons/24px/mobirise/style.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/pages/page-users.min.css') }}">
 <!-- END: Page CSS-->
+<link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/forms/selects/select2.min.css') }}">
+
 @endsection
 
 @section('content')
@@ -53,8 +55,8 @@
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{route('home')}}">البرنامج</a></li>
-            <li class="breadcrumb-item"><a href="{{route('branches.list')}}">الفروع</a></li>
-                <li class="breadcrumb-item active">إضافة فرع جديد
+            <li class="breadcrumb-item"><a href="{{route('outs.list')}}">المصاريف</a></li>
+                <li class="breadcrumb-item active">إضافة مصاريف
                 </li>
               </ol>
             </div>
@@ -71,34 +73,50 @@
             <div class="card-text">
                 {{-- <p>This is the most basic and default form having form sections. To add form section use <code>.form-section</code> class with any heading tags. This form has the buttons on the bottom left corner which is the default position.</p> --}}
             </div>
-        <form class="form" method="post" action="{{route('branches.adding')}}">
+        <form class="form" method="post" action="{{route('outs.adding')}}">
                 @csrf
                 <div class="form-body">
-                    <h4 class="form-section"><i class="ft-user"></i> بيانات الفرع</h4>
+                    <h4 class="form-section"><i class="ft-user"></i> بيانات المصاريف</h4>
                     <div class="row">
 
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <label for="timesheetinput2">اسم الفرع</label>
-                                <span style="color:red">*</span>
-                                <div class="position-relative has-icon-left">
-                                    <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: الفرع الرئيسي" name="branch_name" required>
-                                    <div class="form-control-position">
-                                        <i class="la la-user"></i>
-                                    </div>
+                                <div class="text-bold-500 font-medium-2">
+                                البند
                                 </div>
-                            </div>
+                                <select class="select2-rtl form-control" data-placeholder="إختر البند..." name="cat_id" id="cat_id" >
+                                    <option></option>
+                                    @foreach ($cats as $cat)
+                                    <option value="{{$cat->id}}">{{$cat->category_name}}</option>
+                                    @endforeach
+                                </select>
+                              </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="text-bold-500 font-medium-2">
+                                الجهه
+                                </div>
+                                <select class="select2-rtl form-control" data-placeholder="إختر الجهه..." name="entity_id" id="entity_id" >
+                                    <option></option>
+                                    @foreach ($entities as $entity)
+                                    <option value="{{$entity->id}}">{{$entity->entity_name}}</option>
+                                    @endforeach
+                                </select>
+                              </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="timesheetinput2">الإيميل</label>
-                                <div class="position-relative has-icon-left">
-                                    <input type="email" id="timesheetinput2" class="form-control" placeholder="مثال: name@company.com" name="branch_email">
-                                    <div class="form-control-position">
-                                        <i class="la la-envelope"></i>
-                                    </div>
+                                <div class="text-bold-500 font-medium-2">
+                                الخزنة <span style="color:red">*</span>
                                 </div>
-                            </div>
+                                <select class="select2-rtl form-control" data-placeholder="إختر الخزنة..." name="safe_id" id="safe_id"   required>
+                                    <option></option>
+                                    @foreach ($safes as $safe)
+                                    <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
+                                    @endforeach
+                                </select>
+                              </div>
                         </div>
 
                     </div>
@@ -106,23 +124,22 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="timesheetinput2">الموبايل</label>
+                                <label for="timesheetinput2">التاريخ</label>
                                 <span style="color:red">*</span>
-                                <div class="position-relative has-icon-left">
-                                    <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: 01123456789" name="branch_mobile" required>
-                                    <div class="form-control-position">
-                                        <i class="la la-mobile"></i>
-                                    </div>
-                                </div>
+
+                                    <input type="date" value="{{date('Y-m-d')}}" id="timesheetinput2" class="form-control"  name="date" required>
+
+
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="timesheetinput2">التليفون</label>
+                                <label for="timesheetinput2">المبلغ</label>
+                                <span style="color:red">*</span>
                                 <div class="position-relative has-icon-left">
-                                    <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: 0223456789" name="branch_phone">
+                                    <input type="text" id="timesheetinput2" class="form-control"   name="amount" required>
                                     <div class="form-control-position">
-                                        <i class="la la-phone"></i>
+                                        <i class="la la-money"></i>
                                     </div>
                                 </div>
                             </div>
@@ -131,16 +148,15 @@
 
 
                     <div class="form-group">
-                        <label for="projectinput8">العنوان</label>
+                        <label for="projectinput8">التفاصيل</label>
                         <div class="position-relative has-icon-left">
-                        <textarea id="projectinput8" rows="3" class="form-control" name="branch_address" placeholder="عنوان الفرع"></textarea>
+                        <textarea id="projectinput8" rows="3" class="form-control" name="notes" placeholder="تفاصيل الدخل"></textarea>
                         <div class="form-control-position">
                             <i class="la la-map"></i>
                         </div>
                         </div>
                     </div>
-                    <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
-                            <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> تسجيل</button>
+                            <button type="submit" class="btn btn-outline-primary btn-block"><i class="la la-check-square-o"></i> تسجيل</button>
                         </form>
                 </div>
 
@@ -166,12 +182,14 @@
 
 
 
+<script src="{{ asset('theme/app-assets/vendors/js/forms/select/select2.full.min.js') }}"></script>
 
 <!-- BEGIN: Theme JS-->
     <script src="{{ asset('theme/app-assets/js/core/app-menu.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/js/core/app.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/js/scripts/footer.min.js') }}"></script>
     <!-- END: Theme JS-->
+    <script src="{{ asset('theme/app-assets/js/scripts/forms/select/form-select2.min.js') }}"></script>
 
     <script>
         $(document).ready(function () {

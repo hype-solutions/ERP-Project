@@ -32,10 +32,50 @@
         </div>
         <div class="content-header-right text-md-right col-md-6 col-12">
           <div class="btn-group">
-          <a href="{{route('outs.add')}}" class="btn btn-outline-success block btn-lg" >
+          <button  data-toggle="modal" data-target="#default" class="btn btn-outline-success block btn-lg" >
                 إضافه جهات مصاريف
-            </a>
+            </button>
+            <div class="modal fade text-left" id="default" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel1">جهه جديدة</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form" method="post" action="{{route('outs.entities.adding')}}">
+                                @csrf
+                                <div class="form-body">
+                                    <div class="row">
 
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="timesheetinput2">اسم الجهه</label>
+                                                <span style="color:red">*</span>
+                                                <div class="position-relative has-icon-left">
+                                                    <input type="text" id="timesheetinput2" class="form-control" placeholder="" name="entity_name" required>
+                                                    <div class="form-control-position">
+                                                        <i class="la la-user"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
+                                            <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> تسجيل</button>
+                                        </form>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+                </div>
           </div>
         </div>
       </div>
@@ -132,9 +172,7 @@
                             <td>{{ $entity->id }}</td>
                             <td>{{ $entity->entity_name }}</td>
                             <td>
-                                <a href="{{ route('outs.view', $entity->id) }}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
-                                <a href="{{ route('outs.edit', $entity->id) }}" class="btn btn-primary btn-sm"><i class="la la-pencil-square-o"></i> تعديل</a>
-                             </td>
+                                  </td>
                         </tr>
                         @endforeach
                      </tbody>

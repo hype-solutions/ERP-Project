@@ -130,7 +130,7 @@
                             <th>الملاحظات</th>
                             <th>المبلغ</th>
                             <th>الصلاحيات</th>
-                            <th>التحكم</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -138,8 +138,20 @@
                         <tr>
                             <td>{{ $out->id }}</td>
                             <td>{{ $out->transaction_datetime }}</td>
-                            <td> {{ $out->theCategory->category_name }}</td>
-                            <td> {{ $out->theEntity->entity_name }}</td>
+                            <td>
+                                @if(isset($out->theCategory->category_name))
+                                {{ $out->theCategory->category_name }}
+                                @else
+                                بدون جهه
+                                @endif
+                            </td>
+                            <td>
+                                @if(isset($out->theCategory->category_name))
+                                {{ $out->theEntity->entity_name }}
+                                @else
+                                بدون جهه
+                                @endif
+                            </td>
                             <td> {{ $out->safe->safe_name }}</td>
                             <td> {{ $out->safe_transaction_id }}</td>
                             <td> {{ $out->notes }}</td>
@@ -160,10 +172,6 @@
                                     </div>
                               </td>
 
-                            <td>
-                                <a href="{{ route('outs.view', $out->id) }}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
-                                <a href="{{ route('outs.edit', $out->id) }}" class="btn btn-primary btn-sm"><i class="la la-pencil-square-o"></i> تعديل</a>
-                             </td>
                         </tr>
                         @endforeach
                      </tbody>
