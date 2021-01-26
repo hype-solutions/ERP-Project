@@ -27,7 +27,7 @@
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('home')}}">البرنامج</a></li>
             <li class="breadcrumb-item"><a href="{{route('reports.landing')}}">التقارير</a></li>
-                <li class="breadcrumb-item active">تقارير أقساط المدين المدفوعة
+                <li class="breadcrumb-item active">تقارير المشاريع
                 </li>
               </ol>
             </div>
@@ -115,7 +115,7 @@
                 <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <form class="form" action="{{route('reports.purchasesorderspayments.search')}}" method="POST">
+                        <form class="form" action="{{route('reports.projects.search')}}" method="POST">
                             @csrf
                             <div class="form-body">
                                 <div class="row">
@@ -158,8 +158,8 @@
                                 <table class="table">
                                     <tbody>
                                         <tr>
-                                            <td>إجمالي المدفوع</td>
-                                            <td>{{$laterSumPO}} ج.م</td>
+                                            <td>إجمالي المشاريع</td>
+                                            <td>{{$projectsSum}} ج.م</td>
                                         </tr>
 
                                     </tbody>
@@ -182,30 +182,32 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-content">
-                <div class="card-header"><h4>أقساط المدين المدفوعة</h4></div>
+                <div class="card-header"><h4>المشاريع</h4></div>
                 <div class="card-body">
                     <!-- datatable start -->
                     <div class="table-responsive">
                         <table id="invoices" class="table">
                             <thead>
                                 <tr>
-                                    <th>رقم الفاتورة</th>
-                                    <th>المبلغ</th>
-                                    <th>تاريخ الإستحقاق</th>
-                                    <th>تاريخ الدفع</th>
+                                    <th>رقم المشروع</th>
+                                    <th>إسم المشروع</th>
+                                    <th>الإجمالي</th>
+                                    <th>تاريخ البداية</th>
+                                    <th>موعد الإستحقاق</th>
                                     <th>التحكم</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($laterPO as $in)
+                                @foreach ($projects as $project)
                                 <tr>
-                                    <td>{{$in->id}}</td>
-                                    <td>{{$in->amount}} ج.م</td>
-                                    <td>{{$in->date}}</td>
-                                    <td>{{$in->date_collected}}</td>
+                                    <td>{{$project->id}}</td>
+                                    <td>{{$project->project_name}} ج.م</td>
+                                    <td>{{$project->total}}</td>
+                                    <td>{{$project->project_start_date}}</td>
+                                    <td>{{$project->project_end_date}}</td>
 
                                     <td>
-                                        <a href="{{route('ins.view',$in->id)}}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
+                                        <a href="{{route('projects.edit',$project->id)}}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
                                      </td>
                                 </tr>
                                 @endforeach

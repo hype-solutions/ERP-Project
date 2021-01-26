@@ -350,7 +350,7 @@
                       <span class="font-large-1 text-bold-300 warning">تقارير المشاريع</span>
                       <br/>
                       <br/>
-                      <a href="#" class="btn btn-warning btn-block">التفاصيل</a>
+                      <a href="{{route('reports.projects',[$fromX,$toX,$branch])}}" class="btn btn-warning btn-block">التفاصيل</a>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-6 col-12 border-right-blue-grey border-right-lighten-5">

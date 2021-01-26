@@ -96,7 +96,11 @@ class ReportsController extends Controller
         /*******PROJECTS*********/
         $projectsCount = Projects::count();
         //Projetcs Gross
-        $projectsSum = Projects::sum('total');
+        $projectsSum = Projects::where(function($query) use ($from, $to){
+            $query->whereBetween('project_start_date', [$from,$to])
+                  ->orWhereBetween('project_end_date', [$from,$to]);
+          })
+        ->sum('total');
         //Projects Net
         $projectsNet = 0;
 
@@ -218,6 +222,10 @@ class ReportsController extends Controller
         return redirect()->route('reports.sales',[$request->from,$request->to,$request->branch]);
     }
 
+    public function searchprojects(Request $request){
+        return redirect()->route('reports.projects',[$request->from,$request->to,$request->branch]);
+    }
+
     public function searchincome(Request $request){
         return redirect()->route('reports.income',[$request->from,$request->to,$request->branch]);
     }
@@ -234,6 +242,48 @@ class ReportsController extends Controller
         return redirect()->route('reports.purchasesorderspayments',[$request->from,$request->to,$request->branch]);
     }
 
+
+    public function projects($from,$to,$branch,Request $request){
+        if(isset($from)){
+            $from = $from;
+            $to = $to;
+            $branch = $branch;
+         }else if($request->$from){
+            $from = $request->from;
+            $to = $request->to;
+            $branch = $request->branch;
+         }
+         else{
+            $from = date('Y-m-d',strtotime("-1 days"));
+            $to = date('Y-m-d');
+            $branch = '1';
+         }
+
+         $fromX = $from;
+         $toX = $to;
+         //Insure covering whole days
+         $from    = Carbon::parse($from)
+                 ->startOfDay()        // date 00:00:00.000000
+                 ->toDateTimeString(); // date 00:00:00
+
+        $to      = Carbon::parse($to)
+        ->endOfDay()          // date 23:59:59.000000
+        ->toDateTimeString(); // date 23:59:59
+        $branches = Branches::all();
+
+        $projectsSum = Projects::where(function($query) use ($from, $to){
+            $query->whereBetween('project_start_date', [$from,$to])
+                  ->orWhereBetween('project_end_date', [$from,$to]);
+          })
+        ->sum('total');
+
+        $projects = Projects::where(function($query) use ($from, $to){
+            $query->whereBetween('project_start_date', [$from,$to])
+                  ->orWhereBetween('project_end_date', [$from,$to]);
+          })->get();
+
+        return view('reports.projects',compact('projects','projectsSum','branch','branches','fromX','toX'));
+    }
 
     public function invoicespayments($from,$to,$branch,Request $request){
         if(isset($from)){

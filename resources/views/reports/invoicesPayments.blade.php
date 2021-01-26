@@ -27,7 +27,7 @@
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('home')}}">البرنامج</a></li>
             <li class="breadcrumb-item"><a href="{{route('reports.landing')}}">التقارير</a></li>
-                <li class="breadcrumb-item active">تقارير الدواخل
+                <li class="breadcrumb-item active">تقارير أقساط الدائن المحصلة
                 </li>
               </ol>
             </div>
