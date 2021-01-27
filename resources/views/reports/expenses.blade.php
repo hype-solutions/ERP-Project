@@ -288,7 +288,7 @@
                                 @foreach ($expensesBndSum as $out)
                                 <tr>
                                     <td>{{$out->theCategory->category_name}}</td>
-                                    <td>{{$out->sum('amount')}}</td>
+                                    <td>{{$out->total_amount}}</td>
                                 </tr>
                                 @endforeach
                              </tbody>
@@ -318,7 +318,7 @@
                                     @foreach ($expensesGehaSum as $out)
                                     <tr>
                                         <td>{{$out->theEntity->entity_name}}</td>
-                                        <td>{{$out->sum('amount')}}</td>
+                                        <td>{{$out->total_amount}}</td>
                                     </tr>
                                     @endforeach
                                  </tbody>
