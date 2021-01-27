@@ -227,6 +227,8 @@
                                 <tr>
                                     <th>رقم العملية</th>
                                     <th>المبلغ</th>
+                                    <th>الجهه</th>
+                                    <th>البند</th>
                                     <th>التاريخ</th>
                                     <th>التحكم</th>
                                 </tr>
@@ -236,6 +238,20 @@
                                 <tr>
                                     <td>{{ $withdrawal->id }}</td>
                                     <td>{{ $withdrawal->transaction_amount }}</td>
+                                    <td>
+                                        @if(isset($withdrawal->entity))
+                                        {{$withdrawal->theEntity->entity_name}}
+                                        @else
+                                        <span>غير مسجل</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($withdrawal->category))
+                                        {{$withdrawal->theCategory->category_name}}
+                                        @else
+                                        <span>غير مسجل</span>
+                                        @endif
+                                    </td>
                                     <td>{{ $withdrawal->transaction_datetime }}</td>
                                     <td>
                                         <a href="{{ route('safes.receipt', $withdrawal->id) }}" target="_blank" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
