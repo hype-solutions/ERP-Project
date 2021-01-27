@@ -589,8 +589,8 @@ class ReportsController extends Controller
         // ->withSum('amount')
         ->get();
 
-         return $expensesBndSum;
-        // return view('reports.expenses',compact('expensesBndSum','withdrawals','branch','branches','fromX','toX','expenses','withdrawal'));
+        //  return $expensesBndSum;
+        return view('reports.expenses',compact('expensesBndSum','withdrawals','branch','branches','fromX','toX','expenses','withdrawal'));
 
     }
 }
