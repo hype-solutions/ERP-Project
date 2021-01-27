@@ -306,18 +306,18 @@
                     <!-- datatable start -->
                     <div class="table-responsive">
                         <div class="table-responsive">
-                            <table id="e2" class="table">
+                            <table id="e1" class="table">
                                 <thead>
                                     <tr>
-                                        <th>اسم البند</th>
+                                        <th>اسم الجهه</th>
                                         <th>إجمالي المصاريف</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($expenses as $out)
+                                    @foreach ($expensesGehaSum as $out)
                                     <tr>
-                                        <td>{{$out->amount}} ج.م</td>
-                                        <td>{{$out->transaction_datetime}}</td>
+                                        <td>{{$out->theEntity->entity_name}}</td>
+                                        <td>{{$out->sum('amount')}}</td>
                                     </tr>
                                     @endforeach
                                  </tbody>

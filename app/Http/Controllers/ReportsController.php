@@ -589,8 +589,15 @@ class ReportsController extends Controller
         // ->withSum('amount')
         ->get();
 
+        $expensesGehaSum = Out::whereBetween('updated_at', [$from, $to])
+        ->where('category','1','>=')
+        ->where('safe_id',$getBranchSafeId)
+        ->groupBy('entity')
+        // ->withSum('amount')
+        ->get();
+
         //  return $expensesBndSum;
-        return view('reports.expenses',compact('expensesBndSum','withdrawals','branch','branches','fromX','toX','expenses','withdrawal'));
+        return view('reports.expenses',compact('expensesGehaSum','expensesBndSum','withdrawals','branch','branches','fromX','toX','expenses','withdrawal'));
 
     }
 }
