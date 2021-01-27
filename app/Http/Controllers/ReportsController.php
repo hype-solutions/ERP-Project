@@ -582,6 +582,9 @@ class ReportsController extends Controller
         $expenses = Out::whereBetween('updated_at', [$from, $to])
         ->where('safe_id',$getBranchSafeId)->get();
 
+        $expensesSum = Out::whereBetween('updated_at', [$from, $to])
+        ->where('safe_id',$getBranchSafeId)->sum('amount');
+
         $expensesBndSum = Out::whereBetween('updated_at', [$from, $to])
         ->where('category','1','>=')
         ->where('safe_id',$getBranchSafeId)
@@ -597,7 +600,7 @@ class ReportsController extends Controller
         ->get();
 
         //  return $expensesBndSum;
-        return view('reports.expenses',compact('expensesGehaSum','expensesBndSum','withdrawals','branch','branches','fromX','toX','expenses','withdrawal'));
+        return view('reports.expenses',compact('expensesSum','expensesGehaSum','expensesBndSum','withdrawals','branch','branches','fromX','toX','expenses','withdrawal'));
 
     }
 }
