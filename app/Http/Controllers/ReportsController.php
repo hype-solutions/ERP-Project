@@ -586,14 +586,14 @@ class ReportsController extends Controller
         ->where('safe_id',$getBranchSafeId)->sum('amount');
 
         $expensesBndSum = Out::whereBetween('updated_at', [$from, $to])
-        ->where('category','1','>=')
+        ->whereNotNull('category')
         ->where('safe_id',$getBranchSafeId)
         ->groupBy('category')
         // ->withSum('amount')
         ->get();
 
         $expensesGehaSum = Out::whereBetween('updated_at', [$from, $to])
-        ->where('entity','1','>=')
+        ->whereNotNull('entity')
         ->where('safe_id',$getBranchSafeId)
         ->groupBy('entity')
         // ->withSum('amount')
