@@ -203,7 +203,7 @@
                                     <td>{{$in->transaction_datetime}}</td>
 
                                     <td>
-                                        <a href="{{route('ins.view',$in->id)}}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
+                                        <a href="{{ route('safes.receipt', $in->id) }}" target="_blank" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
                                      </td>
                                 </tr>
                                 @endforeach

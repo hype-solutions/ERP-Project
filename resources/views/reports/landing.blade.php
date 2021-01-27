@@ -130,7 +130,7 @@
                   </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-8">
                         <div class="card bg-success">
                             <div class="card-content">
                               <div class="card-body">
@@ -146,6 +146,21 @@
                               </div>
                             </div>
                           </div>
+                    </div>
+                    <div class="col-md-4">
+<div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="media d-flex">
+              <div class="media-body">
+                <h3>سجل</h3>
+                <span class="text-muted">عمليات الخزنة</span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
                     </div>
                 </div>
             </div>
