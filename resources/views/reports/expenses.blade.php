@@ -192,6 +192,8 @@
                                     <th>رقم الفاتورة</th>
                                     <th>المبلغ</th>
                                     <th>التاريخ</th>
+                                    <th>الجهه</th>
+                                    <th>البند</th>
                                     <th>التحكم</th>
                                 </tr>
                             </thead>
@@ -201,7 +203,20 @@
                                     <td>{{$out->id}}</td>
                                     <td>{{$out->amount}} ج.م</td>
                                     <td>{{$out->transaction_datetime}}</td>
-
+                                    <td>
+                                        @if(isset($out->entity))
+                                        {{$out->theEntity->entity_name}}
+                                        @else
+                                        <span>غير مسجل</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($out->category))
+                                        {{$out->theCategory->category_name}}
+                                        @else
+                                        <span>غير مسجل</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         <a href="{{ route('safes.receipt', $out->id) }}" target="_blank" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
                                      </td>
@@ -227,8 +242,7 @@
                                 <tr>
                                     <th>رقم العملية</th>
                                     <th>المبلغ</th>
-                                    <th>الجهه</th>
-                                    <th>البند</th>
+
                                     <th>التاريخ</th>
                                     <th>التحكم</th>
                                 </tr>
@@ -238,20 +252,7 @@
                                 <tr>
                                     <td>{{ $withdrawal->id }}</td>
                                     <td>{{ $withdrawal->transaction_amount }}</td>
-                                    <td>
-                                        @if(isset($withdrawal->entity))
-                                        {{$withdrawal->theEntity->entity_name}}
-                                        @else
-                                        <span>غير مسجل</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if(isset($withdrawal->category))
-                                        {{$withdrawal->theCategory->category_name}}
-                                        @else
-                                        <span>غير مسجل</span>
-                                        @endif
-                                    </td>
+
                                     <td>{{ $withdrawal->transaction_datetime }}</td>
                                     <td>
                                         <a href="{{ route('safes.receipt', $withdrawal->id) }}" target="_blank" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
