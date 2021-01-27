@@ -252,6 +252,68 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-header"><h4>المصاريف حسب البند</h4></div>
+                <div class="card-body">
+                    <!-- datatable start -->
+                    <div class="table-responsive">
+                        <table id="e1" class="table">
+                            <thead>
+                                <tr>
+                                    <th>اسم البند</th>
+                                    <th>إجمالي المصاريف</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($expensesBndSum as $out)
+                                <tr>
+                                    <td>{{$out->theCategory->category_name}}</td>
+                                    <td>{{$out->sum('amount')}}</td>
+                                </tr>
+                                @endforeach
+                             </tbody>
+                        </table>
+                    </div>
+                    <!-- datatable ends -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-header"><h4>المصاريف حسب الجهه</h4></div>
+                <div class="card-body">
+                    <!-- datatable start -->
+                    <div class="table-responsive">
+                        <div class="table-responsive">
+                            <table id="e2" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>اسم البند</th>
+                                        <th>إجمالي المصاريف</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($expenses as $out)
+                                    <tr>
+                                        <td>{{$out->amount}} ج.م</td>
+                                        <td>{{$out->transaction_datetime}}</td>
+                                    </tr>
+                                    @endforeach
+                                 </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- datatable ends -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </section>
 <!-- users list ends -->
   </div>
@@ -341,6 +403,74 @@
                 messageTop: 'قائمة فواتير البيع السريع',
                 exportOptions: {
                     columns: [ 0, 1, 2 ]
+                }
+            }
+        ]
+    });
+
+
+    $("#e1").DataTable( {
+        dom: 'Bfrtip',
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+        },
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'حفظ كملف EXCEL',
+                messageTop: 'المصاريف حسب البند',
+                exportOptions: {
+                    columns: [1,0 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'حفظ كملف PDF',
+                messageTop: 'المصاريف حسب البند',
+                exportOptions: {
+                    columns: [1,0 ]
+                },
+
+            },
+            {
+                extend: 'print',
+                text: 'طباعة',
+                messageTop: 'المصاريف حسب البند',
+                exportOptions: {
+                    columns: [ 0, 1 ]
+                }
+            }
+        ]
+    });
+    $("#e2").DataTable( {
+        dom: 'Bfrtip',
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+        },
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'حفظ كملف EXCEL',
+                messageTop: 'المصاريف حسب الجهه',
+                exportOptions: {
+                    columns: [1,0 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'حفظ كملف PDF',
+                messageTop: 'المصاريف حسب الجهه',
+                exportOptions: {
+                    columns: [1,0 ]
+                },
+
+            },
+            {
+                extend: 'print',
+                text: 'طباعة',
+                messageTop: 'المصاريف حسب الجهه',
+                exportOptions: {
+                    columns: [ 0, 1 ]
                 }
             }
         ]
