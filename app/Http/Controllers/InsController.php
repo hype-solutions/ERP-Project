@@ -71,6 +71,7 @@ class InsController extends Controller
         $paymentId = $payment->id;
 
         In::where('id',$inId)->update(['safe_transaction_id' => $paymentId]);
+        Safes::where('id', $request->safe_id)->increment('safe_balance', $request->amount);
         return redirect()->route('ins.list');
     }
 

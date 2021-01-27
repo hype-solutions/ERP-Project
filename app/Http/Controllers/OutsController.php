@@ -81,6 +81,7 @@ class OutsController extends Controller
         $paymentId = $payment->id;
 
         Out::where('id',$inId)->update(['safe_transaction_id' => $paymentId]);
+        Safes::where('id', $request->safe_id)->increment('safe_balance', $request->amount);
         return redirect()->route('outs.list');
     }
 
