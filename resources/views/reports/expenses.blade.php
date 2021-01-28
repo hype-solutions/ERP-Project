@@ -159,9 +159,16 @@
                                     <tbody>
                                         <tr>
                                             <td>إجمالي المصاريف</td>
+                                            <td>{{$expensesSum}} ج.م</td>
+                                        </tr>
+                                        <tr>
+                                            <td>إجمالي السحب</td>
+                                            <td>{{$withdrawal}} ج.م</td>
+                                        </tr>
+                                        <tr>
+                                            <td>المجموع</td>
                                             <td>{{$withdrawal + $expensesSum}} ج.م</td>
                                         </tr>
-
                                     </tbody>
                                 </table>
 

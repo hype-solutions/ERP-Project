@@ -159,9 +159,16 @@
                                     <tbody>
                                         <tr>
                                             <td>إجمالي الدواخل</td>
+                                            <td>{{$incomeSum}} ج.م</td>
+                                        </tr>
+                                        <tr>
+                                            <td>إجمالي الإيداعات</td>
+                                            <td>{{$deposit}} ج.م</td>
+                                        </tr>
+                                        <tr>
+                                            <td>المجموع</td>
                                             <td>{{$deposit + $incomeSum}} ج.م</td>
                                         </tr>
-
                                     </tbody>
                                 </table>
 
@@ -192,6 +199,7 @@
                                     <th>رقم الفاتورة</th>
                                     <th>المبلغ</th>
                                     <th>التاريخ</th>
+                                    <th>البند</th>
                                     <th>التحكم</th>
                                 </tr>
                             </thead>
@@ -201,6 +209,13 @@
                                     <td>{{$in->id}}</td>
                                     <td>{{$in->amount}} ج.م</td>
                                     <td>{{$in->transaction_datetime}}</td>
+                                    <td>
+                                        @if(isset($in->category))
+                                        {{$in->theCategory->category_name}}
+                                        @else
+                                        <span>غير مسجل</span>
+                                        @endif
+                                    </td>
 
                                     <td>
                                         <a href="{{ route('safes.receipt', $in->id) }}" target="_blank" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
