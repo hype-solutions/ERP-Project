@@ -92,8 +92,7 @@
               </li>
               <li><a class="menu-item" href="{{ route('safes.list') }}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">عرض الخزن</span></a>
               </li>
-              <li><a class="menu-item" href="{{ route('safes.transactions') }}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">سجل عمليات الخزن</span></a>
-              </li>
+
             </ul>
           </li>
           <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/menu/8.png')}}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>المخزن</a>
@@ -131,7 +130,7 @@
               </li>
               <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">الصلاحيات</span></a>
               </li>
-              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">الإعدادات العامة</span></a>
+              <li><a class="menu-item" href="{{route('settings.list')}}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">الإعدادات العامة</span></a>
               </li>
 
             </ul>

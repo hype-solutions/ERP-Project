@@ -153,8 +153,9 @@
           <div class="card-body">
             <div class="media d-flex">
               <div class="media-body">
-                <h3>سجل</h3>
+                <a href="{{route('reports.transactions',[$fromX,$toX,$branch])}}"><h3>سجل</h3>
                 <span class="text-muted">عمليات الخزنة</span>
+                </a>
               </div>
 
             </div>

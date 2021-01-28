@@ -26,8 +26,6 @@ class SafesFactory extends Factory
             'safe_name' => 'الفرع الرئيسي',
             'safe_balance' => '0',
             'branch_id' => '1',
-
-
         ];
     }
 }

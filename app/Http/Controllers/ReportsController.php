@@ -241,6 +241,9 @@ class ReportsController extends Controller
     public function searchexpensespurchasesorderspayments(Request $request){
         return redirect()->route('reports.purchasesorderspayments',[$request->from,$request->to,$request->branch]);
     }
+    public function searchtransactions(Request $request){
+        return redirect()->route('reports.transactions',[$request->from,$request->to,$request->branch]);
+    }
 
 
     public function projects($from,$to,$branch,Request $request){
@@ -617,6 +620,61 @@ class ReportsController extends Controller
         ->get();
 
         return view('reports.expenses',compact('expensesSum','expensesGehaSum','expensesBndSum','withdrawals','branch','branches','fromX','toX','expenses','withdrawal'));
+
+    }
+
+
+    public function transactions($from,$to,$branch,Request $request)
+    {
+        if(isset($from)){
+            $from = $from;
+            $to = $to;
+            $branch = $branch;
+         }else if($request->$from){
+            $from = $request->from;
+            $to = $request->to;
+            $branch = $request->branch;
+         }
+         else{
+            $from = date('Y-m-d',strtotime("-1 days"));
+            $to = date('Y-m-d');
+            $branch = '1';
+         }
+
+         $fromX = $from;
+         $toX = $to;
+         //Insure covering whole days
+         $from    = Carbon::parse($from)
+                 ->startOfDay()        // date 00:00:00.000000
+                 ->toDateTimeString(); // date 00:00:00
+
+        $to      = Carbon::parse($to)
+        ->endOfDay()          // date 23:59:59.000000
+        ->toDateTimeString(); // date 23:59:59
+        $branches = Branches::all();
+
+        $getBranchSafeId = Safes::where('branch_id',$branch)->value('id');
+
+        $safeTransactionsSum = SafesTransactions::whereBetween('transaction_datetime', [$from, $to])
+        ->where('safe_id',$getBranchSafeId)
+        ->sum('transaction_amount');
+
+        $safeTransactionsInSum = SafesTransactions::whereBetween('transaction_datetime', [$from, $to])
+        ->where('transaction_type','2')
+        ->where('safe_id',$getBranchSafeId)
+        ->sum('transaction_amount');
+
+        $safeTransactionsOutSum = SafesTransactions::whereBetween('transaction_datetime', [$from, $to])
+        ->where('transaction_type','1')
+        ->where('safe_id',$getBranchSafeId)
+        ->sum('transaction_amount');
+
+        $safeTransactions = SafesTransactions::whereBetween('transaction_datetime', [$from, $to])
+        ->where('safe_id',$getBranchSafeId)
+        ->get();
+
+        return view('reports.transactions',compact('safeTransactionsOutSum','safeTransactionsInSum','safeTransactions','safeTransactionsSum','branch','branches','fromX','toX'));
+
 
     }
 }

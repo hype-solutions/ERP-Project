@@ -17,6 +17,7 @@ use App\Http\Controllers\OutsController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\SettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -167,7 +168,7 @@ Route::delete('/branches/delete/{branch}', [BranchesController::class, 'delete']
  ********* Safes *********
  *************************/
 Route::get('/safes', [SafesController::class, 'safesList'])->name('safes.list');
-Route::get('/safes/transactions', [SafesController::class, 'transactions'])->name('safes.transactions');
+// Route::get('/safes/transactions', [SafesController::class, 'transactions'])->name('safes.transactions');
 Route::post('/safes/adding', [SafesController::class, 'store'])->name('safes.adding');
 Route::get('/safes/view/{safe}', [SafesController::class, 'view'])->name('safes.view');
 Route::patch('/safes/update/{safe}', [SafesController::class, 'update'])->name('safes.update');
@@ -223,6 +224,7 @@ Route::get('/reports/income/{from}/{to}/{branch}', [ReportsController::class, 'i
 Route::get('/reports/expenses/{from}/{to}/{branch}', [ReportsController::class, 'expenses'])->name('reports.expenses');
 Route::get('/reports/invoicespayments/{from}/{to}/{branch}', [ReportsController::class, 'invoicespayments'])->name('reports.invoicespayments');
 Route::get('/reports/purchasesorderspayments/{from}/{to}/{branch}', [ReportsController::class, 'purchasesorderspayments'])->name('reports.purchasesorderspayments');
+Route::get('/reports/transactions/{from}/{to}/{branch}', [ReportsController::class, 'transactions'])->name('reports.transactions');
 
 Route::post('/reports/sales/search', [ReportsController::class, 'searchsales'])->name('reports.sales.search');
 Route::post('/reports/projects/search', [ReportsController::class, 'searchprojects'])->name('reports.projects.search');
@@ -230,6 +232,7 @@ Route::post('/reports/income/search', [ReportsController::class, 'searchincome']
 Route::post('/reports/expenses/search', [ReportsController::class, 'searchexpenses'])->name('reports.expenses.search');
 Route::post('/reports/invoicespayments/search', [ReportsController::class, 'searchinvoicespayments'])->name('reports.invoicespayments.search');
 Route::post('/reports/purchasesorderspayments/search', [ReportsController::class, 'searchexpensespurchasesorderspayments'])->name('reports.purchasesorderspayments.search');
+Route::post('/reports/transactions/search', [ReportsController::class, 'searchtransactions'])->name('reports.transactions.search');
 
 
 /*************************
@@ -243,3 +246,9 @@ Route::get('/users/edit/{user}', [UsersController::class, 'edit'])->name('users.
 Route::patch('/users/update/{user}', [UsersController::class, 'update'])->name('users.update');
 Route::delete('/users/delete/{out}', [UsersController::class, 'delete'])->name('users.delete');
 
+
+/*************************
+ ******** Settings ********
+ *************************/
+Route::get('/settings', [SettingsController::class, 'settings'])->name('settings.list');
+Route::patch('/settings/update/{setting}', [SettingsController::class, 'update'])->name('settings.update');
