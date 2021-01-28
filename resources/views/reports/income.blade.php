@@ -159,7 +159,7 @@
                                     <tbody>
                                         <tr>
                                             <td>إجمالي الدواخل</td>
-                                            <td>{{$deposit}} ج.م</td>
+                                            <td>{{$deposit + $incomeSum}} ج.م</td>
                                         </tr>
 
                                     </tbody>
@@ -241,6 +241,37 @@
                                         <a href="{{ route('safes.receipt', $deposit->id) }}" target="_blank" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
 
                                      </td>
+                                </tr>
+                                @endforeach
+                             </tbody>
+                        </table>
+                    </div>
+                    <!-- datatable ends -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-header"><h4>الدواخل حسب البند</h4></div>
+                <div class="card-body">
+                    <!-- datatable start -->
+                    <div class="table-responsive">
+                        <table id="e1" class="table">
+                            <thead>
+                                <tr>
+                                    <th>اسم البند</th>
+                                    <th>إجمالي المصاريف</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($incomeBndSum as $in)
+                                <tr>
+                                    <td>{{$in->theCategory->category_name}}</td>
+                                    <td>{{$in->total_amount}}</td>
                                 </tr>
                                 @endforeach
                              </tbody>

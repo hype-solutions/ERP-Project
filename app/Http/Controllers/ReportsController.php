@@ -527,7 +527,22 @@ class ReportsController extends Controller
         ->where('safe_id',$getBranchSafeId)->get();
 
 
-        return view('reports.income',compact('deposits','branch','branches','fromX','toX','income','deposit'));
+
+        $incomeSum = In::whereBetween('updated_at', [$from, $to])
+        ->where('safe_id',$getBranchSafeId)->sum('amount');
+
+
+
+        $incomeBndSum = In::whereBetween('updated_at', [$from, $to])
+        ->whereNotNull('category')
+        ->where('safe_id',$getBranchSafeId)
+        ->groupBy('category')
+        ->selectRaw("*,SUM(amount) as total_amount")
+        ->get();
+
+
+
+        return view('reports.income',compact('incomeSum','incomeBndSum','deposits','branch','branches','fromX','toX','income','deposit'));
 
     }
 
