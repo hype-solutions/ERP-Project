@@ -16,6 +16,7 @@ use App\Http\Controllers\InsController;
 use App\Http\Controllers\OutsController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\RolesAndPermissionsController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\SettingsController;
 
@@ -252,3 +253,10 @@ Route::delete('/users/delete/{out}', [UsersController::class, 'delete'])->name('
  *************************/
 Route::get('/settings', [SettingsController::class, 'settings'])->name('settings.list');
 Route::patch('/settings/update/{setting}', [SettingsController::class, 'update'])->name('settings.update');
+
+//Roles & Permissions
+
+Route::get('/settings/roles', [RolesAndPermissionsController::class, 'roles'])->name('settings.roles');
+Route::post('/settings/roles/adding', [RolesAndPermissionsController::class, 'addingRoles'])->name('settings.roles.adding');
+Route::get('/settings/permissions/{role}', [RolesAndPermissionsController::class, 'permissions'])->name('settings.permissions');
+Route::post('/settings/permissions/adding', [RolesAndPermissionsController::class, 'addingPermissions'])->name('settings.permissions.adding');

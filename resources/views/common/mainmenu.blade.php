@@ -128,7 +128,7 @@
                     </li>
                 </ul>
               </li>
-              <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">الصلاحيات</span></a>
+              <li><a class="menu-item" href="{{route('settings.roles')}}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">الصلاحيات</span></a>
               </li>
               <li><a class="menu-item" href="{{route('settings.list')}}"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">الإعدادات العامة</span></a>
               </li>
