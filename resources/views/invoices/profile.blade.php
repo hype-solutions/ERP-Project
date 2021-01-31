@@ -313,10 +313,24 @@
                     </div> --}}
                     {{-- <button type="button" class="btn btn-info btn-print-modal btn-lg my-1" data-toggle="modal" data-target="#printingOptions"><i class="la la-paper-plane-o mr-50"></i>
                       طباعة الفاتورة</button> --}}
-                                    <button class="btn btn-block btn-success btn-print" id="print1">طباعة على ورق أبيض</button>
-                                    <a target="_blank" href="{{route('invoices.print2',$invoice->id)}}" class="btn btn-block btn-info btn-print">طباعة على ورق ليتر هيد</a>
-                                    <a target="_blank" href="{{route('invoices.print3',$invoice->id)}}" class="btn btn-block btn-dark btn-print">طباعة بالتصميم</a>
-                  </div>
+
+                      <button class="btn btn-block btn-success btn-print" id="print1">طباعة على ورق أبيض</button>
+                      أو
+                    <a target="_blank" href="{{route('invoices.print2',$invoice->id)}}" class="btn btn-block btn-info btn-print">طباعة على ورق ليتر هيد</a>
+                    أو
+                    <form action="{{route('invoices.print3',$invoice->id)}}" method="POST">
+                                      @csrf
+                                      <div class="form-group">
+                                          <select class="form-control" name="template">
+                                              <option value="1">التصميم رقم #1</option>
+                                              <option value="2">التصميم رقم #2</option>
+                                          </select>
+                                          <button type="submit" class="btn btn-block btn-dark btn-print">طباعة بالتصميم</button>
+
+                                      </div>
+                                  </form>
+
+                    </div>
                 </div>
               </div>
               <!-- Invoice Footer -->

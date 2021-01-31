@@ -109,11 +109,8 @@ Route::get('/invoices', [InvoicesController::class, 'invoicesList'])->name('invo
 Route::get('/invoices/add', [InvoicesController::class, 'add'])->name('invoices.add');
 Route::post('/invoices/adding', [InvoicesController::class, 'store'])->name('invoices.adding');
 Route::get('/invoices/view/{invoice}', [InvoicesController::class, 'view'])->name('invoices.view');
-
 Route::get('/invoices/print2/{invoice}', [InvoicesController::class, 'print2'])->name('invoices.print2');
-Route::get('/invoices/print3/{invoice}', [InvoicesController::class, 'print3'])->name('invoices.print3');
-
-
+Route::post('/invoices/print3/{invoice}', [InvoicesController::class, 'print3'])->name('invoices.print3');
 Route::get('/invoices/edit/{invoice}', [InvoicesController::class, 'edit'])->name('invoices.edit');
 //Route::post('/invoices/getOtherProducts', [InvoicesController::class, 'getOtherProducts'])->name('invoices.getOtherProducts');
 Route::patch('/invoices/update/{invoice}', [InvoicesController::class, 'update'])->name('invoices.update');
@@ -131,6 +128,8 @@ Route::get('/invoices/price_quotations/status/{invoice}/{status}', [InvoicesPric
 Route::get('/invoices/price_quotations/toinvoice/{invoice}', [InvoicesPriceQuotationController::class, 'toinvoice'])->name('invoicespricequotations.toinvoice');
 Route::post('/invoices/price_quotations/converting/{invoice}', [InvoicesPriceQuotationController::class, 'converting'])->name('invoicespricequotations.converting');
 Route::post('/products/quickadd', [InvoicesPriceQuotationController::class, 'quickadd'])->name('invoicespricequotations.quickadd');
+Route::get('/price_quotations/print2/{invoice}', [InvoicesPriceQuotationController::class, 'print2'])->name('invoicespricequotations.print2');
+Route::post('/price_quotations/print3/{invoice}', [InvoicesPriceQuotationController::class, 'print3'])->name('invoicespricequotations.print3');
 
 //POS
 Route::get('/pos/landing', [PosController::class, 'landing'])->name('pos.landing');

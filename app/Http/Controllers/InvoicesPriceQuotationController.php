@@ -353,4 +353,29 @@ class InvoicesPriceQuotationController extends Controller
         }
         return back();
     }
+
+
+    function print2(InvoicesPriceQuotation $invoice){
+        $user = Auth::user();
+        $user_id = $user->id;
+        $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
+        $currentProducts = InvoicesPriceQuotationsProducts::where('quotation_id', $invoice->id)->get();
+        $products = Products::all();
+        $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
+        $p = '2';
+        return view('invoices_price_quotations.print', compact('p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
+    }
+
+    function print3(InvoicesPriceQuotation $invoice,Request $request){
+        $user = Auth::user();
+        $user_id = $user->id;
+        $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
+        $currentProducts = InvoicesPriceQuotationsProducts::where('quotation_id', $invoice->id)->get();
+        $products = Products::all();
+        $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
+        $p = 3;
+        $template = $request->template;
+        return view('invoices_price_quotations.print', compact('template','p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
+    }
+
 }

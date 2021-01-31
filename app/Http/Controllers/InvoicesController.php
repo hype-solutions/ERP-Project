@@ -64,7 +64,7 @@ class InvoicesController extends Controller
         return view('invoices.print', compact('p','laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
     }
 
-    function print3(Invoices $invoice){
+    function print3(Invoices $invoice,Request $request){
         $user = Auth::user();
         $user_id = $user->id;
         $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
@@ -74,7 +74,8 @@ class InvoicesController extends Controller
         $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
         $laterDates = InvoicesPayments::where('invoice_id', $invoice->id)->get();
         $p = 3;
-        return view('invoices.print', compact('p','laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
+        $template = $request->template;
+        return view('invoices.print', compact('template','p','laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
     }
 
     public function edit(Invoices $invoice)
