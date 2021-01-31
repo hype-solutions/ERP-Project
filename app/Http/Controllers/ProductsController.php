@@ -106,7 +106,7 @@ class ProductsController extends Controller
     public function view(products $product)
     {
 
-
+        $allowedBranches = BranchesProductsSelling::where('product_id',$product->id)->with('branch')->get();
         $branches = BranchesProducts::where('product_id', $product->id)
             // ->where('amount', '!=', 0)
             ->with('branch')->get();
@@ -139,7 +139,7 @@ class ProductsController extends Controller
         $productCost = PurchasesOrdersProducts::where('product_id', $product_id)->avg('product_price');
 
 
-        return view('products.profile', compact('productCost', 'productInvoices', 'supplierProducts', 'product', 'branches', 'productransfers', 'productManual', 'productSuppliers', 'productPurchasesOrders'));
+        return view('products.profile', compact('allowedBranches','productCost', 'productInvoices', 'supplierProducts', 'product', 'branches', 'productransfers', 'productManual', 'productSuppliers', 'productPurchasesOrders'));
     }
 
     // public function test(){

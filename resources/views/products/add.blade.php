@@ -205,7 +205,7 @@
                     <div class="form-group">
                     @foreach ($branches as $branch)
                         <input type="hidden" name="branch[{{$branch->id}}][id]" value="{{$branch->id}}">
-                        <input type="checkbox" name="branch[{{$branch->id}}][selling]" id="">
+                        <input type="checkbox" name="branch[{{$branch->id}}][selling]" id="" @if($branch->id == 1) checked onclick="return false;" @endif>
                         <label for="">{{$branch->branch_name}}</label>
                         <br/>
                     @endforeach

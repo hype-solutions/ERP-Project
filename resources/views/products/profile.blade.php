@@ -168,6 +168,16 @@
                      <small style="font-style: italic;color:red;">غير مسجل </small>
                       @endif</td>
                  </tr>
+                 <tr>
+
+
+                     <td>الفروع المسموح بالبيع فيها</td>
+                     <td>
+                         @foreach ($allowedBranches as $branch)
+                         {{$branch->branch->branch_name}}<br/>
+                         @endforeach
+                        </td>
+                 </tr>
               </tbody>
             </table>
           </div>
