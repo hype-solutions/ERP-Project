@@ -200,8 +200,19 @@
                         </div>
                         </div>
                     </div>
-                    <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
-                            <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> تسجيل</button>
+
+                    <label for="">الفروع المسموح بالبيع منها:</label>
+                    <div class="form-group">
+                    @foreach ($branches as $branch)
+                        <input type="hidden" name="branch[{{$branch->id}}][id]" value="{{$branch->id}}">
+                        <input type="checkbox" name="branch[{{$branch->id}}][selling]" id="">
+                        <label for="">{{$branch->branch_name}}</label>
+                        <br/>
+                    @endforeach
+                </div>
+
+
+                            <button type="submit" class="btn btn-outline-primary btn-block"><i class="la la-check-square-o"></i> تسجيل</button>
                         </form>
                 </div>
             </div>

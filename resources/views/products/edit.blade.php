@@ -255,14 +255,21 @@
                                     </div>
                                 </div>
 
+                                <label for="">الفروع المسموح بالبيع منها:</label>
+                                <div class="form-group">
+                                @foreach ($branches as $branch)
+                                    <input type="hidden" name="branch[{{$branch->id}}][id]" value="{{$branch->id}}">
+                                    <input type="checkbox" name="branch[{{$branch->id}}][selling]" id="" >
+                                    <label for="">{{$branch->branch_name}}</label>
+                                    <br/>
+                                @endforeach
+                            </div>
+
 
                             </div>
 
-                            <div class="form-actions">
-								<button type="button" class="btn btn-warning mr-1">
-									<i class="ft-x"></i> الغاء
-								</button>
-								<button type="submit" class="btn btn-primary">
+
+								<button type="submit" class="btn btn-primary btn-block">
 									<i class="la la-check-square-o"></i> حفظ
 								</button>
 							</div>

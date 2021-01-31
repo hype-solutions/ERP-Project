@@ -221,7 +221,7 @@
                                 <div class="col-md-6">
                                     <fieldset class="form-group">
                                         <label for="projectinput8">التاريخ</label>
-                                        <input type="datetime-local" name="transfer_datetime" class="form-control" id="dateTime" required>
+                                        <input type="datetime-local" value="{{Carbon\Carbon::now()->format('Y-m-d')."T".Carbon\Carbon::now()->format('H:i')}}" name="transfer_datetime" class="form-control" id="dateTime" readonly required>
                                     </fieldset>
                                 </div>
                                 <div class="col-md-6">

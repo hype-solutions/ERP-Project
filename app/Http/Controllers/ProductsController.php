@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Products\Products;
 use App\Models\Branches\BranchesProducts;
+use App\Models\Branches\BranchesProductsSelling;
 use App\Models\Invoices\Invoices;
 use App\Models\Invoices\InvoicesProducts;
 use App\Models\Products\ProductsCategories;
@@ -69,50 +70,76 @@ class ProductsController extends Controller
     {
         $categories = ProductsCategories::all();
         $branches = Branches::all();
-        return view('products.add',compact('categories','branches'));
+        return view('products.add', compact('categories', 'branches'));
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        Products::create($this->validatePostRequest());
+        //Products::create($this->validatePostRequest());
+        $product = new Products();
+        $product->product_code = $request->product_code;
+        $product->product_category = $request->product_category;
+        $product->product_name = $request->product_name;
+        $product->product_price = $request->product_price;
+        $product->product_desc = $request->product_desc;
+        $product->product_brand = $request->product_brand;
+        $product->product_track_stock = $request->product_track_stock;
+        $product->product_low_stock_thershold = $request->product_low_stock_thershold;
+        $product->product_notes = $request->product_notes;
+        $product->save();
+        $productId = $product->id;
+
+        $branchx = $request->branch;
+        foreach ($branchx as $item) {
+            $pro = new BranchesProductsSelling();
+            $pro->branch_id = $item['id'];
+            $pro->product_id = $productId;
+            if (isset($item['selling'])) {
+                $pro->selling = 1;
+            }
+            $pro->save();
+        }
+
         return back()->with('success', 'product Added');
     }
 
     public function view(products $product)
     {
+
+
         $branches = BranchesProducts::where('product_id', $product->id)
             // ->where('amount', '!=', 0)
             ->with('branch')->get();
         $supplierProducts = PurchasesOrdersProducts::groupBy('supplier_id')
-        ->where('status','delivered')
-        ->where('product_id',$product->id)
-        ->selectRaw('purchases_orders_products.*, sum(product_qty) as quantity, min(product_price) as minprice, max(product_price) as maxprice, count(id) as counttimes, supplier_id')
-        ->get();
+            ->where('status', 'delivered')
+            ->where('product_id', $product->id)
+            ->selectRaw('purchases_orders_products.*, sum(product_qty) as quantity, min(product_price) as minprice, max(product_price) as maxprice, count(id) as counttimes, supplier_id')
+            ->get();
         $productransfers = ProductsTransfers::where('transfer_qty', '>', 0)
             ->where('product_id', $product->id)
             ->with('branchFrom')
             ->with('branchTo')
             ->get();
         $productManual = ProductsManualQuantities::where('product_id', $product->id)
-        ->with('branch')
-        ->get();
+            ->with('branch')
+            ->get();
 
-        $productSuppliers = PurchasesOrdersProducts::where('product_id',$product->id)
-        ->where('status','delivered')
-        ->get();
+        $productSuppliers = PurchasesOrdersProducts::where('product_id', $product->id)
+            ->where('status', 'delivered')
+            ->get();
 
 
         $product_id = $product->id;
 
-        $productPurchasesOrders = PurchasesOrdersProducts::where('product_id',$product_id)->with('purchase')->get();
+        $productPurchasesOrders = PurchasesOrdersProducts::where('product_id', $product_id)->with('purchase')->get();
 
-        $productInvoices = InvoicesProducts::where('product_id',$product_id)->with('invoice')->get();
-
-
-        $productCost = PurchasesOrdersProducts::where('product_id',$product_id)->avg('product_price');
+        $productInvoices = InvoicesProducts::where('product_id', $product_id)->with('invoice')->get();
 
 
-        return view('products.profile', compact('productCost','productInvoices','supplierProducts','product', 'branches', 'productransfers','productManual','productSuppliers','productPurchasesOrders'));
+        $productCost = PurchasesOrdersProducts::where('product_id', $product_id)->avg('product_price');
+
+
+        return view('products.profile', compact('productCost', 'productInvoices', 'supplierProducts', 'product', 'branches', 'productransfers', 'productManual', 'productSuppliers', 'productPurchasesOrders'));
     }
 
     // public function test(){
@@ -130,13 +157,14 @@ class ProductsController extends Controller
 
     public function edit(products $product)
     {
-        if($product->product_category > 0 ){
-            $otherCategories = ProductsCategories::where('id','!=',$product->product_category)->get();
-        }else{
+        $branches = Branches::all();
+        if ($product->product_category > 0) {
+            $otherCategories = ProductsCategories::where('id', '!=', $product->product_category)->get();
+        } else {
             $otherCategories = ProductsCategories::all();
         }
 
-          return view('products.edit', compact('product','otherCategories'));
+        return view('products.edit', compact('branches','product', 'otherCategories'));
     }
 
     public function update(products $product)
@@ -170,17 +198,17 @@ class ProductsController extends Controller
         $productBranches = BranchesProducts::where('product_id', $product_id)
             ->where('branch_id', $branch_id)
             ->first();
-            if($productBranches){
-        $amount = $productBranches->amount;
-            }else{
-                $amount = 0;
-            }
+        if ($productBranches) {
+            $amount = $productBranches->amount;
+        } else {
+            $amount = 0;
+        }
         return response()->json(array('amount' => $amount), 200);
     }
     public function fetchPrice(Request $request)
     {
         $product_id = $request->product;
-        $product= Products::where('id', $product_id)
+        $product = Products::where('id', $product_id)
             ->first();
         $price = $product->product_price;
         return response()->json(array('price' => $price), 200);
@@ -189,7 +217,7 @@ class ProductsController extends Controller
     public function fetchCost(Request $request)
     {
         $product_id = $request->product;
-        $product= Products::where('id', $product_id)
+        $product = Products::where('id', $product_id)
             ->first();
         $cost = $product->purchasesOrders();
         return response()->json(array('cost' => $cost), 200);
@@ -285,10 +313,10 @@ class ProductsController extends Controller
 
     public function selecting(Request $request)
     {
-       if($request->userChoise == '1'){
-        return redirect()->route('products.transfer',$request->product_id);
-       }else{
-        return redirect()->route('products.addQty',$request->product_id);
-       }
+        if ($request->userChoise == '1') {
+            return redirect()->route('products.transfer', $request->product_id);
+        } else {
+            return redirect()->route('products.addQty', $request->product_id);
+        }
     }
 }
