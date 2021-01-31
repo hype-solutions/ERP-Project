@@ -258,9 +258,9 @@
                                 <label for="">الفروع المسموح بالبيع منها:</label>
                                 <div class="form-group">
                                 @foreach ($branches as $branch)
-                                    <input type="hidden" name="branch[{{$branch->id}}][id]" value="{{$branch->id}}">
-                                    <input type="checkbox" name="branch[{{$branch->id}}][selling]" id="" >
-                                    <label for="">{{$branch->branch_name}}</label>
+                                    <input type="hidden" name="branch[{{$branch->id}}][id]" value="{{$branch->branch->id}}">
+                                    <input type="checkbox" name="branch[{{$branch->id}}][selling]" id="" @if($branch->selling > 0) checked @endif >
+                                    <label for="">{{$branch->branch->branch_name}}</label>
                                     <br/>
                                 @endforeach
                             </div>

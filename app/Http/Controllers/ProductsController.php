@@ -157,7 +157,7 @@ class ProductsController extends Controller
 
     public function edit(products $product)
     {
-        $branches = Branches::all();
+        $branches = BranchesProductsSelling::where('product_id',$product->id)->with('branch')->get();
         if ($product->product_category > 0) {
             $otherCategories = ProductsCategories::where('id', '!=', $product->product_category)->get();
         } else {
@@ -167,9 +167,19 @@ class ProductsController extends Controller
         return view('products.edit', compact('branches','product', 'otherCategories'));
     }
 
-    public function update(products $product)
+    public function update(products $product,Request $request)
     {
         $product->update($this->validateUpdateRequest());
+        $branchx = $request->branch;
+        foreach ($branchx as $item) {
+            $pro = BranchesProductsSelling::where('branch_id',$item['id'])->where('product_id',$product->id)->first();
+            if (isset($item['selling'])) {
+                $pro->selling = 1;
+            }else{
+                $pro->selling = 0;
+            }
+            $pro->save();
+        }
         return back()->with('success', 'product updated');
     }
 

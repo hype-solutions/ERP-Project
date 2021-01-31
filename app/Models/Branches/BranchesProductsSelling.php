@@ -10,4 +10,10 @@ class BranchesProductsSelling extends Model
     use HasFactory;
     protected $table = 'branches_products_sellings';
     protected $fillable = ['branch_id','product_id','selling'];
+
+    public function branch()
+    {
+        return $this->hasOne('App\Models\Branches\Branches', 'id', 'branch_id');
+
+    }
 }
