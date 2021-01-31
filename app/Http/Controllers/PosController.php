@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Branches\Branches;
 use App\Models\Branches\BranchesProducts;
+use App\Models\Branches\BranchesProductsSelling;
 use App\Models\Customers\Customers;
 use App\Models\Pos\Cart;
 use App\Models\Pos\PosSessions;
@@ -74,12 +75,19 @@ class PosController extends Controller
     }
     public function index($sessionId)
     {
-        $products = Products::all();
+        $currentSession = PosSessions::find($sessionId);
+        $currentBranch = $currentSession->branch_id;
+        $allowedProducts = [];
+        $getBranchProducts = BranchesProductsSelling::where('branch_id',$currentBranch)->get();
+        foreach ($getBranchProducts as $product) {
+            if($product->selling > 0){array_push($allowedProducts,$product->product_id);}
+        }
+        $products = Products::whereIn('id', $allowedProducts)->get();
         $user = Auth::user();
         $user_id = $user->id;
         $productsCategories = ProductsCategories::all();
         $currentCart = Cart::where('pos_session_id', $sessionId)->get();
-        $currentSession = PosSessions::find($sessionId);
+
         if($currentSession->customer_id > 0){
             $customerVisits = PosSessions::where('customer_id',$currentSession->customer_id)->count();
         }else{
@@ -90,13 +98,29 @@ class PosController extends Controller
 
     public function search(Request $request)
     {
-        $products = Products::where('product_name', 'LIKE', '%' . $request->search . '%')->get();
+        $sessionId = $request->session;
+        $currentSession = PosSessions::find($sessionId);
+        $currentBranch = $currentSession->branch_id;
+        $allowedProducts = [];
+        $getBranchProducts = BranchesProductsSelling::where('branch_id',$currentBranch)->get();
+        foreach ($getBranchProducts as $product) {
+            if($product->selling > 0){array_push($allowedProducts,$product->product_id);}
+        }
+        $products = Products::whereIn('id', $allowedProducts)->where('product_name', 'LIKE', '%' . $request->search . '%')->get();
         return response()->json(array('data' => $products), 200);
     }
 
     public function barcode(Request $request)
     {
-        $products = Products::where('product_code', $request->barcode)->get();
+        $sessionId = $request->session;
+        $currentSession = PosSessions::find($sessionId);
+        $currentBranch = $currentSession->branch_id;
+        $allowedProducts = [];
+        $getBranchProducts = BranchesProductsSelling::where('branch_id',$currentBranch)->get();
+        foreach ($getBranchProducts as $product) {
+            if($product->selling > 0){array_push($allowedProducts,$product->product_id);}
+        }
+        $products = Products::whereIn('id', $allowedProducts)->where('product_code', $request->barcode)->get();
         return response()->json(array('datax' => $products), 200);
     }
 

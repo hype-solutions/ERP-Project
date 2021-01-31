@@ -779,6 +779,7 @@ function addToCart(productId,productName,productPrice){
                     });
             var formData = {
                 search: $('#searchInput').val(),
+                session: {{$sessionId}},
             };
             var type = "POST";
             var ajaxurl = "{{route('pos.search')}}";
@@ -851,6 +852,7 @@ function addToCart(productId,productName,productPrice){
                     });
             var formDatax = {
                 barcode: $('#barcodeInput').val(),
+                session: {{$sessionId}},
             };
             var typex = "POST";
             var ajaxurlx = "{{route('pos.barcode')}}";
