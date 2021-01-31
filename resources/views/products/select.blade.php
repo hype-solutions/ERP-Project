@@ -83,12 +83,12 @@
               <form class="form" method="post" action="{{route('products.selecting')}}">
                 @csrf
                 <div class="form-body">
-                    <h4 class="form-section"><i class="ft-user"></i> إختر المنتج</h4>
-                    <div class="row">
+                    <h4 class="form-section"><i class="ft-user"></i> تحويل كميات بين الفروع</h4>
+                    <input type="hidden" name="userChoise" value="1"/>
+                    {{-- <div class="row">
                         <div class="col-md-4">
                             <div class="text-bold-600 font-medium-2">إختر العملية</div>
                             <div class="form-check">
-
                                 <input class="form-check-input" type="radio" name="userChoise" id="inlineRadio1" value="1" required>
                                 <label class="form-check-label" for="inlineRadio1">تحويل كميات بين الفروع</label>
                               </div>
@@ -97,14 +97,14 @@
                                 <label class="form-check-label" for="inlineRadio2">إضافة كمية يدويا</label>
                               </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="row">
                         <div class="col-md-4">
                     <div class="form-group">
                         <br>
 
                         <div class="text-bold-600 font-medium-2">
-                         إختر الصنف
+                         إختر المنتج
                         </div>
                         <select class="select2-rtl form-control" data-placeholder="إختر المنتج..." name="product_id" required>
                             <option></option>
