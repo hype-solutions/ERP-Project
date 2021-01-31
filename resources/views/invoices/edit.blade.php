@@ -95,6 +95,18 @@
                         <div class="form-body">
                             <h4 class="form-section"><i class="la la-flag"></i> تعديل فاتورة</h4>
                             <div class="row">
+                                @if($invoice->was_price_quotation)
+                                <div class="col">
+                                    <span style="color: green"><i><u>(محولة من عرض سعر رقم {{$invoice->price_quotation_id}})</u></i></span>
+                                </div>
+                                @endif
+                                @if($invoice->was_price_quotation)
+                                <div class="col">
+                                    <span style="color: green"><i><u>رقم الفاتورة الورقية: {{$invoice->invoice_paper_num}}</u></i></span>
+                                </div>
+                                @endif
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="text-bold-600 font-medium-2">

@@ -63,7 +63,17 @@
                 </div>
                 <div class="col-sm-6 col-12 text-center text-sm-right">
                   <h2>فاتورة مبيعات</h2>
-                  <p class="pb-sm-3">رقم {{$invoice->id}}</p>
+                  <p class="pb-sm-3">رقم {{$invoice->id}}
+                @if($invoice->was_price_quotation)
+                    <br/>
+                    <i><u>(محولة من عرض سعر رقم {{$invoice->price_quotation_id}})</u></i>
+                @endif
+                @if($invoice->was_price_quotation)
+                <br/>
+                <i><u>رقم الفاتورة الورقية: {{$invoice->invoice_paper_num}}</u></i>
+            @endif
+
+                </p>
                   <ul class="px-0 list-unstyled">
                     <li>إجمالي الفاتورة</li>
                     <li class="lead text-bold-800">{{$invoice->invoice_total}} ج.م</li>
