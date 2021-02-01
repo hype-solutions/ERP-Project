@@ -211,7 +211,7 @@
                                           </div>
                                     </td>
                                     <td><input type="text" class="product_input" name="product[1][desc]"/></td>
-                                    <td><input type="number" class="product_input" id="p_p_1" name="product[1][price]" onblur="return reCalculate(1)" min="0" required/>
+                                    <td><input type="number" class="product_input" id="p_p_1" name="product[1][price]" onblur="return reCalculate(1)" min="0" required @can('Change Product Price in Invoice')  @else readonly  @endcan />
                                     <input type="hidden" name="product[1][cost]" id="p_c_1" />
                                     </td>
                                     <td><input type="number" class="product_input" id="p_q_1" name="product[1][qty]" onblur="return reCalculate(1)" min="0" placeholder="0" required/></td>
@@ -538,6 +538,16 @@
 <!-- users view ends -->
         </div>
       </div>
+
+
+      @can('Change Product Price in Invoice')
+      {{$readonly = 'false'}}
+      can
+      @else
+      {{$readonly = 'true'}}
+      cant
+      @endcan
+
 
 @include('common.footer')
 @endsection
@@ -1043,6 +1053,13 @@ product_price.setAttribute("required", true);
 product_price.setAttribute("class", "product_input");
 product_price.setAttribute("id", "p_p_" + currentIndex);
 product_price.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
+if({{$readonly}}){
+    product_price.setAttribute("readonly", true);
+}else{
+    product_price.removeAttribute("readonly");
+}
+
+
 
 var product_cost = document.createElement("input");
 product_cost.setAttribute("name","product[" + currentIndex + "][cost]");

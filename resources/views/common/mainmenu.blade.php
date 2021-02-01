@@ -3,21 +3,13 @@
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="main-menu-content">
       <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-        {{-- <li class=" nav-item"><a href="index-2.html"><i class="mbri-desktop"></i><span class="menu-title" data-i18n="Dashboard">Dashboard</span></a>
-          <ul class="menu-content">
-            <li><a class="menu-item" href="dashboard-ecommerce.html"><i class="la la-cart-plus"></i><span>eCommerce</span></a>
-            </li>
-            <li><a class="menu-item" href="dashboard-crypto.html"><i class="la la-sitemap"></i><span>Crypto</span></a>
-            </li>
-            <li><a class="menu-item" href="dashboard-sales.html"><i class="la la-dollar"></i><span>Sales</span></a>
-            </li>
-          </ul>
-        </li> --}}
+
         <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/menu/1.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>البيع</a>
           <ul class="menu-content">
             <li><a class="menu-item" href="{{route('pos.landing')}}"><i class="la la-arrows-v"></i><span data-i18n="Vertical">بيع سريع</span></a>
 
               </li>
+
             <li><a class="menu-item" href="#"><i class="la la-arrows-v"></i><span data-i18n="Vertical">عروض أسعار</span></a>
               <ul class="menu-content">
                 <li><a class="menu-item" href="{{route('invoicespricequotations.add')}}"><i></i><span data-i18n="Classic Menu">إنشاء عرض سعر</span></a>
@@ -26,6 +18,7 @@
                 </li>
               </ul>
             </li>
+            @can('View Invoices')
             <li><a class="menu-item" href="#"><i class="la la-arrows-h"></i><span data-i18n="Horizontal">فواتير المبيعات</span></a>
               <ul class="menu-content">
                 <li><a class="menu-item" href="{{route('invoices.add')}}"><i></i><span data-i18n="Classic Menu">إنشاء فاتورة</span></a>
@@ -36,6 +29,7 @@
                 </li>
               </ul>
             </li>
+            @endcan
           </ul>
         </li>
         <li class=" nav-item"><a href="#"><img src="{{ asset('theme/app-assets/images/custom/menu/2.png') }}" style="width: 50%"/><span class="menu-title" data-i18n="Templates"></span><br/>المشاريع</a>

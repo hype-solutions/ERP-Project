@@ -34,12 +34,68 @@
 </div>
         <div class="content-body"><!-- users list start -->
 
+<div class="col-xl-3 col-md-6 col-12">
+            <div class="card border-teal border-lighten-2">
+              <div class="text-center">
+
+                <div class="card-body">
+                  <h4 class="card-title">إضافة صلاحيات</h4>
+                </div>
+                <div class="text-center">
+                  <button type="button" data-toggle="modal" data-target="#Add" class="btn  mb-1 btn-outline-linkedin btn-block"><span class="la la-plus font-medium-4"></span></button>
 
 
+                  <div class="modal fade text-left" id="Add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel1">بيانات الصلاحيات</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="form" method="post" action="{{route('settings.permissions.adding')}}">
+                                    @csrf
+                                    <div class="form-body">
+                                        <div class="row">
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="timesheetinput2">اسم الصلاحية</label>
+                                                    <span style="color:red">*</span>
+                                                    <div class="position-relative has-icon-left">
+                                                    <input type="text" id="timesheetinput2" class="form-control" placeholder="" name="permission_name" required>
+                                                        <div class="form-control-position">
+                                                            <i class="la la-user"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+
+                                                <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
+                                                <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> تسجيل</button>
+
+                                            </form>
+                            </div>
+                        </div>
+
+                        </div>
+                    </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+<ul>
 @foreach ($permissions as $permission)
-{{$permission}}
+<li>{{$permission->name}}</li>
 @endforeach
-
+</ul>
 
    </div>
 </div>
@@ -52,7 +108,7 @@
 @section('pageJs')
 <!-- BEGIN: Page Vendor JS-->
 
-        </script>
+
 <!-- END: Page Vendor JS-->
     <!-- BEGIN: Theme JS-->
     <script src="{{ asset('theme/app-assets/js/core/app-menu.min.js') }}"></script>

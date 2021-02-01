@@ -229,7 +229,7 @@
 @section('pageJs')
 <!-- BEGIN: Page Vendor JS-->
 
-        </script>
+
 <!-- END: Page Vendor JS-->
     <!-- BEGIN: Theme JS-->
     <script src="{{ asset('theme/app-assets/js/core/app-menu.min.js') }}"></script>

@@ -113,15 +113,24 @@ Route::post('/purchase_orders/importing/{purchaseOrder}', [PurchasesOrdersContro
  **** Selling Channels ****
  **************************/
 //Invoices
-Route::get('/invoices', [InvoicesController::class, 'invoicesList'])->name('invoices.list');
-Route::get('/invoices/add', [InvoicesController::class, 'add'])->name('invoices.add');
-Route::post('/invoices/adding', [InvoicesController::class, 'store'])->name('invoices.adding');
-Route::get('/invoices/view/{invoice}', [InvoicesController::class, 'view'])->name('invoices.view');
-Route::get('/invoices/print2/{invoice}', [InvoicesController::class, 'print2'])->name('invoices.print2');
-Route::post('/invoices/print3/{invoice}', [InvoicesController::class, 'print3'])->name('invoices.print3');
-Route::get('/invoices/edit/{invoice}', [InvoicesController::class, 'edit'])->name('invoices.edit');
-//Route::post('/invoices/getOtherProducts', [InvoicesController::class, 'getOtherProducts'])->name('invoices.getOtherProducts');
-Route::patch('/invoices/update/{invoice}', [InvoicesController::class, 'update'])->name('invoices.update');
+Route::group(['middleware' => ['permission:View Invoices']], function () {
+    Route::get('/invoices', [InvoicesController::class, 'invoicesList'])->name('invoices.list');
+    Route::get('/invoices/view/{invoice}', [InvoicesController::class, 'view'])->name('invoices.view');
+});
+Route::group(['middleware' => ['permission:Add Invoices']], function () {
+    Route::get('/invoices/add', [InvoicesController::class, 'add'])->name('invoices.add');
+    Route::post('/invoices/adding', [InvoicesController::class, 'store'])->name('invoices.adding');
+});
+Route::group(['middleware' => ['permission:Edit Invoices']], function () {
+    Route::get('/invoices/edit/{invoice}', [InvoicesController::class, 'edit'])->name('invoices.edit');
+    Route::patch('/invoices/update/{invoice}', [InvoicesController::class, 'update'])->name('invoices.update');
+});
+
+Route::group(['middleware' => ['permission:Print Invoices']], function () {
+    Route::get('/invoices/print2/{invoice}', [InvoicesController::class, 'print2'])->name('invoices.print2');
+    Route::post('/invoices/print3/{invoice}', [InvoicesController::class, 'print3'])->name('invoices.print3');
+});
+
 Route::post('/invoices/installment/pay', [InvoicesController::class, 'installment'])->name('invoices.installment');
 
 
@@ -267,3 +276,5 @@ Route::get('/settings/roles', [RolesAndPermissionsController::class, 'roles'])->
 Route::post('/settings/roles/adding', [RolesAndPermissionsController::class, 'addingRoles'])->name('settings.roles.adding');
 Route::get('/settings/permissions/{role}', [RolesAndPermissionsController::class, 'permissions'])->name('settings.permissions');
 Route::post('/settings/permissions/adding', [RolesAndPermissionsController::class, 'addingPermissions'])->name('settings.permissions.adding');
+Route::get('/settings/assignPermissionToRole/{role}/{permission}', [RolesAndPermissionsController::class, 'assignPermissionToRole'])->name('settings.assignPermissionToRole');
+Route::get('/settings/assignUserToRole/{user}/{role}', [RolesAndPermissionsController::class, 'assignUserToRole'])->name('settings.assignUserToRole');
