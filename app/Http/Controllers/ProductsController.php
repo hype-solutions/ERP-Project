@@ -245,31 +245,43 @@ class ProductsController extends Controller
 
         ProductsTransfers::create($request->all());
 
-        BranchesProducts::where('product_id', $request->product_id)
-            ->where('branch_id', $request->branch_from)
-            ->update(['amount' => $request->qty_after_transfer_from]);
 
-        $checkIfRecordExsists = BranchesProducts::where('branch_id', $request->branch_to)
-            ->where('product_id', $request->product_id)
-            ->first();
-        //if product exsists on main branch, update its qty
-        if (isset($checkIfRecordExsists)) {
-
-            BranchesProducts::where('product_id', $request->product_id)
-                ->where('branch_id', $request->branch_to)
-                ->update(['amount' => $request->qty_after_transfer_to]);
-        }
-        //else add a new record
-        else {
-            $addToMain = new BranchesProducts;
-            $addToMain->branch_id = $request->branch_to;
-            $addToMain->product_id = $request->product_id;
-            $addToMain->amount = $request->qty_after_transfer_to;
-            $addToMain->save();
-        }
 
         return redirect()->route('products.list');
     }
+
+
+
+    public function acceptingTransfer(ProductsTransfers $transfer)
+    {
+        BranchesProducts::where('product_id', $transfer->product_id)
+        ->where('branch_id', $transfer->branch_from)
+        ->update(['amount' => $transfer->qty_after_transfer_from]);
+
+    $checkIfRecordExsists = BranchesProducts::where('branch_id', $transfer->branch_to)
+        ->where('product_id', $transfer->product_id)
+        ->first();
+    //if product exsists on main branch, update its qty
+    if (isset($checkIfRecordExsists)) {
+
+        BranchesProducts::where('product_id', $transfer->product_id)
+            ->where('branch_id', $transfer->branch_to)
+            ->update(['amount' => $transfer->qty_after_transfer_to]);
+    }
+    //else add a new record
+    else {
+        $addToMain = new BranchesProducts;
+        $addToMain->branch_id = $transfer->branch_to;
+        $addToMain->product_id = $transfer->product_id;
+        $addToMain->amount = $transfer->qty_after_transfer_to;
+        $addToMain->save();
+    }
+
+    return redirect()->route('products.list');
+    }
+
+
+
 
     public function addQty(Products $product)
     {

@@ -19,6 +19,7 @@ class ProductsTransfers extends Model
         'qty_before_transfer_to',
         'qty_after_transfer_to',
         'transfer_datetime',
+        'status',
         'transfer_notes',
         'transfered_by',
         'authorized_by',

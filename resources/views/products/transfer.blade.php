@@ -88,11 +88,7 @@
              <a class="dropdown-item" href="{{ route('products.edit', $product->id) }}">تعديل المنتج</a>
              <a class="dropdown-item" href="#">طباعه BARCODE</a>
              <div class="dropdown-divider"></div>
-             <form action="{{route('products.delete',$product->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا المنتج نهائيا و جميع تفاصيله من البرنامج')">
-                 @csrf
-                 @method('delete')
-             <button class="dropdown-item btn-danger btn" type="submit">حذف المنتج</button>
-             </form>
+
          </div>
      </div>
      <div class="btn-group mr-1 mb-1"  style="width: 100%;">
