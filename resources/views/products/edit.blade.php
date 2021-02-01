@@ -357,9 +357,12 @@
         }
 
         function printBarcode(){
+            var code = '{{$product->product_code}}';
+            if (typeof code == 'undefined') {code = 0;}
             var qty = prompt("عدد الملصقات التي تريد طباعتها...","1");
-            var url = '{{ route("products.barcode", [$product->id, ':qty' ]) }}';
+            var url = '{{ route("products.barcode", [':code', ':qty' ]) }}';
             url = url.replace(':qty', qty);
+            url = url.replace(':code', code);
             print(url);
         }
 
