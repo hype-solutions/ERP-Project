@@ -14,6 +14,7 @@ use App\Models\Products\ProductsTransfers;
 use App\Models\Products\ProductsManualQuantities;
 use App\Models\PurchasesOrders\PurchasesOrdersProducts;
 use Illuminate\Support\Facades\Auth;
+use Milon\Barcode\DNS1D as DNS1D;
 
 class ProductsController extends Controller
 {
@@ -281,7 +282,10 @@ class ProductsController extends Controller
     }
 
 
-
+    public function barcode($code,$qty)
+    {
+                return view('products.barcode',compact('code','qty')) ;
+    }
 
     public function addQty(Products $product)
     {

@@ -91,6 +91,8 @@ Route::post('/products/qty/adding', [ProductsController::class, 'addingQty'])->n
 Route::get('/products/select', [ProductsController::class, 'productSelect'])->name('products.select');
 Route::post('/products/selecting', [ProductsController::class, 'selecting'])->name('products.selecting');
 
+Route::get('/products/barcode/{code}/{qty}', [ProductsController::class, 'barcode'])->name('products.barcode');
+
 /**************************
  **** Purchases orders ****
  **************************/

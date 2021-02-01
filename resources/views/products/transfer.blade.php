@@ -80,14 +80,20 @@
         </div>
       </div>
     </div>
+    <script type="text/javascript">
+        function print(url) {
+            popupWindow = window.open(
+            url,'popUpWindow','height=700,width=300,left=10,top=10,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no')
+        }
+
+        </script>
     <div class="col-12 col-sm-5 px-0 d-flex justify-content-end align-items-center px-2 mb-2">
         <div class="btn-group mr-1 mb-1">
          <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">التحكم في المنتج</button>
          <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
              <a class="dropdown-item" href="{{ route('products.view', $product->id) }}">استعراض المنتج</a>
              <a class="dropdown-item" href="{{ route('products.edit', $product->id) }}">تعديل المنتج</a>
-             <a class="dropdown-item" href="#">طباعه BARCODE</a>
-             <div class="dropdown-divider"></div>
+             <button class="dropdown-item" onclick="return printBarcode()">طباعه BARCODE</button>
 
          </div>
      </div>
@@ -388,7 +394,11 @@
         });
         }
 
-
+        function printBarcode(){
+            var qty = prompt("عدد الملصقات التي تريد طباعتها...","1");
+            var url = '/products/barcode/{{ $product->id }}/'+qty;
+            print(url);
+        }
 
                 $(document).ready(function () {
 
