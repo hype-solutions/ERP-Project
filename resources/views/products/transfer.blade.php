@@ -93,7 +93,11 @@
          <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
              <a class="dropdown-item" href="{{ route('products.view', $product->id) }}">استعراض المنتج</a>
              <a class="dropdown-item" href="{{ route('products.edit', $product->id) }}">تعديل المنتج</a>
+             @if(isset($product->product_code))
              <button class="dropdown-item" onclick="return printBarcode()">طباعه BARCODE</button>
+             @else
+             <button class="dropdown-item" onclick="return printBarcodeNot()">طباعه BARCODE</button>
+             @endif
 
          </div>
      </div>
@@ -394,9 +398,14 @@
         });
         }
 
+        function printBarcodeNot(){
+            alert('لا يوجد باركود مسجل');
+        }
+
         function printBarcode(){
             var qty = prompt("عدد الملصقات التي تريد طباعتها...","1");
-            var url = '/products/barcode/{{ $product->id }}/'+qty;
+            var url = '{{ route("products.barcode", [$product->id, ':qty' ]) }}';
+            url = url.replace(':qty', qty);
             print(url);
         }
 
