@@ -98,7 +98,7 @@
      <div class="btn-group mr-1 mb-1"  style="width: 100%;">
          <button type="button" class="btn btn-info btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> التحكم في المخزون</button>
          <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-             <a class="dropdown-item" href="{{route('products.addQty',$product->id)}}">أضف كمية يدويا</a>
+             {{-- <a class="dropdown-item" href="{{route('products.addQty',$product->id)}}">أضف كمية يدويا</a> --}}
              <a class="dropdown-item" href="{{route('purchasesorders.add')}}">أمر شراء جديد</a>
              <a class="dropdown-item" href="{{route('products.transfer',$product->id)}}">تحويل كميات بين الفروع</a>
 
