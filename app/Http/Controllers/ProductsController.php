@@ -8,12 +8,10 @@ use Illuminate\Http\Request;
 use App\Models\Products\Products;
 use App\Models\Branches\BranchesProducts;
 use App\Models\Branches\BranchesProductsSelling;
-use App\Models\Invoices\Invoices;
 use App\Models\Invoices\InvoicesProducts;
 use App\Models\Products\ProductsCategories;
 use App\Models\Products\ProductsTransfers;
 use App\Models\Products\ProductsManualQuantities;
-use App\Models\PurchasesOrders\PurchasesOrders;
 use App\Models\PurchasesOrders\PurchasesOrdersProducts;
 use Illuminate\Support\Facades\Auth;
 
@@ -111,7 +109,7 @@ class ProductsController extends Controller
             // ->where('amount', '!=', 0)
             ->with('branch')->get();
         $supplierProducts = PurchasesOrdersProducts::groupBy('supplier_id')
-            ->where('status', 'delivered')
+            ->where('status', 'Delivered')
             ->where('product_id', $product->id)
             ->selectRaw('purchases_orders_products.*, sum(product_qty) as quantity, min(product_price) as minprice, max(product_price) as maxprice, count(id) as counttimes, supplier_id')
             ->get();
@@ -125,18 +123,18 @@ class ProductsController extends Controller
             ->get();
 
         $productSuppliers = PurchasesOrdersProducts::where('product_id', $product->id)
-            ->where('status', 'delivered')
+            ->where('status', 'Delivered')
             ->get();
 
 
         $product_id = $product->id;
 
-        $productPurchasesOrders = PurchasesOrdersProducts::where('product_id', $product_id)->with('purchase')->get();
+        $productPurchasesOrders = PurchasesOrdersProducts::where('product_id', $product_id)->where('status', 'Delivered')->with('purchase')->get();
 
         $productInvoices = InvoicesProducts::where('product_id', $product_id)->with('invoice')->get();
 
 
-        $productCost = PurchasesOrdersProducts::where('product_id', $product_id)->avg('product_price');
+        $productCost = PurchasesOrdersProducts::where('product_id', $product_id)->where('status', 'Delivered')->avg('product_price');
 
 
         return view('products.profile', compact('allowedBranches','productCost', 'productInvoices', 'supplierProducts', 'product', 'branches', 'productransfers', 'productManual', 'productSuppliers', 'productPurchasesOrders'));

@@ -267,7 +267,7 @@ class InvoicesPriceQuotationController extends Controller
                 $da->date = $item['date'];
                 $da->notes = $item['notes'];
                 $da->paid = 'No';
-                Safes::where('id', $safe_id)->increment('safe_balance', $item['amount']);
+                // Safes::where('id', $safe_id)->increment('safe_balance', $item['amount']);
                 $da->save();
                 $listOfDates[] = $da;
             }

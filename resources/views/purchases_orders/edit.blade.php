@@ -130,22 +130,31 @@
             </div>
         </div>
     </div>
-
     <div class="col-md-4">
-        <div class="card">
-            <div class="card-content collapse show">
-                <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        @if($purchaseOrder->purchase_status == 'Declined')
+                        <h2 class="text-danger"><span class="la la-exclamation-circle"></span>
+                            تم الرفض من الإدارة
+                        </h2>
+<p class="text-muted">يمكنك التعديل فيه و التقديم مرة أخرى للمراجعة</p>
+                        @else
+                        <h2 class="text-danger"><span class="la la-exclamation-circle"></span>
+                            في انتظار موافقة الإدارة
+                        </h2>
+                        <a class="btn btn-success btn-sm btn-block"  href="{{route('purchasesorders.status',[$purchaseOrder->id,1])}}"><i class="la la-check"></i> تصديق على أمر الشراء و الدفع</a>
+                        <a class="btn btn-danger btn-sm btn-block" href="{{route('purchasesorders.status',[$purchaseOrder->id,2])}}"><i class="la la-close" ></i> رفض</a>
 
-                    <fieldset class="form-group">
-                        <p class="text-muted">الشروط /  الملاحظات</p>
-                    <textarea class="form-control" name="purchase_note" rows="5" id="terms-conditions">{{$purchaseOrder->purchase_note}}</textarea>
-                    </fieldset>
-
-
+                        @endif
+                                </div>
                 </div>
             </div>
+
         </div>
-    </div>
+        </div>
+
 
 
   </div>
@@ -293,270 +302,24 @@
               </div>
             </div>
         </div>
+
+    </div>
+
+    <div class="col-md-8">
         <div class="card">
             <div class="card-content collapse show">
                 <div class="card-body">
 
-                    <fieldset class="checkboxsas">
-                        <label>
-                          <input type="checkbox" name="already_delivered" id="hasDelivered" @if($purchaseOrder->already_delivered) checked  @endif @if($purchaseOrder->delivery_date) onclick="return false;"  @endif>
-                         هل تم الإستلام بالفعل؟
-                                      </label>
+                    <fieldset class="form-group">
+                        <p class="text-muted">الشروط /  الملاحظات</p>
+                    <textarea class="form-control" name="purchase_note" rows="5" id="terms-conditions">{{$purchaseOrder->purchase_note}}</textarea>
                     </fieldset>
-                    <div class="div" id="delivery_info"  @if($purchaseOrder->already_delivered) style="display: block" @else style="display: none" @endif>
-                        <fieldset class="form-group">
-                            <div class="label">تاريخ الإستلام</div>
-                            <input type="date" class="form-control" id="delDate"  name="delivery_date"  value="{{$purchaseOrder->delivery_date}}" @if($purchaseOrder->delivery_date) readonly  @endif>
-                        </fieldset>
-                        <div class="form-group">
-                            <label> اختر الفرع (المخزن) المستلم:</label>
 
-
-                            <select class="select2-rtl form-control" id="delBranch" data-placeholder="إختر الفرع..." name="branch_id" @if($purchaseOrder->delivery_date) disabled  @endif>
-                                @if($purchaseOrder->branch_id > 0)
-                                <option value="{{$purchaseOrder->branch_id}}">{{$purchaseOrder->branch->branch_name}}</option>
-                                @else
-                                <option></option>
-                                @endif
-                                @foreach ($branches as $branch)
-                                <option value="{{$branch->id}}">{{$branch->branch_name}}</option>
-                                @endforeach
-                            </select>
-                          </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-<div class="col-md-8">
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <script type="text/javascript">
-                        function pay(url) {
-                            popupWindow = window.open(
-                            url,'popUpWindow','height=700,width=300,left=10,top=10,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no')
-                        }
-
-                        </script>
-                    <div class="col-md-6">
-                        @if($purchaseOrder->already_paid)
-                        <h2 class="text-success"><span class="la la-check-circle"></span>تم الدفع</h2>
-                        <br>
-                            @if($purchaseOrder->payment_method !='later')
-                        <p><label>رقم فاتورة الدفع: </label> {{$purchaseOrder->safe_payment_id}}</p>
-                        <p><label>الخزنة المخصوم منها: </label> {{$purchaseOrder->safe->safe_name}}</p>
-                            @endif
-                        @else
-                        <h2 class="text-danger"><span class="la la-exclamation-circle"></span>لم يتم الدفع</h2>
-                        @endif
-                    </div>
-                    <input type="checkbox" name="already_paid" id="hasPaid" style="display: none" @if($purchaseOrder->already_paid) checked @endif>
-
-                    <div class="col-md-6" id="notPaid" @if($purchaseOrder->already_paid) style="display: none" @else style="display: block" @endif>
-                        <div class="form-group">
-                        <select class="form-control" id="payment_method" name="payment_method">
-                            <option value="{{$purchaseOrder->payment_method}}">تعديل طريقة الدفع</option>
-                            <option value="cash">كاش</option>
-                            <option value="visa">فيزا</option>
-                            <option value="later">اجل (دفعات)</option>
-                            <option value="bankTransfer">تحويل بنكي</option>
-                        </select>
-                    </div>
-                    </div>
-                    <div class="col-md-6" @if($purchaseOrder->already_paid) style="display: block" @else style="display: none" @endif  id="yesPaid">
-                        @if($purchaseOrder->payment_method !='later')
-                        <div class="form-group">
-                            <button type="button" class="btn btn-dark" onclick="return pay('{{route('safes.receipt',$purchaseOrder->safe_payment_id)}}');">استعراض إيصال الدفع</button>
-                        <input type="hidden" class="form-control" name="safe_payment_id" value="{{$purchaseOrder->safe_payment_id}}"/>
-                    </div>
-                    @endif
-                    </div>
 
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-12" id="other_box" style="display: none">
-        <div class="card">
-            <div class="card-body">
-
-        <div class="div">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                    <label for="projectinput3">اختر الخزنة التي سيتم خصم المبلغ منها</label>
-                    <select class="select2-rtl form-control" data-placeholder="إختر الخزنة..." name="safe_id_not_paid">
-                        <option></option>
-                        @foreach ($safes2 as $safe)
-                        <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                </div>
-            </div>
-
-        </div>
-
-
-
-
-            </div>
-        </div>
-    </div>
-    @if($purchaseOrder->payment_method == 'later')
-    <div class="col-md-12" id="later_box"   style="display: block"   >
-        <div class="card">
-            <div class="card-body">
-
-        <div >
-            <h4 class="form-section"><i class="la la-flag"></i> الدفعات <button onclick="addDofaa()" type="button" class="btn btn-success btn-sm"><i class="la la-plus"></i></button></h4>
-            <div class="table-responsive">
-            <table class="table table-bordered   table-hover" id="dofaaTable">
-                <thead>
-                    <tr>
-                        <th>المبلغ</th>
-                        <th>تاريخ الإستحقاق</th>
-                        <th>تم دفعها؟</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if ($laterDates->isEmpty())
-                    <tr>
-                        <th scope="row">
-                            <div class="form-group">
-                                <input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later[1][amount]" value="0">
-                            </div>
-                        </th>
-                        <td>
-                            <fieldset class="form-group">
-                            <input type="date" class="form-control" id="date"  name="later[1][date]" required>
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <div class="labrl">الملاحظات</div>
-                            <textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later[1][notes]"></textarea>
-                        </fieldset>
-                    </td>
-
-                        <td>
-                            <fieldset class="checkboxsas">
-                                <label>
-                                    دفع الان
-                                  <input type="checkbox" name="later[1][paynow]" onchange="return payNow(1)">
-                                </label>
-                            </fieldset>
-                            <div class="form-group" style="display:none;" id="pay_now_1">
-                                <label for="projectinput3">خصم من:</label>
-                                <select class="select2-rtl form-control" data-placeholder="الخزنة" name="later[1][safe_id]" id="sel_xx_1">
-                                    <option></option>
-                                    @foreach ($safes as $safe)
-                                    <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
-
-                    @else
-                    @foreach ($laterDates as $key2 => $item)
-                    <tr>
-                        <th scope="row">
-                            <div class="form-group">
-                                <input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later[{{$key2+1}}][amount]" value="{{$item->amount}}" @if($item->paid != 'No') readonly @endif>
-                            </div>
-                        </th>
-                        <td>
-                            <fieldset class="form-group">
-                            <input type="date" class="form-control" id="date"   name="later[{{$key2+1}}][date]"  value="{{$item->date}}" @if($item->paid != 'No') readonly @endif>
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <div class="label">الملاحظات</div>
-                            <textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later[{{$key2+1}}][notes]" @if($item->paid != 'No') readonly @endif>{{$item->notes}}</textarea>
-                        </fieldset>
-                    </td>
-
-                        <td>
-                            @if($item->paid != 'No')
-                        <p class="text-success"> <input type="checkbox" name="later[{{$key2+1}}][paynow]" checked onclick="return false;"/> تم الدفع</p>
-                        <p><label>رقم فاتورة الدفع: </label> {{$item->safe_payment_id}}</p>
-                        <button class="btn btn-dark" type="button" onclick="return pay('{{route('safes.receipt',$item->safe_payment_id)}}');">استعراض الفاتورة</button>
-                        <input type="hidden" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later[{{$key2+1}}][safe_payment_id]" value="{{$item->safe_payment_id}}">
-                        <input type="hidden" name="later[{{$key2+1}}][safe_id]" value="{{$item->safe_id}}">
-                            @else
-                            <fieldset class="checkboxsas">
-                                <label>
-                                    دفع الان
-                                  <input type="checkbox" name="later[{{$key2+1}}][paynow]" onchange="return payNow({{$key2+1}})">
-                                </label>
-                            </fieldset>
-                            <div class="form-group" style="display:none;" id="pay_now_{{$key2+1}}">
-                                <label for="projectinput3">خصم من:</label>
-                                <select class="select2-rtl form-control" data-placeholder="الخزنة" name="later[{{$key2+1}}][safe_id]" id="sel_xx_{{$key2+1}}">
-                                    <option></option>
-                                    @foreach ($safes as $safe)
-                                    <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            @endif
-
-
-
-
-                            {{-- <fieldset class="checkboxsas">
-                                <label>
-                                    مدفوعه
-                                  <input type="checkbox" name="later[{{$key2+1}}][paid]" @if($item->paid != 'No') checked  @endif onchange="return laterPaid({{$key2+1}})">
-                                </label>
-                            </fieldset> --}}
-
-
-                            {{-- <div id="later_dates_{{$key2+1}}" @if($item->paid != 'No') style="display: block" @else style="display:none;"  @endif>
-                            <div class="form-group">
-                                <div class="label">رقم العملية في الخزنة:</div>
-                                <input type="text" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later[{{$key2+1}}][safe_payment_id]" value="{{$item->safe_payment_id}}">
-                            </div>
-                            <div class="form-group">
-                                <label for="projectinput3">خصمت من:</label>
-                                <select class="select2-rtl form-control" data-placeholder="تعديل" name="later[{{$key2+1}}][safe_id]">
-                                    @if($item->paid  != 'No')
-                                        @if($item->safe_id)
-                                    <option value="{{$item->safe_id}}">{{$item->safe->safe_name}}</option>
-                                        @else
-                                        <option></option>
-                                        @endif
-                                    @else
-                                    <option></option>
-                                    @endif
-                                    @foreach ($safes as $safe)
-                                    <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            </div> --}}
-
-                        </td>
-                    </tr>
-                    @endforeach
-                    @endif
-
-                </tbody>
-            </table>
-            </div>
-        </div>
-
-
-
-            </div>
-        </div>
-    </div>
-@endif
-
-</div>
-</div>
   </div>
 
 
@@ -569,7 +332,7 @@
         <div class="card">
             <div class="card-content collapse show">
                 <div class="card-body">
-                    <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> حفظ</button>
+                    <button type="submit" class="btn btn-outline-primary btn-block"><i class="la la-check-square-o"></i> حفظ</button>
 
                 </div>
             </div>

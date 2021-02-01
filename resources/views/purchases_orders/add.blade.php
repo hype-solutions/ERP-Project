@@ -15,6 +15,9 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/colors/palette-switch.min.css') }}">
 
 <style>
+     .ck-editor__editable {
+    min-height:150px;
+}
     .product_input{
     width: 100%;
     padding: 0 4px;
@@ -149,22 +152,64 @@
             </div>
         </div>
     </div>
-
     <div class="col-md-4">
         <div class="card">
             <div class="card-content collapse show">
                 <div class="card-body">
+                  <ul class="nav nav-tabs nav-top-border no-hover-bg">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="base-tab11" data-toggle="tab" aria-controls="tab11" href="#tab11" aria-expanded="true">الخصم</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="base-tab13" data-toggle="tab" aria-controls="tab13" href="#tab13" aria-expanded="false">الشحن</a>
+                      </li>
+                    </ul>
+                    <div class="tab-content px-1 pt-1">
+                        <div role="tabpanel" class="tab-pane active" id="tab11" aria-expanded="true" aria-labelledby="base-tab11">
+                         <div class="row">
+                              <div class="col-md-4"  id="dis_per">
+                                  <div class="form-group">
+                                      <label for="projectinput3">الخصم</label>
+                                      <input type="number" id="curr_per" class="form-control" placeholder="" name="discount_percentage" value="0" min="0" max="100" onblur="return calculateDiscount(1)">
+                                  </div>
+                              </div>
+                              <div class="col-md-4" style="display: none" id="dis_amount">
+                                <div class="form-group">
+                                    <label for="projectinput3">الخصم</label>
+                                    <input type="number" id="curr_amount" class="form-control" placeholder="" name="discount_amount" value="0" min="0" onblur="return calculateDiscount(2)">
+                                </div>
+                            </div>
+                              <div class="col-md-8">
+                                  <div class="form-group">
+                                      <label for="projectinput3">النوع</label>
 
-                    <fieldset class="form-group">
-                        <p class="text-muted">الشروط /  الملاحظات</p>
-                        <textarea class="form-control" name="purchase_note" rows="5" id="terms-conditions" ></textarea>
-                    </fieldset>
+                                      <select class="form-control" onchange="return changeDisType(this)">
+                                          <option value="percent">نسبة مئوية (%)</option>
+                                          <option value="fixed">المبلغ</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                       <div class="tab-pane" id="tab13" aria-labelledby="base-tab13">
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label for="projectinput3">مصاريف الشحن</label>
+                                      <input type="number" id="shipping_fees" class="form-control" placeholder="" name="shipping_fees" value="0" onblur="return updateShipping()" required>
+                                  </div>
+                              </div>
+                          </div>
 
+                      </div>
 
-                </div>
+                    </div>
+              </div>
             </div>
         </div>
+
     </div>
+
 
 
   </div>
@@ -258,249 +303,21 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-content collapse show">
-                <div class="card-body">
-                  <ul class="nav nav-tabs nav-top-border no-hover-bg">
-                      <li class="nav-item">
-                        <a class="nav-link active" id="base-tab11" data-toggle="tab" aria-controls="tab11" href="#tab11" aria-expanded="true">الخصم</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" id="base-tab13" data-toggle="tab" aria-controls="tab13" href="#tab13" aria-expanded="false">الشحن</a>
-                      </li>
-                    </ul>
-                    <div class="tab-content px-1 pt-1">
-                        <div role="tabpanel" class="tab-pane active" id="tab11" aria-expanded="true" aria-labelledby="base-tab11">
-                         <div class="row">
-                              <div class="col-md-4"  id="dis_per">
-                                  <div class="form-group">
-                                      <label for="projectinput3">الخصم</label>
-                                      <input type="number" id="curr_per" class="form-control" placeholder="" name="discount_percentage" value="0" min="0" max="100" onblur="return calculateDiscount(1)">
-                                  </div>
-                              </div>
-                              <div class="col-md-4" style="display: none" id="dis_amount">
-                                <div class="form-group">
-                                    <label for="projectinput3">الخصم</label>
-                                    <input type="number" id="curr_amount" class="form-control" placeholder="" name="discount_amount" value="0" min="0" onblur="return calculateDiscount(2)">
-                                </div>
-                            </div>
-                              <div class="col-md-8">
-                                  <div class="form-group">
-                                      <label for="projectinput3">النوع</label>
-
-                                      <select class="form-control" onchange="return changeDisType(this)">
-                                          <option value="percent">نسبة مئوية (%)</option>
-                                          <option value="fixed">المبلغ</option>
-                                      </select>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                       <div class="tab-pane" id="tab13" aria-labelledby="base-tab13">
-                          <div class="row">
-                              <div class="col-md-12">
-                                  <div class="form-group">
-                                      <label for="projectinput3">مصاريف الشحن</label>
-                                      <input type="number" id="shipping_fees" class="form-control" placeholder="" name="shipping_fees" value="0" onblur="return updateShipping()" required>
-                                  </div>
-                              </div>
-                          </div>
-
-                      </div>
-
-                    </div>
-              </div>
-            </div>
-        </div>
-        <div class="card" style="display: none">
-            <div class="card-content collapse show">
-                <div class="card-body">
-
-                    <fieldset class="checkboxsas">
-                        <label>
-                          <input type="checkbox" name="already_delivered" id="hasDelivered" >
-                         هل تم الإستلام بالفعل؟
-                                      </label>
-                    </fieldset>
-                    <div class="div" id="delivery_info" style="display: none">
-                        <fieldset class="form-group">
-                            <div class="label">تاريخ الإستلام</div>
-                            <input type="date" class="form-control" id="delDate"  name="delivery_date">
-                        </fieldset>
-                        <div class="form-group">
-                            <label> اختر الفرع (المخزن) المستلم:</label>
-
-
-                            <select class="select2-rtl form-control" id="delBranch" data-placeholder="إختر الفرع..." name="branch_id">
-
-                                <option></option>
-
-                                @foreach ($branches as $branch)
-                                <option value="{{$branch->id}}">{{$branch->branch_name}}</option>
-                                @endforeach
-                            </select>
-                          </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-<div class="col-md-8">
-<div class="row">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6" style="display: none">
-                         <fieldset class="checkboxsas">
-                            <label>
-                              <input type="checkbox" name="already_paid" id="hasPaid">
-                              هل تم دفع المبلغ بالكامل مسبقا؟
-                                          </label>
-                        </fieldset>
+            <div class="card-content collapse show">
+                <div class="card-body">
 
-                    </div>
-                    <div class="col-md-6" id="notPaid">
-                        <div class="form-group">
-                            {{-- <label class="text-warning">في حالة عدم الدفع المسبق للمبلغ بالكامل
-                                <br>
-                                 برجاء اختيار طريقة الدفع و ادخال البيانات من هنا
-                                </label> --}}
-                        <select class="form-control" id="payment_method" name="payment_method" required>
-                            <option value="">إختر طريقة الدفع</option>
-                            <option value="cash">كاش</option>
-                            <option value="visa">فيزا</option>
-                            <option value="later">اجل (دفعات)</option>
-                            <option value="bankTransfer">تحويل بنكي</option>
-                        </select>
-                    </div>
-                    </div>
-                    <div class="col-md-6" style="display: none" id="yesPaid">
-                        <div class="form-group">
-                            <div class="label">رقم العملية في الخزنة</div>
-                        {{-- <input type="text" class="form-control" name="safe_payment_id"/> --}}
+                    <fieldset class="form-group">
+                        <p class="text-muted">الشروط /  الملاحظات</p>
+                        <textarea class="form-control" name="purchase_note" rows="5" id="terms-conditions" ></textarea>
+                    </fieldset>
 
 
-                            <select class="select2-rtl form-control" data-placeholder="رقم العملية في الخزنة" name="safe_payment_id" id="safe_payment_id">
-                                <option></option>
-                                @foreach ($safe_payment_id as $payment)
-                                <option value="{{$payment->id}}">عملية رقم: {{$payment->id}} - {{$payment->transaction_notes}}</option>
-                                @endforeach
-                            </select>
-                          </div>
-                    </div>
-
-                    <div class="col-md-3" style="display: none" id="yesPaid2">
-                        <div class="form-group">
-                        <label for="projectinput3">خصمت من:</label>
-                        <select class="select2-rtl form-control" data-placeholder="إختر الخزنة..." name="safe_id_if_paid">
-                            <option></option>
-                            @foreach ($safes as $safe)
-                            <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-12" id="other_box" style="display: none">
-        <div class="card">
-            <div class="card-body">
-
-        <div class="div">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                    <label for="projectinput3">اختر الخزنة التي سيتم خصم المبلغ منها</label>
-                    <select class="select2-rtl form-control" data-placeholder="إختر الخزنة..." name="safe_id_not_paid">
-                        <option></option>
-                        @foreach ($safes as $safe)
-                        <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                </div>
-            </div>
-
-        </div>
-
-
-
-
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-12" id="later_box" style="display: none">
-        <div class="card">
-            <div class="card-body">
-                <span class="text-danger" style="display: none" id="dof3aError">إجمالي الدفعات لا تساوي إجمالي المبلغ</span>
-        <div >
-            <h4 class="form-section"><i class="la la-flag"></i> الدفعات <button onclick="addDofaa()" type="button" class="btn btn-success btn-sm"><i class="la la-plus"></i></button></h4>
-            <div class="table-responsive">
-            <table class="table table-bordered table-striped" id="dofaaTable">
-                <thead>
-                    <tr>
-                        <th>المبلغ</th>
-                        <th>تاريخ الإستحقاق</th>
-                        <th>تم دفعها؟</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">
-                            <div class="form-group">
-                                <input type="number" id="" class="form-control dof3aSum" placeholder="أدخل المبلغ" name="later[1][amount]" value="0">
-                            </div>
-                        </th>
-                        <td>
-                            <fieldset class="form-group">
-                            <input type="date" class="form-control" id="date"  name="later[1][date]">
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <div class="labrl">الملاحظات</div>
-                            <textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later[1][notes]"></textarea>
-                        </fieldset>
-                    </td>
-
-                        <td>
-                            <fieldset class="checkboxsas">
-                                <label>
-                                    دفع الان
-                                  <input type="checkbox" name="later[1][paynow]" onchange="return payNow(1)">
-                                </label>
-                            </fieldset>
-                            <div class="form-group" style="display:none;" id="pay_now_1">
-                                <label for="projectinput3">خصم من:</label>
-                                <select class="select2-rtl form-control" data-placeholder="الخزنة" name="later[1][safe_id]" id="sel_xx_1">
-                                    <option></option>
-                                    @foreach ($safes as $safe)
-                                    <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                        </td>
-                    </tr>
-
-                </tbody>
-            </table>
-            </div>
-        </div>
-
-
-
-            </div>
-        </div>
-    </div>
-
-
-</div>
 </div>
   </div>
 

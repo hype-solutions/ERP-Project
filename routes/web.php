@@ -101,6 +101,10 @@ Route::get('/purchase_orders/view/{order}', [PurchasesOrdersController::class, '
 Route::get('/purchase_orders/edit/{order}', [PurchasesOrdersController::class, 'edit'])->name('purchasesorders.edit');
 Route::patch('/purchase_orders/update/{order}', [PurchasesOrdersController::class, 'update'])->name('purchasesorders.update');
 
+Route::get('/purchase_orders/status/{order}/{status}', [PurchasesOrdersController::class, 'status'])->name('purchasesorders.status');
+Route::post('/purchase_orders/converting/{purchaseOrder}', [PurchasesOrdersController::class, 'accepting'])->name('purchasesorders.accepting');
+Route::get('/purchase_orders/toinventory/{purchaseOrder}', [PurchasesOrdersController::class, 'toinventory'])->name('purchasesorders.toinventory');
+Route::post('/purchase_orders/importing/{purchaseOrder}', [PurchasesOrdersController::class, 'importing'])->name('purchasesorders.importing');
 
 /**************************
  **** Selling Channels ****

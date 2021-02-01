@@ -126,6 +126,7 @@
                             <th>بيانات المورد</th>
                             <th>المبلغ</th>
                             <th>التاريخ</th>
+                            <th>الحالة</th>
                             <th>اللإستلام</th>
                             <th>الدفع</th>
                             <th>التحكم</th>
@@ -138,6 +139,28 @@
                             <td>{{$purchase->supplier->supplier_name}}</td>
                             <td>{{$purchase->purchase_total}} ج.م</td>
                             <td>{{$purchase->purchase_date}}</td>
+                            <td>@if($purchase->purchase_status == 'Created')
+                                <div class="badge badge-warning">
+                                  <i class="la la-truck font-medium-2"></i>
+                                  <span>في انتظار موافقة الإدارة</span>
+                              </div>
+                                @elseif($purchase->purchase_status == 'Paid')
+                                <div class="badge bg-blue-grey">
+                                  <i class="la la-truck font-medium-2"></i>
+                                  <span>تمت الموافقة و الدفع<br/>في انتظار التوريد</span>
+                              </div>
+                              @elseif($purchase->purchase_status == 'Declined')
+                                <div class="badge badge-danger">
+                                  <i class="la la-truck font-medium-2"></i>
+                                  <span>تم الرفض من الإدارة</span>
+                              </div>
+                              @elseif($purchase->purchase_status == 'Delivered')
+                              <div class="badge badge-success">
+                                <i class="la la-truck font-medium-2"></i>
+                                <span>تم الدفع و التوريد</span>
+                            </div>
+                                @endif
+                            </td>
                             <td>@if($purchase->already_delivered > 0)
                                 <div class="badge badge-success">
                                   <i class="la la-truck font-medium-2"></i>
@@ -163,8 +186,18 @@
                                 @endif</td>
                             <td>
                                 <a href="{{route('purchasesorders.view',$purchase->id)}}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
+                                @if($purchase->purchase_status != 'Delivered' && $purchase->purchase_status != 'Paid')
                                 <a href="{{route('purchasesorders.edit',$purchase->id)}}" class="btn btn-primary btn-sm"><i class="la la-pencil-square-o"></i> تعديل</a>
-                             </td>
+                                @endif
+                                @if($purchase->purchase_status =='Created')
+                                <br/>
+                                <a class="btn btn-success btn-sm"  href="{{route('purchasesorders.status',[$purchase->id,1])}}"><i class="la la-check"></i> تصديق على أمر الشراء و الدفع</a>
+                                <a class="btn btn-danger btn-sm" href="{{route('purchasesorders.status',[$purchase->id,2])}}"><i class="la la-close" ></i> رفض</a>
+                                @elseif($purchase->purchase_status =='Paid')
+                                <br/>
+                                <a href="{{route('purchasesorders.toinventory',$purchase->id)}}" class="btn btn-dark btn-sm"><i class="la la-file"></i> توريد الى المخزن</a>
+                                @endif
+                            </td>
                         </tr>
                         @endforeach
                      </tbody>
