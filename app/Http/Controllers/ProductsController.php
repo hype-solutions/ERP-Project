@@ -278,6 +278,10 @@ class ProductsController extends Controller
         $addToMain->save();
     }
 
+    $transfer->status = 'Transfered';
+    $transfer->authorized_by = Auth::id();
+    $transfer->save();
+
     return redirect()->route('products.list');
     }
 

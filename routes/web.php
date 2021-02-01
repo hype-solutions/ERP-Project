@@ -81,6 +81,7 @@ Route::delete('/products/delete/{product}', [ProductsController::class, 'delete'
 // Qty operations
 Route::get('/products/qty/transfer/{product}', [ProductsController::class, 'transfer'])->name('products.transfer');
 Route::post('/products/qty/transfering', [ProductsController::class, 'transfering'])->name('products.transfering');
+Route::get('/products/acceptingTransfer/{transfer}', [ProductsController::class, 'acceptingTransfer'])->name('products.acceptingTransfer');
 Route::post('/products/qty/fetch', [ProductsController::class, 'fetchQty'])->name('products.fetchQty');
 Route::post('/products/qty/fetchprice', [ProductsController::class, 'fetchPrice'])->name('products.fetchPrice');
 Route::post('/products/qty/fetchcost', [ProductsController::class, 'fetchCost'])->name('products.fetchCost');

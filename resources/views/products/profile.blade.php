@@ -372,19 +372,24 @@
                                         <span>{{$transfer->user->username}}</span>
                                     </div>
 
-
+                                    @if($transfer->status == 'Transfered')
                                   <br>
                                 صرح بالتحويل
                                 <div class="badge border-success success badge-square badge-border">
                                     <i class="la la-user font-medium-2"></i>
                                         <span>{{$transfer->user->username}}</span>
                                     </div>
+                                    @endif
                               </td>
                               <td>
                                 {{$transfer->transfer_notes}}
                               </td>
                               <td>
-                                <button class="btn btn-dark">طباعة</button>
+                                @if($transfer->status == 'Pending')
+                                <a href="{{route('products.acceptingTransfer',$transfer->id)}}" class="btn btn-success btn-block">تصديق على التحويل</a>
+                                {{-- <button class="btn btn-danger btn-block">رفض</button> --}}
+                                @endif
+
                             </td>
                             </tr>
                             @endforeach
