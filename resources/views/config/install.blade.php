@@ -128,11 +128,11 @@ function verify(){
             success: function (data) {
                 $("#loading").hide();
                 if(data.verfied == 1){
+                    $("#tooManyAttempts").hide();
                     if(data.alreadyInstalled == 1){
                     $("#btnText").show();
                     $("#notVerified").hide();
                     $("#alreadyInstalled").show();
-                    $("#tooManyAttempts").hide();
                     }else{
                     $("#alreadyInstalled").hide();
                     $("#notVerified").hide();

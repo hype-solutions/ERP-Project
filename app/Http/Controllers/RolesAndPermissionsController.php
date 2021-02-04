@@ -9,11 +9,9 @@ use Spatie\Permission\Models\Role;
 
 class RolesAndPermissionsController extends Controller
 {
-    //
     public function roles()
     {
         $roles = Role::where('name','!=','Super Admin')->get()->pluck('name');
-        // return $roles;
         return view('settings.roles',compact('roles'));
     }
 
@@ -28,7 +26,6 @@ class RolesAndPermissionsController extends Controller
             $permissions = $role->permissions()->get();
             return view('settings.permissions',compact('role','permissions'));
     }
-
 
     public function addingPermissions(Request $request){
         Permission::create(['name' => $request->permission_name]);

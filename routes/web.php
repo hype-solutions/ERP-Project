@@ -34,25 +34,74 @@ use App\Http\Controllers\SettingsController;
 |
 */
 
-Route::get('/', function () {
-    return redirect('home');
-});
-
-
+/**************************
+ ********** Auth **********
+ **************************/
 Auth::routes();
 
+
+/**************************
+ ********** Home **********
+ **************************/
+Route::get('/', function () {return redirect('home');});
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 
-
-
+/**************************
+ ****** Installation ******
+ **************************/
 Route::get('/install', [ConfigController::class, 'install'])->name('config.install');
 Route::post('/install/verify', [ConfigController::class, 'verify'])->name('config.install.verify');
 Route::post('/install/step/2', [ConfigController::class, 'step2'])->name('config.install.step2');
 
 
+/**************************
+ **** Selling Channels ****
+ **************************/
+//Invoices
+Route::group(['middleware' => ['permission:View Invoices']], function () {
+    Route::get('/invoices', [InvoicesController::class, 'invoicesList'])->name('invoices.list');
+    Route::get('/invoices/view/{invoice}', [InvoicesController::class, 'view'])->name('invoices.view');
+});
+Route::group(['middleware' => ['permission:Add Invoices']], function () {
+    Route::get('/invoices/add', [InvoicesController::class, 'add'])->name('invoices.add');
+    Route::post('/invoices/adding', [InvoicesController::class, 'store'])->name('invoices.adding');
+});
+Route::group(['middleware' => ['permission:Edit Invoices']], function () {
+    Route::get('/invoices/edit/{invoice}', [InvoicesController::class, 'edit'])->name('invoices.edit');
+    Route::patch('/invoices/update/{invoice}', [InvoicesController::class, 'update'])->name('invoices.update');
+});
 
+Route::group(['middleware' => ['permission:Print Invoices']], function () {
+    Route::get('/invoices/print2/{invoice}', [InvoicesController::class, 'print2'])->name('invoices.print2');
+    Route::post('/invoices/print3/{invoice}', [InvoicesController::class, 'print3'])->name('invoices.print3');
+});
 
+Route::post('/invoices/installment/pay', [InvoicesController::class, 'installment'])->name('invoices.installment');
+
+//Price Quotations
+Route::get('/invoices/price_quotations', [InvoicesPriceQuotationController::class, 'invoicesPriceQuotationsList'])->name('invoicespricequotations.list');
+Route::get('/invoices/price_quotations/add', [InvoicesPriceQuotationController::class, 'add'])->name('invoicespricequotations.add');
+Route::post('/invoices/price_quotations/adding', [InvoicesPriceQuotationController::class, 'store'])->name('invoicespricequotations.adding');
+Route::get('/invoices/price_quotations/edit/{invoice}', [InvoicesPriceQuotationController::class, 'edit'])->name('invoicespricequotations.edit');
+Route::get('/invoices/price_quotations/view/{invoice}', [InvoicesPriceQuotationController::class, 'view'])->name('invoicespricequotations.view');
+Route::patch('/invoices/price_quotations/update/{invoice}', [InvoicesPriceQuotationController::class, 'update'])->name('invoicespricequotations.update');
+Route::get('/invoices/price_quotations/status/{invoice}/{status}', [InvoicesPriceQuotationController::class, 'status'])->name('invoicespricequotations.status');
+Route::get('/invoices/price_quotations/toinvoice/{invoice}', [InvoicesPriceQuotationController::class, 'toinvoice'])->name('invoicespricequotations.toinvoice');
+Route::post('/invoices/price_quotations/converting/{invoice}', [InvoicesPriceQuotationController::class, 'converting'])->name('invoicespricequotations.converting');
+Route::post('/products/quickadd', [InvoicesPriceQuotationController::class, 'quickadd'])->name('invoicespricequotations.quickadd');
+Route::get('/price_quotations/print2/{invoice}', [InvoicesPriceQuotationController::class, 'print2'])->name('invoicespricequotations.print2');
+Route::post('/price_quotations/print3/{invoice}', [InvoicesPriceQuotationController::class, 'print3'])->name('invoicespricequotations.print3');
+
+//POS
+Route::get('/pos/landing', [PosController::class, 'landing'])->name('pos.landing');
+Route::get('/pos/{sessionId}', [PosController::class, 'index'])->name('pos.index');
+Route::post('/pos/search', [PosController::class, 'search'])->name('pos.search');
+Route::post('/pos/barcode', [PosController::class, 'barcode'])->name('pos.barcode');
+Route::post('/pos/start', [PosController::class, 'start'])->name('pos.start');
+Route::post('/pos/finish', [PosController::class, 'finish'])->name('pos.finish');
+Route::get('/pos/receipt/{sessionId}', [PosController::class, 'receipt'])->name('pos.receipt');
+Route::post('/customers/quickadd', [PosController::class, 'quickadd'])->name('pos.quickadd');
 
 
 /**************************
@@ -122,54 +171,6 @@ Route::post('/purchase_orders/converting/{purchaseOrder}', [PurchasesOrdersContr
 Route::get('/purchase_orders/toinventory/{purchaseOrder}', [PurchasesOrdersController::class, 'toinventory'])->name('purchasesorders.toinventory');
 Route::post('/purchase_orders/importing/{purchaseOrder}', [PurchasesOrdersController::class, 'importing'])->name('purchasesorders.importing');
 
-/**************************
- **** Selling Channels ****
- **************************/
-//Invoices
-Route::group(['middleware' => ['permission:View Invoices']], function () {
-    Route::get('/invoices', [InvoicesController::class, 'invoicesList'])->name('invoices.list');
-    Route::get('/invoices/view/{invoice}', [InvoicesController::class, 'view'])->name('invoices.view');
-});
-Route::group(['middleware' => ['permission:Add Invoices']], function () {
-    Route::get('/invoices/add', [InvoicesController::class, 'add'])->name('invoices.add');
-    Route::post('/invoices/adding', [InvoicesController::class, 'store'])->name('invoices.adding');
-});
-Route::group(['middleware' => ['permission:Edit Invoices']], function () {
-    Route::get('/invoices/edit/{invoice}', [InvoicesController::class, 'edit'])->name('invoices.edit');
-    Route::patch('/invoices/update/{invoice}', [InvoicesController::class, 'update'])->name('invoices.update');
-});
-
-Route::group(['middleware' => ['permission:Print Invoices']], function () {
-    Route::get('/invoices/print2/{invoice}', [InvoicesController::class, 'print2'])->name('invoices.print2');
-    Route::post('/invoices/print3/{invoice}', [InvoicesController::class, 'print3'])->name('invoices.print3');
-});
-
-Route::post('/invoices/installment/pay', [InvoicesController::class, 'installment'])->name('invoices.installment');
-
-
-//Price Quotations
-Route::get('/invoices/price_quotations', [InvoicesPriceQuotationController::class, 'invoicesPriceQuotationsList'])->name('invoicespricequotations.list');
-Route::get('/invoices/price_quotations/add', [InvoicesPriceQuotationController::class, 'add'])->name('invoicespricequotations.add');
-Route::post('/invoices/price_quotations/adding', [InvoicesPriceQuotationController::class, 'store'])->name('invoicespricequotations.adding');
-Route::get('/invoices/price_quotations/edit/{invoice}', [InvoicesPriceQuotationController::class, 'edit'])->name('invoicespricequotations.edit');
-Route::get('/invoices/price_quotations/view/{invoice}', [InvoicesPriceQuotationController::class, 'view'])->name('invoicespricequotations.view');
-Route::patch('/invoices/price_quotations/update/{invoice}', [InvoicesPriceQuotationController::class, 'update'])->name('invoicespricequotations.update');
-Route::get('/invoices/price_quotations/status/{invoice}/{status}', [InvoicesPriceQuotationController::class, 'status'])->name('invoicespricequotations.status');
-Route::get('/invoices/price_quotations/toinvoice/{invoice}', [InvoicesPriceQuotationController::class, 'toinvoice'])->name('invoicespricequotations.toinvoice');
-Route::post('/invoices/price_quotations/converting/{invoice}', [InvoicesPriceQuotationController::class, 'converting'])->name('invoicespricequotations.converting');
-Route::post('/products/quickadd', [InvoicesPriceQuotationController::class, 'quickadd'])->name('invoicespricequotations.quickadd');
-Route::get('/price_quotations/print2/{invoice}', [InvoicesPriceQuotationController::class, 'print2'])->name('invoicespricequotations.print2');
-Route::post('/price_quotations/print3/{invoice}', [InvoicesPriceQuotationController::class, 'print3'])->name('invoicespricequotations.print3');
-
-//POS
-Route::get('/pos/landing', [PosController::class, 'landing'])->name('pos.landing');
-Route::get('/pos/{sessionId}', [PosController::class, 'index'])->name('pos.index');
-Route::post('/pos/search', [PosController::class, 'search'])->name('pos.search');
-Route::post('/pos/barcode', [PosController::class, 'barcode'])->name('pos.barcode');
-Route::post('/pos/start', [PosController::class, 'start'])->name('pos.start');
-Route::post('/pos/finish', [PosController::class, 'finish'])->name('pos.finish');
-Route::get('/pos/receipt/{sessionId}', [PosController::class, 'receipt'])->name('pos.receipt');
-Route::post('/customers/quickadd', [PosController::class, 'quickadd'])->name('pos.quickadd');
 
 /*************************
  ******* Projects ********

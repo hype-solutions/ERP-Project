@@ -8,8 +8,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class ConfigController extends Controller
 {
@@ -38,9 +36,15 @@ class ConfigController extends Controller
 
     public function step2(Request $request)
     {
-        $data = json_decode($request->versionData, True);
-
         //updaing licensing server
+        $data = json_decode($request->versionData, True);
+        $response = Http::asForm()->post('https://licences.mygesture.co/update.php', [
+            'license' => $data['license'],
+        ]);
+        $licencingServer = $response->json();
+        if($licencingServer['updated'] != 1){
+            abort(500);
+        }
 
         //updaing system config
         Config::find(1)->update(
