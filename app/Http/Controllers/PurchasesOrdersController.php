@@ -19,11 +19,8 @@ class PurchasesOrdersController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('installed');
         $this->middleware('auth');
-
-        // $this->middleware('log')->only('index');
-
-        // $this->middleware('subscribed')->except('store');
     }
 
     public function view(PurchasesOrders $order)

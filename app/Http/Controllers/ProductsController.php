@@ -14,12 +14,12 @@ use App\Models\Products\ProductsTransfers;
 use App\Models\Products\ProductsManualQuantities;
 use App\Models\PurchasesOrders\PurchasesOrdersProducts;
 use Illuminate\Support\Facades\Auth;
-use Milon\Barcode\DNS1D as DNS1D;
 
 class ProductsController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('installed');
         $this->middleware('auth');
     }
 

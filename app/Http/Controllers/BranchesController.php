@@ -15,6 +15,7 @@ class BranchesController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('installed');
         $this->middleware('auth');
     }
 

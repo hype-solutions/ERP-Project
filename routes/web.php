@@ -1,8 +1,10 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\SuppliersController;
@@ -40,6 +42,17 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+
+
+
+Route::get('/install', [ConfigController::class, 'install'])->name('config.install');
+Route::post('/install/verify', [ConfigController::class, 'verify'])->name('config.install.verify');
+Route::post('/install/step/2', [ConfigController::class, 'step2'])->name('config.install.step2');
+
+
+
+
 
 
 /**************************

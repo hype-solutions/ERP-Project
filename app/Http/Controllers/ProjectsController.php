@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customers\Customers;
-use App\Models\Products\Products;
 use App\Models\Projects\Projects;
 use App\Models\Projects\ProjectsContractFiles;
 use App\Models\Projects\ProjectsPreviewFiles;
@@ -16,6 +15,7 @@ class ProjectsController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('installed');
         $this->middleware('auth');
     }
     public function add()
