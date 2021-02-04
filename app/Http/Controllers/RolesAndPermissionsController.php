@@ -12,7 +12,7 @@ class RolesAndPermissionsController extends Controller
     //
     public function roles()
     {
-        $roles = Role::all()->pluck('name');
+        $roles = Role::where('name','!=','Super Admin')->get()->pluck('name');
         // return $roles;
         return view('settings.roles',compact('roles'));
     }

@@ -39,7 +39,7 @@ class UsersController extends Controller
     }
     public function usersList()
     {
-        $users = User::all();
+        $users = User::where('id','!=',1)->get();
         return view('users.list',compact('users'));
     }
 
@@ -63,12 +63,20 @@ class UsersController extends Controller
 
     public function view(User $user)
     {
+        if($user->id == 1){
+            return redirect()->route('users.list');
+        }else{
         return view('users.profile',compact('user'));
+        }
     }
 
     public function edit(User $user)
     {
+        if($user->id == 1){
+            return redirect()->route('users.list');
+        }else{
         return view('users.edit',compact('user'));
+        }
     }
 
 
