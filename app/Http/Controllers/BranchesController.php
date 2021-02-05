@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Branches\CreateBranch;
+use App\Http\Requests\Branches\UpdateBranch;
 use Illuminate\Http\Request;
 use App\Models\Branches\Branches;
 use App\Models\Safes\Safes;
@@ -18,24 +20,6 @@ class BranchesController extends Controller
         $this->middleware('installed');
         $this->middleware('auth');
     }
-
-    protected function validatePostRequest()
-    {
-        return request()->validate([
-            'branch_name' => 'required|max:255',
-            'branch_mobile' => 'required|unique:branches',
-            'branch_phone' => '',
-            'branch_address' => '',
-            'branch_email' => '',
-        ],
-        [
-            //'branch_email.email' => 'برجاء إدخال بريد الكتروني صحيح',
-            'branch_mobile.required' => 'برجاء إدخال رقم موبايل الفرع',
-            'branch_mobile.unique' => 'هذا الرقم مستخدم بالفعل, برجاء اختيار رقم موبايل اخر',
-        ]
-    );
-    }
-
 
     protected function validateUpdateRequest()
     {
@@ -57,16 +41,13 @@ class BranchesController extends Controller
         return view('branches.add');
     }
 
-    public function store()
+    public function store(CreateBranch $request)
     {
-        $branch = Branches::create($this->validatePostRequest());
-        $safe = new Safes;
-        $safe->safe_name = $branch->branch_name;
-        $safe->branch_id = $branch->id;
-        $safe->safe_balance = 0;
-        $safe->save();
+        $data = $request->validated();
+        Branches::create($data);
         return back()->with('success', 'Branch Added');
     }
+
 
     public function view(Branches $branch)
     {
@@ -86,18 +67,14 @@ class BranchesController extends Controller
         return view('branches.edit',compact('branch'));
     }
 
-    public function update(Branches $branch)
-    {
-        $branch->update($this->validateUpdateRequest());
 
-        $branchDetails = Branches::find($branch);
-        $branch_id = $branchDetails[0]->id;
-        $branch_name = $branchDetails[0]->branch_name;
-        $safe = Safes::where('branch_id',$branch_id)->first();
-        $safe->safe_name = $branch_name;
-        $safe->save();
+    public function update(Branches $branch, UpdateBranch $request)
+    {
+        $data = $request->validated();
+        $branch->fill($data);
         return back()->with('success', 'Branch Updated');
     }
+
 
     public function delete(Branches $branch)
     {

@@ -16,4 +16,8 @@ class Branches extends Model
         'branch_address',
         'branch_email',
     ];
+
+    public function getBranches(){
+        return $this->all();
+    }
 }

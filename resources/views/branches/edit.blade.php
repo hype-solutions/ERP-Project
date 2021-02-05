@@ -196,10 +196,8 @@
                             </div>
 
                             <div class="form-actions">
-								<button type="button" class="btn btn-warning mr-1">
-									<i class="ft-x"></i> الغاء
-								</button>
-								<button type="submit" class="btn btn-primary">
+
+								<button type="submit" class="btn btn-primary btn-block">
 									<i class="la la-check-square-o"></i> حفظ
 								</button>
 							</div>

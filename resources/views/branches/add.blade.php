@@ -109,7 +109,7 @@
                                 <label for="timesheetinput2">الموبايل</label>
                                 <span style="color:red">*</span>
                                 <div class="position-relative has-icon-left">
-                                    <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: 01123456789" name="branch_mobile" required>
+                                    <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: 01123456789" name="branch_mobile" oninput="return numbersOnly(this)" required>
                                     <div class="form-control-position">
                                         <i class="la la-mobile"></i>
                                     </div>
@@ -120,7 +120,7 @@
                             <div class="form-group">
                                 <label for="timesheetinput2">التليفون</label>
                                 <div class="position-relative has-icon-left">
-                                    <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: 0223456789" name="branch_phone">
+                                    <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: 0223456789" name="branch_phone" oninput="return numbersOnly(this)">
                                     <div class="form-control-position">
                                         <i class="la la-phone"></i>
                                     </div>
@@ -139,8 +139,7 @@
                         </div>
                         </div>
                     </div>
-                    <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
-                            <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> تسجيل</button>
+                            <button type="submit" class="btn btn-outline-primary btn-block"><i class="la la-check-square-o"></i> تسجيل</button>
                         </form>
                 </div>
 
