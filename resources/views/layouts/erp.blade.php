@@ -40,10 +40,12 @@
     <!-- END: Custom CSS-->
 
 </head>
+@if(null !== Route::current())
 @if(Route::current()->getName() == 'login')
 <body class="vertical-layout vertical-compact-menu 1-column   blank-page" data-open="click" data-menu="vertical-compact-menu" data-col="1-column">
 @else
 <body class="vertical-layout vertical-compact-menu 2-columns   fixed-navbar" data-open="click" data-menu="vertical-compact-menu" data-col="2-columns">
+@endif
 @endif
     <div id="app">
 
@@ -59,6 +61,8 @@
     <!-- BEGIN: Theme JS-->
     <script src="{{ asset('theme/app-assets/js/core/app-menu.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/js/core/app.min.js') }}"></script>
+    <script src="{{ asset('theme/app-assets/js/custom.js') }}"></script>
+
     <!-- END: Theme JS-->
 
 

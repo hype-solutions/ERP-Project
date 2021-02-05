@@ -395,10 +395,10 @@ CKEDITOR.ClassicEditor.create( document.querySelector( '#terms-conditions' ) ).c
 
 
 
-function numbersOnly(input){
-    input.value = input.value.replace(/[^0-9.]/g, '');
-    input.value = input.value.replace(/(\..*)\./g, '$1');
-}
+// function numbersOnly(input){
+//     input.value = input.value.replace(/[^0-9.]/g, '');
+//     input.value = input.value.replace(/(\..*)\./g, '$1');
+// }
 
 
 function chooseSupplierType(){

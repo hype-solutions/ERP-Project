@@ -100,6 +100,9 @@
         setTimeout("countNumbers()", 200);
     }
     countNumbers();
+    window.onload = function(){
+    $('body').removeClass('vertical-compact-menu');
+ }
 </script>
    <!-- BEGIN: Page Vendor JS-->
    <script src="{{ asset('theme/app-assets/vendors/js/forms/icheck/icheck.min.js') }}"></script>
