@@ -4,7 +4,6 @@ namespace App\Models\Branches;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Branches\BranchesProducts;
 use App\Models\Products\ProductsTransfers;
 use App\Models\Safes\Safes;
 use App\Models\Safes\SafesTransfers;
@@ -31,6 +30,7 @@ class Branches extends Model
 
     public function deleteBranch()
     {
+        $this->deleteBranchAllowedProductsList();
         return Branches::destroy($this->id);
     }
 
