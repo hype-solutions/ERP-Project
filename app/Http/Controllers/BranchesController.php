@@ -59,8 +59,9 @@ class BranchesController extends Controller
     {
         $branchData = $this->branch->find($branchId);
         foreach ($branchData->branchProductsinStock() as $product) {
-            $foundProductAmount = $branchData->branchProductsinStock()
-            ->where('product_id', $product->id)->first()->value('amount');
+            // $foundProductAmount = $branchData->branchProductsinStock()
+            // ->where('product_id', $product->id)->first()->value('amount');
+            $foundProductAmount = $product->amount;
 
             if ($branchData->checkIfThisProductInMainBranch($product->id)) {
                 $branchData->updateMainBranchbeforeDeletingOther($product->id);

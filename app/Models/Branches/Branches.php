@@ -56,6 +56,10 @@ class Branches extends Model
         return BranchesProducts::where('branch_id', $this->id)->delete();
     }
 
+    public function deleteBranchAllowedProductsList()
+    {
+        return BranchesProductsSelling::where('branch_id', $this->id)->delete();
+    }
 
     public function getProductAmountInBranch($id)
     {
@@ -131,6 +135,7 @@ class Branches extends Model
         $transfer->qty_before_transfer_to = $this->getProductAmountInBranch($id)->where('branch_id', $this->getMainBranchId())->value('amount');
         $transfer->qty_after_transfer_to = $amount + $this->getProductAmountInBranch($id)->where('branch_id', $this->getMainBranchId())->value('amount');
         $transfer->transfer_datetime = Carbon::now();
+        $transfer->status = 'Transfered';
         $transfer->transfer_notes = 'عملية تحويل كميات من فرع الى أخر بسبب حذف فرع, اسم الفرع قبل الحذف ' . $this->branch_name;
         $transfer->transfered_by = Auth::id();
         $transfer->authorized_by = Auth::id();
