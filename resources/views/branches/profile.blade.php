@@ -42,11 +42,11 @@
             class="users-avatar-shadow rounded-circle" height="64" width="64">
         </a>
         <div class="media-body pt-25">
-          <h4 class="media-heading"><span class="users-view-name">{{ $branch->branch_name }} </span>
+          <h4 class="media-heading"><span class="users-view-name">{{ $branchData->branch_name }} </span>
             </h4>
           <span>رقم الفرع:</span>
           <span class="users-view-id">
-            <span class="badge badge-success users-view-status">{{ $branch->id }}</span>
+            <span class="badge badge-success users-view-status">{{ $branchData->id }}</span>
         </span>
         </div>
       </div>
@@ -55,11 +55,11 @@
        <div class="btn-group mr-1 mb-1">
         <button type="button" class="btn btn-warning btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">التحكم السريع</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-            <a class="dropdown-item" href="{{ route('branches.view', $branch->id) }}">استعراض الفرع</a>
-            <a class="dropdown-item" href="{{ route('branches.edit', $branch->id) }}">تعديل الفرع</a>
-            @if($branch->id != 1)
+            <a class="dropdown-item" href="{{ route('branches.view', $branchData->id) }}">استعراض الفرع</a>
+            <a class="dropdown-item" href="{{ route('branches.edit', $branchData->id) }}">تعديل الفرع</a>
+            @if($branchData->id != 1)
             <div class="dropdown-divider"></div>
-            <form action="{{route('branches.delete',$branch->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا الفرع نهائيا و جميع تفاصيله من البرنامج')">
+            <form action="{{route('branches.delete',$branchData->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا الفرع نهائيا و جميع تفاصيله من البرنامج')">
                 @csrf
                 @method('delete')
             <button class="dropdown-item btn-danger btn" type="submit">حذف الفرع</button>
@@ -70,19 +70,19 @@
     <div class="btn-group mr-1 mb-1">
         <button type="button" class="btn btn-info btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> التواصل مع الفرع</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-            @if ( isset($branch->branch_mobile))
-        <a class="dropdown-item" href="tel:{{$branch->branch_mobile}}">اتصال بالموبايل</a>
+            @if ( isset($branchData->branch_mobile))
+        <a class="dropdown-item" href="tel:{{$branchData->branch_mobile}}">اتصال بالموبايل</a>
             @else
             <button class="dropdown-item" href="#">اتصال بالموبايل</button>
             @endif
-            @if ( isset($branch->branch_phone))
-        <a class="dropdown-item" href="tel:{{$branch->branch_phone}}">اتصال بالتليفون</a>
+            @if ( isset($branchData->branch_phone))
+        <a class="dropdown-item" href="tel:{{$branchData->branch_phone}}">اتصال بالتليفون</a>
             @else
             <button class="dropdown-item" href="#">اتصال بالتليفون</button>
             @endif
             <button class="dropdown-item" disabled>ارسال SMS <small style="color: red">غير متاحة</small></button>
-            @if ( isset($branch->branch_email))
-        <a class="dropdown-item" href="mailto:{{$branch->branch_email}}"> ارسال ايميل</a>
+            @if ( isset($branchData->branch_email))
+        <a class="dropdown-item" href="mailto:{{$branchData->branch_email}}"> ارسال ايميل</a>
             @else
             <button class="dropdown-item" href="#"> ارسال ايميل</button>
             @endif
@@ -112,25 +112,25 @@
               <tbody>
                 <tr>
                   <td>اسم الفرع:</td>
-                  <td>{{ $branch->branch_name }}</td>
+                  <td>{{ $branchData->branch_name }}</td>
                 </tr>
 
                 <tr>
                   <td>الموبايل:</td>
-                  <td>{{ $branch->branch_mobile }}</td>
+                  <td>{{ $branchData->branch_mobile }}</td>
                 </tr>
                 <tr>
                   <td>التليفون:</td>
-                  <td>@if(isset($branch->branch_phone))
-                    {{ $branch->branch_phone }}
+                  <td>@if(isset($branchData->branch_phone))
+                    {{ $branchData->branch_phone }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل</small>
                     @endif</td>
                 </tr>
                 <tr>
                    <td>الايميل:</td>
-                   <td>@if(isset($branch->branch_email))
-                    {{ $branch->branch_email }}
+                   <td>@if(isset($branchData->branch_email))
+                    {{ $branchData->branch_email }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل</small>
                     @endif</td>
@@ -139,8 +139,8 @@
 
                 <tr>
                    <td>العنوان:</td>
-                   <td> @if(isset($branch->branch_address))
-                    {{ $branch->branch_address }}
+                   <td> @if(isset($branchData->branch_address))
+                    {{ $branchData->branch_address }}
                     @else
                     <small style="font-style: italic;color:red;">غير مسجل </small>
                      @endif</td>
@@ -182,7 +182,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                    @foreach($products as $key => $product)
+                    @foreach($branchProducts as $key => $product)
                   <tr>
                     <td><div class="badge border-info info badge-border">
                         <a href="{{ route('products.view',$product->id) }}" target="_blank" style="color: #1e9ff2"><span>{{$product->product[0]->product_code}}</span></a>
@@ -243,7 +243,7 @@ $("#products").DataTable({
             {
                 extend: 'excelHtml5',
                 text: 'حفظ كملف EXCEL',
-                messageTop: 'أصناف فرع {{ $branch->branch_name }}',
+                messageTop: 'أصناف فرع {{ $branchData->branch_name }}',
                 exportOptions: {
                     columns: [2,1,0 ]
                 }
@@ -256,7 +256,7 @@ $("#products").DataTable({
     //    doc.content[2].margin = [ 0, 0, 0, 0 ] //left, top, right, bottom
     // },
                 text: 'حفظ كملف PDF',
-                messageTop: 'أصناف فرع \n {{ $branch->branch_name }}',
+                messageTop: 'أصناف فرع \n {{ $branchData->branch_name }}',
                 exportOptions: {
                     columns: [2,1,0 ],
                 },
@@ -265,7 +265,7 @@ $("#products").DataTable({
             {
                 extend: 'print',
                 text: 'طباعة',
-                messageTop: 'أصناف فرع {{ $branch->branch_name }}',
+                messageTop: 'أصناف فرع {{ $branchData->branch_name }}',
                 exportOptions: {
                     columns: [ 0, 1, 2 ]
                 }

@@ -65,11 +65,11 @@
             class="users-avatar-shadow rounded-circle" height="64" width="64">
         </a>
         <div class="media-body pt-25">
-          <h4 class="media-heading"><span class="users-view-name">{{ $branch[0]->branch_name }} </span>
+          <h4 class="media-heading"><span class="users-view-name">{{ $branch->branch_name }} </span>
             </h4>
           <span>رقم الفرع:</span>
           <span class="users-view-id">
-            <span class="badge badge-success users-view-status">{{ $branch[0]->id }}</span>
+            <span class="badge badge-success users-view-status">{{ $branch->id }}</span>
         </span>
         </div>
       </div>
@@ -78,10 +78,10 @@
        <div class="btn-group mr-1 mb-1">
         <button type="button" class="btn btn-warning btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">التحكم السريع</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-            <a class="dropdown-item" href="{{ route('branches.view', $branch['0']->id) }}">استعراض الفرع</a>
-            <a class="dropdown-item" href="{{ route('branches.edit', $branch['0']->id) }}">تعديل الفرع</a>
+            <a class="dropdown-item" href="{{ route('branches.view', $branch->id) }}">استعراض الفرع</a>
+            <a class="dropdown-item" href="{{ route('branches.edit', $branch->id) }}">تعديل الفرع</a>
             <div class="dropdown-divider"></div>
-            <form action="{{route('branches.delete',$branch[0]->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا الفرع نهائيا و جميع تفاصيله من البرنامج')">
+            <form action="{{route('branches.delete',$branch->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا الفرع نهائيا و جميع تفاصيله من البرنامج')">
                 @csrf
                 @method('delete')
             <button class="dropdown-item btn-danger btn" type="submit">حذف الفرع</button>
@@ -91,19 +91,19 @@
     <div class="btn-group mr-1 mb-1">
         <button type="button" class="btn btn-info btn-sm btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> التواصل مع الفرع</button>
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-            @if ( isset($branch[0]->branch_mobile))
-        <a class="dropdown-item" href="tel:{{$branch[0]->branch_mobile}}">اتصال بالموبايل</a>
+            @if ( isset($branch->branch_mobile))
+        <a class="dropdown-item" href="tel:{{$branch->branch_mobile}}">اتصال بالموبايل</a>
             @else
             <button class="dropdown-item" href="#">اتصال بالموبايل</button>
             @endif
-            @if ( isset($branch[0]->branch_phone))
-        <a class="dropdown-item" href="tel:{{$branch[0]->branch_phone}}">اتصال بالتليفون</a>
+            @if ( isset($branch->branch_phone))
+        <a class="dropdown-item" href="tel:{{$branch->branch_phone}}">اتصال بالتليفون</a>
             @else
             <button class="dropdown-item" href="#">اتصال بالتليفون</button>
             @endif
             <button class="dropdown-item" disabled>ارسال SMS <small style="color: red">غير متاحة</small></button>
-            @if ( isset($branch[0]->branch_email))
-        <a class="dropdown-item" href="mailto:{{$branch[0]->branch_email}}"> ارسال ايميل</a>
+            @if ( isset($branch->branch_email))
+        <a class="dropdown-item" href="mailto:{{$branch->branch_email}}"> ارسال ايميل</a>
             @else
             <button class="dropdown-item" href="#"> ارسال ايميل</button>
             @endif
@@ -134,7 +134,7 @@
                 <div class="card-content collapse show">
                     <div class="card-body">
 
-                    <form class="form" method="post" action="{{route('branches.update',$branch['0']->id)}}">
+                    <form class="form" method="post" action="{{route('branches.update',$branch->id)}}">
                             @csrf
                             @method('patch')
                             <div class="form-body">
@@ -146,7 +146,7 @@
                                         <div class="form-group">
                                             <label for="timesheetinput2">اسم الفرع</label>
                                             <div class="position-relative has-icon-left">
-                                                <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: علي محمد" name="branch_name" value="{{$branch[0]->branch_name}}" required>
+                                                <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: علي محمد" name="branch_name" value="{{$branch->branch_name}}" required>
                                                 <div class="form-control-position">
                                                     <i class="la la-user"></i>
                                                 </div>
@@ -162,7 +162,7 @@
                                         <div class="form-group">
                                             <label for="timesheetinput2">الموبايل</label>
                                             <div class="position-relative has-icon-left">
-                                                <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: 01123456789" name="branch_mobile" value="{{$branch[0]->branch_mobile}}" required>
+                                                <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: 01123456789" name="branch_mobile" value="{{$branch->branch_mobile}}" required>
                                                 <div class="form-control-position">
                                                     <i class="la la-mobile"></i>
                                                 </div>
@@ -173,7 +173,7 @@
                                         <div class="form-group">
                                             <label for="timesheetinput2">التليفون</label>
                                             <div class="position-relative has-icon-left">
-                                                <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: 0223456789" name="branch_phone" value="{{$branch[0]->branch_phone}}">
+                                                <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: 0223456789" name="branch_phone" value="{{$branch->branch_phone}}">
                                                 <div class="form-control-position">
                                                     <i class="la la-phone"></i>
                                                 </div>
@@ -186,7 +186,7 @@
                                 <div class="form-group">
                                     <label for="projectinput8">العنوان</label>
                                     <div class="position-relative has-icon-left">
-                                    <textarea id="projectinput8" rows="3" class="form-control" name="branch_address" placeholder="عنوان الشخص أو عنوان الشركة إن وجد">{{$branch[0]->branch_address}}</textarea>
+                                    <textarea id="projectinput8" rows="3" class="form-control" name="branch_address" placeholder="عنوان الشخص أو عنوان الشركة إن وجد">{{$branch->branch_address}}</textarea>
                                     <div class="form-control-position">
                                         <i class="la la-map"></i>
                                     </div>

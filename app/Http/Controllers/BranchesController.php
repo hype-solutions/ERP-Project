@@ -15,56 +15,35 @@ use Illuminate\Support\Facades\Auth;
 
 class BranchesController extends Controller
 {
-    public function __construct()
+
+    protected $branch;
+
+    public function __construct(Branches $branch)
     {
         $this->middleware('installed');
         $this->middleware('auth');
+        $this->branch = $branch;
     }
 
-    protected function validateUpdateRequest()
-    {
-        return request()->validate([
-            'branch_name' => 'required',
-            'branch_mobile' => 'required',
-            'branch_phone' => '',
-            'branch_address' => '',
-            'branch_email' => '',
-        ],
-        [
-            //'branch_email.email' => 'برجاء إدخال بريد الكتروني صحيح',
-            'branch_mobile.required' => 'برجاء إدخال رقم موبايل الفرع',
-        ]
-    );
-    }
+
     public function add()
     {
         return view('branches.add');
     }
 
+
     public function store(CreateBranch $request)
     {
         $data = $request->validated();
-        Branches::create($data);
+        $newBranch = $this->branch->create($data);
+        Safes::create(['safe_name' => $newBranch->branch_name,'branch_id' => $newBranch->id]);
         return back()->with('success', 'Branch Added');
     }
 
 
-    public function view(Branches $branch)
+    public function edit(Branches $branch)
     {
-        $safe = Safes::where('branch_id',$branch->id)->get();
-        $safeBalance = $safe[0]->safe_balance;
-        $products = BranchesProducts::where('branch_id',$branch->id)
-                                    ->where('amount','!=',0)
-                                    ->with('product')->get();
-        $productsCount = BranchesProducts::where('branch_id',$branch->id)
-        ->where('amount','!=',0)
-        ->count();
-
- return view('branches.profile',compact('productsCount','branch','safeBalance','products'));
-    }
-    public function edit(Branches $branch){
-        $branch = Branches::find($branch);
-        return view('branches.edit',compact('branch'));
+        return view('branches.edit', compact('branch'));
     }
 
 
@@ -76,106 +55,51 @@ class BranchesController extends Controller
     }
 
 
-    public function delete(Branches $branch)
+    public function delete($branchId)
     {
-        //Get current user id
-        $user = Auth::user();
-        $user_id = $user->id;
+        $branchData = $this->branch->find($branchId);
+        foreach ($branchData->branchProductsinStock() as $product) {
+            $foundProductAmount = $branchData->branchProductsinStock()
+            ->where('product_id', $product->id)->first()->value('amount');
 
-        //Get main branch details
-        $mainBranch = Branches::first();
-        $mainBranchId = $mainBranch->id;
-
-        //Get products ids that are saved on deleted branch
-        $oldBranchProducts = BranchesProducts::where('branch_id',$branch->id)->get();
-        foreach($oldBranchProducts as $product){
-            $foundProductId = $product->product_id;
-            $foundProductAmount = $product->amount;
-            //Check if this product exsists on main branch
-            $checkMainBranch = BranchesProducts::where('branch_id',$mainBranchId)
-                                               ->where('product_id',$foundProductId)
-                                               ->first();
-            //if product exsists on main branch, update its qty
-            if(isset($checkMainBranch)){
-            $currentQty = $checkMainBranch->amount;
-            $newQty = $currentQty + $foundProductAmount;
-            BranchesProducts::where('product_id',$foundProductId)
-                            ->where('branch_id',$mainBranchId)
-                            ->update(['amount' => $newQty]);
+            if ($branchData->checkIfThisProductInMainBranch($product->id)) {
+                $branchData->updateMainBranchbeforeDeletingOther($product->id);
+            } else {
+                $branchData->insertProdutcInMainBranch($product->id, $foundProductAmount);
             }
-            //else add a new record
-            else{
-            $newQty = $foundProductAmount;
-            $addToMain = new BranchesProducts;
-            $addToMain->branch_id = $mainBranchId;
-            $addToMain->product_id = $foundProductId;
-            $addToMain->amount = $newQty;
-            $addToMain->save();
-            }
-
-        //Delete deleted Branch Product Records
-        BranchesProducts::where('branch_id',$branch->id)->delete();
-
-        //Create a products transfer record
-        $transfer = new ProductsTransfers;
-        $transfer->product_id = $foundProductId;
-        $transfer->branch_from = $branch->id;
-        $transfer->transfer_qty = $foundProductAmount;
-        $transfer->qty_before_transfer_from = $foundProductAmount;
-        $transfer->qty_after_transfer_from = 0;
-        $transfer->branch_to = $mainBranchId;
-        $transfer->qty_before_transfer_to = $currentQty;
-        $transfer->qty_after_transfer_to = $newQty;
-        $transfer->transfer_datetime = Carbon::now();
-        $transfer->transfer_notes = 'عملية تحويل كميات من فرع الى أخر بسبب حذف فرع, اسم الفرع قبل الحذف '.$branch->branch_name;
-        $transfer->transfered_by = $user_id;
-        $transfer->authorized_by = $user_id;
-        $transfer->save();
+            $branchData->CreateProductTransferRecord($product->id, $foundProductAmount);
+            $branchData->deleteBranchProductsRecords();
         }
-
-        //Get branch connected safe details
-        $getSafe = Safes::where('branch_id',$branch->id)->first();
-        $safeBalance = $getSafe->safe_balance;
-        $safeName = $getSafe->safe_name;
-        $safeId = $getSafe->id;
-
-        //Get main branch connected safe details
-        $getMainSafe = Safes::where('branch_id',$mainBranchId)->first();
-        $mainSafeId = $getMainSafe->id;
-        $mainSafeBalance = $getMainSafe->safe_balance;
-
-        //Transfer amount from deleted safe to main safe balance
-        $totalNew = $mainSafeBalance + $safeBalance;
-        $getMainSafe->safe_balance = $totalNew;
-        $getMainSafe->save();
-
-        //Create a money transfer record
-        $transfer = new SafesTransfers();
-        $transfer->safe_from = $safeId;
-        $transfer->transfer_amount = $safeBalance;
-        $transfer->amount_before_transfer_from = $safeBalance;
-        $transfer->amount_after_transfer_from = 0;
-        $transfer->safe_to = $mainSafeId;
-        $transfer->amount_before_transfer_to = $mainSafeBalance;
-        $transfer->amount_after_transfer_to = $totalNew;
-        $transfer->transfer_datetime = Carbon::now();
-        $transfer->transfer_notes = 'عملية تحويل رصيد خزنة بسبب حذفها - اسم الخزنة قبل الحذف '.$safeName;
-        $transfer->transfered_by = $user_id;
-        $transfer->authorized_by = $user_id;
-        $transfer->save();
-
-        //Delete branch
-        Branches::destroy($branch->id);
-
-        //Delete connected safe
-        Safes::where('branch_id',$branch->id)->delete();
-
-        return redirect('/branches')->with('success', 'Branch Deleted');
+            $branchData->transferBalance($branchData->getBranchSafeDetails()->value('safe_balance'));
+            $branchData->CreateMoneyTransferRecord(
+                $branchData->getBranchSafeDetails()->value('id'),
+                $branchData->getBranchSafeDetails()->value('safe_balance')
+            );
+            $branchData->deleteBranch();
+            $branchData->deleteSafe($branchData->getBranchSafeDetails()->value('id'));
+            return redirect('/branches')->with('success', 'Branch Deleted');
     }
+
 
     public function branchesList()
     {
-        $branches = Branches::all();
-        return view('branches.list',compact('branches'));
+        $branches = $this->branch->all();
+        return view('branches.list', compact('branches'));
+    }
+
+
+    public function view($branchId)
+    {
+        $branchData = $this->branch->find($branchId);
+        $safeBalance = $branchData->getBranchSafeDetails()->value('safe_balance');
+        $branchProducts = $branchData->branchProductsinStock();
+        $productsCount = $branchData->branchProductsinStockCount();
+
+        return view('branches.profile', compact(
+            'productsCount',
+            'branchData',
+            'safeBalance',
+            'branchProducts'
+        ));
     }
 }
