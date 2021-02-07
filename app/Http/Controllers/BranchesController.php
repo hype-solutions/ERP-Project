@@ -4,14 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Branches\CreateBranch;
 use App\Http\Requests\Branches\UpdateBranch;
-use Illuminate\Http\Request;
 use App\Models\Branches\Branches;
 use App\Models\Safes\Safes;
-use App\Models\Branches\BranchesProducts;
-use App\Models\Products\ProductsTransfers;
-use App\Models\Safes\SafesTransfers;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 
 class BranchesController extends Controller
 {
@@ -35,8 +29,10 @@ class BranchesController extends Controller
     public function store(CreateBranch $request)
     {
         $data = $request->validated();
-        $newBranch = $this->branch->create($data);
-        Safes::create(['safe_name' => $newBranch->branch_name,'branch_id' => $newBranch->id]);
+        $branch = $this->branch->create($data);
+        $branch->createSafe($branch->branch_name);
+        $branch->setBranchAllowedProducts();
+
         return back()->with('success', 'Branch Added');
     }
 
@@ -58,27 +54,8 @@ class BranchesController extends Controller
     public function delete($branchId)
     {
         $branchData = $this->branch->find($branchId);
-        foreach ($branchData->branchProductsinStock() as $product) {
-            // $foundProductAmount = $branchData->branchProductsinStock()
-            // ->where('product_id', $product->id)->first()->value('amount');
-            $foundProductAmount = $product->amount;
-
-            if ($branchData->checkIfThisProductInMainBranch($product->id)) {
-                $branchData->updateMainBranchbeforeDeletingOther($product->id);
-            } else {
-                $branchData->insertProdutcInMainBranch($product->id, $foundProductAmount);
-            }
-            $branchData->CreateProductTransferRecord($product->id, $foundProductAmount);
-            $branchData->deleteBranchProductsRecords();
-        }
-            $branchData->transferBalance($branchData->getBranchSafeDetails()->value('safe_balance'));
-            $branchData->CreateMoneyTransferRecord(
-                $branchData->getBranchSafeDetails()->value('id'),
-                $branchData->getBranchSafeDetails()->value('safe_balance')
-            );
-            $branchData->deleteBranch();
-            $branchData->deleteSafe($branchData->getBranchSafeDetails()->value('id'));
-            return redirect('/branches')->with('success', 'Branch Deleted');
+        $branchData->beginBranchDeleteProccess();
+        return redirect('/branches')->with('success', 'Branch Deleted');
     }
 
 
@@ -91,7 +68,7 @@ class BranchesController extends Controller
 
     public function view($branchId)
     {
-        $branchData = $this->branch->find($branchId);
+        $branchData = $this->branch->findOrFail($branchId);
         $safeBalance = $branchData->getBranchSafeDetails()->value('safe_balance');
         $branchProducts = $branchData->branchProductsinStock();
         $productsCount = $branchData->branchProductsinStockCount();

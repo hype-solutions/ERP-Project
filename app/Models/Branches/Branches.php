@@ -2,6 +2,7 @@
 
 namespace App\Models\Branches;
 
+use App\Models\Products\Products;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Products\ProductsTransfers;
@@ -61,6 +62,19 @@ class Branches extends Model
         return BranchesProductsSelling::where('branch_id', $this->id)->delete();
     }
 
+    public function setBranchAllowedProducts()
+    {
+        $allProducts = Products::all();
+        foreach ($allProducts as $product) {
+            BranchesProductsSelling::create([
+                "branch_id" => $this->id,
+                "product_id" => $product->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        }
+    }
+
     public function getProductAmountInBranch($id)
     {
         return BranchesProducts::where('product_id', $id)->first();
@@ -77,7 +91,9 @@ class Branches extends Model
         return BranchesProducts::insert([
             'branch_id' => $this->getMainBranchId(),
             'product_id' => $id,
-            'amount' => $amount
+            'amount' => $amount,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
     }
 
@@ -87,36 +103,69 @@ class Branches extends Model
         BranchesProducts::where('branch_id', $this->getMainBranchId())->where('product_id', $id)->increment('amount', $currentAmountInToDeleteBranch);
     }
 
+
+    public function beginBranchDeleteProccess()
+    {
+        foreach ($this->branchProductsinStock() as $product) {
+            if ($this->checkIfThisProductInMainBranch($product->id)) {
+                $this->updateMainBranchbeforeDeletingOther($product->id);
+            } else {
+                $this->insertProdutcInMainBranch($product->id, $product->amount);
+            }
+            $this->CreateProductTransferRecord($product->id, $product->amount);
+            $this->deleteBranchProductsRecords();
+        }
+
+        $this->transferBalance($this->getBranchSafeDetails()->value('safe_balance'));
+        $this->CreateMoneyTransferRecord(
+            $this->getBranchSafeDetails()->value('id'),
+            $this->getBranchSafeDetails()->value('safe_balance')
+        );
+        $this->deleteBranch();
+        $this->deleteSafe($this->getBranchSafeDetails()->value('id'));
+    }
+
+
     //Safes
+    public function createSafe($name)
+    {
+        return Safes::create(['safe_name' => $name, 'branch_id' => $this->id]);
+    }
+
     public function getBranchSafeDetails()
     {
-        return $this->hasOne(Safes::class, 'branch_id', 'id')->first();
+        return $this->hasOne(Safes::class, 'branch_id', 'id');
+    }
+
+    public function getMainBranchSafeDetails()
+    {
+        return Safes::firstWhere('branch_id', $this->getMainBranchId());
     }
 
     public function transferBalance($amount)
     {
-        Safes::where('branch_id',$this->getMainBranchId())->increment('safe_balance',$amount);
-
+        Safes::where('branch_id', $this->getMainBranchId())->increment('safe_balance', $amount);
     }
 
 
     public function deleteSafe($id)
     {
-        return Safes::destroy($this->getBranchSafeDetails()->where('branch_id',$id)->value('id'));
+        return Safes::destroy($this->getBranchSafeDetails()->where('branch_id', $id)->value('id'));
     }
 
 
-    public function CreateMoneyTransferRecord($id,$amount){
+    public function CreateMoneyTransferRecord($id, $amount)
+    {
         $transfer = new SafesTransfers();
         $transfer->safe_from = $id;
         $transfer->transfer_amount = $amount;
         $transfer->amount_before_transfer_from = $amount;
         $transfer->amount_after_transfer_from = 0;
-        $transfer->safe_to = $this->getBranchSafeDetails()->where('branch_id',$this->getMainBranchId())->value('id');
-        $transfer->amount_before_transfer_to = $this->getBranchSafeDetails()->where('branch_id',$this->getMainBranchId())->value('safe_balance');
-        $transfer->amount_after_transfer_to = $amount + $this->getBranchSafeDetails()->where('branch_id',$this->getMainBranchId())->value('safe_balance');
+        $transfer->safe_to = $this->getMainBranchSafeDetails()->value('id');
+        $transfer->amount_before_transfer_to = $this->getMainBranchSafeDetails()->value('safe_balance');
+        $transfer->amount_after_transfer_to = $amount + $this->getMainBranchSafeDetails()->value('safe_balance');
         $transfer->transfer_datetime = Carbon::now();
-        $transfer->transfer_notes = 'عملية تحويل رصيد خزنة بسبب حذفها - اسم الخزنة قبل الحذف ' . $this->getBranchSafeDetails()->where('branch_id',$id)->value('safe_name');
+        $transfer->transfer_notes = 'عملية تحويل رصيد خزنة بسبب حذفها - اسم الخزنة قبل الحذف ' . $this->getBranchSafeDetails()->value('safe_name');
         $transfer->transfered_by = Auth::id();
         $transfer->authorized_by = Auth::id();
         $transfer->save();
