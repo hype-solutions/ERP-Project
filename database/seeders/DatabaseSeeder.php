@@ -94,6 +94,7 @@ class DatabaseSeeder extends Seeder
         $depositSafes = Permission::firstOrCreate(['name' => 'Deposit Safes']);
         $withdrawSafes = Permission::firstOrCreate(['name' => 'Withdraw Safes']);
         $transferSafes = Permission::firstOrCreate(['name' => 'Transfer Safes']);
+        $deleteSafes = Permission::firstOrCreate(['name' => 'Detele Safes']);
         //Products Permissions
         $viewProducts = Permission::firstOrCreate(['name' => 'View Products']);
         $addProducts = Permission::firstOrCreate(['name' => 'Add Products']);
@@ -116,6 +117,8 @@ class DatabaseSeeder extends Seeder
         //Users Permissions
         $viewUsers = Permission::firstOrCreate(['name' => 'View Users']);
         $addUsers = Permission::firstOrCreate(['name' => 'Add Users']);
+        $editUsers = Permission::firstOrCreate(['name' => 'Edit Users']);
+        $deleteUsers = Permission::firstOrCreate(['name' => 'Delete Users']);
         //Roles Permissions
         $viewRoles = Permission::firstOrCreate(['name' => 'View Roles']);
         $viewRolesPermissions = Permission::firstOrCreate(['name' => 'View Roles Permissions']);

@@ -136,7 +136,7 @@
                         @foreach ($users as $user)
                         <tr>
                             <td>{{ $user->id }}</td>
-                            <td>مدير</td>
+                            <td>{{$user->roles[0]->name}}</td>
                             <td><li class="la la-user"></li>
                                 {{ $user->name }}
                             </td>

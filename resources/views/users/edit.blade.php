@@ -142,7 +142,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="timesheetinput2">الموبايل</label>
                                 <span style="color:red">*</span>
@@ -154,7 +154,19 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="timesheetinput2">نوع المستخدم</label>
+                                <span style="color:red">*</span>
+                                <span style="color:blue">(حاليا {{$user->roles[0]->name}})</span>
+                                <select name="role" id="" class="form-control" required>
+                                    <option value="{{$user->roles[0]->name}}">تغيير...</option>
+                                    @foreach ($roles as $role)
+                                        <option value="{{$role->name}}">{{$role->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
 

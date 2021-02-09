@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
@@ -45,7 +46,8 @@ class UsersController extends Controller
 
     public function add()
     {
-        return view('users.add');
+        $roles = Role::where('name','!=','Super Admin')->get();
+        return view('users.add',compact('roles'));
     }
 
     public function store(Request $request)
@@ -58,6 +60,7 @@ class UsersController extends Controller
         $user->username = $request->username;
         $user->mobile = $request->mobile;
         $user->save();
+        $user->assignRole($request->role);
         return back()->with('success', 'User Added');
     }
 
@@ -72,10 +75,11 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
+        $roles = Role::where('name','!=','Super Admin')->get();
         if($user->id == 1){
             return redirect()->route('users.list');
         }else{
-        return view('users.edit',compact('user'));
+        return view('users.edit',compact('user','roles'));
         }
     }
 
@@ -87,6 +91,7 @@ class UsersController extends Controller
         $user->email = $request->email;
         $user->username = $request->username;
         $user->mobile = $request->mobile;
+        $user->syncRoles($request->role);
         if(Hash::check($request->password, $user->password)){
             //NO PASS CHANGE
         }else{
