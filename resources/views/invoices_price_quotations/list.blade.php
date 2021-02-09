@@ -34,12 +34,14 @@
           </div>
         </div>
         <div class="content-header-right text-md-right col-md-6 col-12">
+            @can('Add PQ')
           <div class="btn-group">
           <a href="{{route('invoicespricequotations.add')}}" class="btn btn-outline-success block btn-lg" >
                 إضافه عرض سعر جديد
             </a>
 
           </div>
+          @endcan
         </div>
       </div>
   <div class="content-body"><!-- users list start -->
@@ -163,18 +165,24 @@
                                 @endif</td>
                             <td>
                                 <a href="{{route('invoicespricequotations.view',$quotation->id)}}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
+                                @can('Edit PQ')
                                 @if($quotation->quotation_status != 'ToInvoice')
                                 <a href="{{route('invoicespricequotations.edit',$quotation->id)}}" class="btn btn-primary btn-sm"><i class="la la-pencil-square-o"></i> تعديل</a>
                                 @endif
+                                @endcan
+                                @canany(['Accept PQ','Decline PQ'])
                                 @if($quotation->quotation_status == 'Pending Approval')
                                 <br/>
                                 <a class="btn btn-success btn-sm"  href="{{route('invoicespricequotations.status',[$quotation->id,1])}}"><i class="la la-check"></i> تصديق على عرض السعر</a>
                                 <a class="btn btn-danger btn-sm" href="{{route('invoicespricequotations.status',[$quotation->id,2])}}"><i class="la la-close" ></i> رفض</a>
                                 @endif
+                                @endcanany
+                                @can('Convert PQ')
                                 @if($quotation->quotation_status == 'Approved')
                                 <br/>
                                 <a href="{{route('invoicespricequotations.toinvoice',$quotation->id)}}" class="btn btn-dark btn-sm"><i class="la la-file"></i> تحويل الى فاتورة</a>
                                 @endif
+                                @endcan
                              </td>
                         </tr>
                         @endforeach
