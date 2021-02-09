@@ -3,8 +3,8 @@
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="main-menu-content">
       <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-        @can('View POS|View Invoices|View PQ')
-        <li class=" nav-item">
+            @canany(['View POS', 'View PQ','View Invoices'])
+            <li class=" nav-item">
                 <a href="#">
                     <img src="{{ asset('theme/app-assets/images/custom/menu/1.png') }}" style="width : 50%"/>
                     <span class="menu-title" data-i18n="Templates"></span>
@@ -17,8 +17,8 @@
                             <i class="la la-arrows-v"></i>
                             <span data-i18n="Vertical">بيع سريع</span>
                         </a>
-                    @endcan
                     </li>
+                    @endcan
                     @can('View PQ')
                     <li>
                         <a class="menu-item" href="#">
@@ -75,7 +75,7 @@
                     @endcan
                 </ul>
             </li>
-            @endcan
+            @endcanany
             @can('View Projects')
             <li class=" nav-item">
                 <a href="#">
