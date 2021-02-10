@@ -377,12 +377,6 @@
 <script src="{{ asset('theme/app-assets/vendors/js/forms/toggle/bootstrap-checkbox.min.js') }}"></script>
 <script src="{{ asset('theme/app-assets/vendors/js/editors/ckeditor/ckeditor-super-build.js') }}"></script>
 
-<!-- BEGIN: Theme JS-->
-    <script src="{{ asset('theme/app-assets/js/core/app-menu.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/js/core/app.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/js/scripts/footer.min.js') }}"></script>
-    <!-- END: Theme JS-->
-
     <script src="{{ asset('theme/app-assets/js/scripts/forms/select/form-select2.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/js/scripts/forms/switch.min.js') }}"></script>
     <script>
