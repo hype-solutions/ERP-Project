@@ -45,7 +45,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 /**************************
  ********** Auth **********
  **************************/
-Auth::routes();
+Auth::routes(['register' => false]);
 
 
 
