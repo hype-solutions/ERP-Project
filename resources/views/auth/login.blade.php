@@ -63,7 +63,7 @@
                     <label for="remember-me"> تذكرني</label>
                   </fieldset>
                 </div>
-                <div class="col-sm-6 col-12 text-center text-sm-right"><a href="recover-password.html"
+                <div class="col-sm-6 col-12 text-center text-sm-right"><a href="{{ route('password.request') }}"
                     class="card-link">نسيت كلمة السر؟</a></div>
               </div>
               <button type="submit" class="btn btn-success btn-block"><i class="ft-unlock"></i> تسجيل الدخول</button>
