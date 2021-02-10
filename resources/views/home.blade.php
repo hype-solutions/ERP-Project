@@ -21,7 +21,7 @@
             <section id="card-gradient-options">
 
                 <div class="row">
-                    <div class="col-8">
+                    <div class="col-md-8 col-sm-12 col-xs-12">
                         <div class="row">
                             @can('View POS')
                             <div class="col-md-3 col-sm-12 col-xs-12">
@@ -249,7 +249,197 @@
                             @endcan
                         </div>
                     </div>
-                    <div class="col-6"></div>
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">التحكم السريع</h3>
+                            </div>
+                            <div class="card-body">
+                                @canany(['Accept PQ','Convert PQ'])
+                                <span class="btn btn-block btn-outline-dark">عروض الأسعار (<span class="text-danger">{{$priceQuotations->count()}}</span>)</span>
+                                <div id="priceQuotations" role="tablist" aria-multiselectable="true">
+                                    <div class="card accordion collapse-icon accordion-icon-rotate">
+                                        @if($priceQuotations->count() == 0)
+                                        <span class="text-success">لا يوجد جديد</span>
+                                        @endif
+                                        @foreach ($priceQuotations as $key => $quotation)
+                                        <a id="headinga{{$key}}" class="card-header info collapsed" data-toggle="collapse" href="#accordiona{{$key}}" aria-expanded="false" aria-controls="accordiona{{$key}}">
+                                            <div class="card-title lead">عرض سعر رقم #{{$quotation->id}}</div>
+                                        </a>
+                                        <div id="accordiona{{$key}}" role="tabpanel" data-parent="#priceQuotations" aria-labelledby="headinga{{$key}}" class="collapse" style="">
+                                            <div class="card-content">
+                                                <div class="card-body">
+                                                    <table class="table">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th>العميل</th>
+                                                                <td>{{$quotation->customer->customer_name}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>الإجمالي</th>
+                                                                <td>{{$quotation->quotation_total}} ج.م</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <a href="{{route('invoicespricequotations.view',$quotation->id)}}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
+                                                    @if($quotation->quotation_status == 'Pending Approval')
+                                                        @can('Accept PQ')
+                                                        <a class="btn btn-success btn-sm"  href="{{route('invoicespricequotations.status',[$quotation->id,1])}}"><i class="la la-check"></i> تصديق</a>
+                                                        <a class="btn btn-danger btn-sm" href="{{route('invoicespricequotations.status',[$quotation->id,2])}}"><i class="la la-close" ></i> رفض</a>
+                                                        @endcan
+                                                    @elseif($quotation->quotation_status == 'Approved')
+                                                        @can('Convert PQ')
+                                                        <a href="{{route('invoicespricequotations.toinvoice',$quotation->id)}}" class="btn btn-dark btn-sm"><i class="la la-file"></i> تحويل الى فاتورة</a>
+                                                        @endcan
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                @endcanany
+                                @canany(['Accept PO','Import PO'])
+                                <span class="btn btn-block btn-outline-dark">أوامر الشراء (<span class="text-danger">{{$purchasesOrders->count()}}</span>)</span>
+                                <div id="purchasesOrders" role="tablist" aria-multiselectable="true">
+                                    <div class="card accordion collapse-icon accordion-icon-rotate">
+                                        @if($purchasesOrders->count() == 0)
+                                        <span class="text-success">لا يوجد جديد</span>
+                                        @endif
+                                        @foreach ($purchasesOrders as $key => $purchase)
+                                        <a id="headingb{{$key}}" class="card-header info collapsed" data-toggle="collapse" href="#accordionb{{$key}}" aria-expanded="false" aria-controls="accordionb{{$key}}">
+                                            <div class="card-title lead">أمر شراء رقم #{{$purchase->id}}</div>
+                                        </a>
+                                        <div id="accordionb{{$key}}" role="tabpanel" data-parent="#purchasesOrders" aria-labelledby="headingb{{$key}}" class="collapse" style="">
+                                            <div class="card-content">
+                                                <div class="card-body">
+                                                    <table class="table">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th>المورد</th>
+                                                                <td>{{$purchase->supplier->supplier_name}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>الإجمالي</th>
+                                                                <td>{{$purchase->purchase_total}} ج.م</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <a href="{{route('purchasesorders.view',$purchase->id)}}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
+                                                    @if($purchase->purchase_status =='Created')
+                                                        @can('Accept PQ')
+                                                        <a class="btn btn-success btn-sm"  href="{{route('purchasesorders.status',[$purchase->id,1])}}"><i class="la la-check"></i> تصديق</a>
+                                                        <a class="btn btn-danger btn-sm" href="{{route('purchasesorders.status',[$purchase->id,2])}}"><i class="la la-close" ></i> رفض</a>
+                                                        @endcan
+                                                    @elseif($purchase->purchase_status =='Paid')
+                                                        @can('Import PO')
+                                                        <a href="{{route('purchasesorders.toinventory',$purchase->id)}}" class="btn btn-dark btn-sm"><i class="la la-file"></i> توريد الى المخزن</a>
+                                                        @endcan
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                @endcanany
+                                @canany(['Accept Products Transfer','Decline Products Transfer'])
+                                <span class="btn btn-block btn-outline-dark">المخزن (<span class="text-danger">{{$productTransfers->count()}}</span>)</span>
+                                <div id="productTransfers" role="tablist" aria-multiselectable="true">
+                                    <div class="card accordion collapse-icon accordion-icon-rotate">
+                                        @if($productTransfers->count() == 0)
+                                        <span class="text-success">لا يوجد جديد</span>
+                                        @endif
+                                        @foreach ($productTransfers as $key => $transfer)
+                                        <a id="headingd{{$key}}" class="card-header info collapsed" data-toggle="collapse" href="#accordiond{{$key}}" aria-expanded="false" aria-controls="accordiond{{$key}}">
+                                            <div class="card-title lead">عملية تحويل رقم #{{$transfer->id}}</div>
+                                        </a>
+                                        <div id="accordiond{{$key}}" role="tabpanel" data-parent="#productTransfers" aria-labelledby="headingd{{$key}}" class="collapse" style="">
+                                            <div class="card-content">
+                                                <div class="card-body">
+                                                    <table class="table">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th>من</th>
+                                                                <td>{{$transfer->branchFrom->branch_name}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>الى</th>
+                                                                <td>{{$transfer->branchTo->branch_name}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>الكمية</th>
+                                                                <td>{{$transfer->transfer_qty}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>قام بالتحويل</th>
+                                                                <td><div class="badge border-primary primary badge-border">
+                                                                    <i class="la la-user font-medium-2"></i>
+                                                                        <span>{{$transfer->user->username}}</span>
+                                                                    </div></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <a href="" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
+                                                    <a href="{{route('products.acceptingTransfer',$transfer->id)}}" class="btn btn-success btn-sm">تصديق على التحويل</a>
+                                                    <a href="" class="btn btn-danger btn-sm">رفض</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                @endcanany
+                                @canany(['Accept Safes Transfers','Accept Safes Deposit','Accept Safes Withdraw'])
+                                <span class="btn btn-block btn-outline-dark">الخزن (<span class="text-danger">{{$safesTransfers->count()}}</span>)</span>
+                                <div id="safesTransfers" role="tablist" aria-multiselectable="true">
+                                    <div class="card accordion collapse-icon accordion-icon-rotate">
+                                        @if($safesTransfers->count() == 0)
+                                        <span class="text-success">لا يوجد جديد</span>
+                                        @endif
+                                        @foreach ($safesTransfers as $key => $transfer)
+                                        <a id="headingc{{$key}}" class="card-header info collapsed" data-toggle="collapse" href="#accordionc{{$key}}" aria-expanded="false" aria-controls="accordionc{{$key}}">
+                                            <div class="card-title lead">عملية تحويل رقم #{{$transfer->id}}</div>
+                                        </a>
+                                        <div id="accordionc{{$key}}" role="tabpanel" data-parent="#safesTransfers" aria-labelledby="headingc{{$key}}" class="collapse" style="">
+                                            <div class="card-content">
+                                                <div class="card-body">
+                                                    <table class="table">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th>من</th>
+                                                                <td>{{$transfer->safeFrom->safe_name}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>الى</th>
+                                                                <td>{{$transfer->safeTo->safe_name}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>المبلغ</th>
+                                                                <td>{{$transfer->transfer_amount}} ج.م</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>قام بالتحويل</th>
+                                                                <td><div class="badge border-primary primary badge-border">
+                                                                    <i class="la la-user font-medium-2"></i>
+                                                                        <span>{{$transfer->user->username}}</span>
+                                                                    </div></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <a class="btn btn-success btn-sm"  href="{{route('safes.accepting',$transfer->id)}}"><i class="la la-check"></i> تصديق</a>
+                                                    <a class="btn btn-danger btn-sm" href="#"><i class="la la-close" ></i> رفض</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                @endcanany
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>

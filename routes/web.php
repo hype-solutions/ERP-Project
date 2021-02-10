@@ -307,8 +307,9 @@ Route::group(['middleware' => ['permission:Transfer Safes']], function () {
 Route::group(['middleware' => ['permission:Delete Safes']], function () {
     Route::delete('/safes/delete/{safe}', [SafesController::class, 'delete'])->name('safes.delete');
 });
-
-
+Route::group(['middleware' => ['permission:Accept Safes Transfers']], function () {
+    Route::get('/safes/transfer/accept/{transfer}', [SafesController::class, 'acceptingTransfer'])->name('safes.accepting');
+});
 
 /*************************
  ********** Ins **********

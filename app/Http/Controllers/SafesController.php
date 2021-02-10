@@ -177,16 +177,22 @@ class SafesController extends Controller
         return view('safes.transfer', compact('safes', 'user_id','otherSafes'));
     }
 
-    public function transfering(Request $request)
+    public function transfering(Request $request){
+        SafesTransfers::create($request->all());
+        return redirect()->route('safes.list');
+    }
+
+    public function acceptingTransfer(SafesTransfers $transfer)
     {
 
-        SafesTransfers::create($request->all());
-        $update_old_safe = Safes::find($request->safe_from);
-        $update_old_safe->safe_balance = $request->amount_after_transfer_from;
+        $update_old_safe = Safes::find($transfer->safe_from);
+        $update_old_safe->safe_balance = $transfer->amount_after_transfer_from;
         $update_old_safe->save();
-        $update_new_safe = Safes::find($request->safe_to);
-        $update_new_safe->safe_balance = $request->amount_after_transfer_to;
+        $update_new_safe = Safes::find($transfer->safe_to);
+        $update_new_safe->safe_balance = $transfer->amount_after_transfer_to;
         $update_new_safe->save();
+        $transfer->authorized_by = Auth::id();
+        $transfer->save();
 
             return redirect()->route('safes.list');
         }

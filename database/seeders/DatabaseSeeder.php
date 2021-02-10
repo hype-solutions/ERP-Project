@@ -94,7 +94,10 @@ class DatabaseSeeder extends Seeder
         $depositSafes = Permission::firstOrCreate(['name' => 'Deposit Safes']);
         $withdrawSafes = Permission::firstOrCreate(['name' => 'Withdraw Safes']);
         $transferSafes = Permission::firstOrCreate(['name' => 'Transfer Safes']);
-        $deleteSafes = Permission::firstOrCreate(['name' => 'Detele Safes']);
+        $deleteSafes = Permission::firstOrCreate(['name' => 'Delete Safes']);
+        $acceptSafeTransfer = Permission::firstOrCreate(['name' => 'Accept Safes Transfers']);
+        $acceptSafeDeposit = Permission::firstOrCreate(['name' => 'Accept Safes Deposit']);
+        $acceptSafeWithdraw = Permission::firstOrCreate(['name' => 'Accept Safes Withdraw']);
         //Products Permissions
         $viewProducts = Permission::firstOrCreate(['name' => 'View Products']);
         $addProducts = Permission::firstOrCreate(['name' => 'Add Products']);
@@ -140,7 +143,7 @@ class DatabaseSeeder extends Seeder
             $viewExpenses,$addExpenses,
             $viewIncome,$addIncome,
             $viewBranches,
-            $viewSafes,$depositSafes,$transferSafes,
+            $viewSafes,$depositSafes,$transferSafes,$acceptSafeTransfer,$acceptSafeDeposit,$acceptSafeWithdraw,
             $viewProducts,$addProducts,$transferProducts,$acceptTransferProducts,$declineTransferProducts,$mainBranchTransferProducts,
             $viewPO,$acceptPO,
             $viewSettings,$viewGeneralSettings,
