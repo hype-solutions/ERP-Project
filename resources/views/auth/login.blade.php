@@ -32,6 +32,21 @@
         </div>
         <div class="card-content">
           <div class="card-body">
+            @if ($errors->any())
+            <div class="alert alert-icon-left alert-danger alert-dismissible mb-2" role="alert">
+                <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <strong>حدث خطأ, برجاء المحاولة مرة أخرى</strong>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+
+        @endif
             <form method="POST" class="form-horizontal form-simple" action="{{ route('login') }}" novalidate>
               @csrf
               <fieldset class="form-group position-relative has-icon-left mb-0">
