@@ -35,17 +35,17 @@ use App\Http\Controllers\SettingsController;
 */
 
 /**************************
- ********** Auth **********
- **************************/
-Auth::routes();
-
-
-
-/**************************
  ********** Home **********
  **************************/
 Route::get('/', function () {return redirect('home');});
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+
+
+/**************************
+ ********** Auth **********
+ **************************/
+Auth::routes();
 
 
 
