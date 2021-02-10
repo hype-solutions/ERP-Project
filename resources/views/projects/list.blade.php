@@ -170,9 +170,9 @@
 <script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/datatables.min.js') }}"></script>
 <!-- END: Page Vendor JS-->
     <!-- BEGIN: Theme JS-->
-    <script src="{{ asset('theme/app-assets/js/core/app-menu.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/js/core/app.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/js/scripts/footer.min.js') }}"></script>
+
+
+
     <!-- END: Theme JS-->
 <!-- BEGIN: Page JS-->
 <script src="{{ asset('theme/app-assets/js/scripts/pages/page-users.min.js') }}"></script>
