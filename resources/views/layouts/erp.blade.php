@@ -42,13 +42,12 @@
 </head>
 @if(null !== Route::current())
 @if(Route::current()->getName() == 'login')
-<body class="vertical-layout vertical-compact-menu 1-column   blank-page" data-open="click" data-menu="vertical-compact-menu" data-col="1-column">
+<body class="vertical-layout vertical-compact-menu 1-column blank-page" data-open="click" data-menu="vertical-compact-menu" data-col="1-column">
 @else
-<body class="vertical-layout vertical-compact-menu 2-columns   fixed-navbar" data-open="click" data-menu="vertical-compact-menu" data-col="2-columns">
+<body class="vertical-layout vertical-compact-menu 2-columns fixed-navbar" data-open="click" data-menu="vertical-compact-menu" data-col="2-columns">
 @endif
 @endif
     <div>
-
     <div class="app-content content">
             @yield('content')
     </div>
@@ -56,7 +55,8 @@
         <script src="{{ asset('theme/app-assets/vendors/js/vendors.min.js') }}"></script>
     <!-- BEGIN Vendor JS-->
 
- @yield('pageJs')
+    @yield('pageJs')
+
     <!-- BEGIN: Theme JS-->
     <script src="{{ asset('theme/app-assets/js/core/app-menu.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/js/core/app.min.js') }}"></script>

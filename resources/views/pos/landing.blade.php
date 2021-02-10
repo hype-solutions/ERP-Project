@@ -227,7 +227,6 @@
 @section('pageJs')
 <!-- BEGIN: Page Vendor JS-->
 <script src="{{ asset('theme/app-assets/vendors/js/forms/select/select2.full.min.js') }}"></script>
-
 <script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/datatables.min.js') }}"></script>
 <script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js') }}"></script>
 <script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/buttons.bootstrap4.min.js') }}"></script>
@@ -242,7 +241,6 @@
 <script src="{{ asset('theme/app-assets/js/scripts/forms/select/form-select2.min.js') }}"></script>
 
 <script>
-
 $(function() {
                 $("#btnOne").click(function(e){
                    e.preventDefault();
@@ -252,7 +250,6 @@ $(function() {
                     }else{
                         $("#start").submit(); // Submit the form
                     }
-
                 });
                 $("#btnTwo").click(function(e){
                     e.preventDefault();
@@ -276,11 +273,11 @@ $(function() {
             });
 
 
-$("#list").DataTable( {
-        dom: 'Bfrtip',
-        "language": {
+        $("#list").DataTable( {
+            dom: 'Bfrtip',
+            "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
-        },
+            },
         buttons: [
             {
                 extend: 'excelHtml5',
@@ -312,11 +309,6 @@ $("#list").DataTable( {
 
 
 </script><!-- END: Page Vendor JS-->
-    <!-- BEGIN: Theme JS-->
-    <script src="{{ asset('theme/app-assets/js/core/app-menu.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/js/core/app.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/js/scripts/footer.min.js') }}"></script>
-    <!-- END: Theme JS-->
 <!-- BEGIN: Page JS-->
 <script src="{{ asset('theme/app-assets/js/scripts/pages/page-users.min.js') }}"></script>
 <!-- END: Page JS-->
