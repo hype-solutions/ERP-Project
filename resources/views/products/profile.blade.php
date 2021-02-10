@@ -369,7 +369,7 @@
                                 قام بالتحويل
                                 <div class="badge border-primary primary badge-border">
                                     <i class="la la-user font-medium-2"></i>
-                                        <span>{{$transfer->user->username}}</span>
+                                        <span>{{$transfer->transferUser->username}}</span>
                                     </div>
 
                                     @if($transfer->status == 'Transfered')
@@ -377,7 +377,7 @@
                                 صرح بالتحويل
                                 <div class="badge border-success success badge-square badge-border">
                                     <i class="la la-user font-medium-2"></i>
-                                        <span>{{$transfer->user->username}}</span>
+                                        <span>{{$transfer->authUser->username}}</span>
                                     </div>
                                     @endif
                               </td>

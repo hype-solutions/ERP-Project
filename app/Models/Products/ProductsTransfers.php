@@ -33,9 +33,16 @@ class ProductsTransfers extends Model
     {
         return $this->hasOne('App\Models\Branches\Branches', 'id', 'branch_to');
     }
-    public function user()
+
+    public function transferUser()
     {
         return $this->hasOne('App\Models\User', 'id', 'transfered_by');
     }
+
+    public function authUser()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'authorized_by');
+    }
+
 
 }

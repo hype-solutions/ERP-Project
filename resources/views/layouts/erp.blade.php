@@ -56,7 +56,6 @@
     <!-- BEGIN Vendor JS-->
 
     @yield('pageJs')
-
     <!-- BEGIN: Theme JS-->
     <script src="{{ asset('theme/app-assets/js/core/app-menu.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/js/core/app.min.js') }}"></script>
