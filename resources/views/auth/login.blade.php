@@ -47,26 +47,16 @@
             </div>
 
         @endif
-            <form method="POST" class="form-horizontal form-simple" action="{{ route('login') }}" novalidate>
+            <form method="POST" class="form-horizontal form-simple" action="{{ route('login') }}">
               @csrf
               <fieldset class="form-group position-relative has-icon-left mb-0">
-                <input type="text"  name="email" class="form-control @error('user-name') is-invalid @enderror" id="user-name" placeholder="اسم المستخدم" value="{{ old('user-name') }}" required autofocus>
-                @error('user-name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                <input type="text"  name="email" class="form-control" id="user-name" placeholder="اسم المستخدم" value="{{ old('email') }}" required autofocus>
                 <div class="form-control-position">
                   <i class="la la-user"></i>
                 </div>
               </fieldset>
               <fieldset class="form-group position-relative has-icon-left">
-                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="كلمه السر" required autocomplete="current-password">
-                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                <input type="password" name="password" class="form-control" id="password" placeholder="كلمه السر" required autocomplete="current-password">
                 <div class="form-control-position">
                   <i class="la la-key"></i>
                 </div>
@@ -74,8 +64,8 @@
               <div class="form-group row">
                 <div class="col-sm-6 col-12 text-center text-sm-left">
                   <fieldset>
-                    <input type="checkbox" id="remember-me" class="chk-remember">
-                    <label for="remember-me"> تذكرني</label>
+                    <input type="checkbox" id="remember" class="chk-remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                    <label for="remember"> تذكرني</label>
                   </fieldset>
                 </div>
                 <div class="col-sm-6 col-12 text-center text-sm-right"><a href="{{ route('password.request') }}"
