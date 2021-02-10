@@ -257,11 +257,3 @@
 
 @include('common.footer')
 @endsection
-
-@section('pageJs')
-    <!-- BEGIN: Theme JS-->
-    <script src="{{ asset('theme/app-assets/js/core/app-menu.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/js/core/app.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/js/scripts/footer.min.js') }}"></script>
-    <!-- END: Theme JS-->
-@endsection

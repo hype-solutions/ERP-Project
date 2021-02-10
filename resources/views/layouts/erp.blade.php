@@ -10,14 +10,14 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
+    <!-- <script src="{{-- asset('js/app.js') --}}" defer></script> -->
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
+    <!-- <link href="{{-- asset('css/app.css') --}}" rel="stylesheet"> -->
 
 
     <!-- BEGIN: Vendor CSS-->
@@ -47,7 +47,7 @@
 <body class="vertical-layout vertical-compact-menu 2-columns   fixed-navbar" data-open="click" data-menu="vertical-compact-menu" data-col="2-columns">
 @endif
 @endif
-    <div id="app">
+    <div>
 
     <div class="app-content content">
             @yield('content')
@@ -61,10 +61,9 @@
     <!-- BEGIN: Theme JS-->
     <script src="{{ asset('theme/app-assets/js/core/app-menu.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/js/core/app.min.js') }}"></script>
+    <script src="{{ asset('theme/app-assets/js/scripts/footer.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/js/custom.js') }}"></script>
 
     <!-- END: Theme JS-->
-
-
 </body>
 </html>
