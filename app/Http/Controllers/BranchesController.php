@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Branches\CreateBranch;
 use App\Http\Requests\Branches\UpdateBranch;
 use App\Models\Branches\Branches;
-use App\Models\Safes\Safes;
 
 class BranchesController extends Controller
 {
