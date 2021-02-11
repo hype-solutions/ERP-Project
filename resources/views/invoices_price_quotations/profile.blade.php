@@ -248,6 +248,7 @@
                                             <select class="form-control" name="template">
                                                 <option value="1">التصميم رقم #1</option>
                                                 <option value="2">التصميم رقم #2</option>
+                                                <option value="3">التصميم رقم #3</option>
                                             </select>
                                             <button type="submit" class="btn btn-block btn-dark btn-print">طباعة بالتصميم</button>
 

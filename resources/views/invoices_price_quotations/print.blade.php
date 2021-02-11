@@ -25,10 +25,18 @@
             background-size: 100% 100%;
         }
         </style>
-        @else
+        @elseif($template == 2)
         <style>
             #invoice-template {
             background-image:url('{{ url('uploads/letterHead2.jpg')}}')!important;
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+        }
+        </style>
+        @elseif($template == 3)
+        <style>
+            #invoice-template {
+            background-image:url('{{ url('uploads/letterHead3.jpg')}}')!important;
             background-repeat:no-repeat;
             background-size: 100% 100%;
         }
