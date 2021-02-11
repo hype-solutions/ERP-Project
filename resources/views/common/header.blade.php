@@ -23,22 +23,26 @@
                     <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand" href="#"><i
                                 class="ficon ft-maximize"></i></a></li>
                     <li class="dropdown nav-item mega-dropdown d-none d-lg-block" style="display: none"><a
-                            class="dropdown-toggle nav-link" href="#" data-toggle="dropdown">Mega</a>
+                            class="dropdown-toggle nav-link" href="#" data-toggle="dropdown">أدوات</a>
                         <ul class="mega-dropdown-menu dropdown-menu row p-1">
                             <li class="col-md-4 bg-mega p-2">
-                                <h3 class="text-white mb-1 font-weight-bold">Mega Menu Sidebar</h3>
-                                <p class="text-white line-height-2">Candy canes bonbon toffee. Cheesecake dragée gummi
-                                    bears chupa chups powder bonbon. Apple pie cookie sweet.</p>
-                                <button class="btn btn-outline-white">Learn More</button>
+                                <h3 class="text-white mb-1 font-weight-bold">أرسل رسالة واتساب</h3>
+                                <form action="https://api.whatsapp.com/send/" method="GET" target="_blank">
+                                <input type="text" name="phone" class="form-control" placeholder="رقم الموبايل" />
+                                <textarea name="text" class="form-control" placeholder="محتوى الرسالة"></textarea>
+                                <button class="btn btn-outline-white">أرسل</button>
+                            </form>
                             </li>
                             <li class="col-md-5 px-2">
-                                <h6 class="font-weight-bold font-medium-2 ml-1">Admin Panel</h6>
+
+                                <h6 class="font-weight-bold font-medium-2 ml-1">ارسل ايميل </h6>
                                 <ul class="row mt-2">
-                                    <li class="col-6 col-xl-4"><a class="text-center mb-2 mb-xl-3"
-                                            href="https://pixinvent.com/modern-admin-clean-bootstrap-4-dashboard-html-template/html/rtl/ecommerce-menu-template"
-                                            target="_blank"><i class="la la-shopping-cart font-large-1 mr-0"></i>
-                                            <p class="font-medium-2 mt-25 mb-0">eCommerce</p>
+                                   <li class="col-6 col-xl-4"><a class="text-center mb-2 mb-xl-3"
+                                            href="https://mail.google.com/"
+                                            target="_blank"><i class="la la-envelope font-large-1 mr-0"></i>
+                                            <p class="font-medium-2 mt-25 mb-0">Gmail</p>
                                         </a></li>
+                                         {{--
                                     <li class="col-6 col-xl-4"><a class="text-center mb-2 mb-xl-3"
                                             href="https://pixinvent.com/modern-admin-clean-bootstrap-4-dashboard-html-template/html/rtl/travel-menu-template"
                                             target="_blank"><i class="la la-plane font-large-1 mr-0"></i>
@@ -63,11 +67,11 @@
                                             href="https://pixinvent.com/modern-admin-clean-bootstrap-4-dashboard-html-template/html/rtl/bank-menu-template"
                                             target="_blank"><i class="la la-bank font-large-1 mr-0"></i>
                                             <p class="font-medium-2 mt-25 mb-50">Bank</p>
-                                        </a></li>
+                                        </a></li>--}}
                                 </ul>
                             </li>
                             <li class="col-md-3">
-                                <h6 class="font-weight-bold font-medium-2">Components</h6>
+                                {{-- <h6 class="font-weight-bold font-medium-2">Components</h6>
                                 <ul class="row mt-1 mt-xl-2">
                                     <li class="col-12 col-xl-6 pl-0">
                                         <ul class="mega-component-list">
@@ -93,11 +97,11 @@
                                                     href="component-pagination.html" target="_blank">Pagination</a></li>
                                         </ul>
                                     </li>
-                                </ul>
+                                </ul> --}}
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item nav-search"><a class="nav-link nav-link-search" href="#"><i
+                    {{-- <li class="nav-item nav-search"><a class="nav-link nav-link-search" href="#"><i
                                 class="ficon ft-search"></i></a>
                         <div class="search-input">
                             <input class="input" type="text" placeholder="Explore Modern..." tabindex="0"
@@ -105,10 +109,10 @@
                             <div class="search-input-close"><i class="ft-x"></i></div>
                             <ul class="search-list"></ul>
                         </div>
-                    </li>
+                    </li> --}}
                 </ul>
                 <ul class="nav navbar-nav float-right">
-                    <li class="dropdown dropdown-language nav-item"><a class="dropdown-toggle nav-link"
+                    {{-- <li class="dropdown dropdown-language nav-item"><a class="dropdown-toggle nav-link"
                             id="dropdown-flag" href="#" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false"><i class="flag-icon flag-icon-gb"></i><span
                                 class="selected-language"></span></a>
@@ -118,7 +122,8 @@
                                 French</a><a class="dropdown-item" href="#" data-language="pt"><i
                                     class="flag-icon flag-icon-pt"></i> Portuguese</a><a class="dropdown-item" href="#"
                                 data-language="de"><i class="flag-icon flag-icon-de"></i> German</a></div>
-                    </li>
+                    </li> --}}
+                    @if($notificationCount > 0)
                     <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#"
                             data-toggle="dropdown"><i class="ficon ft-bell"></i><span
                                 class="badge badge-pill badge-danger badge-up badge-glow">{{$notificationCount}}</span></a>
@@ -197,7 +202,8 @@
                                     href="javascript:void(0)">Read all notifications</a></li> --}}
                         </ul>
                     </li>
-                    <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#"
+                    @endif
+                    {{-- <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#"
                             data-toggle="dropdown"><i class="ficon ft-settings"></i></a>
                         <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
                             <li class="dropdown-menu-header">
@@ -213,8 +219,8 @@
                                                     alt="avatar"><i></i></span></div>
                                         <div class="media-body">
                                             <h6 class="media-heading">واتساب</h6>
-                                            {{-- <p class="notification-text font-small-3 text-muted">I like your portfolio, let's start.</p><small> --}}
-                                            {{-- <time class="media-meta text-muted" datetime="2015-06-11T18:29:20+08:00">Today</time></small> --}}
+                                            <p class="notification-text font-small-3 text-muted">I like your portfolio, let's start.</p><small>
+                                            <time class="media-meta text-muted" datetime="2015-06-11T18:29:20+08:00">Today</time></small>
                                         </div>
                                     </div>
                                 </a><a target="_blank" href="https://mail.google.com/">
@@ -225,24 +231,24 @@
                                                     alt="avatar"><i></i></span></div>
                                         <div class="media-body">
                                             <h6 class="media-heading">الإيميل</h6>
-                                            {{-- <p class="notification-text font-small-3 text-muted">I have seen your work, there is</p><small> --}}
-                                            {{-- <time class="media-meta text-muted" datetime="2015-06-11T18:29:20+08:00">Tuesday</time></small> --}}
+                                             <p class="notification-text font-small-3 text-muted">I have seen your work, there is</p><small>
+                                             <time class="media-meta text-muted" datetime="2015-06-11T18:29:20+08:00">Tuesday</time></small>
                                         </div>
                                     </div>
                                 </a> </li>
-                            {{-- <li class="dropdown-menu-footer"><a class="dropdown-item text-muted text-center" href="javascript:void(0)">Read all messages</a></li> --}}
+                            <li class="dropdown-menu-footer"><a class="dropdown-item text-muted text-center" href="javascript:void(0)">Read all messages</a></li>
                         </ul>
-                    </li>
+                    </li> --}}
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link"
                             href="#" data-toggle="dropdown"><span
                                 class="mr-1 user-name text-bold-700">{{ Auth::user()->username }}</span><span
                                 class="avatar avatar-online"><img
                                     src="{{ asset('theme/app-assets/images/portrait/small/avatar-s-19.png') }}"
                                     alt="avatar"><i></i></span></a>
-                        <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item"
-                                href="user-profile.html"><i class="ft-user"></i> Edit Profile</a><a
-                                class="dropdown-item" href="app-kanban.html"><i class="ft-clipboard"></i> Todo</a><a
-                                class="dropdown-item" href="user-cards.html"><i class="ft-check-square"></i> Task</a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            {{-- <a class="dropdown-item" href="user-profile.html"><i class="ft-user"></i> Edit Profile</a> --}}
+                            {{-- <a class="dropdown-item" href="app-kanban.html"><i class="ft-clipboard"></i> Todo</a> --}}
+                            {{-- <a class="dropdown-item" href="user-cards.html"><i class="ft-check-square"></i> Task</a> --}}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
