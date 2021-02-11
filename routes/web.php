@@ -138,6 +138,7 @@ Route::group(['middleware' => ['permission:Add Customers']], function () {
     Route::get('/customers/add', [CustomersController::class, 'add'])->name('customers.add');
     Route::post('/customers/adding', [CustomersController::class, 'store'])->name('customers.adding');
     Route::post('/customers/quickadd', [PosController::class, 'quickadd'])->name('pos.quickadd');
+    Route::post('/customers/addLinked/{customer}', [CustomersController::class, 'addLinked'])->name('customers.addLinked');
 });
 Route::group(['middleware' => ['permission:Edit Customers']], function () {
     Route::get('/customers/edit/{customer}', [CustomersController::class, 'edit'])->name('customers.edit');

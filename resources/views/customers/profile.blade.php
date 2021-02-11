@@ -233,6 +233,10 @@
                     <a class="nav-link" id="linkOpt-tab2" data-toggle="tab" href="#linkOpt2" aria-controls="linkOpt2">الأصناف الأكثر طلبا
                     </a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="linkOpt-tab2xx" data-toggle="tab" href="#linkOpt2xx" aria-controls="linkOpt2xx">العملاء تحت نفس الشركة
+                    </a>
+                  </li>
                 </ul>
                 <div class="tab-content px-1 pt-1">
                   <div role="tabpanel" class="tab-pane active" id="active32" aria-labelledby="active-tab32" aria-expanded="true">
@@ -437,6 +441,56 @@
                         </table>
                       </div>
                   </div>
+                  <div class="tab-pane" id="linkOpt2xx" role="tabpanel" aria-labelledby="linkOpt-tab2" aria-expanded="false">
+                    <button type="button" class="btn btn-outline-primary block btn-lg" data-toggle="modal" data-target="#default">
+                        إضافة عميل فرعي
+                    </button>
+                    <div class="modal fade text-left" id="default" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel1">بيانات العميل</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{route('customers.addLinked',$customer->id)}}" method="POST">
+                                        @csrf
+                                    <div class="form-group">
+                                        <div>
+                                            <input class="form-control" type="text" name="linked_name" placeholder="إسم العميل">
+                                            <input class="form-control" type="text" name="linked_mobile" placeholder="رقم التليفون">
+                                        </div>
+                                    </div>
+                                      </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">إلغاء</button>
+                                    <button type="submit" class="btn btn-outline-primary">حفظ</button>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table mb-0" id="linked">
+                          <thead>
+                            <tr>
+                              <th>اسم العميل</th>
+                              <th>رقم التليفون</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                              @foreach ($linkedCustomers as $link)
+                            <tr>
+                              <td>{{$link->customer_name}}</td>
+                              <td>{{$link->customer_mobile}}</td>
+                            </tr>
+                            @endforeach
+                          </tbody>
+                        </table>
+                      </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -528,6 +582,46 @@
 <script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.html5.min.js') }}"></script>
 <!-- END: Page Vendor JS-->
 <script>
+
+
+$("#linked").DataTable( {
+        dom: 'Bfrtip',
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+        },
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'حفظ كملف EXCEL',
+                messageTop: 'قائمة العملاء تحت نفس الشركة',
+                exportOptions: {
+                    columns: [2,1,0 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+    // customize: function(doc) {
+    //    console.dir(doc)
+    //    doc.content[2].margin = [ 100, 0, 100, 0 ] //left, top, right, bottom
+    //    doc.content[2].margin = [ 0, 0, 0, 0 ] //left, top, right, bottom
+    // },
+                text: 'حفظ كملف PDF',
+                messageTop: 'قائمة العملاء تحت نفس الشركة',
+                exportOptions: {
+                    columns: [2,1,0 ],
+                },
+
+            },
+            {
+                extend: 'print',
+                text: 'طباعة',
+                messageTop: 'قائمة العملاء تحت نفس الشركة',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ]
+                }
+            }
+        ]
+    });
 
 $("#reciepts").DataTable( {
         dom: 'Bfrtip',

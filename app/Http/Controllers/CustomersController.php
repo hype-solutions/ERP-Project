@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Customers\Customers;
+use App\Models\Customers\LinkedCustomers;
 use App\Models\Invoices\Invoices;
 use App\Models\Invoices\InvoicesPayments;
 use App\Models\Invoices\InvoicesPriceQuotation;
@@ -76,6 +77,16 @@ class CustomersController extends Controller
         return back()->with('success', 'Customer Added');
     }
 
+    public function addLinked(Customers $customer, Request $request){
+
+        $linked = new LinkedCustomers;
+        $linked->parent_customer_id = $customer->id;
+        $linked->customer_name = $request->linked_name;
+        $linked->customer_mobile = $request->linked_mobile;
+        $linked->save();
+        return back()->with('success', 'Customer Added');
+    }
+
     public function view(Customers $customer)
     {
         //$customer = Customers::find($customer);
@@ -94,7 +105,10 @@ $mostOrdered = InvoicesProducts::with('product')
 ->orderBy('count', 'desc')
 ->get();
 
-        return view('customers.profile',compact('safes','customerPriceQuotationCount','customerInvoicesCount','customerInvoicesSum','customer','customerInvoices','customerPriceQuotation','customerInvoicesPayments','mostOrdered'));
+$linkedCustomers = LinkedCustomers::where('parent_customer_id',$customer->id)->get();
+
+
+        return view('customers.profile',compact('safes','linkedCustomers','customerPriceQuotationCount','customerInvoicesCount','customerInvoicesSum','customer','customerInvoices','customerPriceQuotation','customerInvoicesPayments','mostOrdered'));
     }
     public function edit(Customers $customer){
         //$customer = Customers::find($customer);
