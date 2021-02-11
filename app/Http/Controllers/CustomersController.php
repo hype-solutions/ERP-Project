@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Customers\Customers;
 use App\Models\Customers\LinkedCustomers;
+use App\Models\ERPLog;
 use App\Models\Invoices\Invoices;
 use App\Models\Invoices\InvoicesPayments;
 use App\Models\Invoices\InvoicesPriceQuotation;
 use App\Models\Invoices\InvoicesProducts;
 use App\Models\Safes\Safes;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CustomersController extends Controller
@@ -73,7 +76,9 @@ class CustomersController extends Controller
 
     public function store()
     {
-        Customers::create($this->validatePostRequest());
+        $customer = Customers::create($this->validatePostRequest());
+        ERPLog::create(['type'=>'Customers','action' => 'Add','custom_id'=>$customer->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+
         return back()->with('success', 'Customer Added');
     }
 
@@ -84,6 +89,8 @@ class CustomersController extends Controller
         $linked->customer_name = $request->linked_name;
         $linked->customer_mobile = $request->linked_mobile;
         $linked->save();
+        ERPLog::create(['type'=>'Linked Customers','action' => 'Add','custom_id'=>$customer->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+
         return back()->with('success', 'Customer Added');
     }
 
@@ -106,6 +113,7 @@ $mostOrdered = InvoicesProducts::with('product')
 ->get();
 
 $linkedCustomers = LinkedCustomers::where('parent_customer_id',$customer->id)->get();
+ERPLog::create(['type'=>'Customers','action' => 'View','custom_id'=>$customer->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
 
 
         return view('customers.profile',compact('safes','linkedCustomers','customerPriceQuotationCount','customerInvoicesCount','customerInvoicesSum','customer','customerInvoices','customerPriceQuotation','customerInvoicesPayments','mostOrdered'));
@@ -118,12 +126,16 @@ $linkedCustomers = LinkedCustomers::where('parent_customer_id',$customer->id)->g
     public function update(Customers $customer)
     {
         $customer->update($this->validateUpdateRequest());
+        ERPLog::create(['type'=>'Customers','action' => 'Edit','custom_id'=>$customer->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+
         return back()->with('success', 'Customer updated');
     }
 
     public function delete(Customers $customer)
     {
         Customers::destroy($customer->id);
+        ERPLog::create(['type'=>'Customers','action' => 'Delete','custom_id'=>$customer->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+
         return redirect('/customers')->with('success', 'Customer deleted');
     }
 

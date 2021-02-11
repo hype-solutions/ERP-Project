@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Branches\Branches;
 use App\Models\Branches\BranchesProducts;
 use App\Models\Customers\Customers;
+use App\Models\ERPLog;
 use App\Models\Invoices\Invoices;
 use App\Models\Invoices\InvoicesPayments;
 use App\Models\Invoices\InvoicesProducts;
@@ -46,6 +47,8 @@ class InvoicesController extends Controller
         $safes = Safes::all();
         $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
         $laterDates = InvoicesPayments::where('invoice_id', $invoice->id)->get();
+        ERPLog::create(['type'=>'Invoices','action' => 'View','custom_id'=>$invoice->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+
         return view('invoices.profile', compact('laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
     }
 
@@ -59,6 +62,7 @@ class InvoicesController extends Controller
         $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
         $laterDates = InvoicesPayments::where('invoice_id', $invoice->id)->get();
         $p = '2';
+        ERPLog::create(['type'=>'Invoices','action' => 'Print','custom_id'=>$invoice->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
         return view('invoices.print', compact('p','laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
     }
 
@@ -73,6 +77,7 @@ class InvoicesController extends Controller
         $laterDates = InvoicesPayments::where('invoice_id', $invoice->id)->get();
         $p = 3;
         $template = $request->template;
+        ERPLog::create(['type'=>'Invoices','action' => 'Print','custom_id'=>$invoice->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
         return view('invoices.print', compact('template','p','laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
     }
 
@@ -88,6 +93,8 @@ class InvoicesController extends Controller
         $safes2 = Safes::all();
         $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
         $laterDates = InvoicesPayments::where('invoice_id', $invoice->id)->get();
+        ERPLog::create(['type'=>'Invoices','action' => 'Edit','custom_id'=>$invoice->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+
         return view('invoices.edit', compact('safes2', 'laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
     }
 
@@ -222,6 +229,9 @@ class InvoicesController extends Controller
         $edtInvoice = Invoices::find($invoiceId);
                 $edtInvoice->invoice_cost = $sumCost;
                 $edtInvoice->save();
+
+                ERPLog::create(['type'=>'Invoices','action' => 'Add','custom_id'=>$invoiceId,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+
         return redirect('/invoices')->with('success', 'invoice added');
     }
 
@@ -370,6 +380,8 @@ class InvoicesController extends Controller
         $edtInvoice = Invoices::find($invoiceId);
                 $edtInvoice->invoice_cost = $sumCost;
                 $edtInvoice->save();
+        ERPLog::create(['type'=>'Invoices','action' => 'Edit','custom_id'=>$invoiceId,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+
         return back();
     }
 
@@ -388,6 +400,8 @@ class InvoicesController extends Controller
         $payment->save();
 
         InvoicesPayments::where('id', $request->installment_invoice)->update(['paid' => 'Yes']);
+        ERPLog::create(['type'=>'Installment','action' => 'Add','custom_id'=>$payment->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+
         return back()->with('success', 'deposited');
     }
 

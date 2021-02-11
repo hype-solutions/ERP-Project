@@ -60,6 +60,8 @@ class SafesController extends Controller
         $payment->authorized_by = $user_id;
         $payment->transaction_notes = $request->notes;
         $payment->save();
+        Safes::where('id',$request->safe_id)->increment('safe_balance', $request->amount);
+
         return back()->with('success', 'deposited');
     }
     public function withdraw(Safes $safe){
@@ -79,6 +81,7 @@ class SafesController extends Controller
         $payment->authorized_by = $user_id;
         $payment->transaction_notes = $request->notes;
         $payment->save();
+        Safes::where('id',$request->safe_id)->decrement('safe_balance', $request->amount);
         return back()->with('success', 'withdrawed');
     }
 
