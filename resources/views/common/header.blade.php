@@ -134,7 +134,7 @@
                             </li>
                             <li class="scrollable-container media-list w-100">
                                 @foreach($lateInvoiceDates as $noificationsThree)
-                                <a href="javascript:void(0)">
+                                <a href="{{route('invoices.view',$notificationThree->invoice_id)}}">
                                     <div class="media">
                                         <div class="media-left align-self-center"><i
                                                 class="ft-alert-circle icon-bg-circle bg-red bg-darken-1 mr-0"></i>
@@ -149,7 +149,7 @@
                                 </a>
                                 @endforeach
                                 @foreach($latePurchasesDates as $noificationsFour)
-                                <a href="javascript:void(0)">
+                                <a href="{{route('purchasesorders.view',$noificationsFour->purchase_id)}}">
                                     <div class="media">
                                         <div class="media-left align-self-center"><i
                                                 class="ft-alert-circle icon-bg-circle bg-red bg-darken-1 mr-0"></i>
@@ -164,7 +164,7 @@
                                 </a>
                                 @endforeach
                                 @foreach($nextInvoiceDates as $noificationsOne)
-                                <a href="javascript:void(0)">
+                                <a href="{{route('invoices.view',$noificationsOne->invoice_id)}}">
                                     <div class="media">
                                         <div class="media-left align-self-center"><i
                                                 class="ft-alert-triangle icon-bg-circle bg-yellow bg-darken-3 mr-0"></i>
@@ -181,7 +181,7 @@
                                 </a>
                                 @endforeach
                                 @foreach($nextPurchasesDates as $noificationsTwo)
-                                <a href="javascript:void(0)">
+                                <a href="{{route('purchasesorders.view',$noificationsTwo->purchase_id)}}">
                                     <div class="media">
                                         <div class="media-left align-self-center"><i
                                                 class="ft-alert-triangle icon-bg-circle bg-yellow bg-darken-3 mr-0"></i>
