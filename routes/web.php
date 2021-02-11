@@ -378,6 +378,7 @@ Route::get('/reports/expenses/{from}/{to}/{branch}', [ReportsController::class, 
 Route::get('/reports/invoicespayments/{from}/{to}/{branch}', [ReportsController::class, 'invoicespayments'])->name('reports.invoicespayments');
 Route::get('/reports/purchasesorderspayments/{from}/{to}/{branch}', [ReportsController::class, 'purchasesorderspayments'])->name('reports.purchasesorderspayments');
 Route::get('/reports/transactions/{from}/{to}/{branch}', [ReportsController::class, 'transactions'])->name('reports.transactions');
+Route::get('/reports/log/{from}/{to}/{branch}', [ReportsController::class, 'log'])->name('reports.log');
 Route::post('/reports/sales/search', [ReportsController::class, 'searchsales'])->name('reports.sales.search');
 Route::post('/reports/projects/search', [ReportsController::class, 'searchprojects'])->name('reports.projects.search');
 Route::post('/reports/income/search', [ReportsController::class, 'searchincome'])->name('reports.income.search');
@@ -385,6 +386,7 @@ Route::post('/reports/expenses/search', [ReportsController::class, 'searchexpens
 Route::post('/reports/invoicespayments/search', [ReportsController::class, 'searchinvoicespayments'])->name('reports.invoicespayments.search');
 Route::post('/reports/purchasesorderspayments/search', [ReportsController::class, 'searchexpensespurchasesorderspayments'])->name('reports.purchasesorderspayments.search');
 Route::post('/reports/transactions/search', [ReportsController::class, 'searchtransactions'])->name('reports.transactions.search');
+Route::post('/reports/log/search', [ReportsController::class, 'searchlog'])->name('reports.log.search');
 });
 
 

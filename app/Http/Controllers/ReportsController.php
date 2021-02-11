@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Branches\Branches;
 use App\Models\Customers\Customers;
+use App\Models\ERPLog;
 use App\Models\In\In;
 use App\Models\Invoices\Invoices;
 use App\Models\Invoices\InvoicesPayments;
@@ -245,6 +246,10 @@ class ReportsController extends Controller
     public function searchtransactions(Request $request){
         return redirect()->route('reports.transactions',[$request->from,$request->to,$request->branch]);
     }
+    public function searchlog(Request $request){
+        return redirect()->route('reports.log',[$request->from,$request->to,$request->branch]);
+    }
+
 
 
     public function projects($from,$to,$branch,Request $request){
@@ -675,6 +680,42 @@ class ReportsController extends Controller
         ->get();
 
         return view('reports.transactions',compact('safeTransactionsOutSum','safeTransactionsInSum','safeTransactions','safeTransactionsSum','branch','branches','fromX','toX'));
+
+
+    }
+
+
+    public function log($from,$to,$branch,Request $request)
+    {
+        if(isset($from)){
+            $from = $from;
+            $to = $to;
+            $branch = $branch;
+         }else if($request->$from){
+            $from = $request->from;
+            $to = $request->to;
+            $branch = $request->branch;
+         }
+         else{
+            $from = date('Y-m-d',strtotime("-1 days"));
+            $to = date('Y-m-d');
+            $branch = '1';
+         }
+
+         $fromX = $from;
+         $toX = $to;
+         //Insure covering whole days
+         $from    = Carbon::parse($from)
+                 ->startOfDay()        // date 00:00:00.000000
+                 ->toDateTimeString(); // date 00:00:00
+
+        $to      = Carbon::parse($to)
+        ->endOfDay()          // date 23:59:59.000000
+        ->toDateTimeString(); // date 23:59:59
+        $logs = ERPLog::all();
+        $branches = Branches::all();
+
+        return view('reports.log',compact('branches','branch','logs','fromX','toX'));
 
 
     }

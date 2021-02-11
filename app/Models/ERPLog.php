@@ -16,4 +16,9 @@ class ERPLog extends Model
         'user_id',
         'action_date',
     ];
+
+    public function user()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'user_id');
+    }
 }

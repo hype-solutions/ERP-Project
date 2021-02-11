@@ -432,6 +432,25 @@
                 </div>
               </div>
             </div>
+            <div class="col-12">
+                <div class="card bg-gradient-x-info">
+                  <div class="card-content">
+                    <div class="row">
+
+                        <div class="col-lg-12 col-md-6 col-sm-12 card-gradient-md-border border-right-danger border-right-lighten-3">
+                          <div class="card-body text-center">
+                            {{-- <h1 class="display-4 text-white">{{$laterSumPO}} <small>ج.م</small></h1> --}}
+                            <span class="text-white">حركات المستخدمين</span>
+                            <br><br>
+                            <a href="{{route('reports.log',[$fromX,$toX,$branch])}}" class="btn btn-dark btn-block">التفاصيل</a>
+                          </div>
+                        </div>
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
           </div>
 
     </section>
