@@ -17,16 +17,24 @@
 
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/assets/css/style-rtl.css') }}">
 @if($p == 3)
-<style>
-    #invoice-template {
-    /* background-image:url(/uploads/letterHead1.jpg) !important; */
-    /* background-image:url({{url('uploads/letterHead1.jpg')}}) !important; */
-    background-image:url('{{ url('uploads/letterHead1.jpg')}}')!important;
+        @if($template == 1)
+        <style>
+            #invoice-template {
+            background-image:url('{{ url('uploads/letterHead1.jpg')}}')!important;
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+        }
+        </style>
+        @else
+        <style>
+            #invoice-template {
+            background-image:url('{{ url('uploads/letterHead2.jpg')}}')!important;
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+        }
+        </style>
+        @endif
 
-    background-repeat:no-repeat;
-    background-size: 100% 100%;
-}
-</style>
 @endif
     </head>
 <body>

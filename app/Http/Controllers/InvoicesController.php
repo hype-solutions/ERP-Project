@@ -22,6 +22,7 @@ class InvoicesController extends Controller
         $this->middleware('installed');
         $this->middleware('auth');
     }
+
     public function add()
     {
         $user = Auth::user();
