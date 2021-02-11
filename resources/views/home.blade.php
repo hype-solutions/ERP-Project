@@ -375,7 +375,7 @@
                                                                 <th>قام بالتحويل</th>
                                                                 <td><div class="badge border-primary primary badge-border">
                                                                     <i class="la la-user font-medium-2"></i>
-                                                                        <span>{{$transfer->user->username}}</span>
+                                                                        <span>{{$transfer->transferUser->username}}</span>
                                                                     </div></td>
                                                             </tr>
                                                         </tbody>
@@ -422,7 +422,7 @@
                                                                 <th>قام بالتحويل</th>
                                                                 <td><div class="badge border-primary primary badge-border">
                                                                     <i class="la la-user font-medium-2"></i>
-                                                                        <span>{{$transfer->user->username}}</span>
+                                                                        <span>{{$transfer->transferUser->username}}</span>
                                                                     </div></td>
                                                             </tr>
                                                         </tbody>

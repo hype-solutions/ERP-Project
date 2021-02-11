@@ -39,4 +39,14 @@ class SafesTransfers extends Model
     {
         return $this->hasOne('App\Models\User', 'id', 'transfered_by');
     }
+
+    public function transferUser()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'transfered_by');
+    }
+
+    public function authUser()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'authorized_by');
+    }
 }
