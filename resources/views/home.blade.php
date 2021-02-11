@@ -360,6 +360,10 @@
                                                     <table class="table">
                                                         <tbody>
                                                             <tr>
+                                                                <th>المنتج</th>
+                                                                <td>{{$transfer->product->product_name}}</td>
+                                                            </tr>
+                                                            <tr>
                                                                 <th>من</th>
                                                                 <td>{{$transfer->branchFrom->branch_name}}</td>
                                                             </tr>

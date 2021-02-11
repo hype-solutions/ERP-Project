@@ -44,11 +44,12 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">التصديق على أمر شراء رقم <button class="btn-dark" type="button">{{$purchaseOrder}}</button> و الدفع</h4>
+                            <h4 class="card-title">التصديق على أمر شراء رقم <button class="btn-dark" type="button">{{$purchase->id}}</button> و الدفع</h4>
 
                         </div>
                         <div class="card-content collapse show">
                             <div class="card-body">
+                                <h5>إجمالي تكلفة أمر الشراء: <span style="color: green">{{$purchase->purchase_total}} </span>ج.م</h5>
                                 <p>مراجعة على  <code class="highlighter-rouge">الأصناف</code> الموجودة في أمر الشراء و  <code class="highlighter-rouge">الكميات</code>
                                     </p>
                             </div>
@@ -89,7 +90,7 @@
 
                             </div>
                             <br>
-                            <form action="{{route('purchasesorders.accepting',$purchaseOrder)}}" method="POST">
+                            <form action="{{route('purchasesorders.accepting',$purchase->id)}}" method="POST">
                                 @csrf
                             <div class="col-md-12">
                                 <div class="card">

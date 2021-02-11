@@ -116,7 +116,8 @@ class PurchasesOrdersController extends Controller
         if ($status == 1) {
             $currentProducts = PurchasesOrdersProducts::where('purchase_id', $purchaseOrder)->get();
             $safes = Safes::all();
-            return view('purchases_orders.check', compact('purchaseOrder', 'currentProducts', 'safes'));
+            $purchase = PurchasesOrders::find($purchaseOrder);
+            return view('purchases_orders.check', compact('purchase', 'currentProducts', 'safes'));
         } else if ($status == 2) {
             $purchase = PurchasesOrders::find($purchaseOrder);
             $purchase->purchase_status = 'Declined';

@@ -227,7 +227,7 @@ Route::group(['middleware' => ['permission:Edit PO']], function () {
     Route::patch('/purchase_orders/update/{order}', [PurchasesOrdersController::class, 'update'])->name('purchasesorders.update');
 });
 Route::group(['middleware' => ['permission:Accept PO']], function () {
-    Route::get('/purchase_orders/status/{order}/{status}', [PurchasesOrdersController::class, 'status'])->name('purchasesorders.status');
+    Route::get('/purchase_orders/status/{purchaseOrder}/{status}', [PurchasesOrdersController::class, 'status'])->name('purchasesorders.status');
     Route::post('/purchase_orders/converting/{purchaseOrder}', [PurchasesOrdersController::class, 'accepting'])->name('purchasesorders.accepting');
 });
 Route::group(['middleware' => ['permission:Import PO']], function () {

@@ -541,11 +541,9 @@
 
 
       @can('Change Product Price in Invoice')
-      {{$readonly = 'false'}}
-      can
+        <span style="display: none">{{$readonly = 'false'}}</span>
       @else
-      {{$readonly = 'true'}}
-      cant
+      <span style="display: none">{{$readonly = 'true'}}</span>
       @endcan
 
 
