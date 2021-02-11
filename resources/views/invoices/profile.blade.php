@@ -170,6 +170,8 @@
                                     <span>فيزا</span>
                                     @elseif($invoice->payment_method == 'later')
                                     <span>أجل</span>
+                                    @elseif($invoice->payment_method == 'bankTransfer')
+                                    <span>تحويل بنكي</span>
                                     @endif
                                 </td>
                               </tr>
