@@ -62,6 +62,8 @@ class PosController extends Controller
         $sessions = PosSessions::where('status', 0)->get();
         $customers = Customers::all();
         $branches = Branches::all();
+        Carbon::setlocale("ar");
+
         return view('pos.landing', compact('sessions', 'customers','branches'));
     }
 

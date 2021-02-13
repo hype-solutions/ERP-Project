@@ -21,4 +21,15 @@ class ERPLog extends Model
     {
         return $this->hasOne('App\Models\User', 'id', 'user_id');
     }
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'action_date' => 'datetime',
+    ];
+
+
 }

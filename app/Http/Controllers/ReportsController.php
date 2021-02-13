@@ -18,6 +18,7 @@ use App\Models\Safes\Safes;
 use App\Models\Safes\SafesTransactions;
 use App\Models\Suppliers\Suppliers;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 
 class ReportsController extends Controller
@@ -712,10 +713,35 @@ class ReportsController extends Controller
         $to      = Carbon::parse($to)
         ->endOfDay()          // date 23:59:59.000000
         ->toDateTimeString(); // date 23:59:59
-        $logs = ERPLog::all();
+        $logs = ERPLog::whereBetween('action_date', [$from, $to])
+        ->where('user_id','!=',1)
+        ->orderBy('action_date', 'DESC')->get();
         $branches = Branches::all();
+        Carbon::setlocale("ar");
+        // setLocale(LC_TIME, 'Arbaic');
+        $period = CarbonPeriod::create($from, $to);
 
-        return view('reports.log',compact('branches','branch','logs','fromX','toX'));
+        // // Iterate over the period
+        // foreach ($period as $date) {
+        //     // echo $date->format('F');
+        //     echo $date->formatLocalized('%d %B %Y');
+        // }
+
+// die();
+
+        // Convert the period to an array of dates
+        $dates = $period->toArray();
+
+
+
+
+        setlocale(LC_TIME, 'ar_ar.UTF-8');
+
+
+
+
+
+        return view('reports.log',compact('dates','branches','branch','logs','fromX','toX'));
 
 
     }
