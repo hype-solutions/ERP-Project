@@ -705,6 +705,9 @@ class ReportsController extends Controller
 
          $fromX = $from;
          $toX = $to;
+
+         setlocale(LC_TIME, 'ar_ar.UTF-8');
+         Carbon::setlocale("ar");
          //Insure covering whole days
          $from    = Carbon::parse($from)
                  ->startOfDay()        // date 00:00:00.000000
@@ -717,7 +720,7 @@ class ReportsController extends Controller
         ->where('user_id','!=',1)
         ->orderBy('action_date', 'DESC')->get();
         $branches = Branches::all();
-        Carbon::setlocale("ar");
+
         // setLocale(LC_TIME, 'Arbaic');
         $period = CarbonPeriod::create($from, $to);
 
@@ -735,7 +738,7 @@ class ReportsController extends Controller
 
 
 
-        setlocale(LC_TIME, 'ar_ar.UTF-8');
+
 
 
 
