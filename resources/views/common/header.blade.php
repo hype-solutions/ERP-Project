@@ -133,7 +133,7 @@
                                 <span class="notification-tag badge badge-danger float-right m-0">{{$notificationCount}}</span>
                             </li>
                             <li class="scrollable-container media-list w-100">
-                                @if($lateInvoiceDates)
+                                @if($lateInvoiceDates->count() > 0)
                                 @foreach($lateInvoiceDates as $noificationsThree)
                                 <a href="{{route('invoices.view',$notificationThree->invoice_id)}}">
                                     <div class="media">
@@ -150,7 +150,7 @@
                                 </a>
                                 @endforeach
                                 @endif
-                                @if($latePurchasesDates)
+                                @if($latePurchasesDates->count() > 0)
                                 @foreach($latePurchasesDates as $noificationsFour)
                                 <a href="{{route('purchasesorders.view',$noificationsFour->purchase_id)}}">
                                     <div class="media">
@@ -167,7 +167,7 @@
                                 </a>
                                 @endforeach
                                 @endif
-                                @if($nextInvoiceDates)
+                                @if($nextInvoiceDates->count() > 0)
                                 @foreach($nextInvoiceDates as $noificationsOne)
                                 <a href="{{route('invoices.view',$noificationsOne->invoice_id)}}">
                                     <div class="media">
@@ -186,7 +186,7 @@
                                 </a>
                                 @endforeach
                                 @endif
-                                @if($nextPurchasesDates)
+                                @if($nextPurchasesDates->count() > 0)
                                 @foreach($nextPurchasesDates as $noificationsTwo)
                                 <a href="{{route('purchasesorders.view',$noificationsTwo->purchase_id)}}">
                                     <div class="media">
