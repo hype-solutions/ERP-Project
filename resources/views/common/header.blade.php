@@ -135,14 +135,14 @@
                             <li class="scrollable-container media-list w-100">
                                 @if($lateInvoiceDates->count() > 0)
                                 @foreach($lateInvoiceDates as $noificationsThree)
-                                <a href="{{route('invoices.view',$notificationThree->invoice_id)}}">
+                                <a href="{{route('invoices.view',$noificationsThree->invoice_id)}}">
                                     <div class="media">
                                         <div class="media-left align-self-center"><i
                                                 class="ft-alert-circle icon-bg-circle bg-red bg-darken-1 mr-0"></i>
                                         </div>
                                         <div class="media-body">
                                             <h6 class="media-heading red darken-1">دفعة متأخرة على فاتورة مبيعات رقم {{$noificationsThree->invoice_id}}</h6>
-                                            <p class="notification-text font-small-3 text-muted">بقيمة {{$noificationsOne->amount}} ج.م</p><small>
+                                            <p class="notification-text font-small-3 text-muted">بقيمة {{$noificationsThree->amount}} ج.م</p><small>
                                                 <time class="media-meta text-muted"
                                                     datetime="{{$noificationsThree->date}}">{{$noificationsThree->date}}</time></small>
                                         </div>
