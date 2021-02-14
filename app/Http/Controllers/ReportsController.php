@@ -706,7 +706,7 @@ class ReportsController extends Controller
          $fromX = $from;
          $toX = $to;
 
-         setlocale(LC_TIME, 'ar_ar.UTF-8');
+         setlocale(LC_TIME, 'ar_EG.UTF-8');
          Carbon::setlocale("ar");
          //Insure covering whole days
          $from    = Carbon::parse($from)
