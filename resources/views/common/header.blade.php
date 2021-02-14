@@ -133,6 +133,7 @@
                                 <span class="notification-tag badge badge-danger float-right m-0">{{$notificationCount}}</span>
                             </li>
                             <li class="scrollable-container media-list w-100">
+                                @if($lateInvoiceDates)
                                 @foreach($lateInvoiceDates as $noificationsThree)
                                 <a href="{{route('invoices.view',$notificationThree->invoice_id)}}">
                                     <div class="media">
@@ -148,6 +149,8 @@
                                     </div>
                                 </a>
                                 @endforeach
+                                @endif
+                                @if($latePurchasesDates)
                                 @foreach($latePurchasesDates as $noificationsFour)
                                 <a href="{{route('purchasesorders.view',$noificationsFour->purchase_id)}}">
                                     <div class="media">
@@ -163,6 +166,8 @@
                                     </div>
                                 </a>
                                 @endforeach
+                                @endif
+                                @if($nextInvoiceDates)
                                 @foreach($nextInvoiceDates as $noificationsOne)
                                 <a href="{{route('invoices.view',$noificationsOne->invoice_id)}}">
                                     <div class="media">
@@ -180,6 +185,8 @@
                                     </div>
                                 </a>
                                 @endforeach
+                                @endif
+                                @if($nextPurchasesDates)
                                 @foreach($nextPurchasesDates as $noificationsTwo)
                                 <a href="{{route('purchasesorders.view',$noificationsTwo->purchase_id)}}">
                                     <div class="media">
@@ -197,6 +204,7 @@
                                     </div>
                                 </a>
                                 @endforeach
+                                @endif
                             </li>
                             {{-- <li class="dropdown-menu-footer"><a class="dropdown-item text-muted text-center"
                                     href="javascript:void(0)">Read all notifications</a></li> --}}
