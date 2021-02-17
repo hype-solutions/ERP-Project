@@ -50,9 +50,8 @@ class BranchesController extends Controller
     public function update(Branches $branch, UpdateBranch $request)
     {
         $data = $request->validated();
-        $branch->fill($data);
+        $branch->update($data);
         ERPLog::create(['type'=>'Branches','action' => 'Edit','custom_id'=>$branch->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
-
         return back()->with('success', 'Branch Updated');
     }
 
