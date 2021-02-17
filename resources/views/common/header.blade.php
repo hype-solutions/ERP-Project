@@ -42,6 +42,11 @@
                                             target="_blank"><i class="la la-envelope font-large-1 mr-0"></i>
                                             <p class="font-medium-2 mt-25 mb-0">Gmail</p>
                                         </a></li>
+                                        <li class="col-6 col-xl-4"><a class="text-center mb-2 mb-xl-3"
+                                            href="https://outlook.com/"
+                                            target="_blank"><i class="la la-envelope font-large-1 mr-0"></i>
+                                            <p class="font-medium-2 mt-25 mb-0">Outlook</p>
+                                        </a></li>
                                          {{--
                                     <li class="col-6 col-xl-4"><a class="text-center mb-2 mb-xl-3"
                                             href="https://pixinvent.com/modern-admin-clean-bootstrap-4-dashboard-html-template/html/rtl/travel-menu-template"
