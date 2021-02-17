@@ -58,26 +58,26 @@
 
               <!-- Invoice Customer Details -->
               <div id="invoice-customer-details" class="row pt-2" style="    margin-top: 90px;">
-                <div class="col-12 text-center text-sm-left">
-                  <p class="text-muted">بيانات العميل</p>
-                </div>
-                <div class="col-sm-6 col-12 text-center text-sm-left">
+
+                <div class="col-sm-6 col-12 text-center text-sm-left"  @if($template == 3) style="margin-top:100px;" @endif>
+                    <p class="text-muted">بيانات العميل</p>
                   <ul class="px-0 list-unstyled">
                     <li class="text-bold-800">{{$invoice->customer->customer_name}}</li>
                     <li>موبايل: {{ $invoice->customer->customer_mobile }}</li>
-                    <li>@if(isset($invoice->customer->customer_phone))
+                    <li>
+                        @if(isset($invoice->customer->customer_phone))
                         هاتف: {{ $invoice->customer->customer_phone }}
-                        @else
-                        <small style="font-style: italic;color:red;">لا يوجد هاتف مسجل</small>
-                        @endif</li>
-                    <li>@if(isset($invoice->customer->customer_address))
+                        @endif
+                    </li>
+                    <li>
+                        @if(isset($invoice->customer->customer_address))
                         العنوان: {{ $invoice->customer->customer_address }}
-                        @else
-                        <small style="font-style: italic;color:red;">لا يوجد عنوان مسجل </small>
-                         @endif</li>
+                        @endif
+                    </li>
 
                   </ul>
                 </div>
+                @if($template != 3)
                 <div class="col-sm-6 col-12 text-center text-sm-right">
                     <h2>فاتورة مبيعات</h2>
                   <p class="pb-sm-3">رقم {{$invoice->id}}</p>
@@ -95,6 +95,27 @@
                 </p>
 
                 </div>
+                @else
+                <div class="col-sm-2 col-12 text-center text-sm-right">
+                    <h2>فاتورة مبيعات</h2>
+                  <p class="pb-sm-3">رقم {{$invoice->id}}</p>
+                  <ul class="px-0 list-unstyled">
+                    <li>إجمالي الفاتورة</li>
+                    <li class="lead text-bold-800">{{$invoice->invoice_total}} ج.م</li>
+                  </ul>
+                  <p><span class="text-muted">تاريخ الفاتورة: </span> {{$invoice->invoice_date}}</p>
+                  <p><span class="text-muted">الدفع:</span>
+                    @if($invoice->already_paid)
+                    تم الدفع
+                    @else
+                     لم يتم الدفع
+                    @endif
+                </p>
+
+                </div>
+                <div class="col-sm-4 col-12 text-center text-sm-right">
+                </div>
+                @endif
               </div>
               <!-- Invoice Customer Details -->
 
