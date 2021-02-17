@@ -35,7 +35,7 @@ class InsController extends Controller
     {
         $cats = InCategories::all();
         $safes = Safes::all();
-        return view('ins.add', compact('cats','safes'));
+        return view('ins.add', compact('cats', 'safes'));
     }
 
 
@@ -67,16 +67,16 @@ class InsController extends Controller
         $payment->save();
         $paymentId = $payment->id;
 
-        In::where('id',$inId)->update(['safe_transaction_id' => $paymentId]);
+        In::where('id', $inId)->update(['safe_transaction_id' => $paymentId]);
         Safes::where('id', $request->safe_id)->increment('safe_balance', $request->amount);
         return redirect()->route('ins.list');
     }
 
     public function categoriesstore(Request $request)
     {
-         $cat = new InCategories();
-         $cat->category_name = $request->category_name;
-         $cat->save();
-         return redirect()->back();
+        $cat = new InCategories();
+        $cat->category_name = $request->category_name;
+        $cat->save();
+        return redirect()->back();
     }
 }

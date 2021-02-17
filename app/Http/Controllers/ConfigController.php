@@ -42,23 +42,23 @@ class ConfigController extends Controller
             'license' => $data['license'],
         ]);
         $licencingServer = $response->json();
-        if($licencingServer['updated'] != 1){
+        if ($licencingServer['updated'] != 1) {
             abort(500);
         }
 
         //updaing system config
         Config::find(1)->update(
-                    [
-                        "installed" => 1,
-                        "installed_at" => Carbon::now(),
-                        "owner_name" => $data['owner'],
-                        "owner_mobile" => $data['ownerMobile'],
-                        "purchase_date" => $data['purchaseDate'],
-                        "renewal_status" => $data['renewed'],
-                        "next_renewal_date" => $data['nextRenewal'],
-                        "licence_key" => $data['license'],
-                    ]
-                );
+            [
+                "installed" => 1,
+                "installed_at" => Carbon::now(),
+                "owner_name" => $data['owner'],
+                "owner_mobile" => $data['ownerMobile'],
+                "purchase_date" => $data['purchaseDate'],
+                "renewal_status" => $data['renewed'],
+                "next_renewal_date" => $data['nextRenewal'],
+                "licence_key" => $data['license'],
+            ]
+        );
 
         //create SUPERUSER
         $superUser = new User();

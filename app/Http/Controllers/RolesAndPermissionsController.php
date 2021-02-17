@@ -11,11 +11,12 @@ class RolesAndPermissionsController extends Controller
 {
     public function roles()
     {
-        $roles = Role::where('name','!=','Super Admin')->get()->pluck('name');
-        return view('settings.roles',compact('roles'));
+        $roles = Role::where('name', '!=', 'Super Admin')->get()->pluck('name');
+        return view('settings.roles', compact('roles'));
     }
 
-    public function addingRoles(Request $request){
+    public function addingRoles(Request $request)
+    {
         Role::create(['name' => $request->role_name]);
         return back();
     }
@@ -23,11 +24,12 @@ class RolesAndPermissionsController extends Controller
     public function permissions($role_name)
     {
         $role = Role::findByName($role_name);
-            $permissions = $role->permissions()->get();
-            return view('settings.permissions',compact('role','permissions'));
+        $permissions = $role->permissions()->get();
+        return view('settings.permissions', compact('role', 'permissions'));
     }
 
-    public function addingPermissions(Request $request){
+    public function addingPermissions(Request $request)
+    {
         Permission::create(['name' => $request->permission_name]);
         return back();
     }

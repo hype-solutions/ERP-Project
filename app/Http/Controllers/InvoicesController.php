@@ -47,12 +47,13 @@ class InvoicesController extends Controller
         $safes = Safes::all();
         $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
         $laterDates = InvoicesPayments::where('invoice_id', $invoice->id)->get();
-        ERPLog::create(['type'=>'Invoices','action' => 'View','custom_id'=>$invoice->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+        ERPLog::create(['type' => 'Invoices', 'action' => 'View', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
         return view('invoices.profile', compact('laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
     }
 
-    function print2(Invoices $invoice){
+    function print2(Invoices $invoice)
+    {
         $user = Auth::user();
         $user_id = $user->id;
         $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
@@ -62,11 +63,12 @@ class InvoicesController extends Controller
         $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
         $laterDates = InvoicesPayments::where('invoice_id', $invoice->id)->get();
         $p = '2';
-        ERPLog::create(['type'=>'Invoices','action' => 'Print','custom_id'=>$invoice->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
-        return view('invoices.print', compact('p','laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
+        ERPLog::create(['type' => 'Invoices', 'action' => 'Print', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
+        return view('invoices.print', compact('p', 'laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
     }
 
-    function print3(Invoices $invoice,Request $request){
+    function print3(Invoices $invoice, Request $request)
+    {
         $user = Auth::user();
         $user_id = $user->id;
         $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
@@ -77,8 +79,8 @@ class InvoicesController extends Controller
         $laterDates = InvoicesPayments::where('invoice_id', $invoice->id)->get();
         $p = 3;
         $template = $request->template;
-        ERPLog::create(['type'=>'Invoices','action' => 'Print','custom_id'=>$invoice->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
-        return view('invoices.print', compact('template','p','laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
+        ERPLog::create(['type' => 'Invoices', 'action' => 'Print', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
+        return view('invoices.print', compact('template', 'p', 'laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
     }
 
     public function edit(Invoices $invoice)
@@ -93,7 +95,7 @@ class InvoicesController extends Controller
         $safes2 = Safes::all();
         $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
         $laterDates = InvoicesPayments::where('invoice_id', $invoice->id)->get();
-        ERPLog::create(['type'=>'Invoices','action' => 'Edit','custom_id'=>$invoice->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+        ERPLog::create(['type' => 'Invoices', 'action' => 'Edit', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
         return view('invoices.edit', compact('safes2', 'laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
     }
@@ -185,7 +187,7 @@ class InvoicesController extends Controller
             $pro->product_id = $item['id'];
             $pro->product_desc = $item['desc'];
             $pro->product_price = $item['price'];
-            $pro->product_cost = $item['cost']*$item['qty'];
+            $pro->product_cost = $item['cost'] * $item['qty'];
             $pro->product_qty = $item['qty'];
             $pro->status = 'shipped';
             $pro->save();
@@ -217,7 +219,7 @@ class InvoicesController extends Controller
                     $da->safe_id = $safe_id;
                     $da->safe_payment_id = $payment_id;
                     Safes::where('id', $safe_id)->increment('safe_balance', $item['amount']);
-                    Invoices::where('id',$invoiceId)->increment('amount_collected', $item['amount']);
+                    Invoices::where('id', $invoiceId)->increment('amount_collected', $item['amount']);
                 } else {
                     $da->paid = 'No';
                 }
@@ -227,10 +229,10 @@ class InvoicesController extends Controller
         }
         $sumCost = InvoicesProducts::where('invoice_id', $invoiceId)->sum('product_cost');
         $edtInvoice = Invoices::find($invoiceId);
-                $edtInvoice->invoice_cost = $sumCost;
-                $edtInvoice->save();
+        $edtInvoice->invoice_cost = $sumCost;
+        $edtInvoice->save();
 
-                ERPLog::create(['type'=>'Invoices','action' => 'Add','custom_id'=>$invoiceId,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+        ERPLog::create(['type' => 'Invoices', 'action' => 'Add', 'custom_id' => $invoiceId, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
         return redirect('/invoices')->with('success', 'invoice added');
     }
@@ -317,7 +319,7 @@ class InvoicesController extends Controller
             $pro->product_id = $item['id'];
             $pro->product_desc = $item['desc'];
             $pro->product_price = $item['price'];
-            $pro->product_cost = $item['cost']*$item['qty'];
+            $pro->product_cost = $item['cost'] * $item['qty'];
             $pro->product_qty = $item['qty'];
             $pro->status = 'shipped';
             $pro->save();
@@ -359,7 +361,7 @@ class InvoicesController extends Controller
                         $da->safe_id = $safe_id;
                         $da->safe_payment_id = $payment_id;
                         Safes::where('id', $safe_id)->decrement('safe_balance', $item['amount']);
-                        Invoices::where('id',$invoiceId)->increment('amount_collected', $item['amount']);
+                        Invoices::where('id', $invoiceId)->increment('amount_collected', $item['amount']);
                     }
                 } else {
                     $da->paid = 'No';
@@ -378,9 +380,9 @@ class InvoicesController extends Controller
         }
         $sumCost = InvoicesProducts::where('invoice_id', $invoiceId)->sum('product_cost');
         $edtInvoice = Invoices::find($invoiceId);
-                $edtInvoice->invoice_cost = $sumCost;
-                $edtInvoice->save();
-        ERPLog::create(['type'=>'Invoices','action' => 'Edit','custom_id'=>$invoiceId,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+        $edtInvoice->invoice_cost = $sumCost;
+        $edtInvoice->save();
+        ERPLog::create(['type' => 'Invoices', 'action' => 'Edit', 'custom_id' => $invoiceId, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
         return back();
     }
@@ -400,9 +402,8 @@ class InvoicesController extends Controller
         $payment->save();
 
         InvoicesPayments::where('id', $request->installment_invoice)->update(['paid' => 'Yes']);
-        ERPLog::create(['type'=>'Installment','action' => 'Add','custom_id'=>$payment->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+        ERPLog::create(['type' => 'Installment', 'action' => 'Add', 'custom_id' => $payment->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
         return back()->with('success', 'deposited');
     }
-
 }

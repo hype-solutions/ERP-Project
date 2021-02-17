@@ -124,12 +124,11 @@ class PurchasesOrdersController extends Controller
             $purchase->save();
             PurchasesOrdersProducts::where('purchase_id', $purchaseOrder)
                 ->update(['status' => 'Declined']);
-                return redirect()->route('purchasesorders.list');
+            return redirect()->route('purchasesorders.list');
         }
-
-
     }
-    public function accepting(Request $request,PurchasesOrders $purchaseOrder){
+    public function accepting(Request $request, PurchasesOrders $purchaseOrder)
+    {
 
 
 
@@ -154,7 +153,7 @@ class PurchasesOrdersController extends Controller
             $purchaseOrder->safe_id = $safe_id;
             $purchaseOrder->safe_payment_id = $payment->id;
             Safes::where('id', $safe_id)->decrement('safe_balance', $purchaseOrder->purchase_total);
-         } else {
+        } else {
             $purchaseOrder->safe_payment_id = 0;
             $purchaseOrder->safe_id = 0;
             $purchaseOrder->already_paid = 0;
@@ -163,7 +162,7 @@ class PurchasesOrdersController extends Controller
         $purchaseOrder->save();
 
         $date = $request->later;
-           if ($request->payment_method == 'later') {
+        if ($request->payment_method == 'later') {
             $listOfDates = [];
             foreach ($date as $item) {
                 $da = new PurchasesOrdersPayments();
@@ -173,23 +172,23 @@ class PurchasesOrdersController extends Controller
                 $da->date = $item['date'];
                 $da->notes = $item['notes'];
                 // if (!empty($item['paynow'])) {
-                    // $da->paid = 'Yes';
-                    //pay here
-                    // $payment = new SafesTransactions();
-                    // $payment->safe_id = $item['safe_id'];
-                    // $payment->transaction_type = 1;
-                    // $payment->transaction_amount = $item['amount'];
-                    // $payment->transaction_datetime = Carbon::now();
-                    // $payment->done_by = $request->added_by;
-                    // $payment->authorized_by = $request->added_by;
-                    // $payment->transaction_notes = 'قسط على أمر شراء رقم' . $purchaseOrder->id;
-                    // $payment->save();
-                    // $payment_id = $payment->id;
-                    // $da->safe_id = $item['safe_id'];
-                    // $da->safe_payment_id = $payment_id;
-                    // Safes::where('id', $item['safe_id'])->decrement('safe_balance', $item['amount']);
+                // $da->paid = 'Yes';
+                //pay here
+                // $payment = new SafesTransactions();
+                // $payment->safe_id = $item['safe_id'];
+                // $payment->transaction_type = 1;
+                // $payment->transaction_amount = $item['amount'];
+                // $payment->transaction_datetime = Carbon::now();
+                // $payment->done_by = $request->added_by;
+                // $payment->authorized_by = $request->added_by;
+                // $payment->transaction_notes = 'قسط على أمر شراء رقم' . $purchaseOrder->id;
+                // $payment->save();
+                // $payment_id = $payment->id;
+                // $da->safe_id = $item['safe_id'];
+                // $da->safe_payment_id = $payment_id;
+                // Safes::where('id', $item['safe_id'])->decrement('safe_balance', $item['amount']);
                 // } else {
-                    $da->paid = 'No';
+                $da->paid = 'No';
                 // }
                 $da->save();
                 $listOfDates[] = $da;
@@ -198,56 +197,54 @@ class PurchasesOrdersController extends Controller
         return redirect()->route('purchasesorders.list');
     }
 
-    public function toinventory(PurchasesOrders $purchaseOrder){
+    public function toinventory(PurchasesOrders $purchaseOrder)
+    {
 
         $currentProducts = PurchasesOrdersProducts::where('purchase_id', $purchaseOrder->id)
-        // ->with('check')
-        ->get();
-    $branches = Branches::all();
+            // ->with('check')
+            ->get();
+        $branches = Branches::all();
         return view('purchases_orders.toinventory', compact('purchaseOrder', 'currentProducts', 'branches'));
-
     }
 
-public function importing(Request $request,PurchasesOrders $purchaseOrder)
-{
+    public function importing(Request $request, PurchasesOrders $purchaseOrder)
+    {
 
-    $purchaseOrder->purchase_status = 'Delivered';
-    $purchaseOrder->already_delivered = 1;
-    $purchaseOrder->branch_id = $request->branch_id;
-    $purchaseOrder->delivery_date = $request->delivery_date;
-    $purchaseOrder->save();
-    PurchasesOrdersProducts::where('purchase_id', $purchaseOrder->id)->update(['status' => 'Delivered']);
+        $purchaseOrder->purchase_status = 'Delivered';
+        $purchaseOrder->already_delivered = 1;
+        $purchaseOrder->branch_id = $request->branch_id;
+        $purchaseOrder->delivery_date = $request->delivery_date;
+        $purchaseOrder->save();
+        PurchasesOrdersProducts::where('purchase_id', $purchaseOrder->id)->update(['status' => 'Delivered']);
 
-    $products = PurchasesOrdersProducts::where('purchase_id',$purchaseOrder->id)->get();
-    foreach ($products as $product){
-    $listOfProductsx = [];
+        $products = PurchasesOrdersProducts::where('purchase_id', $purchaseOrder->id)->get();
+        foreach ($products as $product) {
+            $listOfProductsx = [];
 
 
-        //search for products at branches
-        $checkIfRecordExsists = BranchesProducts::where('branch_id', $request->branch_id)
-            ->where('product_id', $product->product_id)
-            ->first();
+            //search for products at branches
+            $checkIfRecordExsists = BranchesProducts::where('branch_id', $request->branch_id)
+                ->where('product_id', $product->product_id)
+                ->first();
 
-        Products::where('id', $product->product_id)->increment('product_total_in', $product->product_qty);
+            Products::where('id', $product->product_id)->increment('product_total_in', $product->product_qty);
 
-        if (isset($checkIfRecordExsists)) {
-            BranchesProducts::where('product_id', $product->product_id)
-                ->where('branch_id', $request->branch_id)
-                ->increment('amount', $product->product_qty);
-
-        } else {
-            $prox = new BranchesProducts();
-            $prox->branch_id = $request->branch_id;
-            $prox->product_id = $product->product_id;
-            $prox->amount = $product->product_qty;
-            $prox->save();
-            $listOfProductsx[] = $prox;
+            if (isset($checkIfRecordExsists)) {
+                BranchesProducts::where('product_id', $product->product_id)
+                    ->where('branch_id', $request->branch_id)
+                    ->increment('amount', $product->product_qty);
+            } else {
+                $prox = new BranchesProducts();
+                $prox->branch_id = $request->branch_id;
+                $prox->product_id = $product->product_id;
+                $prox->amount = $product->product_qty;
+                $prox->save();
+                $listOfProductsx[] = $prox;
+            }
         }
 
-}
-
-    return redirect()->route('purchasesorders.list');
-}
+        return redirect()->route('purchasesorders.list');
+    }
 
     public function edit(PurchasesOrders $order)
     {

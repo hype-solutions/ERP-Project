@@ -28,16 +28,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $priceQuotations = InvoicesPriceQuotation::where('quotation_status','Pending Approval')
-        ->orWhere('quotation_status','Approved')
-        ->get();
-        $purchasesOrders = PurchasesOrders::where('purchase_status','Created')
-        ->orWhere('purchase_status','Paid')
-        ->get();
+        $priceQuotations = InvoicesPriceQuotation::where('quotation_status', 'Pending Approval')
+            ->orWhere('quotation_status', 'Approved')
+            ->get();
+        $purchasesOrders = PurchasesOrders::where('purchase_status', 'Created')
+            ->orWhere('purchase_status', 'Paid')
+            ->get();
         $safesTransfers = SafesTransfers::where('authorized_by', 0)
-        ->get();
+            ->get();
         $productTransfers = ProductsTransfers::where('status', 'Pending')
-        ->get();
-        return view('home',compact('priceQuotations','purchasesOrders','safesTransfers','productTransfers'));
+            ->get();
+        return view('home', compact('priceQuotations', 'purchasesOrders', 'safesTransfers', 'productTransfers'));
     }
 }

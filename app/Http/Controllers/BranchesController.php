@@ -35,7 +35,7 @@ class BranchesController extends Controller
         $branch->createSafe($branch->branch_name);
         $branch->setBranchAllowedProducts();
 
-        ERPLog::create(['type'=>'Branches','action' => 'Add','custom_id'=>$branch->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+        ERPLog::create(['type' => 'Branches', 'action' => 'Add', 'custom_id' => $branch->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
         return back()->with('success', 'Branch Added');
     }
@@ -51,7 +51,7 @@ class BranchesController extends Controller
     {
         $data = $request->validated();
         $branch->update($data);
-        ERPLog::create(['type'=>'Branches','action' => 'Edit','custom_id'=>$branch->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+        ERPLog::create(['type' => 'Branches', 'action' => 'Edit', 'custom_id' => $branch->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
         return back()->with('success', 'Branch Updated');
     }
 
@@ -60,7 +60,7 @@ class BranchesController extends Controller
     {
         $branchData = $this->branch->find($branchId);
         $branchData->beginBranchDeleteProccess();
-        ERPLog::create(['type'=>'Branches','action' => 'Delete','custom_id'=>$branchId,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+        ERPLog::create(['type' => 'Branches', 'action' => 'Delete', 'custom_id' => $branchId, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
         return redirect('/branches')->with('success', 'Branch Deleted');
     }
@@ -80,7 +80,7 @@ class BranchesController extends Controller
         $branchProducts = $branchData->branchProductsinStock();
         $productsCount = $branchData->branchProductsinStockCount();
 
-        ERPLog::create(['type'=>'Branches','action' => 'View','custom_id'=>$branchId->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+        ERPLog::create(['type' => 'Branches', 'action' => 'View', 'custom_id' => $branchId->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
         return view('branches.profile', compact(
             'productsCount',

@@ -44,7 +44,7 @@ class OutsController extends Controller
         $cats = OutCategories::all();
         $entities = OutEntities::all();
         $safes = Safes::all();
-        return view('outs.add', compact('cats','safes','entities'));
+        return view('outs.add', compact('cats', 'safes', 'entities'));
     }
 
 
@@ -77,7 +77,7 @@ class OutsController extends Controller
         $payment->save();
         $paymentId = $payment->id;
 
-        Out::where('id',$inId)->update(['safe_transaction_id' => $paymentId]);
+        Out::where('id', $inId)->update(['safe_transaction_id' => $paymentId]);
         Safes::where('id', $request->safe_id)->increment('safe_balance', $request->amount);
         return redirect()->route('outs.list');
     }
@@ -85,18 +85,18 @@ class OutsController extends Controller
 
     public function categoriesstore(Request $request)
     {
-         $cat = new OutCategories();
-         $cat->category_name = $request->category_name;
-         $cat->save();
-         return redirect()->back();
+        $cat = new OutCategories();
+        $cat->category_name = $request->category_name;
+        $cat->save();
+        return redirect()->back();
     }
 
 
     public function entitiesstore(Request $request)
     {
-         $cat = new OutEntities();
-         $cat->entity_name = $request->entity_name;
-         $cat->save();
-         return redirect()->back();
+        $cat = new OutEntities();
+        $cat->entity_name = $request->entity_name;
+        $cat->save();
+        return redirect()->back();
     }
 }

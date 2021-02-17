@@ -21,33 +21,36 @@ class SafesController extends Controller
 
     protected function validatePostRequest()
     {
-        return request()->validate([
-            'safe_name' => 'unique:safes',
-            'safe_balance' => '',
-            'branch_id' => '',
+        return request()->validate(
+            [
+                'safe_name' => 'unique:safes',
+                'safe_balance' => '',
+                'branch_id' => '',
 
-        ],
-        [
-            'safe_name.unique' => 'توجد خزنة مسبقة بنفس هذا الاسم',
-        ]
-    );
+            ],
+            [
+                'safe_name.unique' => 'توجد خزنة مسبقة بنفس هذا الاسم',
+            ]
+        );
     }
     protected function validateUpdateRequest()
     {
-        return request()->validate([
-            'safe_name' => '',
-            'safe_balance' => '',
-            'branch_id' => '',
-        ]
-    );
+        return request()->validate(
+            [
+                'safe_name' => '',
+                'safe_balance' => '',
+                'branch_id' => '',
+            ]
+        );
     }
 
 
-    public function deposit(Safes $safe){
-        return view('safes.deposit',compact('safe'));
-
+    public function deposit(Safes $safe)
+    {
+        return view('safes.deposit', compact('safe'));
     }
-    public function depositing(Request $request){
+    public function depositing(Request $request)
+    {
         $user = Auth::user();
         $user_id = $user->id;
         $payment = new SafesTransactions();
@@ -60,15 +63,16 @@ class SafesController extends Controller
         $payment->authorized_by = $user_id;
         $payment->transaction_notes = $request->notes;
         $payment->save();
-        Safes::where('id',$request->safe_id)->increment('safe_balance', $request->amount);
+        Safes::where('id', $request->safe_id)->increment('safe_balance', $request->amount);
 
         return back()->with('success', 'deposited');
     }
-    public function withdraw(Safes $safe){
-        return view('safes.withdraw',compact('safe'));
-
+    public function withdraw(Safes $safe)
+    {
+        return view('safes.withdraw', compact('safe'));
     }
-    public function withdrawing(Request $request){
+    public function withdrawing(Request $request)
+    {
         $user = Auth::user();
         $user_id = $user->id;
         $payment = new SafesTransactions();
@@ -81,7 +85,7 @@ class SafesController extends Controller
         $payment->authorized_by = $user_id;
         $payment->transaction_notes = $request->notes;
         $payment->save();
-        Safes::where('id',$request->safe_id)->decrement('safe_balance', $request->amount);
+        Safes::where('id', $request->safe_id)->decrement('safe_balance', $request->amount);
         return back()->with('success', 'withdrawed');
     }
 
@@ -99,20 +103,23 @@ class SafesController extends Controller
     public function view(Safes $safe)
     {
         $safe_id = $safe->id;
-        $branch = Branches::where('id',$safe_id)->get();
-        $safeTransfers = SafesTransfers::where('transfer_amount','>',0)
-        ->where(function($q) use ($safe_id) {$q
-            ->where('safe_from', $safe_id)
-            ->orWhere('safe_to', $safe_id);})
-        ->with('safeFrom')
-        ->with('safeTo')
-        ->get();
-        $safeTransactions = SafesTransactions::where('safe_id',$safe_id)->get();
-        return view('safes.profile',compact('safe','branch','safeTransfers','safeTransactions'));
+        $branch = Branches::where('id', $safe_id)->get();
+        $safeTransfers = SafesTransfers::where('transfer_amount', '>', 0)
+            ->where(function ($q) use ($safe_id) {
+                $q
+                    ->where('safe_from', $safe_id)
+                    ->orWhere('safe_to', $safe_id);
+            })
+            ->with('safeFrom')
+            ->with('safeTo')
+            ->get();
+        $safeTransactions = SafesTransactions::where('safe_id', $safe_id)->get();
+        return view('safes.profile', compact('safe', 'branch', 'safeTransfers', 'safeTransactions'));
     }
-    public function edit(Safes $safe){
+    public function edit(Safes $safe)
+    {
         $safe = Safes::find($safe);
-        return view('safes.edit',compact('safe'));
+        return view('safes.edit', compact('safe'));
     }
 
     public function update(Safes $safe)
@@ -133,7 +140,7 @@ class SafesController extends Controller
         $mainBranch = Branches::first();
         $mainBranchId = $mainBranch->id;
 
-        $getMainSafe = Safes::where('branch_id',$mainBranchId)->first();
+        $getMainSafe = Safes::where('branch_id', $mainBranchId)->first();
         $mainSafeId = $getMainSafe->id;
         $mainSafeBalance = $getMainSafe->safe_balance;
         $totalNew = $mainSafeBalance + $safeBalance;
@@ -150,7 +157,7 @@ class SafesController extends Controller
         $transfer->amount_before_transfer_to = $mainSafeBalance;
         $transfer->amount_after_transfer_to = $totalNew;
         $transfer->transfer_datetime = Carbon::now();
-        $transfer->transfer_notes = 'عملية تحويل رصيد خزنة بسبب حذفها - اسم الخزنة قبل الحذف '.$safeName;
+        $transfer->transfer_notes = 'عملية تحويل رصيد خزنة بسبب حذفها - اسم الخزنة قبل الحذف ' . $safeName;
         $transfer->transfered_by = $user_id;
         $transfer->authorized_by = $user_id;
         $transfer->save();
@@ -162,7 +169,7 @@ class SafesController extends Controller
     public function safesList()
     {
         $safes = Safes::all();
-        return view('safes.list',compact('safes'));
+        return view('safes.list', compact('safes'));
     }
 
     // public function transactions()
@@ -177,10 +184,11 @@ class SafesController extends Controller
         $otherSafes = Safes::get();
         $user = Auth::user();
         $user_id = $user->id;
-        return view('safes.transfer', compact('safes', 'user_id','otherSafes'));
+        return view('safes.transfer', compact('safes', 'user_id', 'otherSafes'));
     }
 
-    public function transfering(Request $request){
+    public function transfering(Request $request)
+    {
         SafesTransfers::create($request->all());
         return redirect()->route('safes.list');
     }
@@ -197,8 +205,8 @@ class SafesController extends Controller
         $transfer->authorized_by = Auth::id();
         $transfer->save();
 
-            return redirect()->route('safes.list');
-        }
+        return redirect()->route('safes.list');
+    }
 
     public function fetchAmount(Request $request)
     {
@@ -216,9 +224,9 @@ class SafesController extends Controller
         return $otherSafes;
     }
 
-    public function receipt(SafesTransactions $transactionId){
+    public function receipt(SafesTransactions $transactionId)
+    {
 
         return view('safes.receipt', compact('transactionId'));
     }
-
 }

@@ -16,12 +16,12 @@ class SettingsController extends Controller
     public function settings()
     {
         $settings = Settings::all();
-        return view('settings.landing',compact('settings'));
+        return view('settings.landing', compact('settings'));
     }
-    public function update(Request $request,Settings $setting)
+    public function update(Request $request, Settings $setting)
     {
         $setting->value = $request->setting;
         $setting->save();
-        return back()->with('success','updated');
+        return back()->with('success', 'updated');
     }
 }

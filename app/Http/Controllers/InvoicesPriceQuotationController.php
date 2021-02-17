@@ -52,7 +52,7 @@ class InvoicesPriceQuotationController extends Controller
         $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
         $currentProducts = InvoicesPriceQuotationsProducts::where('quotation_id', $invoice->id)->get();
         $products = Products::all();
-        ERPLog::create(['type'=>'Price Quotations','action' => 'View','custom_id'=>$invoice->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+        ERPLog::create(['type' => 'Price Quotations', 'action' => 'View', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
         return view('invoices_price_quotations.profile', compact('currentProducts', 'invoice', 'user_id', 'customers', 'products'));
     }
@@ -124,7 +124,7 @@ class InvoicesPriceQuotationController extends Controller
             $listOfProducts[] = $pro;
         }
 
-        ERPLog::create(['type'=>'Price Quotations','action' => 'Add','custom_id'=>$quotationId,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+        ERPLog::create(['type' => 'Price Quotations', 'action' => 'Add', 'custom_id' => $quotationId, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
         return redirect('/invoices/price_quotations')->with('success', 'invoice added');
     }
@@ -142,7 +142,7 @@ class InvoicesPriceQuotationController extends Controller
         $quotation->product_temp = '';
         $quotation->product_id = $productId;
         $quotation->save();
-        ERPLog::create(['type'=>'Price Quotations','action' => 'Add','custom_id'=>$quotation->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+        ERPLog::create(['type' => 'Price Quotations', 'action' => 'Add', 'custom_id' => $quotation->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
         return redirect()->route('invoicespricequotations.toinvoice', $request->quotation_id);
     }
@@ -242,7 +242,7 @@ class InvoicesPriceQuotationController extends Controller
                 $listOfProductsx[] = $prox;
             }
 
-            $getCost = PurchasesOrdersProducts::where('product_id',$product->product_id)->avg('product_price');
+            $getCost = PurchasesOrdersProducts::where('product_id', $product->product_id)->avg('product_price');
 
             $pro = new InvoicesProducts();
             $pro->invoice_id = $invoiceId;
@@ -277,11 +277,11 @@ class InvoicesPriceQuotationController extends Controller
 
         $sumCost = InvoicesProducts::where('invoice_id', $invoiceId)->sum('product_cost');
         $edtInvoice = Invoices::find($invoiceId);
-                $edtInvoice->invoice_cost = $sumCost;
-                $edtInvoice->save();
-                // $getCosxt = PurchasesOrdersProducts::where('product_id',1)->avg('product_price');
+        $edtInvoice->invoice_cost = $sumCost;
+        $edtInvoice->save();
+        // $getCosxt = PurchasesOrdersProducts::where('product_id',1)->avg('product_price');
         // return $getCost;
-        ERPLog::create(['type'=>'Price Quotations','action' => 'Convert To Invoice','custom_id'=>$invoiceId,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+        ERPLog::create(['type' => 'Price Quotations', 'action' => 'Convert To Invoice', 'custom_id' => $invoiceId, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
         return redirect()->route('invoices.view', $invoiceId);
     }
 
@@ -292,7 +292,7 @@ class InvoicesPriceQuotationController extends Controller
             $quotation = InvoicesPriceQuotation::find($invoice);
             $quotation->quotation_status = 'Approved';
             $quotation->save();
-            ERPLog::create(['type'=>'Price Quotations','action' => 'Accept','custom_id'=>$invoice,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+            ERPLog::create(['type' => 'Price Quotations', 'action' => 'Accept', 'custom_id' => $invoice, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
             InvoicesPriceQuotationsProducts::where('quotation_id', $invoice)
                 ->update(['status' => 'Approved']);
@@ -300,7 +300,7 @@ class InvoicesPriceQuotationController extends Controller
             $quotation = InvoicesPriceQuotation::find($invoice);
             $quotation->quotation_status = 'Declined';
             $quotation->save();
-            ERPLog::create(['type'=>'Price Quotations','action' => 'Decline','custom_id'=>$invoice,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+            ERPLog::create(['type' => 'Price Quotations', 'action' => 'Decline', 'custom_id' => $invoice, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
             InvoicesPriceQuotationsProducts::where('quotation_id', $invoice)
                 ->update(['status' => 'Declined']);
@@ -358,13 +358,14 @@ class InvoicesPriceQuotationController extends Controller
             $pro->save();
             $listOfProducts[] = $pro;
         }
-        ERPLog::create(['type'=>'Price Quotations','action' => 'Edit','custom_id'=>$quotationId,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+        ERPLog::create(['type' => 'Price Quotations', 'action' => 'Edit', 'custom_id' => $quotationId, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
         return back();
     }
 
 
-    function print2(InvoicesPriceQuotation $invoice){
+    function print2(InvoicesPriceQuotation $invoice)
+    {
         $user = Auth::user();
         $user_id = $user->id;
         $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
@@ -372,12 +373,13 @@ class InvoicesPriceQuotationController extends Controller
         $products = Products::all();
         $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
         $p = '2';
-        ERPLog::create(['type'=>'Price Quotations','action' => 'Print','custom_id'=>$invoice->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+        ERPLog::create(['type' => 'Price Quotations', 'action' => 'Print', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
         return view('invoices_price_quotations.print', compact('p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
     }
 
-    function print3(InvoicesPriceQuotation $invoice,Request $request){
+    function print3(InvoicesPriceQuotation $invoice, Request $request)
+    {
         $user = Auth::user();
         $user_id = $user->id;
         $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
@@ -386,9 +388,8 @@ class InvoicesPriceQuotationController extends Controller
         $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
         $p = 3;
         $template = $request->template;
-        ERPLog::create(['type'=>'Price Quotations','action' => 'Print','custom_id'=>$invoice->id,'user_id' => Auth::id(),'action_date' => Carbon::now()]);
+        ERPLog::create(['type' => 'Price Quotations', 'action' => 'Print', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
-        return view('invoices_price_quotations.print', compact('template','p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
+        return view('invoices_price_quotations.print', compact('template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
     }
-
 }
