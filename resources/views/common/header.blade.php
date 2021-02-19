@@ -75,22 +75,30 @@
                                         </a></li>--}}
                                 </ul>
                             </li>
+                            <script type="text/javascript">
+                                function popx(url) {
+                                    popupWindow = window.open(
+                                    url,'popUpWindow','height=500,width=380,left=10,top=10,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no')
+                                }
+
+                                </script>
                             <li class="col-md-3">
-                                {{-- <h6 class="font-weight-bold font-medium-2">Components</h6>
+                                <h6 class="font-weight-bold font-medium-2">المذيد</h6>
                                 <ul class="row mt-1 mt-xl-2">
                                     <li class="col-12 col-xl-6 pl-0">
                                         <ul class="mega-component-list">
-                                            <li class="mega-component-item"><a class="mb-1 mb-xl-2"
-                                                    href="component-alerts.html" target="_blank">Alert</a></li>
-                                            <li class="mega-component-item"><a class="mb-1 mb-xl-2"
+                                            <li class="mega-component-item">
+                                                <button class="mb-1 mb-xl-2" onclick="return popx('{{route('others.calculator')}}')">الاله الحاسبة</button>
+                                            </li>
+                                            {{-- <li class="mega-component-item"><a class="mb-1 mb-xl-2"
                                                     href="component-callout.html" target="_blank">Callout</a></li>
                                             <li class="mega-component-item"><a class="mb-1 mb-xl-2"
                                                     href="component-buttons-basic.html" target="_blank">Buttons</a></li>
                                             <li class="mega-component-item"><a class="mb-1 mb-xl-2"
-                                                    href="component-carousel.html" target="_blank">Carousel</a></li>
+                                                    href="component-carousel.html" target="_blank">Carousel</a></li> --}}
                                         </ul>
                                     </li>
-                                    <li class="col-12 col-xl-6 pl-0">
+                                    {{-- <li class="col-12 col-xl-6 pl-0">
                                         <ul class="mega-component-list">
                                             <li class="mega-component-item"><a class="mb-1 mb-xl-2"
                                                     href="component-dropdowns.html" target="_blank">Drop Down</a></li>
@@ -101,8 +109,8 @@
                                             <li class="mega-component-item"><a class="mb-1 mb-xl-2"
                                                     href="component-pagination.html" target="_blank">Pagination</a></li>
                                         </ul>
-                                    </li>
-                                </ul> --}}
+                                    </li> --}}
+                                </ul>
                             </li>
                         </ul>
                     </li>

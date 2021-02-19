@@ -18,38 +18,38 @@ use Illuminate\Support\Facades\Auth;
 
 class InvoicesController extends Controller
 {
-    public function __construct()
+    public function __construct(Invoices $invoice)
     {
         $this->middleware('installed');
         $this->middleware('auth');
+        $this->invoice = $invoice;
     }
 
     public function add()
     {
-        $user = Auth::user();
-        $user_id = $user->id;
-        $customers = Customers::all();
-        $products = Products::all();
-        $safes = Safes::all();
-        $branches = Branches::all();
+        $user_id = $this->invoice->getCurrentUserId();
+        $customers = $this->invoice->getCustomersList();
+        $products = $this->invoice->getProductsList();
+        $safes = $this->invoice->getSafesList();
+        $branches = $this->invoice->getBranchesList();
         return view('invoices.add', compact('user_id', 'customers', 'products', 'safes', 'branches'));
     }
 
 
-    public function view(Invoices $invoice)
+    public function view($invoice)
     {
-
-        $user = Auth::user();
-        $user_id = $user->id;
-        $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
-        $currentProducts = InvoicesProducts::where('invoice_id', $invoice->id)->get();
-        $products = Products::all();
-        $safes = Safes::all();
+        $invoice = $this->invoice->find($invoice);
+        $user_id = $invoice->getCurrentUserId();
+        // $currentProducts = InvoicesProducts::where('invoice_id', $invoice->id)->get();
+        $currentProducts = $invoice->productInInvoice();
+        echo $currentProducts->count();
+        $products = $invoice->getProductsList();
+        $safes = $invoice->getSafesList();
         $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
         $laterDates = InvoicesPayments::where('invoice_id', $invoice->id)->get();
         ERPLog::create(['type' => 'Invoices', 'action' => 'View', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
-        return view('invoices.profile', compact('laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
+        return view('invoices.profile', compact('laterDates', 'currentProducts', 'invoice', 'user_id', 'products', 'safes', 'branches'));
     }
 
     function print2(Invoices $invoice)

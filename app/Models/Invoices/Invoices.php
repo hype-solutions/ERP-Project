@@ -2,8 +2,13 @@
 
 namespace App\Models\Invoices;
 
+use App\Models\Branches\Branches;
+use App\Models\Customers\Customers;
+use App\Models\Products\Products;
+use App\Models\Safes\Safes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Invoices extends Model
 {
@@ -57,5 +62,47 @@ class Invoices extends Model
     {
         return $this->hasMany('App\Models\Invoices\InvoicesPayments','invoice_id','id');
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public function getCurrentUserId(){
+    return Auth::id();
+}
+
+public function getCustomersList(){
+    return Customers::all();
+}
+
+public function getProductsList(){
+    return Products::all();
+}
+
+public function getBranchesList(){
+    return Branches::all();
+}
+
+public function getSafesList(){
+    return Safes::all();
+}
+
+
+
+
+
+
+
+
+
 }
 

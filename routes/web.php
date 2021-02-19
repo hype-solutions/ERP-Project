@@ -10,6 +10,7 @@ use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\BranchesController;
+use App\Http\Controllers\CalculatorController;
 use App\Http\Controllers\SafesController;
 use App\Http\Controllers\PurchasesOrdersController;
 use App\Http\Controllers\InvoicesController;
@@ -436,3 +437,7 @@ Route::group(['middleware' => ['permission:Edit Roles Permissions']], function (
     Route::get('/settings/assignUserToRole/{user}/{role}', [RolesAndPermissionsController::class, 'assignUserToRole'])->name('settings.assignUserToRole');
 });
 
+
+
+
+Route::get('/others/calculator', [CalculatorController::class, 'index'])->name('others.calculator');
