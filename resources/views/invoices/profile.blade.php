@@ -85,7 +85,7 @@
               <!-- Invoice Customer Details -->
               <div id="invoice-customer-details" class="row pt-2">
                 <div class="col-12 text-center text-sm-left">
-                  <p class="text-muted">بيانات العميل</p>
+                  <p class="text-muted">بيانات الجهه</p>
                 </div>
                 <div class="col-sm-6 col-12 text-center text-sm-left">
                   <ul class="px-0 list-unstyled">
@@ -93,13 +93,11 @@
                     <li>موبايل: {{ $invoice->customer->customer_mobile }}</li>
                     <li>@if(isset($invoice->customer->customer_phone))
                         هاتف: {{ $invoice->customer->customer_phone }}
-                        @else
-                        <small style="font-style: italic;color:red;">لا يوجد هاتف مسجل</small>
+
                         @endif</li>
                     <li>@if(isset($invoice->customer->customer_address))
                         العنوان: {{ $invoice->customer->customer_address }}
-                        @else
-                        <small style="font-style: italic;color:red;">لا يوجد عنوان مسجل </small>
+
                          @endif</li>
 
                   </ul>
@@ -134,7 +132,7 @@
                       </thead>
                       <tbody>
                         <span style="display: none">{{$subtotal = 0}}</span>
-                        @foreach ($currentProducts as $key => $product)
+                        @foreach ($invoice->productsInInvoice as $key => $product)
 
                         <tr>
                           <th scope="row">{{++$key}}</th>
@@ -201,7 +199,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($laterDates as $key2 => $item)
+                                @foreach ($invoice->datesInInvoice as $key2 => $item)
                                 <tr>
                                     <th scope="row">
                                         {{$item->amount}}
@@ -320,7 +318,7 @@
                       أو
                     <a target="_blank" href="{{route('invoices.print2',$invoice->id)}}" class="btn btn-block btn-info btn-print">طباعة على ورق ليتر هيد</a>
                     أو
-                    <form action="{{route('invoices.print3',$invoice->id)}}" method="POST">
+                    <form action="{{route('invoices.print3',$invoice->id)}}" method="POST" target="_blank">
                                       @csrf
                                       <div class="form-group">
                                           <select class="form-control" name="template">

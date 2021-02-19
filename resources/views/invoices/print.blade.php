@@ -42,7 +42,6 @@
         }
         </style>
         @endif
-
 @endif
     </head>
 <body>
@@ -60,7 +59,7 @@
               <div id="invoice-customer-details" class="row pt-2" style="    margin-top: 90px;">
 
                 <div class="col-sm-6 col-12 text-center text-sm-left"  @if($template == 3) style="margin-top:100px;" @endif>
-                    <p class="text-muted">بيانات العميل</p>
+                    <p class="text-muted">بيانات الجهه</p>
                   <ul class="px-0 list-unstyled">
                     <li class="text-bold-800">{{$invoice->customer->customer_name}}</li>
                     <li>موبايل: {{ $invoice->customer->customer_mobile }}</li>
@@ -135,7 +134,7 @@
                       </thead>
                       <tbody>
                         <span style="display: none">{{$subtotal = 0}}</span>
-                        @foreach ($currentProducts as $key => $product)
+                        @foreach ($invoice->productsInInvoice as $key => $product)
 
                         <tr>
                           <th scope="row">{{++$key}}</th>
@@ -200,7 +199,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($laterDates as $key2 => $item)
+                                @foreach ($invoice->datesInInvoice as $key2 => $item)
                                 <tr>
                                     <th scope="row">
                                         {{$item->amount}}

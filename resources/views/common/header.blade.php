@@ -88,7 +88,10 @@
                                     <li class="col-12 col-xl-6 pl-0">
                                         <ul class="mega-component-list">
                                             <li class="mega-component-item">
-                                                <button class="mb-1 mb-xl-2" onclick="return popx('{{route('others.calculator')}}')">الاله الحاسبة</button>
+                                                <a href="#" class="mb-1 mb-xl-2" onclick="return popx('{{route('others.calculator')}}')">
+                                                    <i class="la la-calculator font-large-1 mr-0"></i>
+                                                    الاله الحاسبة
+                                                </a>
                                             </li>
                                             {{-- <li class="mega-component-item"><a class="mb-1 mb-xl-2"
                                                     href="component-callout.html" target="_blank">Callout</a></li>

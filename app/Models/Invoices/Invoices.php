@@ -2,17 +2,18 @@
 
 namespace App\Models\Invoices;
 
-use App\Models\Branches\Branches;
-use App\Models\Customers\Customers;
-use App\Models\Products\Products;
-use App\Models\Safes\Safes;
+use App\Traits\Branches\BranchesTrait;
+use App\Traits\Customers\CustomersTrait;
+use App\Traits\Products\ProductsTrait;
+use App\Traits\Safes\SafesTrait;
+use App\Traits\Users\UsersTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 
 class Invoices extends Model
 {
     use HasFactory;
+    use BranchesTrait, SafesTrait, CustomersTrait, ProductsTrait, UsersTrait;
     protected $table = 'invoices';
     protected $fillable = [
         'customer_id',
@@ -37,72 +38,40 @@ class Invoices extends Model
         'authorized_by',
     ];
 
+    //Relations
+    #Each invoice has one customer
     public function customer()
     {
         return $this->hasOne('App\Models\Customers\Customers', 'id', 'customer_id');
     }
 
+    #Each invoice has one safe
     public function safe()
     {
         return $this->hasOne('App\Models\Safes\Safes', 'id', 'safe_id');
     }
 
+    #Each invoice has one branch
     public function branch()
     {
         return $this->hasOne('App\Models\Branches\Branches', 'id', 'branch_id');
     }
 
-    public function productInInvoice()
+    #Invoice products list
+    public function productsInInvoice()
     {
         return $this->hasMany('App\Models\Invoices\InvoicesProducts', 'invoice_id', 'id');
+    }
+
+    #Invoice later dates list
+    public function datesInInvoice()
+    {
+        return $this->hasMany('App\Models\Invoices\InvoicesPayments', 'invoice_id', 'id');
     }
 
     //check later
     public function payments()
     {
-        return $this->hasMany('App\Models\Invoices\InvoicesPayments','invoice_id','id');
+        return $this->hasMany('App\Models\Invoices\InvoicesPayments', 'invoice_id', 'id');
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-public function getCurrentUserId(){
-    return Auth::id();
 }
-
-public function getCustomersList(){
-    return Customers::all();
-}
-
-public function getProductsList(){
-    return Products::all();
-}
-
-public function getBranchesList(){
-    return Branches::all();
-}
-
-public function getSafesList(){
-    return Safes::all();
-}
-
-
-
-
-
-
-
-
-
-}
-

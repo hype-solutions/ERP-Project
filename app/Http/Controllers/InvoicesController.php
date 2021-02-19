@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Branches\Branches;
+use App\Http\Requests\Invoices\AddInvoice;
 use App\Models\Branches\BranchesProducts;
-use App\Models\Customers\Customers;
 use App\Models\ERPLog;
 use App\Models\Invoices\Invoices;
 use App\Models\Invoices\InvoicesPayments;
@@ -12,12 +11,16 @@ use App\Models\Invoices\InvoicesProducts;
 use App\Models\Products\Products;
 use App\Models\Safes\Safes;
 use App\Models\Safes\SafesTransactions;
+use App\Traits\ERPLogTrait;
+use App\Traits\Safes\SafesTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class InvoicesController extends Controller
 {
+    use ERPLogTrait,SafesTrait;
+    protected $invoice;
     public function __construct(Invoices $invoice)
     {
         $this->middleware('installed');
@@ -27,136 +30,131 @@ class InvoicesController extends Controller
 
     public function add()
     {
-        $user_id = $this->invoice->getCurrentUserId();
-        $customers = $this->invoice->getCustomersList();
-        $products = $this->invoice->getProductsList();
-        $safes = $this->invoice->getSafesList();
-        $branches = $this->invoice->getBranchesList();
-        return view('invoices.add', compact('user_id', 'customers', 'products', 'safes', 'branches'));
+        $invoice = $this->invoice;
+        return view('invoices.add', compact('invoice'));
     }
 
 
-    public function view($invoice)
+    public function view($invoiceId)
     {
-        $invoice = $this->invoice->find($invoice);
-        $user_id = $invoice->getCurrentUserId();
-        // $currentProducts = InvoicesProducts::where('invoice_id', $invoice->id)->get();
-        $currentProducts = $invoice->productInInvoice();
-        echo $currentProducts->count();
-        $products = $invoice->getProductsList();
-        $safes = $invoice->getSafesList();
-        $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
-        $laterDates = InvoicesPayments::where('invoice_id', $invoice->id)->get();
-        ERPLog::create(['type' => 'Invoices', 'action' => 'View', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
-
-        return view('invoices.profile', compact('laterDates', 'currentProducts', 'invoice', 'user_id', 'products', 'safes', 'branches'));
+        $invoice = $this->invoice->find($invoiceId);
+        $this->addLogRecord('Invoices', 'View', $invoiceId);
+        return view('invoices.profile', compact('invoice'));
     }
 
-    function print2(Invoices $invoice)
+
+    function print2($invoiceId)
     {
-        $user = Auth::user();
-        $user_id = $user->id;
-        $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
-        $currentProducts = InvoicesProducts::where('invoice_id', $invoice->id)->get();
-        $products = Products::all();
-        $safes = Safes::all();
-        $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
-        $laterDates = InvoicesPayments::where('invoice_id', $invoice->id)->get();
-        $p = '2';
-        ERPLog::create(['type' => 'Invoices', 'action' => 'Print', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
-        return view('invoices.print', compact('p', 'laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
+        $invoice = $this->invoice->find($invoiceId);
+        $p = 2;
+        $template = 0;
+        $this->addLogRecord('Invoices', 'Print', $invoiceId);
+        return view('invoices.print', compact('p', 'template', 'invoice'));
     }
 
-    function print3(Invoices $invoice, Request $request)
+
+    function print3($invoiceId, Request $request)
     {
-        $user = Auth::user();
-        $user_id = $user->id;
-        $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
-        $currentProducts = InvoicesProducts::where('invoice_id', $invoice->id)->get();
-        $products = Products::all();
-        $safes = Safes::all();
-        $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
-        $laterDates = InvoicesPayments::where('invoice_id', $invoice->id)->get();
+        $invoice = $this->invoice->find($invoiceId);
         $p = 3;
         $template = $request->template;
-        ERPLog::create(['type' => 'Invoices', 'action' => 'Print', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
-        return view('invoices.print', compact('template', 'p', 'laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
-    }
-
-    public function edit(Invoices $invoice)
-    {
-
-        $user = Auth::user();
-        $user_id = $user->id;
-        $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
-        $currentProducts = InvoicesProducts::where('invoice_id', $invoice->id)->get();
-        $products = Products::all();
-        $safes = Safes::all();
-        $safes2 = Safes::all();
-        $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
-        $laterDates = InvoicesPayments::where('invoice_id', $invoice->id)->get();
-        ERPLog::create(['type' => 'Invoices', 'action' => 'Edit', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
-
-        return view('invoices.edit', compact('safes2', 'laterDates', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'safes', 'branches'));
+        $this->addLogRecord('Invoices', 'Print', $invoiceId);
+        return view('invoices.print', compact('p', 'template', 'invoice'));
     }
 
 
-
-
-    public function store(Request $request)
+    public function edit($invoiceId)
     {
-        // Get Branch Safe ID
-        $safe_id = Safes::where('branch_id', $request->branch_id)->value('id');
-        $invoice = new Invoices;
+        $invoice = $this->invoice->find($invoiceId);
+        $this->addLogRecord('Invoices', 'View', $invoiceId);
+        return view('invoices.edit', compact('invoice'));
+    }
 
-        // Get Branch Safe ID
-        if ($request->new_customer_name != '') {
-            $customer = new Customers();
-            $customer->customer_name = $request->new_customer_name;
-            $customer->customer_mobile = $request->new_customer_mobile;
-            $customer->save();
-            $customerId = $customer->id;
-        } else {
-            $customerId = $request->customer_id;
+    public function invoicesList()
+    {
+        $invoices = $this->invoice->all();
+        $this->addLogRecord('Invoices', 'View', '0');
+        return view('invoices.list', compact('invoices'));
+    }
+
+
+    public function store(AddInvoice $request)
+    {
+        $data = $request->validated();
+        $safe_id = $this->getBranchLinkedSafeId($data['branch_id']);
+        if($data['new_customer_name'] != ''){
+            $customerId = $this->createCustomer($data['new_customer_name'],$data['new_customer_mobile']);
+        }else{
+            $customerId = $data['customer_id'];
         }
-
-
-        $invoice->customer_id = $customerId;
-        $invoice->invoice_paper_num = $request->invoice_paper_num;
-        $invoice->branch_id = $request->branch_id;
-        $invoice->invoice_note = $request->invoice_note;
-        $invoice->discount_percentage = $request->discount_percentage;
-        $invoice->discount_amount = $request->discount_amount;
-        $invoice->invoice_tax = $request->tax;
-        $invoice->payment_method = $request->payment_method;
-        $invoice->invoice_date = Carbon::now();
-        $invoice->invoice_total = $request->invoice_total;
-        $invoice->shipping_fees = $request->shipping_fees;
-        $invoice->sold_by = $request->sold_by;
-        $invoice->authorized_by = $request->sold_by;
-
-        if ($request->already_paid == 'on') {
-            $invoice->already_paid = 1;
-            $payment = new SafesTransactions();
-            $payment->safe_id = $safe_id;
-            $payment->transaction_type = 2;
-            $payment->transaction_amount = $request->invoice_total;
-            $payment->transaction_datetime = Carbon::now();
-            $payment->done_by = $request->sold_by;
-            $payment->authorized_by = $request->sold_by;
-            $payment->save();
-            $payment_id = $payment->id;
-            $invoice->safe_id = $safe_id;
-            $invoice->safe_transaction_id = $payment->id;
-            $updateLater = 1;
+        if($data['payment_method'] != 'later'){
+            $alreadyPaid = 1;
+            $payment = SafesTransactions::create([
+                'safe_id' => $safe_id,
+                'transaction_type' => 2,
+                'transaction_amount' => $data['invoice_total'],
+                'transaction_datetime' => Carbon::now(),
+                'done_by' => $data['sold_by'],
+                'authorized_by' => $data['sold_by'],
+            ]);
+            $paymentId = $payment->id;
+            $safeId = $safe_id;
             Safes::where('id', $safe_id)->increment('safe_balance', $request->invoice_total);
-        } else {
-            $invoice->safe_transaction_id = 0;
-            $invoice->safe_id = 0;
-            $invoice->already_paid = 0;
+
+        }else{
+            $alreadyPaid = 0;
+            $paymentId = 0;
+            $safeId = 0;
         }
 
-        $invoice->save();
+        $invoice = $this->invoice->create([
+            'customer_id' >= $customerId,
+            'invoice_paper_num' >= $data['invoice_paper_num'],
+            'branch_id' >= $data['branch_id'],
+            'invoice_note' >= $data['invoice_note'],
+            'discount_percentage' >= $data['discount_percentage'],
+            'discount_amount' >= $data['discount_amount'],
+            'invoice_tax' >= $data['tax'],
+            'payment_method' >= $data['payment_method'],
+            'invoice_date' >= Carbon::now(),
+            'invoice_total' >= $data['invoice_total'],
+            'shipping_fees' >= $data['shipping_fees'],
+            'already_paid' >= $alreadyPaid,
+            'safe_id' >= $safeId,
+            'safe_transaction_id' >= $paymentId,
+            'sold_by' >= $data['sold_by'],
+            'authorized_by' >= $data['sold_by'],
+        ]);
+        $invoiceId = $invoice->id;
+
+        if($data['payment_method'] != 'later'){
+
+        }else{
+
+        }
+
+        // if ($request->already_paid == 'on') {
+            // $invoice->already_paid = 1;
+            // $payment = new SafesTransactions();
+            // $payment->safe_id = $safe_id;
+            // $payment->transaction_type = 2;
+            // $payment->transaction_amount = $request->invoice_total;
+            // $payment->transaction_datetime = Carbon::now();
+            // $payment->done_by = $request->sold_by;
+            // $payment->authorized_by = $request->sold_by;
+            // $payment->save();
+            //$payment_id = $payment->id;
+            // $invoice->safe_id = $safe_id;
+            // $invoice->safe_transaction_id = $payment->id;
+            // $updateLater = 1;
+
+        // } else {
+            // $invoice->safe_transaction_id = 0;
+            // $invoice->safe_id = 0;
+            // $invoice->already_paid = 0;
+        // }
+
+        // $invoice->save();
 
         $invoiceId = $invoice->id;
         $product = $request->product;
@@ -238,11 +236,7 @@ class InvoicesController extends Controller
     }
 
 
-    public function invoicesList()
-    {
-        $invoices = Invoices::all();
-        return view('invoices.list', compact('invoices'));
-    }
+
 
 
 

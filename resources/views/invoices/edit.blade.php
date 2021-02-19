@@ -83,7 +83,7 @@
       @method('patch')
 
 
-      <input type="hidden" name="sold_by" value="{{ $user_id }}" />
+      <input type="hidden" name="sold_by" value="{{ $invoice->loggedInUserId() }}" />
       <input type="hidden" name="invoice_total" id="totalToSave" value="0" />
 
   <div class="row">
@@ -114,7 +114,7 @@
                                         </div>
                                         <select class="select2-rtl form-control" data-placeholder="إختر الفرع..." name="branch_id" id="branch_id"  required>
                                             <option value="{{$invoice->branch_id}}">{{$invoice->branch->branch_name}}</option>
-                                            @foreach ($branches as $branch)
+                                            @foreach ($invoice->allBranches() as $branch)
                                             <option value="{{$branch->id}}">{{$branch->branch_name}}</option>
                                             @endforeach
                                         </select>
@@ -127,7 +127,7 @@
                                         </div>
                                         <select class="select2-rtl form-control" data-placeholder="إختر العميل..." name="customer_id"  required>
                                             <option value="{{$invoice->customer_id}}">{{$invoice->customer->customer_name}}</option>
-                                            @foreach ($customers as $customer)
+                                            @foreach ($invoice->allCustomers() as $customer)
                                             <option value="{{$customer->id}}">{{$customer->customer_name}}</option>
                                             @endforeach
                                         </select>
@@ -187,13 +187,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($currentProducts as $key => $item)
+                                @foreach ($invoice->productsInInvoice as $key => $item)
                                 <tr id="row_{{$key+1}}">
                                     <td>
                                         <div class="form-group product_sel">
                                             <select class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product[{{$key+1}}][id]" onchange="return getProductInfo(this,{{$key+1}})" required>
                                                 <option value="{{$item->product_id}}">{{$item->product->product_name}}</option>
-                                                @foreach ($products as $product)
+                                                @foreach ($invoice->allProducts() as $product)
                                                 <option value="{{$product->id}}">{{$product->product_name}}</option>
                                                 @endforeach
                                             </select>
@@ -393,7 +393,7 @@
                             <label for="projectinput3">اختر الخزنة التي سيتم الايداع بها</label>
                             <select class="select2-rtl form-control" data-placeholder="إختر الخزنة..." name="safe_id_not_paid">
                                 <option></option>
-                                @foreach ($safes2 as $safe)
+                                @foreach ($invoice->allSafes() as $safe)
                                 <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
                                 @endforeach
                             </select>
@@ -427,7 +427,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($laterDates->isEmpty())
+                            @if ($invoice->datesInInvoice->isEmpty())
                             <tr>
                                 <th scope="row">
                                     <div class="form-group">
@@ -455,7 +455,7 @@
                                         <label for="projectinput3">خصم من:</label>
                                         <select class="select2-rtl form-control" data-placeholder="الخزنة" name="later[1][safe_id]" id="sel_xx_1">
                                             <option></option>
-                                            @foreach ($safes as $safe)
+                                            @foreach ($invoice->allSafes() as $safe)
                                             <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
                                             @endforeach
                                         </select>
@@ -464,7 +464,7 @@
                             </tr>
 
                             @else
-                            @foreach ($laterDates as $key2 => $item)
+                            @foreach ($invoice->datesInInvoice as $key2 => $item)
                             <tr>
                                 <th scope="row">
                                     <div class="form-group">
@@ -499,7 +499,7 @@
                                         <label for="projectinput3">خصم من:</label>
                                         <select class="select2-rtl form-control" data-placeholder="الخزنة" name="later[{{$key2+1}}][safe_id]" id="sel_xx_{{$key2+1}}">
                                             <option></option>
-                                            @foreach ($safes as $safe)
+                                            @foreach ($invoice->allSafes() as $safe)
                                             <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
                                             @endforeach
                                         </select>
@@ -534,7 +534,7 @@
                                             @else
                                             <option></option>
                                             @endif
-                                            @foreach ($safes as $safe)
+                                            @foreach ($invoice->allSafes() as $safe)
                                             <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
                                             @endforeach
                                         </select>
@@ -966,7 +966,7 @@ currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="
 
 var currentCell = currentRow.insertCell(-1);
 //currentCell.innerHTML = '<fieldset class="checkboxsas"><label><input type="checkbox" name="later['+currentIndex+'][paid]">مدفوعه</label></fieldset>';
-//currentCell.innerHTML = '<fieldset class="checkboxsas"><label>مدفوعه<input type="checkbox" name="later['+currentIndex+'][paid]" onchange="return laterPaid('+currentIndex+')"></label></fieldset><div id="later_dates_'+currentIndex+'" style="display:none;"><div class="form-group"><div class="label">رقم العملية في الخزنة:</div><input type="text" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later['+currentIndex+'][safe_payment_id]"></div><div class="form-group"><label for="projectinput3">خصمت من:</label><select class="select2-rtl form-control" data-placeholder="تعديل" name="later['+currentIndex+'][safe_id]"><option></option> @foreach ($safes as $safe) <option value="{{$safe->id}}">{{$safe->safe_name}}</option> @endforeach </select></div></div>';
+//currentCell.innerHTML = '<fieldset class="checkboxsas"><label>مدفوعه<input type="checkbox" name="later['+currentIndex+'][paid]" onchange="return laterPaid('+currentIndex+')"></label></fieldset><div id="later_dates_'+currentIndex+'" style="display:none;"><div class="form-group"><div class="label">رقم العملية في الخزنة:</div><input type="text" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later['+currentIndex+'][safe_payment_id]"></div><div class="form-group"><label for="projectinput3">خصمت من:</label><select class="select2-rtl form-control" data-placeholder="تعديل" name="later['+currentIndex+'][safe_id]"><option></option> @foreach ($invoice->allSafes() as $safe) <option value="{{$safe->id}}">{{$safe->safe_name}}</option> @endforeach </select></div></div>';
 currentCell.innerHTML = '<fieldset class="checkboxsas"><label>دفع الان <input type="checkbox" name="later['+currentIndex+'][paynow]"></label></fieldset>'
 
 }
@@ -1059,7 +1059,7 @@ product_qty.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
 product_qty.setAttribute("placeholder", "0");
 
 var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_' + currentIndex + '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product['+currentIndex+'][id]" required onchange="return getProductInfo(this,'+currentIndex+')"><option></option> @foreach ($products as $product) <option value="{{$product->id}}">{{$product->product_name}}</option>  @endforeach</select></div>';
+currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_' + currentIndex + '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product['+currentIndex+'][id]" required onchange="return getProductInfo(this,'+currentIndex+')"><option></option> @foreach ($invoice->allProducts() as $product) <option value="{{$product->id}}">{{$product->product_name}}</option>  @endforeach</select></div>';
 
 //currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_' + currentIndex + '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product['+currentIndex+'][id]" required onchange="return getProductInfo(this,'+currentIndex+')"> </select></div>';
 
