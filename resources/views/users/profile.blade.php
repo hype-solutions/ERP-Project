@@ -152,6 +152,30 @@
       </div>
     </div>
   </div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h4>الصورة الشخصية</h4>
+            </div>
+            <div class="card-body">
+                <img src="{{asset($user->profile_pic)}}" style="max-width:100%;"/>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h4>التوقيع</h4>
+            </div>
+            <div class="card-body">
+                <img src="{{asset($user->signature)}}" style="max-width:100%;"/>
+            </div>
+        </div>
+    </div>
+</div>
+
   <!-- users view card data ends -->
 
   {{-- <div class="row">

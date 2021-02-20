@@ -20,7 +20,19 @@ class SettingsController extends Controller
     }
     public function update(Request $request, Settings $setting)
     {
+        if($setting->key != 'logo'){
         $setting->value = $request->setting;
+        }else{
+            $request->validate([
+                'setting' => 'required|mimes:png,jpg,svg,gif|max:2048',
+            ]);
+
+            $fileName = time().'.'.$request->setting->getClientOriginalExtension();
+
+            $request->setting->move(public_path('uploads'), $fileName);
+            $setting->value = $fileName;
+
+        }
         $setting->save();
         return back()->with('success', 'updated');
     }

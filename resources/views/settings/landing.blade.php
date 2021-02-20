@@ -152,43 +152,54 @@
                             </td>
                             <td>
                                 @if($setting->key == 'logo')
-                                    <img  src="{{ asset('uploads/'.$setting->value) }}" />
+                                    <img  src="{{ asset('uploads/'.$setting->value) }}" style="width:200px;"/>
                                 @else
                                 {{$setting->value}}
                                 @endif
                             </td>
                             <td>
                                 <button  class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#edit_setting_{{$setting->id}}"><i class="la la-pencil-square-o"></i> تعديل</button>
-
-
-
                                 <div class="modal fade text-left" id="edit_setting_{{$setting->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title" id="myModalLabel1">بيانات الخزنة</h4>
+                                                <h4 class="modal-title" id="myModalLabel1"> تعديل</h4>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">×</span>
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form class="form" method="post" action="{{route('settings.update', $setting->id)}}">
+                                                <form class="form" method="post" action="{{route('settings.update', $setting->id)}}"  enctype="multipart/form-data">
                                                     @csrf
                                                     @method('patch')
                                                     <div class="form-body">
                                                         <div class="row">
 
                                                             <div class="col-md-12">
+                                                                @if($setting->key == 'logo')
+                                                                <div class="form-group">
+                                                                    <label for="timesheetinput21">الصورة</label>
+                                                                    <span style="color:red">*</span>
+                                                                    <div class="position-relative has-icon-left">
+                                                                    <input type="file" id="timesheetinput21" class="form-control" placeholder="" name="setting" required>
+                                                                        <div class="form-control-position">
+                                                                            <i class="la la-picture-o"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                @else
                                                                 <div class="form-group">
                                                                     <label for="timesheetinput2">القيمة</label>
                                                                     <span style="color:red">*</span>
                                                                     <div class="position-relative has-icon-left">
                                                                     <input type="text" id="timesheetinput2" class="form-control" placeholder="" name="setting" value="{{$setting->value}}" required>
                                                                         <div class="form-control-position">
-                                                                            <i class="la la-user"></i>
+                                                                            <i class="la la-pencil"></i>
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                @endif
+
                                                             </div>
 
 

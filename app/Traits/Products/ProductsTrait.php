@@ -6,7 +6,12 @@ use App\Models\Products\Products;
 
 trait ProductsTrait {
 
-    public function allProducts(){
-        return Products::all();
-    }
+    // public function allProducts(){
+    //     return Products::all();
+    // }
+
+
+
+
+
 }

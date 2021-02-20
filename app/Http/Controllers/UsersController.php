@@ -109,4 +109,31 @@ class UsersController extends Controller
         User::destroy($user->id);
         return back()->with('success', 'User Deleted');
     }
+
+    public function profilepic(User $user, Request $request){
+        $request->validate([
+            'profile_pic' => 'required|mimes:png,jpg,svg,gif|max:2048',
+        ]);
+
+        $fileName = time().'.'.$request->profile_pic->getClientOriginalExtension();
+
+        $request->profile_pic->move(public_path('uploads/users/'.$user->id.'/p/'), $fileName);
+        $user->profile_pic = 'uploads/users/'.$user->id.'/p/'.$fileName;
+        $user->save();
+        return back();
+    }
+
+    public function signature(User $user, Request $request)
+    {
+        $request->validate([
+            'signature' => 'required|mimes:png,jpg,svg,gif|max:2048',
+        ]);
+
+        $fileName = time().'.'.$request->signature->getClientOriginalExtension();
+
+        $request->signature->move(public_path('uploads/users/'.$user->id.'/s/'), $fileName);
+        $user->signature = 'uploads/users/'.$user->id.'/s/'.$fileName;
+        $user->save();
+        return back();
+    }
 }

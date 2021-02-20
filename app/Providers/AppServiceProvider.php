@@ -76,10 +76,13 @@ class AppServiceProvider extends ServiceProvider
                             ->with('latePurchasesDates', $latePurchasesDates)
                             ->with('nextInvoiceDates', $nextInvoiceDates)
                             ->with('nextPurchasesDates', $nextPurchasesDates)
+                            ->with('myPP', $user->profile_pic)
                             ->with('notificationCount', $notificationCount);
                     }
                     else {
-                        $view->with('notificationCount', 0);
+                        $view->with('notificationCount', 0)
+                             ->with('myPP', $user->profile_pic)
+                        ;
                     }
                 } else {
                     $view->with('notificationCount', 0);

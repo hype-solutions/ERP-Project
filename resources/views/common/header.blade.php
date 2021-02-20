@@ -266,9 +266,13 @@
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link"
                             href="#" data-toggle="dropdown"><span
                                 class="mr-1 user-name text-bold-700">{{ Auth::user()->username }}</span><span
-                                class="avatar avatar-online"><img
-                                    src="{{ asset('theme/app-assets/images/portrait/small/avatar-s-19.png') }}"
-                                    alt="avatar"><i></i></span></a>
+                                class="avatar avatar-online">
+        @if(!isset(Auth::user()->profile_pic))
+        <img src="{{ asset('theme/app-assets/images/portrait/small/avatar-s-19.png') }}"alt="avatar">
+        @else
+        <img src="{{ asset($myPP) }}" alt="avatar"/>
+        @endif
+                                    <i></i></span></a>
                         <div class="dropdown-menu dropdown-menu-right">
                             {{-- <a class="dropdown-item" href="user-profile.html"><i class="ft-user"></i> Edit Profile</a> --}}
                             {{-- <a class="dropdown-item" href="app-kanban.html"><i class="ft-clipboard"></i> Todo</a> --}}

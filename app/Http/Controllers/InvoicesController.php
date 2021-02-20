@@ -12,14 +12,13 @@ use App\Models\Products\Products;
 use App\Models\Safes\Safes;
 use App\Models\Safes\SafesTransactions;
 use App\Traits\ERPLogTrait;
-use App\Traits\Safes\SafesTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class InvoicesController extends Controller
 {
-    use ERPLogTrait,SafesTrait;
+    use ERPLogTrait;
     protected $invoice;
     public function __construct(Invoices $invoice)
     {
@@ -81,157 +80,77 @@ class InvoicesController extends Controller
     public function store(AddInvoice $request)
     {
         $data = $request->validated();
-        $safe_id = $this->getBranchLinkedSafeId($data['branch_id']);
-        if($data['new_customer_name'] != ''){
-            $customerId = $this->createCustomer($data['new_customer_name'],$data['new_customer_mobile']);
-        }else{
-            $customerId = $data['customer_id'];
-        }
-        if($data['payment_method'] != 'later'){
+        $safe_id = $this->invoice->getBranchLinkedSafeId($data['branch_id']);
+        $customerId = $this->invoice->checkIfCustomerIsNewAndAdd($data['new_customer_name'], $data['new_customer_mobile'], $data['customer_id']);
+        if ($data['payment_method'] != 'later') {
             $alreadyPaid = 1;
-            $payment = SafesTransactions::create([
-                'safe_id' => $safe_id,
-                'transaction_type' => 2,
-                'transaction_amount' => $data['invoice_total'],
-                'transaction_datetime' => Carbon::now(),
-                'done_by' => $data['sold_by'],
-                'authorized_by' => $data['sold_by'],
-            ]);
-            $paymentId = $payment->id;
+            $paymentId = $this->invoice->safeTransactionIn($safe_id, $data['invoice_total'], '');
             $safeId = $safe_id;
-            Safes::where('id', $safe_id)->increment('safe_balance', $request->invoice_total);
-
-        }else{
+            $this->invoice->safeIncrement($safe_id, $data['invoice_total']);
+        } else {
             $alreadyPaid = 0;
             $paymentId = 0;
             $safeId = 0;
         }
 
-        $invoice = $this->invoice->create([
-            'customer_id' >= $customerId,
-            'invoice_paper_num' >= $data['invoice_paper_num'],
-            'branch_id' >= $data['branch_id'],
-            'invoice_note' >= $data['invoice_note'],
-            'discount_percentage' >= $data['discount_percentage'],
-            'discount_amount' >= $data['discount_amount'],
-            'invoice_tax' >= $data['tax'],
-            'payment_method' >= $data['payment_method'],
-            'invoice_date' >= Carbon::now(),
-            'invoice_total' >= $data['invoice_total'],
-            'shipping_fees' >= $data['shipping_fees'],
-            'already_paid' >= $alreadyPaid,
-            'safe_id' >= $safeId,
-            'safe_transaction_id' >= $paymentId,
-            'sold_by' >= $data['sold_by'],
-            'authorized_by' >= $data['sold_by'],
-        ]);
+        // dd($data);
+
+            $invoice = new Invoices();
+            $invoice->customer_id = $customerId;
+            $invoice->invoice_paper_num = $data['invoice_paper_num'];
+            $invoice->branch_id = $data['branch_id'];
+            $invoice->invoice_note = $data['invoice_note'];
+            $invoice->discount_percentage = $data['discount_percentage'];
+            $invoice->discount_amount = $data['discount_amount'];
+            $invoice->invoice_tax = $data['tax'];
+            $invoice->payment_method = $data['payment_method'];
+            $invoice->invoice_date = Carbon::now();
+            $invoice->invoice_total = $data['invoice_total'];
+            $invoice->shipping_fees = $data['shipping_fees'];
+            $invoice->already_paid = $alreadyPaid;
+            $invoice->safe_id = $safeId;
+            $invoice->safe_transaction_id = $paymentId;
+            $invoice->sold_by = $data['sold_by'];
+            $invoice->authorized_by = $data['sold_by'];
+            $invoice->save();
+        // $invoice = $this->invoice->create([
+        //     'customer_id' >= $customerId,
+        //     'invoice_paper_num' >= $data['invoice_paper_num'],
+        //     'branch_id' >= $data['branch_id'],
+        //     'invoice_note' >= $data['invoice_note'],
+        //     'discount_percentage' >= $data['discount_percentage'],
+        //     'discount_amount' >= $data['discount_amount'],
+        //     'invoice_tax' >= $data['tax'],
+        //     'payment_method' >= $data['payment_method'],
+        //     'invoice_date' >= Carbon::now(),
+        //     'invoice_total' >= $data['invoice_total'],
+        //     'shipping_fees' >= $data['shipping_fees'],
+        //     'already_paid' >= $alreadyPaid,
+        //     'safe_id' >= $safeId,
+        //     'safe_transaction_id' >= $paymentId,
+        //     'sold_by' >= $data['sold_by'],
+        //     'authorized_by' >= $data['sold_by'],
+        // ]);
         $invoiceId = $invoice->id;
-
-        if($data['payment_method'] != 'later'){
-
-        }else{
-
-        }
-
-        // if ($request->already_paid == 'on') {
-            // $invoice->already_paid = 1;
-            // $payment = new SafesTransactions();
-            // $payment->safe_id = $safe_id;
-            // $payment->transaction_type = 2;
-            // $payment->transaction_amount = $request->invoice_total;
-            // $payment->transaction_datetime = Carbon::now();
-            // $payment->done_by = $request->sold_by;
-            // $payment->authorized_by = $request->sold_by;
-            // $payment->save();
-            //$payment_id = $payment->id;
-            // $invoice->safe_id = $safe_id;
-            // $invoice->safe_transaction_id = $payment->id;
-            // $updateLater = 1;
-
-        // } else {
-            // $invoice->safe_transaction_id = 0;
-            // $invoice->safe_id = 0;
-            // $invoice->already_paid = 0;
-        // }
-
-        // $invoice->save();
-
-        $invoiceId = $invoice->id;
-        $product = $request->product;
-        $date = $request->later;
-
-        //Save Items
-        foreach ($product as $item) {
-            Products::where('id', $item['id'])->increment('product_total_out', $item['qty']);
-            BranchesProducts::where('product_id', $item['id'])
-                ->where('branch_id', $request->branch_id)
-                ->decrement('amount', $item['qty']);
-        }
-
-
-        if (isset($updateLater)) {
-            if ($updateLater == 1) {
-                $edtPayment = SafesTransactions::find($payment_id);
-                $edtPayment->transaction_notes = 'فاتورة مبيعات رقم  ' . $invoiceId;
-                $edtPayment->save();
+         if ($data['payment_method'] != 'later') {
+            $this->invoice->updateSafeTransactionAddDesc($paymentId);
+        } else {
+            foreach ($data['date'] as $item) {
+                $this->invoice->addInvoiceInstallment(
+                    $safe_id, $invoiceId, $customerId, $item['amount'], $item['date'], $item['notes'], $item['paynow']
+                );
             }
         }
+
         //Save Items
-        $listOfProducts = [];
-        foreach ($product as $item) {
-            $pro = new InvoicesProducts();
-            $pro->invoice_id = $invoiceId;
-            $pro->customer_id = $customerId;
-            $pro->product_id = $item['id'];
-            $pro->product_desc = $item['desc'];
-            $pro->product_price = $item['price'];
-            $pro->product_cost = $item['cost'] * $item['qty'];
-            $pro->product_qty = $item['qty'];
-            $pro->status = 'shipped';
-            $pro->save();
-            $listOfProducts[] = $pro;
+        foreach ($data['product'] as $item) {
+            $invoice->productIncrementOut($item['id'], $item['qty']);
+            $invoice->decrementProductInBranch($item['id'], $data['branch_id'], $item['qty']);
+            $invoice->insertProductIntoInvoice($invoiceId, $customerId, $item['id'], $item['desc'], $item['price'], $item['cost'], $item['qty']);
         }
-
-        if ($request->payment_method == 'later') {
-            $listOfDates = [];
-            foreach ($date as $item) {
-                $da = new InvoicesPayments();
-                $da->invoice_id = $invoiceId;
-                $da->customer_id = $customerId;
-                $da->amount = $item['amount'];
-                $da->date = $item['date'];
-                $da->notes = $item['notes'];
-                if (!empty($item['paynow'])) {
-                    $da->paid = 'Yes';
-                    //pay here
-                    $payment = new SafesTransactions();
-                    $payment->safe_id = $safe_id;
-                    $payment->transaction_type = 2;
-                    $payment->transaction_amount = $item['amount'];
-                    $payment->transaction_datetime = Carbon::now();
-                    $payment->done_by = $request->sold_by;
-                    $payment->authorized_by = $request->sold_by;
-                    $payment->transaction_notes = 'قسط على فاتورة رقم' . $invoiceId;
-                    $payment->save();
-                    $payment_id = $payment->id;
-                    $da->safe_id = $safe_id;
-                    $da->safe_payment_id = $payment_id;
-                    Safes::where('id', $safe_id)->increment('safe_balance', $item['amount']);
-                    Invoices::where('id', $invoiceId)->increment('amount_collected', $item['amount']);
-                } else {
-                    $da->paid = 'No';
-                }
-                $da->save();
-                $listOfDates[] = $da;
-            }
-        }
-        $sumCost = InvoicesProducts::where('invoice_id', $invoiceId)->sum('product_cost');
-        $edtInvoice = Invoices::find($invoiceId);
-        $edtInvoice->invoice_cost = $sumCost;
-        $edtInvoice->save();
-
-        ERPLog::create(['type' => 'Invoices', 'action' => 'Add', 'custom_id' => $invoiceId, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
-
+        $sumCost = $invoice->getInvoiceCostSum();
+        $invoice->updateInvoiceCost($sumCost);
+        $this->addLogRecord('Invoices', 'Add', $invoiceId);
         return redirect('/invoices')->with('success', 'invoice added');
     }
 

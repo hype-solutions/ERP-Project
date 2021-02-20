@@ -7,11 +7,11 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 trait ERPLogTrait {
-    private function currentDate(){
+    public function currentDate(){
         return Carbon::now();
     }
 
-    private function currentUser(){
+    public function currentUser(){
         return Auth::id();
     }
 

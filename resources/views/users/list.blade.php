@@ -129,6 +129,7 @@
                             <th>Username</th>
                             <th>الموبايل</th>
                             <th>الإيميل</th>
+                            <th>الصور</th>
                             <th>التحكم</th>
                         </tr>
                     </thead>
@@ -160,6 +161,73 @@
                                 @else
                                 <span>غير مسجل</span>
                                 @endif
+                            </td>
+                            <td>
+                                <button data-toggle="modal" data-target="#edit_profilePicture{{ $user->id }}" class="btn btn-secondary btn-sm"><i class="la la-pencil-square-o"></i> تغيير الصورة الشخصية</button>
+                                <button data-toggle="modal" data-target="#edit_signature{{ $user->id }}" class="btn btn-warning btn-sm"><i class="la la-pencil-square-o"></i> تغيير التوقيع</button>
+                                <div class="modal fade text-left" id="edit_profilePicture{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="myModalLabel1"> تعديل</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form" method="post" action="{{route('users.profilepic', $user->id)}}"  enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('patch')
+                                                    <div class="form-body">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="timesheetinput2">الصورة الشخصية</label>
+                                                                    <br/>
+                                                                    <input type="file" name="profile_pic" id="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
+                                                        <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> تسجيل</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade text-left" id="edit_signature{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="myModalLabel1"> تعديل</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form" method="post" action="{{route('users.signature', $user->id)}}"  enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('patch')
+                                                    <div class="form-body">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="timesheetinput2">التوقيع</label>
+                                                                    <br/>
+                                                                    <input type="file" name="signature" id="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
+                                                        <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> تسجيل</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                             <td>
                                 <a href="{{ route('users.view', $user->id) }}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
