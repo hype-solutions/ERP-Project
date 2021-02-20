@@ -103,4 +103,10 @@ class UsersController extends Controller
         $user->save();
         return back()->with('success', 'User Updated');
     }
+
+
+    public function delete(User $user){
+        User::destroy($user->id);
+        return back()->with('success', 'User Deleted');
+    }
 }

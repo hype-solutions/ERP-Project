@@ -410,7 +410,7 @@ Route::group(['middleware' => ['permission:Edit Users']], function () {
 });
 
 Route::group(['middleware' => ['permission:Delete Users']], function () {
-    Route::delete('/users/delete/{out}', [UsersController::class, 'delete'])->name('users.delete');
+    Route::get('/users/delete/{user}', [UsersController::class, 'delete'])->name('users.delete');
 });
 
 

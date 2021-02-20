@@ -63,7 +63,7 @@
 
 
     @if(session()->has('success'))
-        @if(session()->get('success') == 'Customer deleted' )
+        @if(session()->get('success') == 'User Deleted' )
     <div class="alert alert-icon-left alert-success alert-dismissible mb-2" role="alert">
         <span class="alert-icon"><i class="la la-thumbs-o-up"></i></span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -164,6 +164,7 @@
                             <td>
                                 <a href="{{ route('users.view', $user->id) }}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
                                 <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary btn-sm"><i class="la la-pencil-square-o"></i> تعديل</a>
+                                <a href="{{ route('users.delete', $user->id) }}" class="btn btn-danger btn-sm"><i class="la la-trash"></i> حذف</a>
                              </td>
                         </tr>
                         @endforeach
