@@ -124,6 +124,8 @@ Route::group(['middleware' => ['permission:Sell POS']], function () {
     Route::post('/pos/start', [PosController::class, 'start'])->name('pos.start');
     Route::post('/pos/finish', [PosController::class, 'finish'])->name('pos.finish');
     Route::get('/pos/receipt/{sessionId}', [PosController::class, 'receipt'])->name('pos.receipt');
+    Route::get('/pos/cancel/{sessionId}', [PosController::class, 'cancel'])->name('pos.cancel');
+
 });
 
 

@@ -200,6 +200,7 @@
 
                                       <td>
                                           <a href="{{ route('pos.index', $session->id) }}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
+                                          <a href="{{ route('pos.cancel', $session->id) }}" onclick="return confirm('سيتم الغاء العملية و إرجاع الكميات الى المخزن')" class="btn btn-danger btn-sm"><i class="la la-trash"></i> حذف</a>
 
                                        </td>
                                   </tr>

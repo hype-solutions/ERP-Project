@@ -300,4 +300,21 @@ class PosController extends Controller
 
     //     return 1;
     // }
+
+    public function cancel($sessionId){
+        $posSession = PosSessions::find($sessionId);
+        $items = Cart::where('pos_session_id',$sessionId)->get();
+        //die($items);
+        foreach ($items as $item) {
+            Products::where('id', $item->product_id)->decrement('product_total_out', $item->product_qty);
+            BranchesProducts::where('product_id', $item->product_id)
+                ->where('branch_id', $posSession->branch_id)
+                ->increment('amount', $item->product_qty);
+        }
+        PosSessions::find($sessionId)->delete();
+        Cart::where('pos_session_id', $sessionId)->delete();
+
+        return redirect()->route('pos.landing');
+
+    }
 }
