@@ -228,7 +228,7 @@
                                         <a href="#" class="title">{{$item->product_name}}</a>
                                         <div class="action-wrap">
                                             @if($item->product_total_in - $item->product_total_out > 0)
-                                            <button type="button" class="btn btn-primary btn-sm float-right" onclick="return addToCart({{$item->id}})"> <i class="fa fa-cart-plus"></i> إضافة </button>
+                                            <button type="button" class="btn btn-primary btn-sm float-right" onclick="return addToCart({{$item->id}},'{{$item->product_name}}',{{$item->product_price}})"> <i class="fa fa-cart-plus"></i> إضافة </button>
                                             @else
                                             <button type="button" class="btn btn-primary btn-sm float-right" disabled> <i class="fa fa-cart-plus"></i> إضافة </button>
                                             @endif
@@ -793,7 +793,7 @@ function addToCart(productId,productName,productPrice){
                 for(var i = 0; i < data.data.length; i++){
                     var addBtn,productStatus;
                 if(data.data[i].product_total_in - data.data[i].product_total_out > 0){
-                    addBtn = '<a href="#" class="btn btn-primary btn-sm float-right"> <i class="fa fa-cart-plus"></i> إضافة </a>';
+                    addBtn = '<button type="button" class="btn btn-primary btn-sm float-right" onclick="return addToCart('+data.data[i].id+',\''+data.data[i].product_name+'\','+data.data[i].product_price+')"> <i class="fa fa-cart-plus"></i> إضافة </button>';
                     productStatus = '<span class="badge-avl">متوفر </span>';
                 }else{
                     addBtn = '<button type="button" class="btn btn-primary btn-sm float-right" disabled> <i class="fa fa-cart-plus"></i> إضافة </button>';
@@ -866,8 +866,7 @@ function addToCart(productId,productName,productPrice){
                 for(var i = 0; i < datax.datax.length; i++){
                 var addBtn;
                 if(datax.datax[i].product_total_in - datax.datax[i].product_total_out > 0){
-                    addBtn = '<a href="#" class="btn btn-primary btn-sm float-right"> <i class="fa fa-cart-plus"></i> إضافة </a>';
-                    productStatus = '<span class="badge-avl">متوفر </span>';
+                    addBtn = '<button type="button" class="btn btn-primary btn-sm float-right" onclick="return addToCart('+datax.datax[i].id+',\''+datax.datax[i].product_name+'\','+datax.datax[i].product_price+')"> <i class="fa fa-cart-plus"></i> إضافة </button>';                    productStatus = '<span class="badge-avl">متوفر </span>';
                 }else{
                     addBtn = '<button type="button" class="btn btn-primary btn-sm float-right" disabled> <i class="fa fa-cart-plus"></i> إضافة </button>';
                     productStatus = '<span class="badge-new"> غير متوفر </span>';
