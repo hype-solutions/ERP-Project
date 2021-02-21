@@ -26,6 +26,7 @@ class User extends Authenticatable
         'mobile',
         'profile_pic',
         'signature',
+        'role',
     ];
 
     /**

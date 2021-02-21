@@ -62,6 +62,7 @@ class UsersController extends Controller
         $user->name = $request->name;
         $user->username = $request->username;
         $user->mobile = $request->mobile;
+        $user->role = $request->role;
         $user->save();
         $user->assignRole($request->role);
         return back()->with('success', 'User Added');
@@ -94,7 +95,12 @@ class UsersController extends Controller
         $user->email = $request->email;
         $user->username = $request->username;
         $user->mobile = $request->mobile;
-        $user->syncRoles($request->role);
+        if($request->role != 'change'){
+            $user->role = $request->role;
+            $user->syncRoles($request->role);
+        }
+
+
         if (Hash::check($request->password, $user->password)) {
             //NO PASS CHANGE
         } else {
@@ -149,6 +155,9 @@ class UsersController extends Controller
     public function reSyncRolewithPermissions(Request $request)
     {
         $user = User::find($request->user_id);
+        $user->roles()->detach();
+
+
         $permissions = $request->permission;
         $permissionsArray = [];
         foreach ($permissions as $per) {
@@ -157,6 +166,7 @@ class UsersController extends Controller
                 $permissionsArray[] = $permission;
             }
         }
+
         $user->syncPermissions($permissionsArray);
         return back();
     }

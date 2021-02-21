@@ -111,7 +111,7 @@
 
                 @foreach ($allPermissions as $key => $permission)
                   <div class="col-md-4">
-                      <input type="checkbox" name="permission[{{$key}}][status]" @if($user->hasPermissionTo($permission->name)) checked @endif>
+                      <input type="checkbox" name="permission[{{$key}}][status]" @if($user->hasPermissionTo($permission->name)) checked readonly @endif @if($user->hasDirectPermission($permission->name)) checked @endif>
                       <input type="hidden" name="permission[{{$key}}][name]" value="{{$permission->name}}">
                     @lang('rolesAndPermissions.'.$permission->name)
                   </div>

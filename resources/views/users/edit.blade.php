@@ -158,9 +158,12 @@
                             <div class="form-group">
                                 <label for="timesheetinput2">نوع المستخدم</label>
                                 <span style="color:red">*</span>
-                                <span style="color:blue">(حاليا {{$user->roles[0]->name}})</span>
-                                <select name="role" id="" class="form-control" required>
-                                    <option value="{{$user->roles[0]->name}}">تغيير...</option>
+                                <span style="color:blue">
+                                    (حاليا {{$user->role}}) @if(!isset($user->roles[0]->name)) </span>
+                                <span style="color:red">[تم التعديل على صلاحياته] @endif</span>
+
+                                <select name="role" id="" class="form-control" >
+                                    <option value="change">تغيير...</option>
                                     @foreach ($roles as $role)
                                         <option value="{{$role->name}}">{{$role->name}}</option>
                                     @endforeach
