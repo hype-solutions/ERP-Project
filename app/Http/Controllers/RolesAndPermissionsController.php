@@ -27,8 +27,7 @@ class RolesAndPermissionsController extends Controller
         $role = Role::findByName($role_name);
         $permissions = $role->permissions()->get();
         App::setLocale('ar');
-        $locale = App::currentLocale();
-        return view('settings.permissions', compact('role', 'permissions','locale'));
+        return view('settings.permissions', compact('role', 'permissions','role_name'));
     }
 
     public function addingPermissions(Request $request)

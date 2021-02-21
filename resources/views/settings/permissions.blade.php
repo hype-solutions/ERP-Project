@@ -34,7 +34,7 @@
 </div>
         <div class="content-body"><!-- users list start -->
 
-<div class="col-xl-3 col-md-6 col-12">
+{{-- <div class="col-xl-3 col-md-6 col-12">
             <div class="card border-teal border-lighten-2">
               <div class="text-center">
 
@@ -90,15 +90,20 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> --}}
 
 
 
-   </div>
+
    <div class="row">
     <div class="col-md-12">
         <div class="card">
           <div class="card-body">
+              <div class="row">
+                  <div class="col-md-12">
+                      <h3>صلاحيات <span style="color: green">ال{{$role_name}}</span></h3>
+                  </div>
+              </div>
               <div class="row">
                 @foreach ($permissions as $permission)
                   <div class="col-md-4">
@@ -111,6 +116,7 @@
           </div>
         </div>
     </div>
+</div>
 </div>
 </div>
  <!-- END: Content-->
