@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Invoices\InvoicesPayments;
 use App\Models\PurchasesOrders\PurchasesOrdersPayments;
+use App\Models\Safes\ExternalFund;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -47,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
                         $notificationCount = 0;
                         $from = date('Y-m-d');
                         $to = date('Y-m-d', strtotime("+10 days"));
+
                         $from    = Carbon::parse($from)
                             ->startOfDay()        // date 00:00:00.000000
                             ->toDateTimeString(); // date 00:00:00
@@ -67,17 +69,26 @@ class AppServiceProvider extends ServiceProvider
                             ->whereDate('date', '<=', $from)
                             ->get();
 
+                            $upcomingFundPayments = ExternalFund::where('paid','No')
+                            ->whereBetween('refund_date', [$from, $to])
+                            ->get();
+
                         $notificationCount = $nextInvoiceDates->count() +
                             $nextPurchasesDates->count() +
                             $lateInvoiceDates->count() +
-                            $latePurchasesDates->count();
+                            $latePurchasesDates->count() +
+                            $upcomingFundPayments->count();
+
+
+
                         $view
                             ->with('lateInvoiceDates', $lateInvoiceDates)
                             ->with('latePurchasesDates', $latePurchasesDates)
                             ->with('nextInvoiceDates', $nextInvoiceDates)
                             ->with('nextPurchasesDates', $nextPurchasesDates)
                             ->with('myPP', $user->profile_pic)
-                            ->with('notificationCount', $notificationCount);
+                            ->with('notificationCount', $notificationCount)
+                            ->with('upcomingFundPayments', $upcomingFundPayments);
                     }
                     else {
                         $view->with('notificationCount', 0)

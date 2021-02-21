@@ -299,6 +299,8 @@ Route::group(['middleware' => ['permission:Edit Safes']], function () {
 Route::group(['middleware' => ['permission:Deposit Safes']], function () {
     Route::get('/safes/deposit/{safe}', [SafesController::class, 'deposit'])->name('safes.deposit');
     Route::post('/safes/depositing', [SafesController::class, 'depositing'])->name('safes.depositing');
+    Route::get('/safes/external-fund/{safe}', [SafesController::class, 'externalFund'])->name('safes.externalFund');
+    Route::post('/safes/external-funding', [SafesController::class, 'externalFunding'])->name('safes.externalFunding');
 });
 Route::group(['middleware' => ['permission:Withdraw Safes']], function () {
     Route::get('/safes/withdraw/{safe}', [SafesController::class, 'withdraw'])->name('safes.withdraw');

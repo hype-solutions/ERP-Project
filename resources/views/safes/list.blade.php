@@ -207,6 +207,7 @@
 
                             <td>
                                 <a class="btn grey btn-outline-success" href="{{ route('safes.deposit',$safe->id) }}"> إيداع</a>
+                                <a class="btn grey btn-outline-dark" href="{{ route('safes.externalFund',$safe->id) }}"> تمويل خارجي</a>
                                 <a class="btn grey btn-outline-warning" href="{{ route('safes.withdraw',$safe->id) }}"> سحب</a>
                                 <a class="btn grey btn-outline-info" href="{{ route('safes.transfer') }}"> تحويل</a>
                             </td>

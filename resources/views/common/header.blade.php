@@ -221,6 +221,25 @@
                                 </a>
                                 @endforeach
                                 @endif
+                                @if($upcomingFundPayments->count() > 0)
+                                @foreach($upcomingFundPayments as $noificationsFive)
+                                <a href="#">
+                                    <div class="media">
+                                        <div class="media-left align-self-center"><i
+                                                class="ft-alert-triangle icon-bg-circle bg-info bg-darken-3 mr-0"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <h6 class="media-heading info darken-3">موعد سداد تمويل خارجي رقم {{$noificationsFive->id}}</h6>
+                                            <p class="notification-text font-small-3 text-muted">
+                                            بقيمة {{$noificationsFive->amount}} ج.م
+                                            </p><small>
+                                                <time class="media-meta text-muted"
+                                                    datetime="{{$noificationsFive->refund_date}}">تاريخ الإستحقاق{{$noificationsFive->refund_date}}</time></small>
+                                        </div>
+                                    </div>
+                                </a>
+                                @endforeach
+                                @endif
                             </li>
                             {{-- <li class="dropdown-menu-footer"><a class="dropdown-item text-muted text-center"
                                     href="javascript:void(0)">Read all notifications</a></li> --}}

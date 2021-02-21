@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branches\Branches;
+use App\Models\Safes\ExternalFund;
 use Illuminate\Http\Request;
 
 use App\Models\Safes\Safes;
@@ -228,5 +229,42 @@ class SafesController extends Controller
     {
 
         return view('safes.receipt', compact('transactionId'));
+    }
+
+    public function externalFund(Safes $safe){
+        return view('safes.externalFund', compact('safe'));
+
+    }
+
+    public function externalFunding(Request $request){
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        $fund = ExternalFund::create([
+            'safe_id' => $request->safe_id,
+            'investor' => $request->investor,
+            'amount' => $request->amount,
+            'funding_date' => Carbon::now(),
+            'refund_date' => $request->refund_date,
+            'notes' => $request->notes,
+            'done_by' => $user_id,
+            'authorized_by' => $user_id,
+        ]);
+
+
+        $payment = new SafesTransactions();
+        $payment->safe_id = $request->safe_id;
+        $payment->transaction_type = 2;
+        $payment->direct = 1;
+        $payment->transaction_amount = $request->amount;
+        $payment->transaction_datetime = Carbon::now();
+        $payment->done_by = $user_id;
+        $payment->authorized_by = $user_id;
+        $payment->transaction_notes = 'تمويل خارجي على خزنة, رقم ايصال التمويل '. $fund->id;
+        $payment->save();
+        Safes::where('id', $request->safe_id)->increment('safe_balance', $request->amount);
+
+        return back()->with('success', 'funded');
+
     }
 }
