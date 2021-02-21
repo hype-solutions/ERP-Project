@@ -39,9 +39,14 @@ use App\Http\Controllers\SettingsController;
 /**************************
  ********** Home **********
  **************************/
-Route::get('/', [HomeController::class, 'index']);
+// Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+Route::get('/', function () {
+    // Validate the request...
+
+    return redirect()->route('home');
+});
 
 
 /**************************
