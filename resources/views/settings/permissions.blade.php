@@ -104,20 +104,25 @@
                       <h3>صلاحيات <span style="color: green">ال{{$role_name}}</span></h3>
                   </div>
               </div>
+              <form action="{{route('settings.reSyncRolewithPermissions')}}" method="POST">
+                @csrf
+                <input type="hidden" name="role" value="{{$role_name}}">
               <div class="row">
-                @foreach ($allPermissions as $permission)
-                  <div class="col-md-4">
 
-                      <input type="checkbox" name="" id="" @if($role->hasPermissionTo($permission->name)) checked @endif>
+                @foreach ($allPermissions as $key => $permission)
+                  <div class="col-md-4">
+                      <input type="checkbox" name="permission[{{$key}}][status]" @if($role->hasPermissionTo($permission->name)) checked @endif>
+                      <input type="hidden" name="permission[{{$key}}][name]" value="{{$permission->name}}">
                     @lang('rolesAndPermissions.'.$permission->name)
                   </div>
                   @endforeach
+                  <div class="col-md-12">
+                    <button class="btn btn-block btn-primary" type="submit">حفظ</button>
+                </div>
+
               </div>
-<div class="row">
-    <div class="col-md-12">
-        <button class="btn btn-block btn-primary">حفظ</button>
-    </div>
-</div>
+            </form>
+
           </div>
         </div>
     </div>

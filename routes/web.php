@@ -462,6 +462,7 @@ Route::group(['middleware' => ['permission:Edit Roles Permissions']], function (
     Route::post('/settings/roles/adding', [RolesAndPermissionsController::class, 'addingRoles'])->name('settings.roles.adding');
     Route::post('/settings/permissions/adding', [RolesAndPermissionsController::class, 'addingPermissions'])->name('settings.permissions.adding');
     Route::get('/settings/assignPermissionToRole/{role}/{permission}', [RolesAndPermissionsController::class, 'assignPermissionToRole'])->name('settings.assignPermissionToRole');
+    Route::post('/settings/reSyncRolewithPermissions', [RolesAndPermissionsController::class, 'reSyncRolewithPermissions'])->name('settings.reSyncRolewithPermissions');
     Route::get('/settings/assignUserToRole/{user}/{role}', [RolesAndPermissionsController::class, 'assignUserToRole'])->name('settings.assignUserToRole');
 });
 

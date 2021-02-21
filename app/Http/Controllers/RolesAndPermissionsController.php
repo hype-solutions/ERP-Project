@@ -28,7 +28,7 @@ class RolesAndPermissionsController extends Controller
         $role = Role::findByName($role_name);
         $permissions = $role->permissions()->get();
         App::setLocale('ar');
-        return view('settings.permissions', compact('allPermissions','role', 'permissions','role_name'));
+        return view('settings.permissions', compact('allPermissions', 'role', 'permissions', 'role_name'));
     }
 
     public function addingPermissions(Request $request)
@@ -41,6 +41,23 @@ class RolesAndPermissionsController extends Controller
     {
         $permission->assignRole($role);
     }
+
+
+    public function reSyncRolewithPermissions(Request $request)
+    {
+        $role = Role::findByName($request->role);
+        $permissions = $request->permission;
+        $permissionsArray = [];
+        foreach ($permissions as $per) {
+            $permission = Permission::findByName($per['name']);
+            if (isset($per['status'])) {
+                $permissionsArray[] = $permission;
+            }
+        }
+        $role->syncPermissions($permissionsArray);
+        return back();
+    }
+
 
     public function assignUserToRole(User $user, Role $role)
     {

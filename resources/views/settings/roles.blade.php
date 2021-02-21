@@ -47,7 +47,6 @@
                 </div>
                 <div class="text-center">
                   <a href="{{route('settings.permissions',$role)}}" class="btn btn-block mr-1 mb-1 btn-outline-facebook"><span class="la la-pencil"></span> تعديل الصلاحيات</a>
-                  <a href="#" class="btn btn-block mr-1 mb-1 btn-outline-twitter"><span class="la la-member"></span>إضافة مستخدم لهذه الصلاحية</a>
                 </div>
               </div>
             </div>
