@@ -172,7 +172,39 @@
                             <td>{{ $cat->id }}</td>
                             <td>{{ $cat->category_name }}</td>
                             <td>
+                                <button data-toggle="modal" data-target="#edit_cat{{ $cat->id }}" class="btn btn-warning btn-sm"><i class="la la-pencil-square-o"></i> تعديل</button>
+                                <a href="{{ route('ins.categories.deleting', $cat->id) }}" class="btn btn-danger btn-sm"><i class="la la-trash"></i> حذف</a>
 
+                                <div class="modal fade text-left" id="edit_cat{{ $cat->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="myModalLabel1"> تعديل</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form" method="post" action="{{route('ins.categories.editing', $cat->id)}}">
+                                                    @csrf
+                                                    <div class="form-body">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="timesheetinput2">الفئة</label>
+                                                                    <br/>
+                                                                    <input type="text" class="form-control" name="category_name" value="{{ $cat->category_name }}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
+                                                        <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> تسجيل</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         @endforeach

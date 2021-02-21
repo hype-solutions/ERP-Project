@@ -72,6 +72,17 @@ class InsController extends Controller
         return redirect()->route('ins.list');
     }
 
+    public function updateCat(InCategories $cat, Request $request){
+        $cat->category_name = $request->category_name;
+        $cat->save();
+        return redirect()->route('ins.categories');
+    }
+
+    public function deleteCat(InCategories $cat){
+        InCategories::destroy($cat->id);
+        return redirect()->route('ins.categories');
+    }
+
     public function categoriesstore(Request $request)
     {
         $cat = new InCategories();

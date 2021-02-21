@@ -172,7 +172,40 @@
                             <td>{{ $entity->id }}</td>
                             <td>{{ $entity->entity_name }}</td>
                             <td>
-                                  </td>
+                                <button data-toggle="modal" data-target="#edit_entity{{ $entity->id }}" class="btn btn-warning btn-sm"><i class="la la-pencil-square-o"></i> تعديل</button>
+                                <a href="{{ route('outs.entities.deleting', $entity->id) }}" class="btn btn-danger btn-sm"><i class="la la-trash"></i> حذف</a>
+
+                                <div class="modal fade text-left" id="edit_entity{{ $entity->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="myModalLabel1"> تعديل</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form" method="post" action="{{route('outs.entities.editing', $entity->id)}}">
+                                                    @csrf
+                                                    <div class="form-body">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="timesheetinput2">الجهه</label>
+                                                                    <br/>
+                                                                    <input type="text" class="form-control" name="entity_name" value="{{ $entity->entity_name }}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
+                                                        <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> تسجيل</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                         @endforeach
                      </tbody>

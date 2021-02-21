@@ -333,6 +333,10 @@ Route::group(['middleware' => ['permission:View Income Cat']], function () {
 Route::group(['middleware' => ['permission:Add Income Cat']], function () {
     Route::post('/ins/categories/adding', [InsController::class, 'categoriesstore'])->name('ins.categories.adding');
 });
+Route::post('/ins/categories/editing/{cat}', [InsController::class, 'updateCat'])->name('ins.categories.editing');
+Route::get('/ins/categories/deleting/{cat}', [InsController::class, 'deleteCat'])->name('ins.categories.deleting');
+
+
 // Route::get('/ins/view/{in}', [InsController::class, 'view'])->name('ins.view');
 // Route::get('/ins/edit/{in}', [InsController::class, 'edit'])->name('ins.edit');
 // Route::patch('/ins/update/{in}', [InsController::class, 'update'])->name('ins.update');
@@ -362,6 +366,12 @@ Route::group(['middleware' => ['permission:View Expenses Ent']], function () {
 Route::group(['middleware' => ['permission:Add Expenses Ent']], function () {
     Route::post('/outs/entities/adding', [OutsController::class, 'entitiesstore'])->name('outs.entities.adding');
 });
+
+Route::post('/outs/categories/editing/{cat}', [OutsController::class, 'updateCat'])->name('outs.categories.editing');
+Route::get('/outs/categories/deleting/{cat}', [OutsController::class, 'deleteCat'])->name('outs.categories.deleting');
+Route::post('/outs/entities/editing/{ent}', [OutsController::class, 'updateEnt'])->name('outs.entities.editing');
+Route::get('/outs/entities/deleting/{ent}', [OutsController::class, 'deleteEnt'])->name('outs.entities.deleting');
+
 // Route::get('/outs/view/{out}', [OutsController::class, 'view'])->name('outs.view');
 // Route::get('/outs/edit/{out}', [OutsController::class, 'edit'])->name('outs.edit');
 // Route::patch('/outs/update/{out}', [OutsController::class, 'update'])->name('outs.update');
