@@ -433,6 +433,9 @@ Route::group(['middleware' => ['permission:Edit Users']], function () {
     Route::patch('/users/update/{user}', [UsersController::class, 'update'])->name('users.update');
     Route::patch('/users/profile-pic/update/{user}', [UsersController::class, 'profilepic'])->name('users.profilepic');
     Route::patch('/users/signature/update/{user}', [UsersController::class, 'signature'])->name('users.signature');
+    Route::get('/users/permissions/{user}', [UsersController::class, 'permissions'])->name('users.permissions');
+    Route::post('/users/reSyncRolewithPermissions', [UsersController::class, 'reSyncRolewithPermissions'])->name('users.reSyncRolewithPermissions');
+
 });
 
 Route::group(['middleware' => ['permission:Delete Users']], function () {

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
@@ -134,6 +136,28 @@ class UsersController extends Controller
         $request->signature->move(public_path('uploads/users/'.$user->id.'/s/'), $fileName);
         $user->signature = 'uploads/users/'.$user->id.'/s/'.$fileName;
         $user->save();
+        return back();
+    }
+
+    public function permissions(User $user){
+        $allPermissions = Permission::all();
+        $permissions = $user->permissions()->get();
+        App::setLocale('ar');
+        return view('users.permissions', compact('allPermissions', 'user', 'permissions'));
+    }
+
+    public function reSyncRolewithPermissions(Request $request)
+    {
+        $user = User::find($request->user_id);
+        $permissions = $request->permission;
+        $permissionsArray = [];
+        foreach ($permissions as $per) {
+            $permission = Permission::findByName($per['name']);
+            if (isset($per['status'])) {
+                $permissionsArray[] = $permission;
+            }
+        }
+        $user->syncPermissions($permissionsArray);
         return back();
     }
 }

@@ -232,6 +232,7 @@
                             <td>
                                 <a href="{{ route('users.view', $user->id) }}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
                                 <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary btn-sm"><i class="la la-pencil-square-o"></i> تعديل</a>
+                                <a href="{{ route('users.permissions', $user->id) }}" class="btn btn-success btn-sm"><i class="la la-balance-scale"></i> الصلاحيات</a>
                                 <a href="{{ route('users.delete', $user->id) }}" class="btn btn-danger btn-sm"><i class="la la-trash"></i> حذف</a>
                              </td>
                         </tr>
