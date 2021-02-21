@@ -77,6 +77,7 @@ return [
     'Accept Safes Transfers' => 'الموافقة على عمليات تحويل الأموال بين الخزن',
     'Accept Safes Deposit' => 'الموافقة على عمليات الإيداع في الخزن',
     'Accept Safes Withdraw' => 'الموافقة على عمليات السحب من الخزن',
+    'Detele Safes' => 'حذف الخزن',
     'Delete Safes' => 'حذف الخزن',
     'Edit Users' => 'تعديل المستخدمين',
     'Delete Users' => 'حذف المستخدمين',

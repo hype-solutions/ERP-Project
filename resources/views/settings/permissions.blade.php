@@ -105,14 +105,19 @@
                   </div>
               </div>
               <div class="row">
-                @foreach ($permissions as $permission)
+                @foreach ($allPermissions as $permission)
                   <div class="col-md-4">
-                      <input type="checkbox" name="" id="">
+
+                      <input type="checkbox" name="" id="" @if($role->hasPermissionTo($permission->name)) checked @endif>
                     @lang('rolesAndPermissions.'.$permission->name)
                   </div>
                   @endforeach
               </div>
-
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-block btn-primary">حفظ</button>
+    </div>
+</div>
           </div>
         </div>
     </div>
