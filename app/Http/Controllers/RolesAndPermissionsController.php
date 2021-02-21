@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -12,8 +13,6 @@ class RolesAndPermissionsController extends Controller
     public function roles()
     {
         $roles = Role::where('name', '!=', 'Super Admin')->get()->pluck('name');
-        setlocale(LC_TIME, 'ar_EG.UTF-8');
-
         return view('settings.roles', compact('roles'));
     }
 
@@ -27,7 +26,9 @@ class RolesAndPermissionsController extends Controller
     {
         $role = Role::findByName($role_name);
         $permissions = $role->permissions()->get();
-        return view('settings.permissions', compact('role', 'permissions'));
+        App::setLocale('ar');
+        $locale = App::currentLocale();
+        return view('settings.permissions', compact('role', 'permissions','locale'));
     }
 
     public function addingPermissions(Request $request)
