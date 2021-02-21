@@ -135,9 +135,9 @@ class InvoicesController extends Controller
          if ($data['payment_method'] != 'later') {
             $this->invoice->updateSafeTransactionAddDesc($paymentId);
         } else {
-            foreach ($data['date'] as $item) {
+            foreach ($data['later'] as $item) {
                 $this->invoice->addInvoiceInstallment(
-                    $safe_id, $invoiceId, $customerId, $item['amount'], $item['date'], $item['notes'], $item['paynow']
+                    $safe_id, $invoiceId, $customerId, $item['amount'], $item['date'], $item['notes'], isset($item['paynow']) ? $item['paynow']: ''
                 );
             }
         }

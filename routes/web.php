@@ -17,6 +17,7 @@ use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\InvoicesPriceQuotationController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\InsController;
+use App\Http\Controllers\InstallmentsController;
 use App\Http\Controllers\OutsController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\ReportsController;
@@ -127,6 +128,14 @@ Route::group(['middleware' => ['permission:Sell POS']], function () {
     Route::get('/pos/cancel/{sessionId}', [PosController::class, 'cancel'])->name('pos.cancel');
 
 });
+
+
+
+/**************************
+ ******** Customers *******
+ **************************/
+Route::get('/installments', [InstallmentsController::class, 'installments'])->name('installments.landing');
+
 
 
 

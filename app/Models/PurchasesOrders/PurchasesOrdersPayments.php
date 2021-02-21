@@ -25,4 +25,9 @@ class PurchasesOrdersPayments extends Model
     {
         return $this->hasOne('App\Models\Safes\Safes', 'id', 'safe_id');
     }
+
+    public function supplier()
+    {
+        return $this->hasOne('App\Models\Suppliers\Suppliers', 'id', 'supplier_id');
+    }
 }

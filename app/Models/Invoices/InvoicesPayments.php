@@ -26,4 +26,9 @@ class InvoicesPayments extends Model
     {
         return $this->belongsTo('App\Models\Invoices\Invoices', 'invoice_id', 'id');
     }
+
+    public function customer()
+    {
+        return $this->hasOne('App\Models\Customers\Customers', 'id', 'customer_id');
+    }
 }

@@ -65,9 +65,9 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="menu-item" href="">
+                                <a class="menu-item" href="{{route('installments.landing')}}">
                                     <i></i>
-                                    <span data-i18n="Classic Menu">مواعيد استحقاق الفواتير</span>
+                                    <span data-i18n="Classic Menu">الأقساط</span>
                                 </a>
                             </li>
                         </ul>
