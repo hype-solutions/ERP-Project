@@ -18,7 +18,7 @@
 <div class="content-wrapper">
     <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2">
-          <h3 class="content-header-title mb-0">قائمة الإعدادات</h3>
+          <h3 class="content-header-title mb-0">قائمة الصلاحيات</h3>
           <div class="row breadcrumbs-top">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
@@ -34,11 +34,69 @@
 </div>
         <div class="content-body"><!-- users list start -->
 
+<div class="row">
+    <div class="col-12">
+        <div class="card border-teal border-lighten-2">
+          <div class="text-center">
 
-    <section id="simple-user-cards-with-border" class="row mt-2">
+            <div class="card-body">
+              <h4 class="card-title">إضافة نوع مستخدم</h4>
+            </div>
+            <div class="text-center">
+              <button type="button" data-toggle="modal" data-target="#Add" class="btn  mb-1 btn-outline-linkedin btn-block"><span class="la la-plus font-medium-4"></span></button>
 
+
+              <div class="modal fade text-left" id="Add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel1">بيانات نوع المستخدم</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form" method="post" action="{{route('settings.roles.adding')}}">
+                                @csrf
+                                <div class="form-body">
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="timesheetinput2">اسم النوع</label>
+                                                <span style="color:red">*</span>
+                                                <div class="position-relative has-icon-left">
+                                                <input type="text" id="timesheetinput2" class="form-control" placeholder="" name="role_name" required>
+                                                    <div class="form-control-position">
+                                                        <i class="la la-user"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                            <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
+                                            <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> تسجيل</button>
+
+                                        </form>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+</div></div>
+    <div class="row">
         @foreach ($roles as $role)
-        <div class="col">
+        <div class="col-md-3">
             <div class="card border-pink border-lighten-2">
               <div class="text-center">
                 <div class="card-body">
@@ -52,64 +110,9 @@
             </div>
           </div>
         @endforeach
-        {{-- <div class="col-xl-3 col-md-6 col-12">
-            <div class="card border-teal border-lighten-2">
-              <div class="text-center">
-
-                <div class="card-body">
-                  <h4 class="card-title">إضافة نوع مستخدم</h4>
-                </div>
-                <div class="text-center">
-                  <button type="button" data-toggle="modal" data-target="#Add" class="btn  mb-1 btn-outline-linkedin btn-block"><span class="la la-plus font-medium-4"></span></button>
 
 
-                  <div class="modal fade text-left" id="Add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title" id="myModalLabel1">بيانات نوع المستخدم</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form class="form" method="post" action="{{route('settings.roles.adding')}}">
-                                    @csrf
-                                    <div class="form-body">
-                                        <div class="row">
 
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="timesheetinput2">اسم النوع</label>
-                                                    <span style="color:red">*</span>
-                                                    <div class="position-relative has-icon-left">
-                                                    <input type="text" id="timesheetinput2" class="form-control" placeholder="" name="role_name" required>
-                                                        <div class="form-control-position">
-                                                            <i class="la la-user"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-
-
-                                                <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal"><i class="ft-x"></i> الغاء</button>
-                                                <button type="submit" class="btn btn-outline-primary"><i class="la la-check-square-o"></i> تسجيل</button>
-
-                                            </form>
-                            </div>
-                        </div>
-
-                        </div>
-                    </div>
-
-                </div>
-              </div>
-            </div>
-          </div> --}}
-      </section>
 
 
 
