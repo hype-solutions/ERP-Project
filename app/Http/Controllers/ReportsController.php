@@ -14,6 +14,7 @@ use App\Models\Pos\PosSessions;
 use App\Models\Projects\Projects;
 use App\Models\PurchasesOrders\PurchasesOrders;
 use App\Models\PurchasesOrders\PurchasesOrdersPayments;
+use App\Models\Safes\ExternalFund;
 use App\Models\Safes\Safes;
 use App\Models\Safes\SafesTransactions;
 use App\Models\Suppliers\Suppliers;
@@ -118,6 +119,9 @@ class ReportsController extends Controller
         //Income
         $income = In::whereBetween('updated_at', [$from, $to])->where('safe_id', $getBranchSafeId)->sum('amount');
 
+        //External Fund
+        $externalFund = ExternalFund::whereBetween('funding_date', [$from, $to])->where('safe_id', $getBranchSafeId)->sum('amount');
+
         //Safe Deposit
         $deposit = SafesTransactions::whereBetween('transaction_datetime', [$from, $to])
             ->where('transaction_type', 2)
@@ -216,6 +220,7 @@ class ReportsController extends Controller
             'laterSumInv',
             'laterSumPO',
             'purchasesOrders',
+            'externalFund',
             'fromX',
             'toX',
         ));
@@ -540,7 +545,8 @@ class ReportsController extends Controller
         $income = In::whereBetween('updated_at', [$from, $to])
             ->where('safe_id', $getBranchSafeId)->get();
 
-
+        $externalFund = ExternalFund::whereBetween('funding_date', [$from, $to])
+            ->where('safe_id', $getBranchSafeId)->get();
 
         $incomeSum = In::whereBetween('updated_at', [$from, $to])
             ->where('safe_id', $getBranchSafeId)->sum('amount');
@@ -556,7 +562,7 @@ class ReportsController extends Controller
 
 
 
-        return view('reports.income', compact('incomeSum', 'incomeBndSum', 'deposits', 'branch', 'branches', 'fromX', 'toX', 'income', 'deposit'));
+        return view('reports.income', compact('externalFund','incomeSum', 'incomeBndSum', 'deposits', 'branch', 'branches', 'fromX', 'toX', 'income', 'deposit'));
     }
 
 

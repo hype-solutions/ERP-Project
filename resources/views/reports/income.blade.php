@@ -297,6 +297,44 @@
             </div>
         </div>
     </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-header"><h4>التمويلات الخارجية</h4></div>
+                <div class="card-body">
+                    <!-- datatable start -->
+                    <div class="table-responsive">
+                        <table id="fund" class="table">
+                            <thead>
+                                <tr>
+                                    <th>رقم العملية</th>
+                                    <th>المبلغ</th>
+                                    <th>الممول</th>
+                                    <th>التاريخ</th>
+                                    <th>التحكم</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($externalFund as $key => $fund)
+                                <tr>
+                                    <td>{{ $fund->id }}</td>
+                                    <td>{{ $fund->amount }}</td>
+                                    <td>{{ $fund->investor }}</td>
+                                    <td>{{ $fund->funding_date }}</td>
+                                    <td>
+                                        {{-- <a href="{{ route('safes.receipt', $fund->id) }}" target="_blank" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a> --}}
+
+                                     </td>
+                                </tr>
+                                @endforeach
+                             </tbody>
+                        </table>
+                    </div>
+                    <!-- datatable ends -->
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </section>
 <!-- users list ends -->
@@ -359,6 +397,40 @@
     });
 
     $("#sessions").DataTable( {
+        dom: 'Bfrtip',
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+        },
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'حفظ كملف EXCEL',
+                messageTop: 'قائمة فواتير البيع السريع',
+                exportOptions: {
+                    columns: [2,1,0 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'حفظ كملف PDF',
+                messageTop: 'قائمة فواتير البيع السريع',
+                exportOptions: {
+                    columns: [2,1,0 ]
+                },
+
+            },
+            {
+                extend: 'print',
+                text: 'طباعة',
+                messageTop: 'قائمة فواتير البيع السريع',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ]
+                }
+            }
+        ]
+    });
+
+    $("#fund").DataTable( {
         dom: 'Bfrtip',
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"

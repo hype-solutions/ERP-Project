@@ -283,6 +283,10 @@
                                         <td>{{$laterSumInv}} ج.م</td>
                                       </tr> --}}
                                       <tr class="bg-success white">
+                                        <td scope="row">تمويل خارجي</td>
+                                        <td>{{$externalFund}} ج.م</td>
+                                      </tr>
+                                      <tr class="bg-success white">
                                         <td scope="row">دواخل أخرى</td>
                                         <td>{{$income}} ج.م</td>
                                       </tr>
@@ -318,6 +322,7 @@
                                                 $projectsSum +
                                                 $invoicesSumLater +
                                                 $income +
+                                                $externalFund +
                                                 $deposit -
                                                 $expenses -
                                                 $withdrawal -
