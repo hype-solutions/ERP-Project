@@ -12,6 +12,8 @@ class RolesAndPermissionsController extends Controller
     public function roles()
     {
         $roles = Role::where('name', '!=', 'Super Admin')->get()->pluck('name');
+        setlocale(LC_TIME, 'ar_EG.UTF-8');
+
         return view('settings.roles', compact('roles'));
     }
 

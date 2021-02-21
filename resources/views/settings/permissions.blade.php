@@ -91,11 +91,23 @@
               </div>
             </div>
           </div>
-<ul>
-@foreach ($permissions as $permission)
-<li>{{$permission->name}}</li>
-@endforeach
-</ul>
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="card">
+                    <div class="card-body">
+                        <ul>
+                            @foreach ($permissions as $permission)
+                            <li>
+                                {{-- {{$permission->name}} --}}
+                                {{ trans($permission->name) }}
+                            </li>
+                            @endforeach
+                            </ul>
+                    </div>
+                  </div>
+              </div>
+          </div>
+
 
    </div>
 </div>
