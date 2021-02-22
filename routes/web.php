@@ -477,3 +477,8 @@ Route::get('/others/calculator', [CalculatorController::class, 'index'])->name('
 
 
 Route::get('/shit', [HomeController::class, 'shit'])->name('shit');
+
+Route::get('/generate', function (){
+    \Illuminate\Support\Facades\Artisan::call('storage:link');
+    echo 'ok';
+});
