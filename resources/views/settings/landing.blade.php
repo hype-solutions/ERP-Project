@@ -152,7 +152,7 @@
                             </td>
                             <td>
                                 @if($setting->key == 'logo')
-                                    <img  src="{{ asset('uploads/'.$setting->value) }}" style="width:200px;"/>
+                                    <img  src="{{ asset($setting->value) }}" style="width:200px;"/>
                                 @else
                                 {{$setting->value}}
                                 @endif

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -122,13 +124,20 @@ class UsersController extends Controller
         $request->validate([
             'profile_pic' => 'required|mimes:png,jpg,svg,gif|max:2048',
         ]);
-
+        $file = $request->file('profile_pic');
         $fileName = time().'.'.$request->profile_pic->getClientOriginalExtension();
 
-        $request->profile_pic->move(public_path('uploads/users/'.$user->id.'/p/'), $fileName);
-        $user->profile_pic = 'uploads/users/'.$user->id.'/p/'.$fileName;
+        $folder = public_path("storage/uploads/users/".$user->id."/p/");
+        if (!File::exists($folder)) {
+            File::makeDirectory($folder.$request->profile_pic, 0775, true, true);
+        }
+
+        if (!empty($file)) {
+                $file->move($folder, $fileName);
+        }
+        $user->profile_pic = 'storage/uploads/users/'.$user->id.'/p/'.$fileName;
         $user->save();
-        return back();
+       return back();
     }
 
     public function signature(User $user, Request $request)
@@ -137,11 +146,20 @@ class UsersController extends Controller
             'signature' => 'required|mimes:png,jpg,svg,gif|max:2048',
         ]);
 
+        $file = $request->file('signature');
         $fileName = time().'.'.$request->signature->getClientOriginalExtension();
 
-        $request->signature->move(public_path('uploads/users/'.$user->id.'/s/'), $fileName);
-        $user->signature = 'uploads/users/'.$user->id.'/s/'.$fileName;
+        $folder = public_path("storage/uploads/users/".$user->id."/s/");
+        if (!File::exists($folder)) {
+            File::makeDirectory($folder.$request->signature, 0775, true, true);
+        }
+
+        if (!empty($file)) {
+                $file->move($folder, $fileName);
+        }
+        $user->signature = 'storage/uploads/users/'.$user->id.'/s/'.$fileName;
         $user->save();
+
         return back();
     }
 
