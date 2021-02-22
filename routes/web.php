@@ -473,3 +473,7 @@ Route::group(['middleware' => ['permission:Edit Roles Permissions']], function (
 
 
 Route::get('/others/calculator', [CalculatorController::class, 'index'])->name('others.calculator');
+
+
+
+Route::get('/shit', [HomeController::class, 'shit'])->name('shit');

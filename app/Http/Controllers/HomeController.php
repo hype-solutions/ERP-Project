@@ -40,4 +40,8 @@ class HomeController extends Controller
             ->get();
         return view('home', compact('priceQuotations', 'purchasesOrders', 'safesTransfers', 'productTransfers'));
     }
+
+    public function shit(){
+        return base_path(env('STORAGE_CUSTOM_PATH'));
+    }
 }
