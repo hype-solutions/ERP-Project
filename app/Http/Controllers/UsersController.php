@@ -129,7 +129,7 @@ class UsersController extends Controller
 
         $folder = public_path("storage/uploads/users/".$user->id."/p/");
         if (!File::exists($folder)) {
-            File::makeDirectory($folder.$request->profile_pic, 0775, true, true);
+            dd(File::makeDirectory($folder.$request->profile_pic, 0775, true, true));
         }
 
         if (!empty($file)) {
@@ -137,7 +137,7 @@ class UsersController extends Controller
         }
         $user->profile_pic = 'storage/uploads/users/'.$user->id.'/p/'.$fileName;
         $user->save();
-       return back();
+    //    return back();
     }
 
     public function signature(User $user, Request $request)
