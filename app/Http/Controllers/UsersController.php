@@ -139,7 +139,7 @@ class UsersController extends Controller
         }
         $user->profile_pic = 'uploads/users/'.$user->id.'/p/'.$fileName;
         $user->save();
-    //    return back();
+       return back();
     }
 
     public function signature(User $user, Request $request)
