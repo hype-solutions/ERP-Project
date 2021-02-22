@@ -127,14 +127,15 @@ class UsersController extends Controller
         $file = $request->file('profile_pic');
         $fileName = time().'.'.$request->profile_pic->getClientOriginalExtension();
 
-        $folder = public_path("users/".$user->id."/p");
+        // $folder = public_path("users/".$user->id."/p");
+        $folder = "users/".$user->id."/p";
         if (!Storage::disk('erp')->exists($folder)) {
-            Storage::disk('erp')->makeDirectory($folder.$request->profile_pic, 0775, true, true);
+            Storage::disk('erp')->makeDirectory($folder, 0775, true, true);
         }
 
         if (!empty($file)) {
                 // $file->move($folder, $fileName);
-                Storage::disk('erp')->put($fileName, $file);
+                Storage::disk('erp')->put($folder.$fileName, $file);
 
         }
         $user->profile_pic = 'uploads/users/'.$user->id.'/p/'.$fileName;
