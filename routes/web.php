@@ -24,6 +24,7 @@ use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\RolesAndPermissionsController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\SettingsController;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -480,7 +481,7 @@ Route::get('/shit', [HomeController::class, 'shit'])->name('shit');
 
 Route::get('/generate', function (){
     // \Illuminate\Support\Facades\Artisan::call('storage:link');
-    app('files')->link(storage_path('app/public'), public_path('storage'));
-
-    echo 'ok';
+    // app('files')->link(storage_path('app/public'), public_path('storage'));
+    Artisan::call('storage:link', [] );
+    echo public_path('storage');
 });
