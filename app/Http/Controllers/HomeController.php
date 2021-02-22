@@ -42,6 +42,6 @@ class HomeController extends Controller
     }
 
     public function shit(){
-        return base_path(env('STORAGE_CUSTOM_PATH'));
+        return public_path();
     }
 }
