@@ -42,6 +42,7 @@ class HomeController extends Controller
     }
 
     public function shit(){
-        return public_path();
+        return storage_path('/app/public');
+        // return __DIR__;
     }
 }
