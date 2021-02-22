@@ -66,8 +66,8 @@ return [
         ],
         'erp' => [
             'driver' => 'local',
-            // 'root'   => '../../../../../mygesture/erp/demo/uploads',
-            'root'   => env('STORAGE_CUSTOM_PATH'),
+             'root'   => '../../../../../mygesture/erp/demo/uploads',
+
         ],
 
     ],

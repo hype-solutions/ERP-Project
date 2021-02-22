@@ -127,7 +127,7 @@ class UsersController extends Controller
         $file = $request->file('profile_pic');
         $fileName = time().'.'.$request->profile_pic->getClientOriginalExtension();
 
-        $folder = public_path("users/".$user->id."/p/");
+        $folder = public_path("users/".$user->id."/p");
         if (!Storage::disk('erp')->exists($folder)) {
             Storage::disk('erp')->makeDirectory($folder.$request->profile_pic, 0775, true, true);
         }
