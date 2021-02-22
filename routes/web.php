@@ -482,7 +482,7 @@ Route::get('/shit', [HomeController::class, 'shit'])->name('shit');
 Route::get('/generate', function (){
     // \Illuminate\Support\Facades\Artisan::call('storage:link');
     // app('files')->link(storage_path('app/public'), public_path('storage'));
-    app('files')->link(storage_path('app/public'), '/home2/qzojqlmy/public_html/mygesture/erp/demo/public');
+    // app('files')->link(storage_path('app/public'), '/home2/qzojqlmy/public_html/mygesture/erp/demo/public');
     // Artisan::call('storage:link', [] );
     echo public_path('storage');
 });

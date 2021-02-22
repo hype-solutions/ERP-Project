@@ -80,8 +80,8 @@ return [
 
     'links' => [
         // env('STORAGE_CUSTOM_PATH') => storage_path('app/public'),
-        // base_path(env('STORAGE_CUSTOM_PATH')) => storage_path('app/public'),
-        public_path('storage') => storage_path('app/public'),
+        base_path(env('STORAGE_CUSTOM_PATH')) => storage_path('app/public'),
+        // public_path('storage') => storage_path('app/public'),
     ],
 
 ];
