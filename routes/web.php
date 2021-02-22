@@ -479,6 +479,8 @@ Route::get('/others/calculator', [CalculatorController::class, 'index'])->name('
 Route::get('/shit', [HomeController::class, 'shit'])->name('shit');
 
 Route::get('/generate', function (){
-    \Illuminate\Support\Facades\Artisan::call('storage:link');
+    // \Illuminate\Support\Facades\Artisan::call('storage:link');
+    app('files')->link(storage_path('app/public'), public_path('storage'));
+
     echo 'ok';
 });
