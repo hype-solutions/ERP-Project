@@ -65,7 +65,7 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
         'erp' => [
-            'driver' => 'custom',
+            'driver' => 'local',
             'root'   => '../../../../../mygesture/erp/demo/uploads',
         ],
 
