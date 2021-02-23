@@ -125,7 +125,7 @@ class UsersController extends Controller
             'profile_pic' => 'required|mimes:png,jpg,svg,gif|max:2048',
         ]);
         // $file = $request->file('profile_pic');
-        $file = $request->profile_pic;
+        $file = $request->file('profile_pic');
         $fileName = time().'.'.$request->profile_pic->getClientOriginalExtension();
 
         // $folder = public_path("users/".$user->id."/p");
@@ -136,7 +136,7 @@ class UsersController extends Controller
 
         if (!empty($file)) {
                 // $file->move($folder, $fileName);
-                Storage::disk('erp')->put($folder.'/'.$fileName, $file);
+                Storage::disk('erp')->put($folder.'/'.$fileName, File::get($request->profile_pic));
 
         }
         $user->profile_pic = 'uploads/users/'.$user->id.'/p/'.$fileName;
