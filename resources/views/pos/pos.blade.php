@@ -799,7 +799,8 @@ function addToCart(productId,productName,productPrice){
                     addBtn = '<button type="button" class="btn btn-primary btn-sm float-right" disabled> <i class="fa fa-cart-plus"></i> إضافة </button>';
                     productStatus = '<span class="badge-new"> غير متوفر </span>';
                 }
-                $('#show_search').append('<div class="col-md-3"><figure class="card card-product">'+productStatus+'<div class="img-wrap"><img src="{{asset(theme/pos/images/items/noImg.jpg)}}"><a class="btn-overlay" href="#" data-toggle="modal" data-target="#product_'+data.data[i].id+'"><i class="fa fa-search-plus" ></i> نظرة سريعة</a></div><figcaption class="info-wrap"><a href="#" class="title">'+data.data[i].product_name+'</a><div class="action-wrap">'+addBtn+'<div class="price-wrap h5"><span class="price-new">'+data.data[i].product_price+' ج.م</span></div></div></figcaption></figure></div>');
+                var noImg = "{{asset('theme/pos/images/items/noImg.jpg')}}";
+                $('#show_search').append('<div class="col-md-3"><figure class="card card-product">'+productStatus+'<div class="img-wrap"><img src="'+ noImg +'"><a class="btn-overlay" href="#" data-toggle="modal" data-target="#product_'+data.data[i].id+'"><i class="fa fa-search-plus" ></i> نظرة سريعة</a></div><figcaption class="info-wrap"><a href="#" class="title">'+data.data[i].product_name+'</a><div class="action-wrap">'+addBtn+'<div class="price-wrap h5"><span class="price-new">'+data.data[i].product_price+' ج.م</span></div></div></figcaption></figure></div>');
                 }
             },
             error: function (data) {
@@ -871,7 +872,8 @@ function addToCart(productId,productName,productPrice){
                     addBtn = '<button type="button" class="btn btn-primary btn-sm float-right" disabled> <i class="fa fa-cart-plus"></i> إضافة </button>';
                     productStatus = '<span class="badge-new"> غير متوفر </span>';
                 }
-                $('#show_barcode').append('<div class="col-md-3"><figure class="card card-product">'+productStatus+'<div class="img-wrap"><img src="{{asset(theme/pos/images/items/noImg.jpg)}}"><a class="btn-overlay" href="#" data-toggle="modal" data-target="#product_'+datax.datax[i].id+'"><i class="fa fa-search-plus"></i> نظرة سريعة</a></div><figcaption class="info-wrap"><a href="#" class="title">'+datax.datax[i].product_name+'</a><div class="action-wrap">'+addBtn+'<div class="price-wrap h5"><span class="price-new">'+datax.datax[i].product_price+' ج.م</span></div></div></figcaption></figure></div>');
+                var noImg = "{{asset('theme/pos/images/items/noImg.jpg')}}";
+                $('#show_barcode').append('<div class="col-md-3"><figure class="card card-product">'+productStatus+'<div class="img-wrap"><img src="'+ noImg +'"><a class="btn-overlay" href="#" data-toggle="modal" data-target="#product_'+datax.datax[i].id+'"><i class="fa fa-search-plus"></i> نظرة سريعة</a></div><figcaption class="info-wrap"><a href="#" class="title">'+datax.datax[i].product_name+'</a><div class="action-wrap">'+addBtn+'<div class="price-wrap h5"><span class="price-new">'+datax.datax[i].product_price+' ج.م</span></div></div></figcaption></figure></div>');
                 }
             },
             error: function (data) {
