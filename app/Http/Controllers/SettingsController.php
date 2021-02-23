@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Settings\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\Storage;
 
 class SettingsController extends Controller
 {
@@ -26,32 +26,24 @@ class SettingsController extends Controller
         $setting->value = $request->setting;
         }else{
 
+
+            $request->validate([
+                'setting' => 'required|mimes:png,jpg,svg,gif|max:2048',
+            ]);
             $file = $request->file('setting');
             $fileName = time().'.'.$request->setting->getClientOriginalExtension();
 
-            $folder = public_path("storage/uploads/logos/");
-            if (!file::exists($folder)) {
-                File::makeDirectory($folder.$request->setting, 0775, true, true);
+            $folder = "logos/";
+            if (!Storage::disk('erp')->exists($folder)) {
+                Storage::disk('erp')->makeDirectory($folder, 0775, true, true);
             }
-
             if (!empty($file)) {
-                    $file->move($folder, $fileName);
+                    Storage::disk('erp')->put($folder.'/'.$fileName, File::get($request->setting));
             }
-            $setting->value = 'storage/uploads/logos/'.$fileName;
+            $setting->value = 'uploads/logos/'.$fileName;
+            $setting->save();
+           return back();
 
-
-
-
-
-
-            // $request->validate([
-            //     'setting' => 'required|mimes:png,jpg,svg,gif|max:2048',
-            // ]);
-
-            // $fileName = time().'.'.$request->setting->getClientOriginalExtension();
-
-            // $request->setting->move(public_path('uploads'), $fileName);
-            // $setting->value = $fileName;
 
         }
         $setting->save();

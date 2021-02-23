@@ -124,20 +124,15 @@ class UsersController extends Controller
         $request->validate([
             'profile_pic' => 'required|mimes:png,jpg,svg,gif|max:2048',
         ]);
-        // $file = $request->file('profile_pic');
         $file = $request->file('profile_pic');
         $fileName = time().'.'.$request->profile_pic->getClientOriginalExtension();
 
-        // $folder = public_path("users/".$user->id."/p");
         $folder = "users/".$user->id."/p";
         if (!Storage::disk('erp')->exists($folder)) {
             Storage::disk('erp')->makeDirectory($folder, 0775, true, true);
         }
-
         if (!empty($file)) {
-                // $file->move($folder, $fileName);
                 Storage::disk('erp')->put($folder.'/'.$fileName, File::get($request->profile_pic));
-
         }
         $user->profile_pic = 'uploads/users/'.$user->id.'/p/'.$fileName;
         $user->save();
@@ -149,22 +144,19 @@ class UsersController extends Controller
         $request->validate([
             'signature' => 'required|mimes:png,jpg,svg,gif|max:2048',
         ]);
-
         $file = $request->file('signature');
         $fileName = time().'.'.$request->signature->getClientOriginalExtension();
 
-        $folder = public_path("storage/uploads/users/".$user->id."/s/");
-        if (!File::exists($folder)) {
-            File::makeDirectory($folder.$request->signature, 0775, true, true);
+        $folder = "users/".$user->id."/s";
+        if (!Storage::disk('erp')->exists($folder)) {
+            Storage::disk('erp')->makeDirectory($folder, 0775, true, true);
         }
-
         if (!empty($file)) {
-                $file->move($folder, $fileName);
+                Storage::disk('erp')->put($folder.'/'.$fileName, File::get($request->signature));
         }
-        $user->signature = 'storage/uploads/users/'.$user->id.'/s/'.$fileName;
+        $user->signature = 'uploads/users/'.$user->id.'/s/'.$fileName;
         $user->save();
-
-        return back();
+       return back();
     }
 
     public function permissions(User $user){
