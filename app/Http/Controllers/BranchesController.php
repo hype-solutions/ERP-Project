@@ -80,7 +80,7 @@ class BranchesController extends Controller
         $branchProducts = $branchData->branchProductsinStock();
         $productsCount = $branchData->branchProductsinStockCount();
 
-        ERPLog::create(['type' => 'Branches', 'action' => 'View', 'custom_id' => $branchId->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
+        ERPLog::create(['type' => 'Branches', 'action' => 'View', 'custom_id' => $branchData->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
         return view('branches.profile', compact(
             'productsCount',

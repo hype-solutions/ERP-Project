@@ -80,12 +80,14 @@
         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
             <a class="dropdown-item" href="{{ route('branches.view', $branch->id) }}">استعراض الفرع</a>
             <a class="dropdown-item" href="{{ route('branches.edit', $branch->id) }}">تعديل الفرع</a>
+            @if($branch->id != 1)
             <div class="dropdown-divider"></div>
             <form action="{{route('branches.delete',$branch->id)}}" method="post" onsubmit="return confirm('هل أنت متأكد من حذف هذا الفرع نهائيا و جميع تفاصيله من البرنامج')">
                 @csrf
                 @method('delete')
             <button class="dropdown-item btn-danger btn" type="submit">حذف الفرع</button>
             </form>
+            @endif
         </div>
     </div>
     <div class="btn-group mr-1 mb-1">
