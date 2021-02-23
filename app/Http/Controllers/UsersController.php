@@ -124,7 +124,8 @@ class UsersController extends Controller
         $request->validate([
             'profile_pic' => 'required|mimes:png,jpg,svg,gif|max:2048',
         ]);
-        $file = $request->file('profile_pic');
+        // $file = $request->file('profile_pic');
+        $file = $request->profile_pic;
         $fileName = time().'.'.$request->profile_pic->getClientOriginalExtension();
 
         // $folder = public_path("users/".$user->id."/p");
