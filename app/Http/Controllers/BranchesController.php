@@ -78,7 +78,10 @@ class BranchesController extends Controller
         $branchData = $this->branch->findOrFail($branchId);
         $safeBalance = $branchData->getBranchSafeDetails()->value('safe_balance');
         $branchProducts = $branchData->branchProductsinStock();
+        $branchProductsSelling = $branchData->branchProductsinSelling();
         $productsCount = $branchData->branchProductsinStockCount();
+
+
 
         ERPLog::create(['type' => 'Branches', 'action' => 'View', 'custom_id' => $branchData->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
@@ -86,7 +89,8 @@ class BranchesController extends Controller
             'productsCount',
             'branchData',
             'safeBalance',
-            'branchProducts'
+            'branchProducts',
+            'branchProductsSelling'
         ));
     }
 }

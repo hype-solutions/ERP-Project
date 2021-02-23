@@ -51,6 +51,14 @@ class Branches extends Model
             ->count();
     }
 
+    public function branchProductsinSelling()
+    {
+        return $this->hasMany(BranchesProductsSelling::class, 'branch_id', 'id')
+            ->where('selling', 1)
+            ->with('product')
+            ->get();
+    }
+
 
     public function deleteBranchProductsRecords()
     {

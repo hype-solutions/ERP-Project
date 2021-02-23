@@ -163,16 +163,16 @@
   <!-- users view card data ends -->
   <!-- users view card details start -->
   <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-8">
     <div class="card">
       <div class="card-content">
         <div class="card-body">
 
           <div class="col-12">
              {{-- <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span> صنف جديد</a> --}}
-              <h2 style="text-align: center">أصناف الفرع</h2>
+              <h2 style="text-align: center">جرد الفرع (الأصناف الموجودة بالمخزن)</h2>
             <div class="table-responsive">
-              <table class="table mb-0" id="products">
+              <table class="table mb-0" id="productsSelling">
                 <thead>
                   <tr>
                     <th>كود الصنف</th>
@@ -198,6 +198,43 @@
               </table>
             </div>
           </div>
+
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div class="col-md-4">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-body">
+
+          <div class="col-12">
+             {{-- <a href="#" class="btn btn-social mb-1 mr-1 btn-sm btn-success" style="float: left"><span class="la la-plus"></span> صنف جديد</a> --}}
+             <h2 style="text-align: center"> الأصناف المسموح ببيعها في هذا الفرع</h2>
+            <div class="table-responsive">
+              <table class="table mb-0" id="products">
+                <thead>
+                  <tr>
+                    <th>كود الصنف</th>
+                    <th>اسم الصنف</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    @foreach($branchProductsSelling as $key => $product)
+                  <tr>
+                    <td><div class="badge border-info info badge-border">
+                        <a href="{{ route('products.view',$product->id) }}" target="_blank" style="color: #1e9ff2"><span>{{$product->product[0]->product_code}}</span></a>
+                    </div></td>
+                    <td>{{$product->product[0]->product_name}}</td>
+
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -268,6 +305,44 @@ $("#products").DataTable({
                 messageTop: 'أصناف فرع {{ $branchData->branch_name }}',
                 exportOptions: {
                     columns: [ 0, 1, 2 ]
+                }
+            }
+        ]
+    });
+$("#productsSelling").DataTable({
+        dom: 'Bfrtip',
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+        },
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'حفظ كملف EXCEL',
+                messageTop: 'الأصناف المسموح ببيعها في فرع  {{ $branchData->branch_name }}',
+                exportOptions: {
+                    columns: [1,0 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+    // customize: function(doc) {
+    //    console.dir(doc)
+    //    doc.content[2].margin = [ 100, 0, 100, 0 ] //left, top, right, bottom
+    //    doc.content[2].margin = [ 0, 0, 0, 0 ] //left, top, right, bottom
+    // },
+                text: 'حفظ كملف PDF',
+                messageTop: 'الأصناف المسموح ببيعها في فرع \n {{ $branchData->branch_name }}',
+                exportOptions: {
+                    columns: [1,0 ],
+                },
+
+            },
+            {
+                extend: 'print',
+                text: 'طباعة',
+                messageTop: 'الأصناف المسموح ببيعها في فرع {{ $branchData->branch_name }}',
+                exportOptions: {
+                    columns: [ 0, 1 ]
                 }
             }
         ]
