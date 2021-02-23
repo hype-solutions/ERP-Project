@@ -249,8 +249,8 @@
                                           </div>
                                     </td>
                                     <td><input type="text" class="product_input" name="product[1][desc]"/></td>
-                                    <td><input type="text" class="product_input" id="p_p_1" name="product[1][price]" onblur="return reCalculate(1)" oninput="return numbersOnly(this)" required/></td>
-                                    <td><input type="text" class="product_input" id="p_q_1" name="product[1][qty]" onblur="return reCalculate(1)" oninput="return numbersOnly(this)" value="0" required/></td>
+                                    <td><input type="number" class="product_input" id="p_p_1" name="product[1][price]" onblur="return reCalculate(1)" oninput="return numbersOnly(this)" required/></td>
+                                    <td><input type="number" class="product_input" id="p_q_1" name="product[1][qty]" onblur="return reCalculate(1)" oninput="return numbersOnly(this)" value="0" required/></td>
                                     <td>
                                         <span id="tot_1">0</span> ج.م
                                     </td>
@@ -669,6 +669,7 @@ product_desc.setAttribute("class", "product_input");
 var product_price = document.createElement("input");
 product_price.setAttribute("name", "product[" + currentIndex + "][price]");
 product_price.setAttribute("class", "product_input");
+product_price.setAttribute("type", "number");
 product_price.setAttribute("id", "p_p_" + currentIndex);
 product_price.setAttribute("oninput", "return numbersOnly(this)");
 product_price.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
@@ -678,6 +679,7 @@ product_price.setAttribute("required", "required");
 var product_qty = document.createElement("input");
 product_qty.setAttribute("name", "product[" + currentIndex + "][qty]");
 product_qty.setAttribute("class", "product_input");
+product_qty.setAttribute("type", "number");
 product_qty.setAttribute("id", "p_q_" + currentIndex);
 product_qty.setAttribute("oninput", "return numbersOnly(this)");
 product_qty.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
