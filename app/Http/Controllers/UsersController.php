@@ -135,7 +135,7 @@ class UsersController extends Controller
 
         if (!empty($file)) {
                 // $file->move($folder, $fileName);
-                Storage::disk('erp')->put($folder.$fileName, $file);
+                Storage::disk('erp')->put($folder.'/'.$fileName, $file);
 
         }
         $user->profile_pic = 'uploads/users/'.$user->id.'/p/'.$fileName;
