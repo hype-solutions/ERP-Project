@@ -173,6 +173,8 @@ function easy_numpad_done()
         document.getElementById(_outputID).value = easy_numpad_output_val;
         easy_numpad_close();
     }
+    closeDiscountsModal();
+
 }
 
 function easy_numpad_check_range(value)

@@ -553,9 +553,17 @@
 
     <script>
 
+        function closeDiscountsModal(){
+            calculateDiscount(2);
+
+            $('#discounts').modal('toggle');
+        }
+
 function applyPercentage(per){
     $('#curr_per').val(per);
     calculateDiscount(1);
+    $('#discounts').modal('toggle');
+
 }
 
 function calculateDiscount(theType) {
