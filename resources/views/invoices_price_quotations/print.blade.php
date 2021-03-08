@@ -41,6 +41,14 @@
             background-size: 100% 100%;
         }
         </style>
+        @elseif($template == 4)
+        <style>
+            #invoice-template {
+            background-image:url('{{ url('uploads/letterHead4.jpg')}}')!important;
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+        }
+        </style>
         @endif
 
 @endif

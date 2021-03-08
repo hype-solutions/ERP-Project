@@ -325,6 +325,7 @@
                                               <option value="1">التصميم رقم #1</option>
                                               <option value="2">التصميم رقم #2</option>
                                               <option value="3">التصميم رقم #3</option>
+                                              <option value="4">التصميم رقم #4</option>
                                           </select>
                                           <button type="submit" class="btn btn-block btn-dark btn-print">طباعة بالتصميم</button>
 
