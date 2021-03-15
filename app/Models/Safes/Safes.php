@@ -20,14 +20,15 @@ class Safes extends Model
     }
 
 
-    public function safeBalance(){
+    public function safeBalance($safeId){
         $in =  SafesTransactions::where('safe_id',$this->id)
         ->where('transaction_type',2)
         ->sum('transaction_amount');
         $out =  SafesTransactions::where('safe_id',$this->id)
         ->where('transaction_type',1)
         ->sum('transaction_amount');
-        return $in - $out;
+        $sum = $in - $out;
+        return $sum;
     }
 
 }

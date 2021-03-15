@@ -169,7 +169,7 @@ class SafesController extends Controller
 
     public function safesList()
     {
-        $safes = Safes::with('safeBalance')->get();
+        $safes = Safes::all();
         return view('safes.list', compact('safes'));
     }
 
