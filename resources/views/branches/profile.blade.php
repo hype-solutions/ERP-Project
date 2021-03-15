@@ -185,7 +185,7 @@
                     @foreach($branchProducts as $key => $product)
                   <tr>
                     <td><div class="badge border-info info badge-border">
-                        <a href="{{ route('products.view',$product->id) }}" target="_blank" style="color: #1e9ff2"><span>{{$product->product->product_id}}</span></a>
+                        <a href="{{ route('products.view',$product->product_id) }}" target="_blank" style="color: #1e9ff2"><span>{{$product->product_id}}</span></a>
                     </div></td>
                     <td>{{$product->product[0]->product_name}}</td>
                     <td>{{$product->amount}}</td>
