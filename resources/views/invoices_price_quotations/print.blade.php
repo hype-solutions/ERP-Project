@@ -40,6 +40,13 @@
             background-repeat:repeat-y;
             background-size: 100% 100%;
         }
+        @media print {
+  @page {
+    size: letter portrait;
+    background-image:url('{{ url('uploads/letterHead3.jpg')}}')!important;
+    padding: 3in .5in .75in .5in;
+  }
+}
         </style>
         @elseif($template == 4)
         <style>
