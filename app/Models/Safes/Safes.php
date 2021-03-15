@@ -18,4 +18,16 @@ class Safes extends Model
     {
         return $this->hasOne('App\Models\Branches\Branches', 'id', 'branch_id');
     }
+
+
+    public function safeBalance(){
+        $in =  SafesTransactions::where('safe_id',$this->id)
+        ->where('transaction_type',2)
+        ->sum('transaction_amount');
+        $out =  SafesTransactions::where('safe_id',$this->id)
+        ->where('transaction_type',1)
+        ->sum('transaction_amount');
+        return $in - $out;
+    }
+
 }
