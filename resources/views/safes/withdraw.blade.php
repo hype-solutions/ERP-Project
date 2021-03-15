@@ -94,7 +94,7 @@
                             <div class="form-group">
                                 <label for="timesheetinput2">المبلغ</label>
                                 <div class="position-relative has-icon-left">
-                                    <input type="number" id="timesheetinput2" class="form-control"  name="amount" max="{{$safe->safe_balance}}" required>
+                                    <input type="number" id="timesheetinput2" class="form-control"  name="amount" max="{{$safe->safeBalance($safe->id)}}" required>
                                     <div class="form-control-position">
                                         <i class="la la-money"></i>
                                     </div>

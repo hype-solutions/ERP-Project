@@ -20,7 +20,7 @@ class Safes extends Model
     }
 
 
-    public function safeBalance($safeId){
+    public function safeBalance($safeId = null){
         $in =  SafesTransactions::where('safe_id',$this->id)
         ->where('transaction_type',2)
         ->sum('transaction_amount');

@@ -6,6 +6,8 @@ use App\Http\Requests\Branches\CreateBranch;
 use App\Http\Requests\Branches\UpdateBranch;
 use App\Models\Branches\Branches;
 use App\Models\ERPLog;
+use App\Models\Safes\Safes;
+
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -76,7 +78,9 @@ class BranchesController extends Controller
     public function view($branchId)
     {
         $branchData = $this->branch->findOrFail($branchId);
-        $safeBalance = $branchData->getBranchSafeDetails()->value('safe_balance');
+        // $safeBalance = $branchData->getBranchSafeDetails()->value('safe_balance');
+        $safeBalancex = Safes::where('branch_id',$branchId)->first();
+        $safeBalance = $safeBalancex->safeBalance($safeBalancex->id);
         $branchProducts = $branchData->branchProductsinStock();
         $branchProductsSelling = $branchData->branchProductsinSelling();
         $productsCount = $branchData->branchProductsinStockCount();

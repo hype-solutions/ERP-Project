@@ -178,7 +178,9 @@ class ReportsController extends Controller
         //Suppliers
         $suppliersCount = Suppliers::count();
         //Safes
-        $safesSum = Safes::where('branch_id', $branch)->sum('safe_balance');
+        $safeSumx = Safes::where('branch_id', $branch)->sum('safe_balance');
+        $safeSumx = Safes::where('branch_id', $branch)->first();
+        $safesSum = $safeSumx->safeBalance($safeSumx->id);
         //POS
         $posInvoicesCount = PosSessions::where('branch_id', $branch)->count();
         $posInvoicesDone = PosSessions::Where('status', 1)->whereBetween('updated_at', [$from, $to])->where('branch_id', $branch)->count();
