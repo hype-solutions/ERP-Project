@@ -21,7 +21,7 @@
         <style>
             #invoice-template {
             background-image:url('{{ url('uploads/letterHead1.jpg')}}')!important;
-            background-repeat:no-repeat;
+            background-repeat:repeat-y;
             background-size: 100% 100%;
         }
         </style>
@@ -29,7 +29,7 @@
         <style>
             #invoice-template {
             background-image:url('{{ url('uploads/letterHead2.jpg')}}')!important;
-            background-repeat:no-repeat;
+            background-repeat:repeat-y;
             background-size: 100% 100%;
         }
         </style>
@@ -37,7 +37,7 @@
         <style>
             #invoice-template {
             background-image:url('{{ url('uploads/letterHead3.jpg')}}')!important;
-            background-repeat:no-repeat;
+            background-repeat:repeat-y;
             background-size: 100% 100%;
         }
         </style>
@@ -45,7 +45,7 @@
         <style>
             #invoice-template {
             background-image:url('{{ url('uploads/letterHead4.jpg')}}')!important;
-            background-repeat:no-repeat;
+            background-repeat:repeat-y;
             background-size: 100% 100%;
         }
         </style>
