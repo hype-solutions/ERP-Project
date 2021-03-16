@@ -139,8 +139,8 @@
                   
                                     </ul>
                                   </div>
-                                  @if($template != 3)
-                                  <div class="col-sm-6 col-12 text-center text-sm-right">
+                                  @if($template != 3 || $template != 4)
+                                  <div class="col-sm-6 col-12 text-center text-sm-right" style="    margin-top: 65px;">
                                       <h2>عرض سعر</h2>
                                       <p class="pb-sm-3">رقم {{$invoice->id}}</p>
                                       <ul class="px-0 list-unstyled">
