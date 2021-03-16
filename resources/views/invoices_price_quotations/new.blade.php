@@ -23,7 +23,13 @@
         /* font: 12pt "Tahoma"; */
     }
     .notFirst{
+        @if($template == 3)
         padding-top: 8cm;
+
+        @else
+        padding-top: 3cm;
+
+        @endif
 }
 .notFirst2{
         padding-top: 2cm;
