@@ -58,6 +58,9 @@
         background-image: url(https://e1.mygesture.co/uploads/letterHead2.jpg)!important;
         @elseif($template == 3)
         background-image: url(https://e1.mygesture.co/uploads/letterHead3.jpg)!important;
+        @elseif($template == 4)
+        background-image: url(https://e1.mygesture.co/uploads/letterHead4.jpg)!important;
+        
         @endif
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     }
