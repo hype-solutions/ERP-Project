@@ -16,6 +16,33 @@
 
 
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/assets/css/style-rtl.css') }}">
+<style>
+  @page {
+  size: auto;
+  margin: 0;
+}
+@media print {
+  html, body,  {
+    width: 210mm;
+    height: 297mm;
+  }
+  body{
+    /* background-image:url('{{ url('uploads/letterHead3.jpg')}}')!important;
+    background-size: 100% 100%; */
+  }
+  body {
+    background-image:url('{{ url('uploads/letterHead3.jpg')}}')!important;
+    background-repeat: repeat;
+    background-size: 100% 100%;
+    -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+  }
+  .pagebreak { page-break-before: always; } /* page-break-after works, as well */
+
+}
+</style>
 @if($p == 3)
         @if($template == 1)
         <style>
@@ -35,18 +62,12 @@
         </style>
         @elseif($template == 3)
         <style>
-            #invoice-template {
+            body {
             background-image:url('{{ url('uploads/letterHead3.jpg')}}')!important;
             background-repeat:repeat-y;
             background-size: 100% 100%;
         }
-        @media print {
-  @page {
-    size: letter portrait;
-    background-image:url('{{ url('uploads/letterHead3.jpg')}}')!important;
-    padding: 3in .5in .75in .5in;
-  }
-}
+      
         </style>
         @elseif($template == 4)
         <style>
@@ -62,13 +83,14 @@
     </head>
 <body>
 <div class="app-content content">
-<div class="content-overlay"></div>
+  <div class="content-overlay"></div>
       <div class="content-wrapper">
 
-        <div class="content-body"><section class="card">
-            <div id="invoice-template" class="card-body p-4" style="min-height:1320px;">
+        <div class="content-body"><section class="">
+            {{-- <div id="invoice-template" class="card-body p-4" style="min-height:1320px;"> --}}
+            <div id="invoice-template" class="   ">
               <!-- Invoice Company Details -->
-              <div id="invoice-customer-details" class="row pt-2" style="    margin-top: 90px;">
+              <div id="invoice-customer-details" class="row pt-2" style="">
 
                 <div class="col-sm-6 col-12 text-center text-sm-left" @if($template == 3) style="margin-top:100px;" @endif>
                     <p class="text-muted">بيانات العميل</p>
@@ -151,7 +173,7 @@
                     </table>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row ">
                   <div class="col-sm-7 col-12 text-center text-sm-left">
                          <h6>الشروط / الملاحظات</h6>
                         {!!$invoice->quotation_note!!}
@@ -224,7 +246,7 @@
 
                   </div>
       </div>
-      </div>
+</div>
 
 
 {{-- <script src="{{ asset('theme/app-assets/vendors/js/forms/select/select2.full.min.js') }}"></script> --}}

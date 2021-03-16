@@ -388,8 +388,10 @@ class InvoicesPriceQuotationController extends Controller
         $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
         $p = 3;
         $template = $request->template;
+        $count = $currentProducts->count();
         ERPLog::create(['type' => 'Price Quotations', 'action' => 'Print', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
-
-        return view('invoices_price_quotations.print', compact('template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
+        $alreadyShown = 0;
+        // return view('invoices_price_quotations.print', compact('template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
+        return view('invoices_price_quotations.new', compact('alreadyShown','count','template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
     }
 }
