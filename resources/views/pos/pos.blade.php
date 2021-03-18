@@ -198,6 +198,13 @@
                            </div>
                            <!-- col // -->
                            @endforeach
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ $products->links() }}
+                            </div>
+
                         </div>
                         <!-- row.// -->
                      </span>
@@ -311,7 +318,7 @@
                                  <td class="text-center">
                                     <div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="...">
                                        <button type="button" class="m-btn btn btn-default btn-xs" onclick="return decrementProduct({{$item->product_id}},'{{$item->product_name}}',{{$item->product_price}})"><i class="fa fa-minus"></i></button>
-                                       <button type="button" class="m-btn btn btn-default btn-xs" disabled  id="item_qty_{{$item->product_id}}">{{$item->product_qty}}</button>
+                                       <input type="button" class="m-btn btn btn-default btn-xs" disabled  id="item_qty_{{$item->product_id}}" value="{{$item->product_qty}}" max="3">
                                        <button type="button" class="m-btn btn btn-default" onclick="return incrementProduct({{$item->product_id}},'{{$item->product_name}}',{{$item->product_price}})"><i class="fa fa-plus"></i></button>
                                     </div>
                                  </td>

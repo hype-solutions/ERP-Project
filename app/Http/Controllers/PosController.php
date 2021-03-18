@@ -87,7 +87,7 @@ class PosController extends Controller
                 array_push($allowedProducts, $product->product_id);
             }
         }
-        $products = Products::whereIn('id', $allowedProducts)->get();
+        $products = Products::whereIn('id', $allowedProducts)->paginate(8);
         $user = Auth::user();
         $user_id = $user->id;
         $productsCategories = ProductsCategories::all();

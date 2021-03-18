@@ -9,6 +9,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         // \Carbon\Carbon::setLocale(config('app.locale'));
-
+        Paginator::useBootstrap();
         //
         if ($this->app->environment('production')) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
