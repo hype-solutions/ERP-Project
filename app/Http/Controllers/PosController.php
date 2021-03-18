@@ -12,6 +12,7 @@ use App\Models\Products\Products;
 use App\Models\Products\ProductsCategories;
 use App\Models\Safes\Safes;
 use App\Models\Safes\SafesTransactions;
+use App\Models\Settings\Settings;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -71,7 +72,9 @@ class PosController extends Controller
     {
         $currentCart = Cart::where('pos_session_id', $sessionId)->get();
         $currentSession = PosSessions::find($sessionId);
-        return view('pos.receipt', compact('currentCart', 'sessionId', 'currentSession'));
+        $logo = Settings::where('key','logo')->value('value');
+        $company = Settings::where('key','company_name')->value('value');
+        return view('pos.receipt', compact('company','logo','currentCart', 'sessionId', 'currentSession'));
     }
     public function index($sessionId)
     {

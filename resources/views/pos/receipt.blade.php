@@ -39,7 +39,7 @@
     </head>
      <body onload="window.print()">
          <center>
-    <img src="{{asset('theme/app-assets/images/custom/logo-placeholder.png')}}" style="width:150px" height="150px"/></br>
+    <img src="{{asset($logo)}}" style="width:150px" height="150px"/></br>
     </center>
      <table border="1" width="95%">
     <tr>
