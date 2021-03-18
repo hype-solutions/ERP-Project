@@ -90,7 +90,7 @@
                             </tr>
                             <tr>
                                 <th>رصيد المخزون:</th>
-                                <td>{{ $item->product_total_in - $item->product_total_out }}</td>
+                                <td><input type="text" id="max_of_{{$item->id}}" value="{{$item->product_total_in - $item->product_total_out }}" readonly/></td>
                             </tr>
                             <tr>
                                 <th>سعر البيع:</th>
@@ -182,7 +182,7 @@
                                     <a href="#" class="title">{{$item->product_name}}</a>
                                     <div class="action-wrap">
                                         @if($item->product_total_in - $item->product_total_out > 0)
-                                       <button type="button" class="btn btn-primary btn-sm float-right" onclick="return addToCart({{$item->id}},'{{$item->product_name}}',{{$item->product_price}})"> <i class="fa fa-cart-plus"></i> إضافة </button>
+                                       <button type="button" class="btn btn-primary btn-sm float-right" onclick="return addToCart({{$item->id}},'{{$item->product_name}}',{{$item->product_price}}, {{$item->product_total_in - $item->product_total_out}})"> <i class="fa fa-cart-plus"></i> إضافة </button>
                                        @else
                                        <button type="button" class="btn btn-primary btn-sm float-right" disabled> <i class="fa fa-cart-plus"></i> إضافة </button>
                                        @endif
@@ -235,7 +235,7 @@
                                         <a href="#" class="title">{{$item->product_name}}</a>
                                         <div class="action-wrap">
                                             @if($item->product_total_in - $item->product_total_out > 0)
-                                            <button type="button" class="btn btn-primary btn-sm float-right" onclick="return addToCart({{$item->id}},'{{$item->product_name}}',{{$item->product_price}})"> <i class="fa fa-cart-plus"></i> إضافة </button>
+                                            <button type="button" class="btn btn-primary btn-sm float-right" onclick="return addToCart({{$item->id}},'{{$item->product_name}}',{{$item->product_price}}, {{$item->product_total_in - $item->product_total_out}})"> <i class="fa fa-cart-plus"></i> إضافة </button>
                                             @else
                                             <button type="button" class="btn btn-primary btn-sm float-right" disabled> <i class="fa fa-cart-plus"></i> إضافة </button>
                                             @endif
@@ -318,7 +318,7 @@
                                  <td class="text-center">
                                     <div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="...">
                                        <button type="button" class="m-btn btn btn-default btn-xs" onclick="return decrementProduct({{$item->product_id}},'{{$item->product_name}}',{{$item->product_price}})"><i class="fa fa-minus"></i></button>
-                                       <input type="button" class="m-btn btn btn-default btn-xs" disabled  id="item_qty_{{$item->product_id}}" value="{{$item->product_qty}}" max="3">
+                                       <button type="button" class="m-btn btn btn-default btn-xs" disabled  id="item_qty_{{$item->product_id}}">{{$item->product_qty}}</button>
                                        <button type="button" class="m-btn btn btn-default" onclick="return incrementProduct({{$item->product_id}},'{{$item->product_name}}',{{$item->product_price}})"><i class="fa fa-plus"></i></button>
                                     </div>
                                  </td>
@@ -643,7 +643,9 @@ $('#totalToSave').val(invoiceTotal);
 
 
 function incrementProduct(productId,productName,productPrice){
+    var getMax = $('#max_of_'+productId).val();
     var getCurrentQty = $('#item_qty_'+productId).text();
+    if(parseInt(getMax) <= parseInt(getCurrentQty) ){}else{
         var productQty = 1 + parseInt(getCurrentQty);
         var oldTotalPrice = parseInt(getCurrentQty) * parseInt(productPrice);
         var newTotalPrice = (parseInt(getCurrentQty) + 1) * parseInt(productPrice);
@@ -651,6 +653,7 @@ function incrementProduct(productId,productName,productPrice){
         newTotalPrice = parseInt(newTotalPrice);
         $('#cart_item_' + productId).html('<input type="hidden" name="item['+productId+'][id]" value="'+productId+'" /><input type="hidden" name="item['+productId+'][name]" value="'+productName+'" /><input type="hidden" name="item['+productId+'][qty]" value="'+productQty+'" /><input type="hidden" name="item['+productId+'][price]" value="'+productPrice+'" /><td><figure class="media"><figcaption class="media-body"><h6 class="title text-truncate">'+productName+'</h6></figcaption></figure></td><td class="text-center"><div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="..."><button type="button" class="m-btn btn btn-default btn-xs" onclick="return decrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-minus"></i></button><button type="button" class="m-btn btn btn-default btn-xs" disabled id="item_qty_'+productId+'">'+productQty+'</button><button type="button" class="m-btn btn btn-default"  onclick="return incrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-plus"></i></button></div></td><td><div class="price-wrap"><var class="price"><span id="tot_'+productId+'">'+productPrice * productQty+'</span> ج.م</var></div></td><td class="text-right"><a href="#" class="btn btn-outline-danger" onclick="return removeFromCart('+productId+','+productPrice+')"> <i class="fa fa-trash"></i></a></td>');
         reCalculate(productId,oldTotalPrice,newTotalPrice);
+    }
 }
 
 
@@ -748,12 +751,15 @@ $.ajaxSetup({
 }
 
 
-function addToCart(productId,productName,productPrice){
-
+function addToCart(productId,productName,productPrice,max){
     if($("#cart_item_" + productId).length > 0) {
         var getCurrentQty = $('#item_qty_'+productId).text();
         var productQty = 1 + parseInt(getCurrentQty);
-        $('#cart_item_' + productId).html('<input type="hidden" name="item['+productId+'][id]" value="'+productId+'" /><input type="hidden" name="item['+productId+'][name]" value="'+productName+'" /><input type="hidden" name="item['+productId+'][qty]" value="'+productQty+'" /><input type="hidden" name="item['+productId+'][price]" value="'+productPrice+'" /><td><figure class="media"><figcaption class="media-body"><h6 class="title text-truncate">'+productName+'</h6></figcaption></figure></td><td class="text-center"><div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="..."><button type="button" class="m-btn btn btn-default btn-xs" onclick="return decrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-minus"></i></button><button type="button" class="m-btn btn btn-default btn-xs" disabled id="item_qty_'+productId+'">'+productQty+'</button><button type="button" class="m-btn btn btn-default"  onclick="return incrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-plus"></i></button></div></td><td><div class="price-wrap"><var class="price"><span id="tot_'+productId+'">'+productPrice * productQty+'</span> ج.م</var></div></td><td class="text-right"><a href="#" class="btn btn-outline-danger" onclick="return removeFromCart('+productId+','+productPrice+')"> <i class="fa fa-trash"></i></a></td>');
+        if(max <= getCurrentQty ){
+
+        }else{
+            $('#cart_item_' + productId).html('<input type="hidden" name="item['+productId+'][id]" value="'+productId+'" /><input type="hidden" name="item['+productId+'][name]" value="'+productName+'" /><input type="hidden" name="item['+productId+'][qty]" value="'+productQty+'" /><input type="hidden" name="item['+productId+'][price]" value="'+productPrice+'" /><td><figure class="media"><figcaption class="media-body"><h6 class="title text-truncate">'+productName+'</h6></figcaption></figure></td><td class="text-center"><div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="..."><button type="button" class="m-btn btn btn-default btn-xs" onclick="return decrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-minus"></i></button><button type="button" class="m-btn btn btn-default btn-xs" disabled id="item_qty_'+productId+'">'+productQty+'</button><button type="button" class="m-btn btn btn-default"  onclick="return incrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-plus"></i></button></div></td><td><div class="price-wrap"><var class="price"><span id="tot_'+productId+'">'+productPrice * productQty+'</span> ج.م</var></div></td><td class="text-right"><a href="#" class="btn btn-outline-danger" onclick="return removeFromCart('+productId+','+productPrice+')"> <i class="fa fa-trash"></i></a></td>');
+        }
     }else{
         var productQty = 1;
         var getCurrentQty = 0;
@@ -764,7 +770,25 @@ function addToCart(productId,productName,productPrice){
             oldTotalPrice = parseInt(oldTotalPrice);
             newTotalPrice = parseInt(newTotalPrice);
         reCalculate(productId,oldTotalPrice,newTotalPrice);
+
 }
+// function addToCart(productId,productName,productPrice){
+
+//     if($("#cart_item_" + productId).length > 0) {
+//         var getCurrentQty = $('#item_qty_'+productId).text();
+//         var productQty = 1 + parseInt(getCurrentQty);
+//         $('#cart_item_' + productId).html('<input type="hidden" name="item['+productId+'][id]" value="'+productId+'" /><input type="hidden" name="item['+productId+'][name]" value="'+productName+'" /><input type="hidden" name="item['+productId+'][qty]" value="'+productQty+'" /><input type="hidden" name="item['+productId+'][price]" value="'+productPrice+'" /><td><figure class="media"><figcaption class="media-body"><h6 class="title text-truncate">'+productName+'</h6></figcaption></figure></td><td class="text-center"><div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="..."><button type="button" class="m-btn btn btn-default btn-xs" onclick="return decrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-minus"></i></button><button type="button" class="m-btn btn btn-default btn-xs" disabled id="item_qty_'+productId+'">'+productQty+'</button><button type="button" class="m-btn btn btn-default"  onclick="return incrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-plus"></i></button></div></td><td><div class="price-wrap"><var class="price"><span id="tot_'+productId+'">'+productPrice * productQty+'</span> ج.م</var></div></td><td class="text-right"><a href="#" class="btn btn-outline-danger" onclick="return removeFromCart('+productId+','+productPrice+')"> <i class="fa fa-trash"></i></a></td>');
+//     }else{
+//         var productQty = 1;
+//         var getCurrentQty = 0;
+//         $('#cart').find('tbody').append('<tr id="cart_item_'+productId+'"><input type="hidden" name="item['+productId+'][id]" value="'+productId+'" /><input type="hidden" name="item['+productId+'][name]" value="'+productName+'" /><input type="hidden" name="item['+productId+'][qty]" value="'+productQty+'" /><input type="hidden" name="item['+productId+'][price]" value="'+productPrice+'" /><td><figure class="media"><figcaption class="media-body"><h6 class="title text-truncate">'+productName+'</h6></figcaption></figure></td><td class="text-center"><div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="..."><button type="button" class="m-btn btn btn-default btn-xs" onclick="return decrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-minus"></i></button><button type="button" class="m-btn btn btn-default btn-xs" disabled id="item_qty_'+productId+'">'+productQty+'</button><button type="button" class="m-btn btn btn-default"  onclick="return incrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-plus"></i></button></div></td><td><div class="price-wrap"><var class="price"><span id="tot_'+productId+'">'+productPrice * productQty+'</span> ج.م</var></div></td><td class="text-right"><a href="#" class="btn btn-outline-danger" onclick="return removeFromCart('+productId+','+productPrice+')"> <i class="fa fa-trash"></i></a></td></tr>');
+//     }
+//         var oldTotalPrice = parseInt(getCurrentQty) * parseInt(productPrice);
+//         var newTotalPrice = (parseInt(getCurrentQty) + 1) * parseInt(productPrice);
+//             oldTotalPrice = parseInt(oldTotalPrice);
+//             newTotalPrice = parseInt(newTotalPrice);
+//         reCalculate(productId,oldTotalPrice,newTotalPrice);
+// }
 
 
     $("#searchInput").keyup(function() {
@@ -808,7 +832,7 @@ function addToCart(productId,productName,productPrice){
                 for(var i = 0; i < data.data.length; i++){
                     var addBtn,productStatus;
                 if(data.data[i].product_total_in - data.data[i].product_total_out > 0){
-                    addBtn = '<button type="button" class="btn btn-primary btn-sm float-right" onclick="return addToCart('+data.data[i].id+',\''+data.data[i].product_name+'\','+data.data[i].product_price+')"> <i class="fa fa-cart-plus"></i> إضافة </button>';
+                    addBtn = '<button type="button" class="btn btn-primary btn-sm float-right" onclick="return addToCart('+data.data[i].id+',\''+data.data[i].product_name+'\','+data.data[i].product_price+','+(data.data[i].product_in - data.data[i].product_out) +')"> <i class="fa fa-cart-plus"></i> إضافة </button>';
                     productStatus = '<span class="badge-avl">متوفر </span>';
                 }else{
                     addBtn = '<button type="button" class="btn btn-primary btn-sm float-right" disabled> <i class="fa fa-cart-plus"></i> إضافة </button>';
@@ -882,7 +906,7 @@ function addToCart(productId,productName,productPrice){
                 for(var i = 0; i < datax.datax.length; i++){
                 var addBtn;
                 if(datax.datax[i].product_total_in - datax.datax[i].product_total_out > 0){
-                    addBtn = '<button type="button" class="btn btn-primary btn-sm float-right" onclick="return addToCart('+datax.datax[i].id+',\''+datax.datax[i].product_name+'\','+datax.datax[i].product_price+')"> <i class="fa fa-cart-plus"></i> إضافة </button>';                    productStatus = '<span class="badge-avl">متوفر </span>';
+                    addBtn = '<button type="button" class="btn btn-primary btn-sm float-right" onclick="return addToCart('+datax.datax[i].id+',\''+datax.datax[i].product_name+'\','+datax.datax[i].product_price+','+(datax.datax[i].product_in - datax.datax[i].product_out) +')"> <i class="fa fa-cart-plus"></i> إضافة </button>';                    productStatus = '<span class="badge-avl">متوفر </span>';
                 }else{
                     addBtn = '<button type="button" class="btn btn-primary btn-sm float-right" disabled> <i class="fa fa-cart-plus"></i> إضافة </button>';
                     productStatus = '<span class="badge-new"> غير متوفر </span>';
