@@ -48,7 +48,7 @@
         margin: 10mm auto;
         border: 1px #D3D3D3 solid;
         border-radius: 5px;
-        
+
         @if($template == 1)
         background-image: url(https://e1.mygesture.co/uploads/letterHead1.jpg) !important;
         @elseif($template == 2)
@@ -73,7 +73,7 @@
         height: 257mm;
         /* outline: 2cm #FFEAEA solid; */
   }
-    
+
   @page {
         size: a4;
         margin: 0;
@@ -81,7 +81,7 @@
   @media print {
         html, body {
             width: 210mm;
-            height: 297mm;        
+            height: 297mm;
         }
         .page {
             margin: 0;
@@ -129,13 +129,13 @@
                 <div class="app-content content">
                     <div class="content-overlay"></div>
                         <div class="content-wrapper">
-                  
+
                           <div class="content-body"><section class="">
                               {{-- <div id="invoice-template" class="card-body p-4" style="min-height:1320px;"> --}}
                               <div id="invoice-template" class="   ">
                                 <!-- Invoice Company Details -->
                                 <div id="invoice-customer-details" class="row pt-2" style="">
-                  
+
                                   <div class="col-sm-6 col-12 text-center text-sm-left notFirst2" @if($template == 3) style="margin-top:150px;" @endif>
                                       <p class="text-muted">بيانات الجهة</p>
                                     <ul class="px-0 list-unstyled">
@@ -149,7 +149,7 @@
                                           العنوان: {{ $invoice->customer->customer_address }}
                                            @endif
                                       </li>
-                  
+
                                     </ul>
                                   </div>
                                   @if($template != 3)
@@ -175,11 +175,11 @@
                                   @endif
                                 </div>
                                 <!-- Invoice Company Details -->
-                  
+
                                 <!-- Invoice Customer Details -->
-                  
+
                                 <!-- Invoice Customer Details -->
-                  
+
                                 <!-- Invoice Items Details -->
                                 <div id=" " class="pt-2">
                                   <div class="row">
@@ -197,7 +197,7 @@
                                         <tbody>
                                           <span style="display: none">{{$subtotal = 0}}</span>
                                           @foreach ($currentProducts->slice(0,5) as $key => $product)
-                                            
+
                                           <tr>
                                             <th scope="row">{{++$key}}</th>
                                             <td>
@@ -217,17 +217,17 @@
                                       </table>
                                     </div>
                                   </div>
-                                   
+
                                 </div>
-                  
-                  
+
+
                   @if($count < 3)
                   <div class="row ">
                     <div class="col-sm-7 col-12 text-center text-sm-left">
                            <h6>الشروط / الملاحظات</h6>
                           {!!$invoice->quotation_note!!}
-  
-  
+
+
                     </div>
                     <div class="col-sm-5 col-12">
                       <p class="lead">الحساب</p>
@@ -273,7 +273,7 @@
                               <td class="text-bold-800">الإجمالي</td>
                               <td class="text-bold-800 text-right"> {{$invoice->quotation_total}} ج.م</td>
                             </tr>
-  
+
                           </tbody>
                         </table>
                       </div>
@@ -316,14 +316,14 @@
                   </span>
 
                   @endif
-                  
+
                               </div>
                             </section>
-                  
+
                                     </div>
                         </div>
                   </div>
-            </div>    
+            </div>
         </div>
 
 @if($count > 5)
@@ -345,7 +345,7 @@
                           <tbody>
                             <span style="display: none">{{$subtotal = 0}}</span>
                             @foreach ($currentProducts->slice(5,5) as $key => $product)
-                              
+
                             <tr>
                               <th scope="row">{{++$key}}</th>
                               <td>
@@ -365,7 +365,7 @@
                         </table>
                       </div>
                     </div>
-                    
+
                   </div>
                   @if($count < 7)
                     @if($alreadyShown != 1)
@@ -376,8 +376,8 @@
                         <div class="col-sm-7 col-12 text-center text-sm-left">
                                <h6>الشروط / الملاحظات</h6>
                               {!!$invoice->quotation_note!!}
-      
-      
+
+
                         </div>
                         <div class="col-sm-5 col-12">
                           <p class="lead">الحساب</p>
@@ -423,7 +423,7 @@
                                   <td class="text-bold-800">الإجمالي</td>
                                   <td class="text-bold-800 text-right"> {{$invoice->quotation_total}} ج.م</td>
                                 </tr>
-      
+
                               </tbody>
                             </table>
                           </div>
@@ -463,11 +463,11 @@
                       </div>
                     @endif
                   @endif
-            </div>    
+            </div>
         </div>
         @endif
 
-  
+
 
 
 
@@ -492,7 +492,7 @@
                           <tbody>
                             <span style="display: none">{{$subtotal = 0}}</span>
                             @foreach ($currentProducts->slice(5,5) as $key => $product)
-                              
+
                             <tr>
                               <th scope="row">{{++$key}}</th>
                               <td>
@@ -512,7 +512,7 @@
                         </table>
                       </div>
                     </div>
-                    
+
                   </div>
                   @if($count < 12)
                     @if($alreadyShown != 1)
@@ -523,8 +523,8 @@
                         <div class="col-sm-7 col-12 text-center text-sm-left">
                                <h6>الشروط / الملاحظات</h6>
                               {!!$invoice->quotation_note!!}
-      
-      
+
+
                         </div>
                         <div class="col-sm-5 col-12">
                           <p class="lead">الحساب</p>
@@ -570,7 +570,7 @@
                                   <td class="text-bold-800">الإجمالي</td>
                                   <td class="text-bold-800 text-right"> {{$invoice->quotation_total}} ج.م</td>
                                 </tr>
-      
+
                               </tbody>
                             </table>
                           </div>
@@ -610,7 +610,7 @@
                       </div>
                     @endif
                   @endif
-            </div>    
+            </div>
         </div>
         @endif
 
@@ -636,7 +636,7 @@
                           <tbody>
                             <span style="display: none">{{$subtotal = 0}}</span>
                             @foreach ($currentProducts->slice(5,5) as $key => $product)
-                              
+
                             <tr>
                               <th scope="row">{{++$key}}</th>
                               <td>
@@ -656,7 +656,7 @@
                         </table>
                       </div>
                     </div>
-                    
+
                   </div>
                   @if($count < 17)
                     @if($alreadyShown != 1)
@@ -667,8 +667,8 @@
                         <div class="col-sm-7 col-12 text-center text-sm-left">
                                <h6>الشروط / الملاحظات</h6>
                               {!!$invoice->quotation_note!!}
-      
-      
+
+
                         </div>
                         <div class="col-sm-5 col-12">
                           <p class="lead">الحساب</p>
@@ -714,7 +714,7 @@
                                   <td class="text-bold-800">الإجمالي</td>
                                   <td class="text-bold-800 text-right"> {{$invoice->quotation_total}} ج.م</td>
                                 </tr>
-      
+
                               </tbody>
                             </table>
                           </div>
@@ -754,7 +754,7 @@
                       </div>
                     @endif
                   @endif
-            </div>    
+            </div>
         </div>
         @endif
 
@@ -785,7 +785,7 @@
                           <tbody>
                             <span style="display: none">{{$subtotal = 0}}</span>
                             @foreach ($currentProducts->slice(5,5) as $key => $product)
-                              
+
                             <tr>
                               <th scope="row">{{++$key}}</th>
                               <td>
@@ -805,7 +805,7 @@
                         </table>
                       </div>
                     </div>
-                    
+
                   </div>
                   @if($count < 22)
                     @if($alreadyShown != 1)
@@ -816,8 +816,8 @@
                         <div class="col-sm-7 col-12 text-center text-sm-left">
                                <h6>الشروط / الملاحظات</h6>
                               {!!$invoice->quotation_note!!}
-      
-      
+
+
                         </div>
                         <div class="col-sm-5 col-12">
                           <p class="lead">الحساب</p>
@@ -863,7 +863,7 @@
                                   <td class="text-bold-800">الإجمالي</td>
                                   <td class="text-bold-800 text-right"> {{$invoice->quotation_total}} ج.م</td>
                                 </tr>
-      
+
                               </tbody>
                             </table>
                           </div>
@@ -903,7 +903,7 @@
                       </div>
                     @endif
                   @endif
-            </div>    
+            </div>
         </div>
         @endif
 
@@ -940,8 +940,8 @@
                     <div class="col-sm-7 col-12 text-center text-sm-left">
                            <h6>الشروط / الملاحظات</h6>
                           {!!$invoice->quotation_note!!}
-  
-  
+
+
                     </div>
                     <div class="col-sm-5 col-12">
                       <p class="lead">الحساب</p>
@@ -987,7 +987,7 @@
                               <td class="text-bold-800">الإجمالي</td>
                               <td class="text-bold-800 text-right"> {{$invoice->quotation_total}} ج.م</td>
                             </tr>
-  
+
                           </tbody>
                         </table>
                       </div>
@@ -1030,5 +1030,14 @@
 
         @endif
     </div>
+    <script>
+
+        window.onload = function () {
+            window.print();
+            // window.close();
+        }
+        // window.onfocus = function () { setTimeout(function () { window.close(); }, 500); }
+
+                </script>
 </body>
-</html>l
+</html>
