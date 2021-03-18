@@ -47,7 +47,6 @@ class InvoicesPriceQuotationController extends Controller
 
     public function view(InvoicesPriceQuotation $invoice)
     {
-
         $user = Auth::user();
         $user_id = $user->id;
         $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
