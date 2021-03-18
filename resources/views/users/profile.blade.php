@@ -114,7 +114,7 @@
                 <tr>
                     <td>الصلاحيات:</td>
                     <td>
-                        {{$user->roles}}
+                        {{$user->role}}
                         {{-- {{$user->roles[0]->name}} --}}
                     </td>
                   </tr>
