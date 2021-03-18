@@ -257,12 +257,18 @@
                                             @endenv
                                             @env('production')
                                               @if(request()->getHttpHost() == 'e1.mygesture.co')
-                                                <option value="3">التصميم رقم #3</option>
+                                              <select class="form-control" name="template">
+                                                <option value="3">التصميم رقم #1</option>
+                                              </select>
                                               @elseif(request()->getHttpHost() == 'e2.mygesture.co')
+                                              <select class="form-control" name="template">
+                                                <option value="1">التصميم رقم #1</option>
                                                 <option value="2">التصميم رقم #2</option>
-                                                <option value="3">التصميم رقم #3</option>
+                                              </select>
                                               @elseif(request()->getHttpHost() == 'e3.mygesture.co')
-                                                <option value="4">التصميم رقم #4</option>
+                                              <select class="form-control" name="template">
+                                                <option value="4">التصميم رقم #1</option>
+                                              </select>
                                               @endif
                                             @endenv
                                             <button type="submit" class="btn btn-block btn-dark btn-print">طباعة بالتصميم</button>
