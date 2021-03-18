@@ -755,7 +755,8 @@ function addToCart(productId,productName,productPrice,max){
     if($("#cart_item_" + productId).length > 0) {
         var getCurrentQty = $('#item_qty_'+productId).text();
         var productQty = 1 + parseInt(getCurrentQty);
-        if(max <= getCurrentQty ){
+
+        if(max <= productQty ){
 
         }else{
             $('#cart_item_' + productId).html('<input type="hidden" name="item['+productId+'][id]" value="'+productId+'" /><input type="hidden" name="item['+productId+'][name]" value="'+productName+'" /><input type="hidden" name="item['+productId+'][qty]" value="'+productQty+'" /><input type="hidden" name="item['+productId+'][price]" value="'+productPrice+'" /><td><figure class="media"><figcaption class="media-body"><h6 class="title text-truncate">'+productName+'</h6></figcaption></figure></td><td class="text-center"><div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="..."><button type="button" class="m-btn btn btn-default btn-xs" onclick="return decrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-minus"></i></button><button type="button" class="m-btn btn btn-default btn-xs" disabled id="item_qty_'+productId+'">'+productQty+'</button><button type="button" class="m-btn btn btn-default"  onclick="return incrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-plus"></i></button></div></td><td><div class="price-wrap"><var class="price"><span id="tot_'+productId+'">'+productPrice * productQty+'</span> ج.م</var></div></td><td class="text-right"><a href="#" class="btn btn-outline-danger" onclick="return removeFromCart('+productId+','+productPrice+')"> <i class="fa fa-trash"></i></a></td>');
@@ -765,11 +766,15 @@ function addToCart(productId,productName,productPrice,max){
         var getCurrentQty = 0;
         $('#cart').find('tbody').append('<tr id="cart_item_'+productId+'"><input type="hidden" name="item['+productId+'][id]" value="'+productId+'" /><input type="hidden" name="item['+productId+'][name]" value="'+productName+'" /><input type="hidden" name="item['+productId+'][qty]" value="'+productQty+'" /><input type="hidden" name="item['+productId+'][price]" value="'+productPrice+'" /><td><figure class="media"><figcaption class="media-body"><h6 class="title text-truncate">'+productName+'</h6></figcaption></figure></td><td class="text-center"><div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="..."><button type="button" class="m-btn btn btn-default btn-xs" onclick="return decrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-minus"></i></button><button type="button" class="m-btn btn btn-default btn-xs" disabled id="item_qty_'+productId+'">'+productQty+'</button><button type="button" class="m-btn btn btn-default"  onclick="return incrementProduct('+productId+',\''+productName+'\','+productPrice+')"><i class="fa fa-plus"></i></button></div></td><td><div class="price-wrap"><var class="price"><span id="tot_'+productId+'">'+productPrice * productQty+'</span> ج.م</var></div></td><td class="text-right"><a href="#" class="btn btn-outline-danger" onclick="return removeFromCart('+productId+','+productPrice+')"> <i class="fa fa-trash"></i></a></td></tr>');
     }
+    if(max <= productQty ){}else{
         var oldTotalPrice = parseInt(getCurrentQty) * parseInt(productPrice);
         var newTotalPrice = (parseInt(getCurrentQty) + 1) * parseInt(productPrice);
             oldTotalPrice = parseInt(oldTotalPrice);
             newTotalPrice = parseInt(newTotalPrice);
         reCalculate(productId,oldTotalPrice,newTotalPrice);
+    }
+
+
 
 }
 // function addToCart(productId,productName,productPrice){
