@@ -16,6 +16,7 @@ use App\Models\Products\Products;
 use App\Models\PurchasesOrders\PurchasesOrdersProducts;
 use App\Models\Safes\Safes;
 use App\Models\Safes\SafesTransactions;
+use App\Models\Settings\Settings;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -58,7 +59,9 @@ class InvoicesPriceQuotationController extends Controller
         else if(request()->getHttpHost() == 'e3.mygesture.co'){$modeer = 2;}
         else{$modeer = 2; }
         $userSig = User::find($modeer);
-        return view('invoices_price_quotations.profile', compact('userSig','currentProducts', 'invoice', 'user_id', 'customers', 'products'));
+        $logo = Settings::where('key','logo')->value('value');
+        $company = Settings::where('key','company_name')->value('value');
+        return view('invoices_price_quotations.profile', compact('company','logo','userSig','currentProducts', 'invoice', 'user_id', 'customers', 'products'));
     }
 
     public function edit(InvoicesPriceQuotation $invoice)
@@ -405,7 +408,11 @@ class InvoicesPriceQuotationController extends Controller
         else if(request()->getHttpHost() == 'e3.mygesture.co'){$modeer = 2;}
         else{$modeer = 2; }
         $userSig = User::find($modeer);
+
+        $settings = Settings::all();
+        $logo = Settings::where('key','logo')->value('value');
+
         // return view('invoices_price_quotations.print', compact('template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
-        return view('invoices_price_quotations.new', compact('userSig','alreadyShown','count','template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
+        return view('invoices_price_quotations.new', compact('logo','userSig','alreadyShown','count','template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
     }
 }
