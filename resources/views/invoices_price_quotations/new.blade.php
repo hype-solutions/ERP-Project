@@ -43,25 +43,28 @@
         min-height: 297mm;
         padding-top: 20mm;
         padding-right: 10mm;
-        padding-bottom: 70mm;
+        padding-bottom: 94mm;
         padding-left: 20mm;
         margin: 10mm auto;
         border: 1px #D3D3D3 solid;
         border-radius: 5px;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
+        
+        @if($template == 1)
+        background-image: url(https://e1.mygesture.co/uploads/letterHead1.jpg) !important;
+        @elseif($template == 2)
+        background-image: url(https://e1.mygesture.co/uploads/letterHead2.jpg) !important;
+        @elseif($template == 3)
+        background-image: url(https://e1.mygesture.co/uploads/letterHead3.jpg)  !important;
+        @elseif($template == 4)
+        background-image: url(https://e1.mygesture.co/uploads/letterHead4.jpg) !important;
+        @endif
+        -webkit-background-size: 100% 100%;
+        -moz-background-size: 100% 100%;
+        -o-background-size: 100% 100%;
         background-size: 100% 100%;
         background-repeat: no-repeat;
-        @if($template == 1)
-        background-image: url(https://e1.mygesture.co/uploads/letterHead1.jpg)!important;
-        @elseif($template == 2)
-        background-image: url(https://e1.mygesture.co/uploads/letterHead2.jpg)!important;
-        @elseif($template == 3)
-        background-image: url(https://e1.mygesture.co/uploads/letterHead3.jpg)!important;
-        @elseif($template == 4)
-        background-image: url(https://e1.mygesture.co/uploads/letterHead4.jpg)!important;
-        @endif
+        /* background-attachment: fixed; */
+        background-position: center;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   }
   .subpage {
@@ -89,11 +92,17 @@
             box-shadow: initial;
             background: initial;
             page-break-after: always;
+            -webkit-background-size: 100% 100%;
+            -moz-background-size: 100% 100%;
+            -o-background-size: 100% 100%;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
         }
 
 
         .page:last-child {
      page-break-after: auto;
+     padding-bottom: 85mm;
 }
 
         #invoice-footer {
