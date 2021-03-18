@@ -267,7 +267,7 @@
                       @env('local','development')
                       <div class="text-center">
                         <p class="mb-0 mt-1">التوقيع</p>
-                        <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                        <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                         <h6>إسم الشخص</h6>
                         <p class="text-muted">الوظيفة</p>
                       </div>
@@ -276,21 +276,21 @@
                       @if(request()->getHttpHost() == 'e1.mygesture.co')
                       <div class="text-center">
                         <p class="mb-0 mt-1">التوقيع</p>
-                        <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                        <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                         <h6>م/ محمد عاطف</h6>
                         <p class="text-muted">المدير العام</p>
                       </div>
                       @elseif(request()->getHttpHost() == 'e2.mygesture.co')
                       <div class="text-center">
                         <p class="mb-0 mt-1">التوقيع</p>
-                        <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                        <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                         <h6>م/ أحمد عماد</h6>
                         <p class="text-muted">المدير العام</p>
                       </div>
                       @elseif(request()->getHttpHost() == 'e3.mygesture.co')
                       <div class="text-center">
                         <p class="mb-0 mt-1">التوقيع</p>
-                        <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                        <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                         <h6>م/ محمد ممدوح</h6>
                         <p class="text-muted">المدير العام</p>
                       </div>
@@ -417,7 +417,7 @@
                           @env('local','development')
                           <div class="text-center">
                             <p class="mb-0 mt-1">التوقيع</p>
-                            <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                            <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                             <h6>إسم الشخص</h6>
                             <p class="text-muted">الوظيفة</p>
                           </div>
@@ -426,21 +426,21 @@
                           @if(request()->getHttpHost() == 'e1.mygesture.co')
                           <div class="text-center">
                             <p class="mb-0 mt-1">التوقيع</p>
-                            <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                            <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                             <h6>م/ محمد عاطف</h6>
                             <p class="text-muted">المدير العام</p>
                           </div>
                           @elseif(request()->getHttpHost() == 'e2.mygesture.co')
                           <div class="text-center">
                             <p class="mb-0 mt-1">التوقيع</p>
-                            <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                            <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                             <h6>م/ أحمد عماد</h6>
                             <p class="text-muted">المدير العام</p>
                           </div>
                           @elseif(request()->getHttpHost() == 'e3.mygesture.co')
                           <div class="text-center">
                             <p class="mb-0 mt-1">التوقيع</p>
-                            <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                            <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                             <h6>م/ محمد ممدوح</h6>
                             <p class="text-muted">المدير العام</p>
                           </div>
@@ -564,7 +564,7 @@
                           @env('local','development')
                           <div class="text-center">
                             <p class="mb-0 mt-1">التوقيع</p>
-                            <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                            <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                             <h6>إسم الشخص</h6>
                             <p class="text-muted">الوظيفة</p>
                           </div>
@@ -573,21 +573,21 @@
                           @if(request()->getHttpHost() == 'e1.mygesture.co')
                           <div class="text-center">
                             <p class="mb-0 mt-1">التوقيع</p>
-                            <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                            <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                             <h6>م/ محمد عاطف</h6>
                             <p class="text-muted">المدير العام</p>
                           </div>
                           @elseif(request()->getHttpHost() == 'e2.mygesture.co')
                           <div class="text-center">
                             <p class="mb-0 mt-1">التوقيع</p>
-                            <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                            <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                             <h6>م/ أحمد عماد</h6>
                             <p class="text-muted">المدير العام</p>
                           </div>
                           @elseif(request()->getHttpHost() == 'e3.mygesture.co')
                           <div class="text-center">
                             <p class="mb-0 mt-1">التوقيع</p>
-                            <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                            <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                             <h6>م/ محمد ممدوح</h6>
                             <p class="text-muted">المدير العام</p>
                           </div>
@@ -708,7 +708,7 @@
                           @env('local','development')
                           <div class="text-center">
                             <p class="mb-0 mt-1">التوقيع</p>
-                            <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                            <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                             <h6>إسم الشخص</h6>
                             <p class="text-muted">الوظيفة</p>
                           </div>
@@ -717,21 +717,21 @@
                           @if(request()->getHttpHost() == 'e1.mygesture.co')
                           <div class="text-center">
                             <p class="mb-0 mt-1">التوقيع</p>
-                            <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                            <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                             <h6>م/ محمد عاطف</h6>
                             <p class="text-muted">المدير العام</p>
                           </div>
                           @elseif(request()->getHttpHost() == 'e2.mygesture.co')
                           <div class="text-center">
                             <p class="mb-0 mt-1">التوقيع</p>
-                            <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                            <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                             <h6>م/ أحمد عماد</h6>
                             <p class="text-muted">المدير العام</p>
                           </div>
                           @elseif(request()->getHttpHost() == 'e3.mygesture.co')
                           <div class="text-center">
                             <p class="mb-0 mt-1">التوقيع</p>
-                            <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                            <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                             <h6>م/ محمد ممدوح</h6>
                             <p class="text-muted">المدير العام</p>
                           </div>
@@ -857,7 +857,7 @@
                           @env('local','development')
                           <div class="text-center">
                             <p class="mb-0 mt-1">التوقيع</p>
-                            <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                            <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                             <h6>إسم الشخص</h6>
                             <p class="text-muted">الوظيفة</p>
                           </div>
@@ -866,21 +866,21 @@
                           @if(request()->getHttpHost() == 'e1.mygesture.co')
                           <div class="text-center">
                             <p class="mb-0 mt-1">التوقيع</p>
-                            <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                            <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                             <h6>م/ محمد عاطف</h6>
                             <p class="text-muted">المدير العام</p>
                           </div>
                           @elseif(request()->getHttpHost() == 'e2.mygesture.co')
                           <div class="text-center">
                             <p class="mb-0 mt-1">التوقيع</p>
-                            <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                            <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                             <h6>م/ أحمد عماد</h6>
                             <p class="text-muted">المدير العام</p>
                           </div>
                           @elseif(request()->getHttpHost() == 'e3.mygesture.co')
                           <div class="text-center">
                             <p class="mb-0 mt-1">التوقيع</p>
-                            <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                            <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                             <h6>م/ محمد ممدوح</h6>
                             <p class="text-muted">المدير العام</p>
                           </div>
@@ -981,7 +981,7 @@
                       @env('local','development')
                       <div class="text-center">
                         <p class="mb-0 mt-1">التوقيع</p>
-                        <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                        <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                         <h6>إسم الشخص</h6>
                         <p class="text-muted">الوظيفة</p>
                       </div>
@@ -990,21 +990,21 @@
                       @if(request()->getHttpHost() == 'e1.mygesture.co')
                       <div class="text-center">
                         <p class="mb-0 mt-1">التوقيع</p>
-                        <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                        <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                         <h6>م/ محمد عاطف</h6>
                         <p class="text-muted">المدير العام</p>
                       </div>
                       @elseif(request()->getHttpHost() == 'e2.mygesture.co')
                       <div class="text-center">
                         <p class="mb-0 mt-1">التوقيع</p>
-                        <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                        <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                         <h6>م/ أحمد عماد</h6>
                         <p class="text-muted">المدير العام</p>
                       </div>
                       @elseif(request()->getHttpHost() == 'e3.mygesture.co')
                       <div class="text-center">
                         <p class="mb-0 mt-1">التوقيع</p>
-                        <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
+                        <img src="{{asset($userSig->signature)}}" alt="signature" class="height-100" />
                         <h6>م/ محمد ممدوح</h6>
                         <p class="text-muted">المدير العام</p>
                       </div>

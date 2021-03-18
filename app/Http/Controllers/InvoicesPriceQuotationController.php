@@ -6,6 +6,7 @@ use App\Models\Branches\Branches;
 use App\Models\Branches\BranchesProducts;
 use App\Models\Customers\Customers;
 use App\Models\ERPLog;
+use App\Models\User;
 use App\Models\Invoices\Invoices;
 use App\Models\Invoices\InvoicesPayments;
 use App\Models\Invoices\InvoicesPriceQuotation;
@@ -391,7 +392,9 @@ class InvoicesPriceQuotationController extends Controller
         $count = $currentProducts->count();
         ERPLog::create(['type' => 'Price Quotations', 'action' => 'Print', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
         $alreadyShown = 0;
+        $modeer = 4;
+        $userSig = User::find($modeer);
         // return view('invoices_price_quotations.print', compact('template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
-        return view('invoices_price_quotations.new', compact('alreadyShown','count','template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
+        return view('invoices_price_quotations.new', compact('userSig','alreadyShown','count','template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
     }
 }
