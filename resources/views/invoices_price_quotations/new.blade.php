@@ -92,6 +92,10 @@
         }
 
 
+        .page:last-child {
+     page-break-after: auto;
+}
+
         #invoice-footer {
         position: relative;
         /* top: -20px !important */
