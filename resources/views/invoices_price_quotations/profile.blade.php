@@ -247,7 +247,7 @@
 
                                         
                                         <div class="form-group">
-                                          @env('local')
+                                          @env('local','development')
                                             <select class="form-control" name="template">
                                                 <option value="1">التصميم رقم #1</option>
                                                 <option value="2">التصميم رقم #2</option>
