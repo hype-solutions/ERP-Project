@@ -12,8 +12,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/assets/css/style-rtl.css') }}">
     {{-- <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/pages/invoices.min3.css') }}" id="printCss"> --}}
 
-    <style>
-            body {
+  <style>
+  body {
         width: 100%;
         height: 100%;
         margin: 0;
@@ -21,29 +21,24 @@
         direction: rtl;
         /* background-color: #FAFAFA; */
         /* font: 12pt "Tahoma"; */
-    }
-    .notFirst{
+  }
+  .notFirst{
         @if($template == 3)
         padding-top: 8cm;
-
         @else
         padding-top: 3cm;
-
         @endif
-}
-.notFirst2{
+  }
+  .notFirst2{
         padding-top: 2cm;
-}
-* {
-    -webkit-print-color-adjust: exact !important;   /* Chrome, Safari */
-    color-adjust: exact !important;                 /*Firefox*/
-}
-    }
-    * {
+  }
+  *{
+        -webkit-print-color-adjust: exact !important;   /* Chrome, Safari */
+        color-adjust: exact !important;                 /*Firefox*/
         box-sizing: border-box;
         -moz-box-sizing: border-box;
-    }
-    .page {
+  }
+  .page {
         width: 210mm;
         min-height: 297mm;
         padding-top: 20mm;
@@ -66,22 +61,21 @@
         background-image: url(https://e1.mygesture.co/uploads/letterHead3.jpg)!important;
         @elseif($template == 4)
         background-image: url(https://e1.mygesture.co/uploads/letterHead4.jpg)!important;
-        
         @endif
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    }
-    .subpage {
+  }
+  .subpage {
         /* padding: 1cm; */
         /* border: 5px red solid; */
         height: 257mm;
         /* outline: 2cm #FFEAEA solid; */
-    }
+  }
     
-    @page {
+  @page {
         size: a4;
         margin: 0;
-    }
-    @media print {
+  }
+  @media print {
         html, body {
             width: 210mm;
             height: 297mm;        
