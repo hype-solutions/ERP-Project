@@ -105,7 +105,7 @@ class ProductsController extends Controller
     public function view(products $product)
     {
 
-        $allowedBranches = BranchesProductsSelling::where('product_id', $product->id)->with('branch')->get();
+        $allowedBranches = BranchesProductsSelling::where('product_id', $product->id)->where('selling',1)->with('branch')->get();
         $branches = BranchesProducts::where('product_id', $product->id)
             // ->where('amount', '!=', 0)
             ->with('branch')->get();
