@@ -558,7 +558,7 @@ if (newTax > 0) {
   currentInvoiceTotal = parseInt(currentInvoiceTotal);
   var newInvoiceTotal = currentInvoiceTotal - (currentInvoiceTotal * (newTax / 100));
   var taxAmount = currentInvoiceTotal - newInvoiceTotal;
-  taxAmount = Math.floor(taxAmount);
+  taxAmount = Math.round(taxAmount);
   $('#tax_amount').text(taxAmount);
 
 
@@ -624,7 +624,7 @@ if (theType == 1) {
   currentInvoiceTotal = parseInt(currentInvoiceTotal);
   var newInvoiceTotal = currentInvoiceTotal - (currentInvoiceTotal * (theValue / 100));
   var discount_amount = currentInvoiceTotal - newInvoiceTotal;
-  discount_amount = Math.floor(discount_amount);
+  discount_amount = Math.round(discount_amount);
   $('#discount_percentage').text(theValue);
   $('#discount_percentage_amount').text(discount_amount);
 }
