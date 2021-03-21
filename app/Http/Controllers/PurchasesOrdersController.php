@@ -278,6 +278,8 @@ class PurchasesOrdersController extends Controller
         $purchase->purchase_date = Carbon::now();
         $purchase->purchase_total = $request->purchase_total;
         $purchase->shipping_fees = $request->shipping_fees;
+        $purchase->purchase_tax = $request->tax;
+
         $purchase->save();
 
         $purchaseId = $purchase->id;
