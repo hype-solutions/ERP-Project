@@ -201,6 +201,7 @@
                             <td>الضريبة</td>
                             <td class="text-right">
                                 [{{$invoice->quotation_tax}} %]
+                                @if(is_float(($invoice->discount_percentage / 100) * $subtotal)) *** @endif
                                 {{round(($invoice->quotation_tax / 100) * $subtotal)}}  ج.م</td>
                           </tr>
                           @endif
