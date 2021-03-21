@@ -26,20 +26,6 @@
     width: 210mm;
     height: 297mm;
   }
-  body{
-    /* background-image:url('{{ url('uploads/letterHead3.jpg')}}')!important;
-    background-size: 100% 100%; */
-  }
-  body {
-    background-image:url('{{ url('uploads/letterHead3.jpg')}}')!important;
-    background-repeat: repeat;
-    background-size: 100% 100%;
-    -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-  }
-  .pagebreak { page-break-before: always; } /* page-break-after works, as well */
 
 }
 </style>
@@ -67,7 +53,7 @@
             background-repeat:repeat-y;
             background-size: 100% 100%;
         }
-      
+
         </style>
         @elseif($template == 4)
         <style>
@@ -92,7 +78,7 @@
               <!-- Invoice Company Details -->
               <div id="invoice-customer-details" class="row pt-2" style="">
 
-                <div class="col-sm-6 col-12 text-center text-sm-left" @if($template == 3) style="margin-top:100px;" @endif>
+                <div class="col-sm-6 col-12 text-center text-sm-left" @if($p == 3) @if($template == 3) style="margin-top:100px;" @endif @endif>
                     <p class="text-muted">بيانات العميل</p>
                   <ul class="px-0 list-unstyled">
                     <li class="text-bold-800">{{$invoice->customer->customer_name}}</li>
@@ -108,6 +94,8 @@
 
                   </ul>
                 </div>
+
+                @if($p == 3)
                 @if($template != 3)
                 <div class="col-sm-6 col-12 text-center text-sm-right">
                     <h2>عرض سعر</h2>
@@ -129,6 +117,18 @@
                   <div class="col-sm-4 col-12 text-center text-sm-right">
                   </div>
                 @endif
+                @else
+                <div class="col-sm-2 col-12 text-center text-sm-right">
+                    <h2>عرض سعر</h2>
+                    <p class="pb-sm-3">رقم {{$invoice->id}}</p>
+                    <ul class="px-0 list-unstyled">
+                      <li>إجمالي عرض السعر</li>
+                      <li class="lead text-bold-800">{{$invoice->quotation_total}} ج.م</li>
+                    </ul>
+                  </div>
+                  <div class="col-sm-4 col-12 text-center text-sm-right">
+                  </div>
+                  @endif
               </div>
               <!-- Invoice Company Details -->
 
