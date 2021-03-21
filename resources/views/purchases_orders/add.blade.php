@@ -516,8 +516,11 @@ getDiscountAmount_2 = parseInt(getDiscountAmount_2);
 //get shipping
 var getShipping = $('#shipping').text();
 getShipping = parseInt(getShipping);
+//get Tax
+var getTax = $('#tax_amount').text();
+getTax = parseInt(getTax);
 //add them all
-var invoiceTotal = getSubTotal + getShipping - getDiscountAmount_1 - getDiscountAmount_2;
+var invoiceTotal = getSubTotal + getShipping + getTax - getDiscountAmount_1 - getDiscountAmount_2;
 $('#total_after_all2').text(invoiceTotal);
 $('#totalToSave').val(invoiceTotal);
 
