@@ -202,7 +202,7 @@
                             <td>الضريبة</td>
                             <td class="text-right">
                                 [{{$invoice->quotation_tax}} %]
-                                @if(is_string_float(($invoice->quotation_tax / 100) * $subtotal))
+                                @if($invoice->is_string_float(($invoice->quotation_tax / 100) * $subtotal))
                                  <span style="color: rgb(170, 170, 26)">*</span>
                                 @endif
 
