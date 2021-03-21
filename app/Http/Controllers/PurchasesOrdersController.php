@@ -74,7 +74,7 @@ class PurchasesOrdersController extends Controller
         $purchase->purchase_note = $request->purchase_note;
         $purchase->discount_percentage = $request->discount_percentage;
         $purchase->discount_amount = $request->discount_amount;
-        $purchase->purchase_tax = $request->purchase_tax;
+        $purchase->purchase_tax = $request->tax;
         $purchase->payment_method = 'none';
         $purchase->purchase_date = Carbon::now();
         $purchase->safe_payment_id = NULL;
