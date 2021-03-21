@@ -163,6 +163,9 @@
                       <li class="nav-item">
                         <a class="nav-link" id="base-tab13" data-toggle="tab" aria-controls="tab13" href="#tab13" aria-expanded="false">الشحن</a>
                       </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="base-tab14" data-toggle="tab" aria-controls="tab14" href="#tab14" aria-expanded="false">الضريبة</a>
+                      </li>
                     </ul>
                     <div class="tab-content px-1 pt-1">
                         <div role="tabpanel" class="tab-pane active" id="tab11" aria-expanded="true" aria-labelledby="base-tab11">
@@ -202,7 +205,17 @@
                           </div>
 
                       </div>
+                      <div class="tab-pane" id="tab14" aria-labelledby="base-tab14">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="projectinput3">نسبة الضريبة</label>
+                                    <input type="number" id="tax_fees" class="form-control" placeholder="" name="tax" value="0" onblur="return updateTax()" required>
+                                </div>
+                            </div>
+                        </div>
 
+                    </div>
                     </div>
               </div>
             </div>
@@ -283,6 +296,11 @@
                                  <tr id="hidden-row-3" style="display: none">
                                     <td colspan="4" class="text-right"><strong>الشحن</strong></td>
                                     <td id="TotalValue" class="text-left"><code><span id="shipping">0</span></code>&nbsp;ج.م</td>
+                                    <td></td>
+                                 </tr>
+                                 <tr id="hidden-row-4" style="display: none">
+                                    <td colspan="4" class="text-right"><strong> الضريبة[<span id="tax" style="color: goldenrod">0</span>%]</strong></td>
+                                    <td  class="text-left"><code><span id="tax_amount">0</span></code>&nbsp;ج.م</td>
                                     <td></td>
                                  </tr>
                                 <tr>
@@ -393,6 +411,28 @@ CKEDITOR.ClassicEditor.create( document.querySelector( '#terms-conditions' ) ).c
 
 
 
+
+function updateTax() {
+newTax = $('#tax_fees').val();
+if ($('#tax_fees').val().length === 0) {
+    newTax = 0;
+}
+if (newTax > 0) {
+  $('#hidden-row-4').show();
+} else {
+  $('#hidden-row-4').hide();
+}
+
+  var currentInvoiceTotal = $("#total_after_all").text();
+  currentInvoiceTotal = parseInt(currentInvoiceTotal);
+  var newInvoiceTotal = currentInvoiceTotal - (currentInvoiceTotal * (newTax / 100));
+  var taxAmount = currentInvoiceTotal - newInvoiceTotal;
+  taxAmount = Math.floor(taxAmount);
+  $('#tax_amount').text(taxAmount);
+
+$('#tax').html(newTax);
+updateTotal();
+}
 
 
 // function numbersOnly(input){
@@ -590,6 +630,8 @@ $('#total_after_all').text(newTotal);
 
 updateDiscount();
 updateShipping();
+updateTax();
+
 updateTotal();
 }
 
@@ -604,6 +646,8 @@ var newTotal = currentTotal - oldRowTotal;
 $('#total_after_all').text(newTotal);
 updateDiscount();
 updateShipping();
+updateTax();
+
 updateTotal();
 $("#tot_" + rowNum).closest('tr').remove();
 
