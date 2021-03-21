@@ -258,6 +258,7 @@
                             <td>الخصم (النسبة)</td>
                             <td class="text-right">
                                 [{{$purchaseOrder->discount_percentage}} %]
+                                @if(is_float(($purchaseOrder->discount_percentage / 100) * $subtotal)) <span style="color: rgb(170, 170, 26)">*</span> @endif
                                 {{(($purchaseOrder->discount_percentage / 100) * $subtotal)}} ج.م
                             </td>
                           </tr>
