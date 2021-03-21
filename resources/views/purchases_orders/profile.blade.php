@@ -270,7 +270,10 @@
                           @endif
                           <tr>
                             <td>الضريبة</td>
-                            <td class="text-right">0</td>
+                            <td class="text-right">
+                                [{{$purchaseOrder->purchase_tax}} %]
+                                {{round(($purchaseOrder->purchase_tax / 100) * $subtotal)}} ج.م
+                            </td>
                           </tr>
                           <tr>
                             <td>الشحن</td>
