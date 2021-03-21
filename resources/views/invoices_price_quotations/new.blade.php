@@ -221,7 +221,7 @@
                                 </div>
 
 
-                  @if($count < 3)
+                  @if($count <= 3)
                   <div class="row ">
                     <div class="col-sm-7 col-12 text-center text-sm-left">
                            <h6>الشروط / الملاحظات</h6>
@@ -367,7 +367,7 @@
                     </div>
 
                   </div>
-                  @if($count < 7)
+                  @if($count <= 7)
                     @if($alreadyShown != 1)
                     <span style="display: none">
                         {{$alreadyShown = 1}}
@@ -514,7 +514,7 @@
                     </div>
 
                   </div>
-                  @if($count < 12)
+                  @if($count <= 12)
                     @if($alreadyShown != 1)
                     <span style="display: none">
                         {{$alreadyShown = 1}}
@@ -658,7 +658,7 @@
                     </div>
 
                   </div>
-                  @if($count < 17)
+                  @if($count <= 17)
                     @if($alreadyShown != 1)
                     <span style="display: none">
                         {{$alreadyShown = 1}}
@@ -807,7 +807,7 @@
                     </div>
 
                   </div>
-                  @if($count < 22)
+                  @if($count <= 22)
                     @if($alreadyShown != 1)
                     <span style="display: none">
                     {{$alreadyShown = 1}}
