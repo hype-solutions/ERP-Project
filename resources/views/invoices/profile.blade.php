@@ -258,6 +258,7 @@
                             <td>الضريبة</td>
                             <td class="text-right">
                                 [{{$invoice->invoice_tax}} %]
+                                @if(is_float(($invoice->invoice_tax / 100) * $subtotal)) <span style="color: rgb(170, 170, 26)">*</span> @endif
                                 {{round(($invoice->invoice_tax / 100) * $subtotal)}} ج.م
                             </td>
                           </tr>
