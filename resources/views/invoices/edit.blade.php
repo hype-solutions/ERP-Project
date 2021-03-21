@@ -100,7 +100,7 @@
                                     <span style="color: green"><i><u>(محولة من عرض سعر رقم {{$invoice->price_quotation_id}})</u></i></span>
                                 </div>
                                 @endif
-                                @if($invoice->was_price_quotation)
+                                @if($invoice->invoice_paper_num)
                                 <div class="col">
                                     <span style="color: green"><i><u>رقم الفاتورة الورقية: {{$invoice->invoice_paper_num}}</u></i></span>
                                 </div>
@@ -275,6 +275,9 @@
                       <li class="nav-item">
                         <a class="nav-link" id="base-tab14" data-toggle="tab" aria-controls="tab14" href="#tab14" aria-expanded="false">الضريبة</a>
                       </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="base-tab15" data-toggle="tab" aria-controls="tab15" href="#tab15" aria-expanded="false">الفاتورة الورقية</a>
+                      </li>
                     </ul>
                     <div class="tab-content px-1 pt-1">
                         <div role="tabpanel" class="tab-pane active" id="tab11" aria-expanded="true" aria-labelledby="base-tab11">
@@ -320,6 +323,17 @@
                                 <div class="form-group">
                                     <label for="projectinput3">نسبة الضريبة</label>
                                     <input type="number" id="tax_fees" class="form-control" placeholder="" name="tax" value="{{$invoice->invoice_tax}}" onblur="return updateTax()" required>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane" id="tab15" aria-labelledby="base-tab15">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="projectinput3">رقم الفاتورة الورقية</label>
+                                    <input type="text" id="" class="form-control" placeholder="" name="invoice_paper_num" value="{{$invoice->invoice_paper_num}}">
                                 </div>
                             </div>
                         </div>
