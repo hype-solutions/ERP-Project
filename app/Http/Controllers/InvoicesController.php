@@ -11,6 +11,7 @@ use App\Models\Invoices\InvoicesProducts;
 use App\Models\Products\Products;
 use App\Models\Safes\Safes;
 use App\Models\Safes\SafesTransactions;
+use App\Models\Settings\Settings;
 use App\Traits\ERPLogTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
