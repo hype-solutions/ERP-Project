@@ -202,11 +202,11 @@
                             <td>الضريبة</td>
                             <td class="text-right">
                                 [{{$invoice->quotation_tax}} %]
-
-
-                                @if(filter_var((($invoice->quotation_tax / 100) * $subtotal), FILTER_VALIDATE_FLOAT))
-                                <span style="color: rgb(170, 170, 26)">*</span>
+                                @if(is_string_float(($invoice->quotation_tax / 100) * $subtotal))
+                                 <span style="color: rgb(170, 170, 26)">*</span>
                                 @endif
+
+
                                 {{round(($invoice->quotation_tax / 100) * $subtotal)}}  ج.م</td>
                           </tr>
                           @endif

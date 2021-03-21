@@ -415,4 +415,14 @@ class InvoicesPriceQuotationController extends Controller
         // return view('invoices_price_quotations.print', compact('template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
         return view('invoices_price_quotations.new', compact('logo','userSig','alreadyShown','count','template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
     }
+
+
+   protected function is_string_float($string) {
+        if(is_numeric($string)) {
+          $val = $string+0;
+          return is_float($val);
+        } else {
+          return false;
+        }
+     }
 }
