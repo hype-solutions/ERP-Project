@@ -327,7 +327,7 @@ class InvoicesPriceQuotationController extends Controller
         $quotation->quotation_note = $request->quotation_note;
         $quotation->discount_percentage = $request->discount_percentage;
         $quotation->discount_amount = $request->discount_amount;
-        $quotation->quotation_tax = $request->tax_fees;
+        $quotation->quotation_tax = $request->tax;
         $quotation->quotation_date = Carbon::now();
         $quotation->quotation_total = $request->quotation_total;
         $quotation->shipping_fees = $request->shipping_fees;
