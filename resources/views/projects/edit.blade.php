@@ -101,6 +101,7 @@
                             @method('patch')
                             <input type="hidden" name="created_by" value="{{ $user_id }}" />
                             <input type="hidden" name="total" id="totalToSave" value="0" />
+                            <input type="hidden" name="step" id="theStep" value="{{$project->step}}" />
                             <!-- Step 1 -->
                             <h6><i class="step-icon la la-eye"></i> بيانات المشروع</h6>
                             <fieldset>
@@ -143,7 +144,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group mt-3">
-                                    <button type="submit" class="btn mb-1 btn-primary btn-lg btn-block btn-glow ">حفظ</button>
+                                    <button type="submit" class="btn mb-1 btn-primary btn-lg btn-glow" style="float: left">حفظ</button>
                                 </div>
                             </fieldset>
 
@@ -193,7 +194,10 @@
                                         @endif
                                     </div>
                                 </div>
-
+                                <div class="form-group mt-3">
+                                    <button type="submit" class="btn mb-1 btn-secondary btn-lg btn-glow" style="float: left">الخطوة التالية</button>
+                                    <button type="submit" class="btn mb-1 btn-primary btn-lg btn-glow" style="float: left">حفظ</button>
+                                </div>
                             </fieldset>
 
                             <!-- Step 2 -->
@@ -341,6 +345,11 @@
                                 </div>
                                 <div class="form-group mt-3">
                                     <button type="submit" class="btn mb-1 btn-primary btn-lg btn-block btn-glow ">حفظ</button>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <button type="submit" class="btn mb-1 btn-success btn-lg btn-glow" style="float: left">تصديق على عرض السعر</button>
+                                    <button type="submit" class="btn mb-1 btn-danger btn-lg btn-glow" style="float: left">رفض</button>
+                                    <button type="submit" class="btn mb-1 btn-primary btn-lg btn-glow" style="float: left">حفظ</button>
                                 </div>
                             </fieldset>
 
@@ -643,245 +652,48 @@
 
 
 
+<script>
+    var nextAllowed = $('#theStep').val();
+    nextAllowed = parseInt(nextAllowed);
+    $(".icons-tab-steps").steps({
+    headerTag: "h6",
+    bodyTag: "fieldset",
+    transitionEffect: "fade",
+    titleTemplate: '<span class="step">#index#</span> #title#',
+    enableKeyNavigation: false,
+    enablePagination: false,
+    labels: {
+        finish: "حفظ"
+    },
+    saveState: true,
+    startIndex: nextAllowed,
+    onStepChanging: function(event, currentIndex, newIndex)
+    {
+        if (newIndex < currentIndex) return true;
+        if (newIndex > currentIndex){
+            // if(nextAllowed <= newIndex){
+            if(newIndex <= nextAllowed){
+                return true;
+            }
+        }
+        // if(currentIndex == 0){
+        //     if(nextAllowed == 1){
+        //         return true;
+        //      }else{
+        //          alert('أكمل البيانات');
+        //          return false;
+        //          }
+        // }
+    },
+    onFinished: function (e, t) {
+        alert("Form submitted.")
+    }
+})
+</script>
 
-
-    <script src="{{ asset('theme/app-assets/js/scripts/forms/wizard-steps.min.js') }}"></script>
+    {{-- <script src="{{ asset('theme/app-assets/js/scripts/forms/wizard-steps.min.js') }}"></script> --}}
     <script src="{{ asset('theme/app-assets/js/scripts/forms/custom-file-input.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/js/scripts/forms/select/form-select2.min.js') }}"></script>
 
-    <script>
-        $(document).ready(function () {
-            if({{$key > 0}}){
-            for (let index = 1; index < {{$key+2}}; index++) {
-    reCalculate(index);
-}}
-            $('#sel_x_1').select2({allowClear: false,tags: true});
-    });
-
-
-
-    function addDofaa()
-{
-
-var dofaaTable = document.getElementById("dofaaTable");
-var currentIndex = dofaaTable.rows.length;
-var currentRow = dofaaTable.insertRow(-1);
-
-
-var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = '<div class="form-group"><input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later['+currentIndex+'][amount]" value="0" required></div>';
-
-var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="form-control" id="date" value="2011-08-19" name="later['+currentIndex+'][date]"></fieldset><fieldset class="form-group"><textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later['+currentIndex+'][notes]"></textarea></fieldset>';
-
-var currentCell = currentRow.insertCell(-1);
-//currentCell.innerHTML = '<fieldset class="checkboxsas"><label><input type="checkbox" name="later['+currentIndex+'][paid]">مدفوعه</label></fieldset>';
- currentCell.innerHTML = '<fieldset class="checkboxsas"><label>دفع الان <input type="checkbox" name="later['+currentIndex+'][paynow]"></label></fieldset>'
-
-}
-
-
-
-    function updateTotal() {
-
-//get sub total
-var getSubTotal = $("#total_after_all").text();
-getSubTotal = parseInt(getSubTotal);
-//get discount amount
-var getDiscountAmount_1 = $('#discount_percentage_amount').text();
-var getDiscountAmount_2 = $('#discount_amount').text();
-getDiscountAmount_1 = parseInt(getDiscountAmount_1);
-getDiscountAmount_2 = parseInt(getDiscountAmount_2);
-//get shipping
-var getShipping = $('#shipping').text();
-getShipping = parseInt(getShipping);
-//add them all
-var invoiceTotal = getSubTotal + getShipping - getDiscountAmount_1 - getDiscountAmount_2;
-$('#total_after_all2').text(invoiceTotal);
-$('#totalToSave').val(invoiceTotal);
-
-}
-
-
-function updateDiscount() {
-var discount_percentage = $('#curr_per').val();
-var discount_amount = $('#curr_amount').val();
-if (discount_percentage > 0) {
-  discount_percentage = parseInt(discount_percentage);
-  calculateDiscount(1, discount_percentage);
-}
-
-if (discount_amount > 0) {
-  discount_amount = parseInt(discount_amount);
-  calculateDiscount(2, discount_amount);
-}
-
-}
-
-
-function changeDisType(type) {
-if (type.value == 'fixed') {
-  $('#dis_per').hide();
-  $('#dis_amount').show();
-} else {
-  $('#dis_amount').hide();
-  $('#dis_per').show();
-}
-}
-
-function calculateDiscount(theType) {
-//clear old discount
-$('#discount_percentage').text(0);
-$('#discount_percentage_amount').text(0);
-$('#discount_amount').text(0);
-// if discount type is percentage
-if (theType == 1) {
-  var theValue = $('#curr_per').val();
-  if ($('#curr_per').val().length === 0) {
-    theValue = 0;
-  }
-  if (theValue > 0) {
-    $('#hidden-row-1').show();
-  } else {
-    $('#hidden-row-1').hide();
-  }
-  $('#curr_amount').val(0);
-  var currentDiscountP = $('#discount_percentage').text();
-  currentDiscountP = parseInt(currentDiscountP);
-  var currentInvoiceTotal = $("#total_after_all").text();
-  currentInvoiceTotal = parseInt(currentInvoiceTotal);
-  var newInvoiceTotal = currentInvoiceTotal - (currentInvoiceTotal * (theValue / 100));
-  var discount_amount = currentInvoiceTotal - newInvoiceTotal;
-  discount_amount = Math.floor(discount_amount);
-  $('#discount_percentage').text(theValue);
-  $('#discount_percentage_amount').text(discount_amount);
-}
-//if discount type is fixed
-else if (theType == 2) {
-  var theValue = $('#curr_amount').val();
-  if ($('#curr_amount').val().length === 0) {
-    theValue = 0;
-  }
-  if (theValue > 0) {
-    $('#hidden-row-2').show();
-  } else {
-    $('#hidden-row-2').hide();
-  }
-  $('#curr_per').val(0);
-  var currentDiscountA = $('#discount_amount').text();
-  currentDiscountA = parseInt(currentDiscountA);
-  var currentInvoiceTotal = $("#total_after_all").text();
-  currentInvoiceTotal = parseInt(currentInvoiceTotal);
-  var newInvoiceTotal = parseInt(currentInvoiceTotal) + parseInt(currentDiscountA) - parseInt(theValue);
-  $('#discount_amount').text(theValue);
-}
-updateTotal();
-}
-
-
-function updateShipping() {
-newShipping = $('#shipping_fees').val();
-if ($('#shipping_fees').val().length === 0) {
-  newShipping = 0;
-}
-if (newShipping > 0) {
-  $('#hidden-row-3').show();
-} else {
-  $('#hidden-row-3').hide();
-}
-$('#shipping').html(newShipping);
-updateTotal();
-}
-
-function reCalculate(rowNum) {
-var oldRowTotal = $("#tot_" + rowNum).text();
-oldRowTotal = parseInt(oldRowTotal);
-var price = $("#p_p_" + rowNum).val();
-var qty = $("#p_q_" + rowNum).val();
-var rowTotal = price * qty;
-$('#tot_' + rowNum).text(rowTotal);
-var currentTotal = $("#total_after_all").text();
-currentTotal = parseInt(currentTotal);
-var newTotal = currentTotal - oldRowTotal;
-newTotal = newTotal + rowTotal;
-//Subtotal
-$('#total_after_all').text(newTotal);
-
-updateDiscount();
-updateShipping();
-updateTotal();
-}
-
-
-function delRow(rowNum) {
-var oldRowTotal = $("#tot_" + rowNum).text();
-oldRowTotal = parseInt(oldRowTotal);
-var currentTotal = $("#total_after_all").text();
-currentTotal = parseInt(currentTotal);
-var newTotal = currentTotal - oldRowTotal;
-//sub total
-$('#total_after_all').text(newTotal);
-updateDiscount();
-updateShipping();
-updateTotal();
-$("#tot_" + rowNum).closest('tr').remove();
-
-//currentProductIds.pop(1);
-}
-
-function addField(argument) {
-
-var myTable = document.getElementById("myTable");
-var currentIndex = myTable.rows.length;
-var currentRow = myTable.insertRow(myTable.rows.length - 5);
-
-var product_id = document.createElement("input");
-// product_id.setAttribute("name", "product_id[" + currentIndex + "]");
-product_id.setAttribute("name", "product[" + currentIndex + "][id]");
-product_id.setAttribute("class", "product_input");
-
-var product_desc = document.createElement("input");
-product_desc.setAttribute("name", "product[" + currentIndex + "][desc]");
-product_desc.setAttribute("class", "product_input");
-
-var product_price = document.createElement("input");
-product_price.setAttribute("name", "product[" + currentIndex + "][price]");
-product_price.setAttribute("type", "number");
-product_price.setAttribute("min", "0");
-product_price.setAttribute("class", "product_input");
-product_price.setAttribute("id", "p_p_" + currentIndex);
-product_price.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
-
-var product_qty = document.createElement("input");
-product_qty.setAttribute("name", "product[" + currentIndex + "][qty]");
-product_price.setAttribute("type", "number");
-product_price.setAttribute("min", "0");
-product_qty.setAttribute("class", "product_input");
-product_qty.setAttribute("id", "p_q_" + currentIndex);
-product_qty.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
-product_qty.setAttribute("placeholder", "0");
-
-//var currentCell = currentRow.insertCell(-1);
-
-
-
-//$('#sel_x_' + currentIndex).select2({allowClear: false,tags: true});
-
-currentCell = currentRow.insertCell(-1);
-currentCell.appendChild(product_desc);
-
-currentCell = currentRow.insertCell(-1);
-currentCell.appendChild(product_price);
-
-currentCell = currentRow.insertCell(-1);
-currentCell.appendChild(product_qty);
-
-var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = ' <span id="tot_' + currentIndex + '">0</span> ج.م';
-
-var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = '<center><button type="button" class="btn btn-danger btn-sm" onclick="return delRow(' + currentIndex + ')" style="vertical-align:center">X</button></center>';
-}
-    </script>
 
  @endsection
