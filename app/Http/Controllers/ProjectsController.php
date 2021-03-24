@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customers\Customers;
+use App\Models\Products\Products;
 use App\Models\Projects\Projects;
 use App\Models\Projects\ProjectsContractFiles;
 use App\Models\Projects\ProjectsPreviewFiles;
@@ -47,7 +48,13 @@ class ProjectsController extends Controller
         $contractFiles = ProjectsContractFiles::where('project_id', $project->id)->get();
         $attachmentFiles = ProjectsAttachmentFiles::where('project_id', $project->id)->get();
         $priceQuotation = ProjectsPriceQuotationsProducts::where('project_id', $project->id)->get();
-        return view('projects.edit', compact('project', 'customers', 'previewFiles', 'contractFiles', 'attachmentFiles', 'priceQuotation', 'user_id'));
+        // if(!$priceQuotation){
+            // $key = 0;
+        // }else{
+            $key = 0;
+        // }
+        $products = Products::all();
+        return view('projects.edit', compact('products','key','project', 'customers', 'previewFiles', 'contractFiles', 'attachmentFiles', 'priceQuotation', 'user_id'));
     }
 
     public function update(Request $request, $project)
@@ -63,6 +70,31 @@ class ProjectsController extends Controller
         $eproject->step = $request->step;
         $eproject->total = $request->total;
         $eproject->save();
+
+
+        $product = $request->product;
+
+//Save Items
+$listOfProducts = [];
+foreach ($product as $item) {
+    $pro = new ProjectsPriceQuotationsProducts();
+    $pro->project_id = $eproject->id;
+    $pro->customer_id = $eproject->customer_id;
+    if (ctype_digit($item['id'])) {
+        $pro->product_id = $item['id'];
+        $pro->product_temp = '';
+    } else {
+        $pro->product_id = 0;
+        $pro->product_temp = $item['id'];
+    }
+
+    $pro->product_desc = $item['desc'];
+    $pro->product_price = $item['price'];
+    $pro->product_qty = $item['qty'];
+    $pro->status = 'Pending';
+    $pro->save();
+    $listOfProducts[] = $pro;
+}
 
 
 

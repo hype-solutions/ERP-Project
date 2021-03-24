@@ -234,6 +234,9 @@
                                                         <li class="nav-item">
                                                           <a class="nav-link" id="base-tab13" data-toggle="tab" aria-controls="tab13" href="#tab13" aria-expanded="false">الشحن</a>
                                                         </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" id="base-tab14" data-toggle="tab" aria-controls="tab14" href="#tab14" aria-expanded="false">الضريبة</a>
+                                                          </li>
                                                       </ul>
                                                       <div class="tab-content px-1 pt-1">
                                                           <div role="tabpanel" class="tab-pane active" id="tab11" aria-expanded="true" aria-labelledby="base-tab11">
@@ -273,8 +276,20 @@
                                                             </div>
 
                                                         </div>
+                                                        <div class="tab-pane" id="tab14" aria-labelledby="base-tab14">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label for="projectinput3">نسبة الضريبة</label>
+                                                                        <input type="number" id="tax_fees" class="form-control" placeholder="" name="tax" value="{{$project->tax}}" onblur="return updateTax()" required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
 
                                                       </div>
+
 
 
                                                 </div>
@@ -287,6 +302,7 @@
                                                 <thead class="bg-yellow bg-lighten-4">
                                                     <tr>
                                                         <th style="width: 250px">البند</th>
+                                                        <th>الوصف</span>
                                                             <span class="tooltip">
                                                                 <a href="#" tabindex="-1"><img src="/css/images/question-ar.png" class="tips-image"></a>
                                                             </span>
@@ -298,12 +314,23 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @php
-                                                     $key = 0;
-                                                    @endphp
                                                     @foreach ($priceQuotation as $key => $item)
                                                     <tr id="row_{{$key+1}}">
+                                                        <td>
+                                                            <div class="form-group product_sel">
+                                                                <select class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product[{{$key+1}}][id]" id="sel_x_{{$key+1}}" required onchange="return getProductInfo(this,1)">
+                                                                    @if ($item->product_id > 0)
+                                                                    <option value="{{$item->product_id}}">{{$item->product->product_name}}</option>
+                                                                    @else
+                                                                    <option value="{{$item->product_temp}}">{{$item->product_temp}}</option>
+                                                                    @endif
 
+                                                                    @foreach ($products as $product)
+                                                                    <option value="{{$product->id}}">{{$product->product_name}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                              </div>
+                                                        </td>
                                                         <td><input type="text" class="product_input" name="product[{{$key+1}}][desc]" value="{{$item->product_desc}}"/></td>
                                                         <td><input type="number" class="product_input" id="p_p_{{$key+1}}" name="product[{{$key+1}}][price]" value="{{$item->product_price}}" onblur="return reCalculate({{$key+1}})" min="0"/></td>
                                                         <td><input type="number" class="product_input" id="p_q_{{$key+1}}" name="product[{{$key+1}}][qty]" value="{{$item->product_qty}}" onblur="return reCalculate({{$key+1}})" min="0" placeholder="0"/></td>
@@ -312,8 +339,8 @@
                                                         </td>
                                                         <td></td>
                                                     </tr>
-                                                    @endforeach
 
+                                                    @endforeach
                                                     <tr>
                                                         <td colspan="2" style="border-style: none !important;">
                                                             <div>
@@ -340,6 +367,11 @@
                                                      <tr id="hidden-row-3" style="display: none">
                                                         <td colspan="4" class="text-right"><strong>الشحن</strong></td>
                                                         <td id="TotalValue" class="text-left"><code><span id="shipping">0</span></code>&nbsp;ج.م</td>
+                                                        <td></td>
+                                                     </tr>
+                                                     <tr id="hidden-row-4" style="display: none">
+                                                        <td colspan="4" class="text-right"><strong> الضريبة[<span id="tax" style="color: goldenrod">0</span>%]</strong></td>
+                                                        <td  class="text-left"><code><span id="tax_amount">0</span></code>&nbsp;ج.م</td>
                                                         <td></td>
                                                      </tr>
                                                     <tr>
@@ -742,6 +774,401 @@ function updateProj(oldStep){
         alert("Form submitted.")
     }
 })
+
+
+
+
+
+function getProductInfo(product,row){
+
+var branch_id = 1;
+
+var get_branch_id = $('#branch_id').val();
+
+  if(get_branch_id > 0 ){
+    branch_id = get_branch_id;
+      }else{
+         branch_id = 1;
+    }
+    if(isNaN(product.value)){
+        $("#p_q_"+row).attr({"placeholder" : "صنف غير موجود" });
+    }else{
+//ajax call to get product available amount in this branch and selling price
+$.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+        }
+                    });
+    var formData = {
+        branch: branch_id,
+        product: product.value,
+    };
+    var type = "POST";
+    var ajaxurl = "{{route('products.fetchQty')}}";
+    $.ajax({
+        type: type,
+        url: ajaxurl,
+        data: formData,
+        dataType: 'json',
+        beforeSend: function () {
+            $("#addingRowBtn").prop("disabled",true);
+        },
+        success: function (data) {
+
+           // $("#p_q_1").val(data.amount);
+            //  $("#p_q_"+row).attr({"max" : data.amount });
+             $("#p_q_"+row).attr({"placeholder" : "متاح: "+data.amount });
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+
+    var ajaxurl = "{{route('products.fetchPrice')}}";
+    $.ajax({
+        type: type,
+        url: ajaxurl,
+        data: formData,
+        dataType: 'json',
+        success: function (data) {
+            $("#p_p_"+row).val(data.price);
+            reCalculate(row);
+            $("#addingRowBtn").prop("disabled",false);
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+    }
+
+
+//currentProductIds.push(product.value);
+
+// console.log(currentProductIds);
+
+}
+
+
+$(document).ready(function () {
+if({{$key}} != 0){
+    for (let index = 1; index < {{$key+2}}; index++) {
+    reCalculate(index);
+    $('#sel_x_'+index).select2({allowClear: false,tags: true});
+}
+}
+
+
+
+
+     currentProductIds = [];
+$('#hasPaid').change(function () {
+
+    if ($('#hasPaid').prop('checked')) {
+        $('#notPaid').hide();
+        $('#yesPaid').show();
+        $('#yesPaid2').show();
+        $('#other_box').hide();
+        $('#later_box').hide();
+
+
+
+        }else{
+        $('#yesPaid').hide();
+        $('#yesPaid2').hide();
+        $('#notPaid').show();
+
+    }
+    });
+    });
+
+
+function updateTotal() {
+
+//get sub total
+var getSubTotal = $("#total_after_all").text();
+getSubTotal = parseInt(getSubTotal);
+//get discount amount
+var getDiscountAmount_1 = $('#discount_percentage_amount').text();
+var getDiscountAmount_2 = $('#discount_amount').text();
+getDiscountAmount_1 = parseInt(getDiscountAmount_1);
+getDiscountAmount_2 = parseInt(getDiscountAmount_2);
+//get shipping
+var getShipping = $('#shipping').text();
+getShipping = parseInt(getShipping);
+//get Tax
+var getTax = $('#tax_amount').text();
+getTax = parseInt(getTax);
+//add them all
+var invoiceTotal = getSubTotal + getShipping + getTax - getDiscountAmount_1 - getDiscountAmount_2;
+$('#total_after_all2').text(invoiceTotal);
+$('#totalToSave').val(invoiceTotal);
+
+}
+
+function updateTax() {
+newTax = $('#tax_fees').val();
+if ($('#tax_fees').val().length === 0) {
+    newTax = 0;
+}
+if (newTax > 0) {
+  $('#hidden-row-4').show();
+} else {
+  $('#hidden-row-4').hide();
+}
+
+
+
+  var currentInvoiceTotal = $("#total_after_all").text();
+  currentInvoiceTotal = parseInt(currentInvoiceTotal);
+  var newInvoiceTotal = currentInvoiceTotal - (currentInvoiceTotal * (newTax / 100));
+  var taxAmount = currentInvoiceTotal - newInvoiceTotal;
+  taxAmount = Math.round(taxAmount);
+  $('#tax_amount').text(taxAmount);
+
+
+
+
+
+
+
+
+
+
+$('#tax').html(newTax);
+updateTotal();
+}
+
+
+function updateDiscount() {
+var discount_percentage = $('#curr_per').val();
+var discount_amount = $('#curr_amount').val();
+if (discount_percentage > 0) {
+  discount_percentage = parseInt(discount_percentage);
+  calculateDiscount(1, discount_percentage);
+}
+
+if (discount_amount > 0) {
+  discount_amount = parseInt(discount_amount);
+  calculateDiscount(2, discount_amount);
+}
+
+}
+
+
+function changeDisType(type) {
+if (type.value == 'fixed') {
+  $('#dis_per').hide();
+  $('#dis_amount').show();
+} else {
+  $('#dis_amount').hide();
+  $('#dis_per').show();
+}
+}
+
+function calculateDiscount(theType) {
+//clear old discount
+$('#discount_percentage').text(0);
+$('#discount_percentage_amount').text(0);
+$('#discount_amount').text(0);
+// if discount type is percentage
+if (theType == 1) {
+  var theValue = $('#curr_per').val();
+  if ($('#curr_per').val().length === 0) {
+    theValue = 0;
+  }
+  if (theValue > 0) {
+    $('#hidden-row-1').show();
+  } else {
+    $('#hidden-row-1').hide();
+  }
+  $('#curr_amount').val(0);
+  var currentDiscountP = $('#discount_percentage').text();
+  currentDiscountP = parseInt(currentDiscountP);
+  var currentInvoiceTotal = $("#total_after_all").text();
+  currentInvoiceTotal = parseInt(currentInvoiceTotal);
+  var newInvoiceTotal = currentInvoiceTotal - (currentInvoiceTotal * (theValue / 100));
+  var discount_amount = currentInvoiceTotal - newInvoiceTotal;
+  discount_amount = Math.round(discount_amount);
+  $('#discount_percentage').text(theValue);
+  $('#discount_percentage_amount').text(discount_amount);
+}
+//if discount type is fixed
+else if (theType == 2) {
+  var theValue = $('#curr_amount').val();
+  if ($('#curr_amount').val().length === 0) {
+    theValue = 0;
+  }
+  if (theValue > 0) {
+    $('#hidden-row-2').show();
+  } else {
+    $('#hidden-row-2').hide();
+  }
+  $('#curr_per').val(0);
+  var currentDiscountA = $('#discount_amount').text();
+  currentDiscountA = parseInt(currentDiscountA);
+  var currentInvoiceTotal = $("#total_after_all").text();
+  currentInvoiceTotal = parseInt(currentInvoiceTotal);
+  var newInvoiceTotal = parseInt(currentInvoiceTotal) + parseInt(currentDiscountA) - parseInt(theValue);
+  $('#discount_amount').text(theValue);
+}
+updateTotal();
+}
+
+
+function updateShipping() {
+newShipping = $('#shipping_fees').val();
+if ($('#shipping_fees').val().length === 0) {
+  newShipping = 0;
+}
+if (newShipping > 0) {
+  $('#hidden-row-3').show();
+} else {
+  $('#hidden-row-3').hide();
+}
+$('#shipping').html(newShipping);
+updateTotal();
+}
+
+function reCalculate(rowNum) {
+var oldRowTotal = $("#tot_" + rowNum).text();
+oldRowTotal = parseInt(oldRowTotal);
+var price = $("#p_p_" + rowNum).val();
+var qty = $("#p_q_" + rowNum).val();
+var rowTotal = price * qty;
+$('#tot_' + rowNum).text(rowTotal);
+var currentTotal = $("#total_after_all").text();
+currentTotal = parseInt(currentTotal);
+var newTotal = currentTotal - oldRowTotal;
+newTotal = newTotal + rowTotal;
+//Subtotal
+$('#total_after_all').text(newTotal);
+
+updateDiscount();
+updateShipping();
+updateTax();
+updateTotal();
+}
+
+
+function delRow(rowNum) {
+var oldRowTotal = $("#tot_" + rowNum).text();
+oldRowTotal = parseInt(oldRowTotal);
+var currentTotal = $("#total_after_all").text();
+currentTotal = parseInt(currentTotal);
+var newTotal = currentTotal - oldRowTotal;
+//sub total
+$('#total_after_all').text(newTotal);
+updateDiscount();
+updateShipping();
+updateTotal();
+$("#tot_" + rowNum).closest('tr').remove();
+
+//currentProductIds.pop(1);
+}
+
+
+$('#payment_method').on('change', function() {
+if (this.value == 'later') {
+  //$('#init_box').hide();
+  //$('#other_box').hide();
+  $('#later_box').show();
+  $('#hasPaid').prop( "checked", false );
+
+} else if (this.value == 'cash' || this.value == 'visa' || this.value == 'bankTransfer') {
+  //$('#init_box').hide();
+  $('#later_box').hide();
+  //$('#other_box').show();
+  $('#hasPaid').prop( "checked", true );
+} else {
+  $('#later_box').hide();
+  //$('#other_box').hide();
+  $('#init_box').show();
+  $('#hasPaid').prop( "checked", false );
+}
+});
+
+
+function addDofaa()
+{
+
+var dofaaTable = document.getElementById("dofaaTable");
+var currentIndex = dofaaTable.rows.length;
+var currentRow = dofaaTable.insertRow(-1);
+
+
+var currentCell = currentRow.insertCell(-1);
+currentCell.innerHTML = '<div class="form-group"><input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later['+currentIndex+'][amount]" value="0" required></div>';
+
+var currentCell = currentRow.insertCell(-1);
+currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="form-control" id="date" value="2011-08-19" name="later['+currentIndex+'][date]"></fieldset><fieldset class="form-group"><textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later['+currentIndex+'][notes]"></textarea></fieldset>';
+
+var currentCell = currentRow.insertCell(-1);
+//currentCell.innerHTML = '<fieldset class="checkboxsas"><label><input type="checkbox" name="later['+currentIndex+'][paid]">مدفوعه</label></fieldset>';
+ currentCell.innerHTML = '<fieldset class="checkboxsas"><label>دفع الان <input type="checkbox" name="later['+currentIndex+'][paynow]"></label></fieldset>'
+
+}
+
+
+
+
+function addField(argument) {
+
+var myTable = document.getElementById("myTable");
+var currentIndex = myTable.rows.length;
+var currentRow = myTable.insertRow(myTable.rows.length - 6);
+
+var product_id = document.createElement("input");
+// product_id.setAttribute("name", "product_id[" + currentIndex + "]");
+product_id.setAttribute("name", "product[" + currentIndex + "][id]");
+product_id.setAttribute("class", "product_input");
+
+var product_desc = document.createElement("input");
+product_desc.setAttribute("name", "product[" + currentIndex + "][desc]");
+product_desc.setAttribute("class", "product_input");
+
+var product_price = document.createElement("input");
+product_price.setAttribute("name", "product[" + currentIndex + "][price]");
+product_price.setAttribute("type", "number");
+product_price.setAttribute("min", "0");
+product_price.setAttribute("class", "product_input");
+product_price.setAttribute("id", "p_p_" + currentIndex);
+product_price.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
+
+var product_qty = document.createElement("input");
+product_qty.setAttribute("name", "product[" + currentIndex + "][qty]");
+product_qty.setAttribute("type", "number");
+product_qty.setAttribute("min", "0");
+product_qty.setAttribute("class", "product_input");
+product_qty.setAttribute("id", "p_q_" + currentIndex);
+product_qty.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
+product_qty.setAttribute("placeholder", "0");
+
+var currentCell = currentRow.insertCell(-1);
+currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_' + currentIndex + '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product['+currentIndex+'][id]" required onchange="return getProductInfo(this,'+currentIndex+')"><option></option> @foreach ($products as $product) <option value="{{$product->id}}">{{$product->product_name}}</option>  @endforeach</select></div>';
+
+//currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_' + currentIndex + '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product['+currentIndex+'][id]" required onchange="return getProductInfo(this,'+currentIndex+')"> </select></div>';
+
+
+$('#sel_x_' + currentIndex).select2({allowClear: false,tags: true});
+
+currentCell = currentRow.insertCell(-1);
+currentCell.appendChild(product_desc);
+
+currentCell = currentRow.insertCell(-1);
+currentCell.appendChild(product_price);
+
+currentCell = currentRow.insertCell(-1);
+currentCell.appendChild(product_qty);
+
+var currentCell = currentRow.insertCell(-1);
+currentCell.innerHTML = ' <span id="tot_' + currentIndex + '">0</span> ج.م';
+
+var currentCell = currentRow.insertCell(-1);
+currentCell.innerHTML = '<center><button type="button" class="btn btn-danger btn-sm" onclick="return delRow(' + currentIndex + ')" style="vertical-align:center">X</button></center>';
+}
+
+
+
 </script>
 
     {{-- <script src="{{ asset('theme/app-assets/js/scripts/forms/wizard-steps.min.js') }}"></script> --}}
