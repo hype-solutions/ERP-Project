@@ -67,6 +67,7 @@ class ProjectsController extends Controller
         $eproject->discount_percentage = $request->discount_percentage;
         $eproject->discount_amount = $request->discount_amount;
         $eproject->shipping_fees = $request->shipping_fees;
+        $eproject->tax = $request->tax;
         $eproject->step = $request->step;
         $eproject->total = $request->total;
         $eproject->save();
