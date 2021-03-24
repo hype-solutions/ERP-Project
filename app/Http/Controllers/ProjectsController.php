@@ -75,6 +75,9 @@ class ProjectsController extends Controller
 
         $product = $request->product;
 
+
+        ProjectsPriceQuotationsProducts::where('quotation_id', $eproject->id)->delete();
+
 //Save Items
 $listOfProducts = [];
 foreach ($product as $item) {
