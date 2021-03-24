@@ -75,7 +75,7 @@ class ProjectsController extends Controller
 
         $product = $request->product;
 
-
+if($product){
         ProjectsPriceQuotationsProducts::where('quotation_id', $eproject->id)->delete();
 
 //Save Items
@@ -98,6 +98,8 @@ foreach ($product as $item) {
     $pro->status = 'Pending';
     $pro->save();
     $listOfProducts[] = $pro;
+
+}
 }
 
 
