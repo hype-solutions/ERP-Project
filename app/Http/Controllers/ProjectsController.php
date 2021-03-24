@@ -10,6 +10,8 @@ use App\Models\Projects\ProjectsAttachmentFiles;
 use App\Models\Projects\ProjectsPriceQuotationsProducts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectsController extends Controller
 {
@@ -61,6 +63,98 @@ class ProjectsController extends Controller
         $eproject->step = $request->step;
         $eproject->total = $request->total;
         $eproject->save();
+
+
+
+
+        if ($request->hasFile('mo3ayna')) {
+            $allowedfileExtension = ['pdf', 'jpg', 'png', 'docx'];
+            $files = $request->file('mo3ayna');
+
+            foreach ($files as $file) {
+
+                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $check = in_array($extension, $allowedfileExtension);
+                if ($check) {
+                    $folder = "projects-images/mo3ayna/" . $eproject->id;
+                    if (!Storage::disk('erp')->exists($folder)) {
+                        Storage::disk('erp')->makeDirectory($folder, 0775, true, true);
+                    }
+                    if (!empty($file)) {
+                        Storage::disk('erp')->put($folder . '/' . $filename, File::get($file));
+                        ProjectsPreviewFiles::create([
+                            'project_id' => $eproject->id,
+                            'file_name' => $filename,
+                            'file_ext' => $extension,
+                            'file_path' => $folder . '/' . $filename,
+                        ]);
+                    }
+                }
+
+                // dd($check);
+            }
+        }
+
+
+        if ($request->hasFile('bnood')) {
+            $allowedfileExtension = ['pdf', 'jpg', 'png', 'docx'];
+            $files = $request->file('bnood');
+
+            foreach ($files as $file) {
+
+                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $check = in_array($extension, $allowedfileExtension);
+                if ($check) {
+                    $folder = "projects-images/bnood/" . $eproject->id;
+                    if (!Storage::disk('erp')->exists($folder)) {
+                        Storage::disk('erp')->makeDirectory($folder, 0775, true, true);
+                    }
+                    if (!empty($file)) {
+                        Storage::disk('erp')->put($folder . '/' . $filename, File::get($file));
+                        ProjectsPreviewFiles::create([
+                            'project_id' => $eproject->id,
+                            'file_name' => $filename,
+                            'file_ext' => $extension,
+                            'file_path' => $folder . '/' . $filename,
+                        ]);
+                    }
+                }
+
+                // dd($check);
+            }
+        }
+
+
+        if ($request->hasFile('mol7kat')) {
+            $allowedfileExtension = ['pdf', 'jpg', 'png', 'docx'];
+            $files = $request->file('mol7kat');
+
+            foreach ($files as $file) {
+
+                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $check = in_array($extension, $allowedfileExtension);
+                if ($check) {
+                    $folder = "projects-images/mol7kat/" . $eproject->id;
+                    if (!Storage::disk('erp')->exists($folder)) {
+                        Storage::disk('erp')->makeDirectory($folder, 0775, true, true);
+                    }
+                    if (!empty($file)) {
+                        Storage::disk('erp')->put($folder . '/' . $filename, File::get($file));
+                        ProjectsPreviewFiles::create([
+                            'project_id' => $eproject->id,
+                            'file_name' => $filename,
+                            'file_ext' => $extension,
+                            'file_path' => $folder . '/' . $filename,
+                        ]);
+                    }
+                }
+
+                // dd($check);
+            }
+        }
 
         // ProjectsPriceQuotationsProducts::where('project_id', $project)->delete();
 

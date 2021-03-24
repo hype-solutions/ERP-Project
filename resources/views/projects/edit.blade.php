@@ -96,7 +96,7 @@
             <div class="card">
                 <div class="card-content collapse show">
                     <div class="card-body">
-                        <form action="{{ route('projects.update',$project) }}" method="POST" class="icons-tab-steps wizard-notification" id="mashroo3">
+                        <form action="{{ route('projects.update',$project) }}" method="POST" class="icons-tab-steps wizard-notification" id="mashroo3" enctype="multipart/form-data">
                             @csrf
                             @method('patch')
                             <input type="hidden" name="created_by" value="{{ $user_id }}" />
@@ -157,7 +157,7 @@
                                         <fieldset class="form-group">
                                             <label>أرفق ملفات المعاينة</label>
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="inputGroupFile02">
+                                                <input type="file" name="mo3ayna[]" class="custom-file-input" id="inputGroupFile02" multiple>
                                                 <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFile02">اختر الملف </label>
                                             </div>
                                         </fieldset>
@@ -182,7 +182,7 @@
                                                         <td>{{$item->file_name}}</td>
                                                         <td>{{$item->file_ext}}</td>
                                                         <td>
-                                                            <button class="btn btn-success btn-sm">استعراض</button>
+                                                            <a target="_blank" href="/uploads/{{$item->file_path}}" class="btn btn-success btn-sm">استعراض</a>
                                                             <button class="btn btn-danger btn-sm">حذف</button>
                                                         </td>
                                                     </tr>
@@ -376,7 +376,7 @@
                                         <fieldset class="form-group">
                                             <label>أرفق بنود العقد</label>
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="inputGroupFile02">
+                                                <input type="file" name="bnood[]" class="custom-file-input" id="inputGroupFile02" multiple>
                                                 <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFile02">اختر الملف </label>
                                             </div>
                                         </fieldset>
@@ -401,7 +401,7 @@
                                                         <td>{{$item->file_name}}</td>
                                                         <td>{{$item->file_ext}}</td>
                                                         <td>
-                                                            <button class="btn btn-success btn-sm">استعراض</button>
+                                                            <a target="_blank" href="/uploads/{{$item->file_path}}" class="btn btn-success btn-sm">استعراض</a>
                                                             <button class="btn btn-danger btn-sm">حذف</button>
                                                         </td>
                                                     </tr>
@@ -605,7 +605,7 @@
                                         <fieldset class="form-group">
                                             <label>أرفق ملف ملحق</label>
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="inputGroupFile02">
+                                                <input type="file" name="mol7kat[]" class="custom-file-input" id="inputGroupFile02" multiple>
                                                 <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFile02">اختر الملف </label>
                                             </div>
                                         </fieldset>
@@ -630,7 +630,7 @@
                                                         <td>{{$item->file_name}}</td>
                                                         <td>{{$item->file_ext}}</td>
                                                         <td>
-                                                            <button class="btn btn-success btn-sm">استعراض</button>
+                                                            <a target="_blank" href="/uploads/{{$item->file_path}}" class="btn btn-success btn-sm">استعراض</a>
                                                             <button class="btn btn-danger btn-sm">حذف</button>
                                                         </td>
                                                     </tr>
