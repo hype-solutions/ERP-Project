@@ -113,7 +113,7 @@ class ProjectsController extends Controller
                     }
                     if (!empty($file)) {
                         Storage::disk('erp')->put($folder . '/' . $filename, File::get($file));
-                        ProjectsPreviewFiles::create([
+                        ProjectsContractFiles::create([
                             'project_id' => $eproject->id,
                             'file_name' => $filename,
                             'file_ext' => $extension,
@@ -143,7 +143,7 @@ class ProjectsController extends Controller
                     }
                     if (!empty($file)) {
                         Storage::disk('erp')->put($folder . '/' . $filename, File::get($file));
-                        ProjectsPreviewFiles::create([
+                        ProjectsAttachmentFiles::create([
                             'project_id' => $eproject->id,
                             'file_name' => $filename,
                             'file_ext' => $extension,
