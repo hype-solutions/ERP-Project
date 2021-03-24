@@ -20,6 +20,7 @@ class Projects extends Model
         'tax',
         'shipping_fees',
         'total',
+        'step',
         'created_by',
         'authorized_by',
 
