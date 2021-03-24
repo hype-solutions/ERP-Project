@@ -19,5 +19,9 @@ class ProjectsPriceQuotationsProducts extends Model
         'product_qty',
         'status',
     ];
+    public function product()
+    {
+        return $this->hasOne('App\Models\Products\Products', 'id', 'product_id');
+    }
 }
 
