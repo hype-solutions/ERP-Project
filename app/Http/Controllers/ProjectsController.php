@@ -58,28 +58,29 @@ class ProjectsController extends Controller
         $eproject->discount_percentage = $request->discount_percentage;
         $eproject->discount_amount = $request->discount_amount;
         $eproject->shipping_fees = $request->shipping_fees;
+        $eproject->step = $request->step;
         $eproject->total = $request->total;
         $eproject->save();
 
-        ProjectsPriceQuotationsProducts::where('project_id', $project)->delete();
+        // ProjectsPriceQuotationsProducts::where('project_id', $project)->delete();
 
-        $product = $request->product;
-        $customerId = $request->customer_id;
-        //Save Items
-        $listOfProducts = [];
-        foreach ($product as $item) {
-            $pro = new ProjectsPriceQuotationsProducts();
-            $pro->project_id = $project;
-            $pro->customer_id = $customerId;
-            $pro->product_id = 0;
-            $pro->product_temp = '';
-            $pro->product_desc = $item['desc'];
-            $pro->product_price = $item['price'];
-            $pro->product_qty = $item['qty'];
-            $pro->status = 'Pending';
-            $pro->save();
-            $listOfProducts[] = $pro;
-        }
+        // $product = $request->product;
+        // $customerId = $request->customer_id;
+        // //Save Items
+        // $listOfProducts = [];
+        // foreach ($product as $item) {
+        //     $pro = new ProjectsPriceQuotationsProducts();
+        //     $pro->project_id = $project;
+        //     $pro->customer_id = $customerId;
+        //     $pro->product_id = 0;
+        //     $pro->product_temp = '';
+        //     $pro->product_desc = $item['desc'];
+        //     $pro->product_price = $item['price'];
+        //     $pro->product_qty = $item['qty'];
+        //     $pro->status = 'Pending';
+        //     $pro->save();
+        //     $listOfProducts[] = $pro;
+        // }
 
         return back()->with('success', '1');
     }

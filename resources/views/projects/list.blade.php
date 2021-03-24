@@ -133,11 +133,22 @@
                             <td>{{$project->id}}</td>
                             <td>{{$project->customer->customer_name}}</td>
                             <td>
-                                <div class="badge badge-success">
-                                <i class="la la-money font-medium-2"></i>
+                                @if($project->step == 1) <div class="badge badge-danger">
+                                        @elseif($project->step == 2) <div class="badge badge-info">
+                                        @elseif($project->step == 3) <div class="badge badge-primary">
+                                        @elseif($project->step == 4) <div class="badge badge-secondary">
+                                        @elseif($project->step == 5) <div class="badge badge-success">
+                                        @elseif($project->step == 6) <div class="badge badge-success">
+                                        @endif
+
                                     <span>
-                                        @if($project->project_status == 'Pending')
-                                        تم ادخال البيانات الأساسية
+                                        @if($project->step == 1) تم ادخال البيانات الأساسية <br>  الان في مرحلة المعاينة
+                                        @elseif($project->step == 2) في مرحلة عرض السعر
+                                        @elseif($project->step == 3) في مرحلة بنود التعاقد
+                                        @elseif($project->step == 4) في مرحلة الدفعات
+                                        @elseif($project->step == 5) في مرحلة المشتريات
+                                        @elseif($project->step == 6) في مرحلة الملحقات
+                                        @elseif($project->step == 7) تم الإنتهاء من المشروع
                                         @endif
                                     </span>
                                 </div>

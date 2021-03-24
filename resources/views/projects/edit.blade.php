@@ -96,7 +96,7 @@
             <div class="card">
                 <div class="card-content collapse show">
                     <div class="card-body">
-                        <form action="{{ route('projects.update',$project) }}" method="POST" class="icons-tab-steps wizard-notification">
+                        <form action="{{ route('projects.update',$project) }}" method="POST" class="icons-tab-steps wizard-notification" id="mashroo3">
                             @csrf
                             @method('patch')
                             <input type="hidden" name="created_by" value="{{ $user_id }}" />
@@ -144,6 +144,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group mt-3">
+                                    <button type="button" onclick="stepsWizard.steps('next')" class="btn mb-1 btn-secondary btn-lg btn-glow" style="float: left">التالي</a>
                                     <button type="submit" class="btn mb-1 btn-primary btn-lg btn-glow" style="float: left">حفظ</button>
                                 </div>
                             </fieldset>
@@ -194,9 +195,20 @@
                                         @endif
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <textarea name="" class="form-control" id="" cols="5" rows="10" placeholder="تفاصيل المعاينة"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group mt-3">
-                                    <button type="submit" class="btn mb-1 btn-secondary btn-lg btn-glow" style="float: left">الخطوة التالية</button>
-                                    <button type="submit" class="btn mb-1 btn-primary btn-lg btn-glow" style="float: left">حفظ</button>
+                                    @if($project->step == 1)
+                                    <button type="button" onclick="return updateProj(1)" class="btn mb-1 btn-secondary btn-lg btn-glow" style="float: left">الإنتقال الى عرض السعر</button>
+                                    @else
+                                    <button type="button" onclick="stepsWizard.steps('next')" class="btn mb-1 btn-secondary btn-lg btn-glow" style="float: left">التالي</a>
+                                    @endif
+                                    <button type="submit" class="btn mb-1 btn-primary btn-lg btn-glow" style="float: left">حفظ و عودة لاحقا</button>
                                 </div>
                             </fieldset>
 
@@ -343,12 +355,15 @@
                                     </div>
 
                                 </div>
+
                                 <div class="form-group mt-3">
-                                    <button type="submit" class="btn mb-1 btn-primary btn-lg btn-block btn-glow ">حفظ</button>
-                                </div>
-                                <div class="form-group mt-3">
-                                    <button type="submit" class="btn mb-1 btn-success btn-lg btn-glow" style="float: left">تصديق على عرض السعر</button>
-                                    <button type="submit" class="btn mb-1 btn-danger btn-lg btn-glow" style="float: left">رفض</button>
+                                    @if($project->step == 2)
+                                    <button type="button" onclick="return updateProj(2)" class="btn mb-1 btn-danger btn-lg btn-glow" style="float: left">رفض</button>
+                                    <button type="button" onclick="return updateProj(2)" class="btn mb-1 btn-success btn-lg btn-glow" style="float: left">تصديق على عرض السعر</button>
+                                    @else
+                                    <button type="button" onclick="stepsWizard.steps('next')" class="btn mb-1 btn-secondary btn-lg btn-glow" style="float: left">التالي</a>
+                                    @endif
+
                                     <button type="submit" class="btn mb-1 btn-primary btn-lg btn-glow" style="float: left">حفظ</button>
                                 </div>
                             </fieldset>
@@ -398,6 +413,14 @@
                                         <p class="text-center text-danger mt-3">لا توجد ملفات مرفوعه</p>
                                         @endif
                                     </div>
+                                </div>
+                                <div class="form-group mt-3">
+                                    @if($project->step == 3)
+                                    <button type="button" onclick="return updateProj(3)" class="btn mb-1 btn-secondary btn-lg btn-glow" style="float: left">الإنتقال للدفعات</button>
+                                    @else
+                                    <button type="button" onclick="stepsWizard.steps('next')" class="btn mb-1 btn-secondary btn-lg btn-glow" style="float: left">التالي</a>
+                                    @endif
+                                    <button type="submit" class="btn mb-1 btn-primary btn-lg btn-glow" style="float: left">حفظ و عودة لاحقا</button>
                                 </div>
 
                             </fieldset>
@@ -488,7 +511,12 @@
 
                                 </div>
                                 <div class="form-group mt-3">
-                                    <button type="submit" class="btn mb-1 btn-primary btn-lg btn-block btn-glow ">حفظ</button>
+                                    @if($project->step == 4)
+                                    <button type="button" onclick="return updateProj(4)" class="btn mb-1 btn-secondary btn-lg btn-glow" style="float: left">الإنتقال لفواتير المشتريات</button>
+                                    @else
+                                    <button type="button" onclick="stepsWizard.steps('next')" class="btn mb-1 btn-secondary btn-lg btn-glow" style="float: left">التالي</a>
+                                    @endif
+                                    <button type="submit" class="btn mb-1 btn-primary btn-lg btn-glow" style="float: left">حفظ و عودة لاحقا</button>
                                 </div>
                             </fieldset>
                             <!-- Step 4 -->
@@ -561,7 +589,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group mt-3">
-                                    <button type="submit" class="btn mb-1 btn-primary btn-lg btn-block btn-glow ">حفظ</button>
+                                    @if($project->step == 5)
+                                    <button type="button" onclick="return updateProj(5)" class="btn mb-1 btn-secondary btn-lg btn-glow" style="float: left">الإنتقال للملحقات</button>
+                                    @else
+                                    <button type="button" onclick="stepsWizard.steps('next')" class="btn mb-1 btn-secondary btn-lg btn-glow" style="float: left">التالي</a>
+                                    @endif
+                                    <button type="submit" class="btn mb-1 btn-primary btn-lg btn-glow" style="float: left">حفظ و عودة لاحقا</button>
                                 </div>
                             </fieldset>
                             <!-- Step 4 -->
@@ -611,7 +644,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group mt-3">
-                                    <button type="submit" class="btn mb-1 btn-primary btn-lg btn-block btn-glow ">حفظ</button>
+                                    @if($project->step == 6)
+                                    <button type="button" onclick="return updateProj(6)" class="btn mb-1 btn-secondary btn-lg btn-glow" style="float: left">إنهاء المشروع</button>
+                                    @else
+                                    <button type="button" onclick="stepsWizard.steps('prev')" class="btn mb-1 btn-secondary btn-lg btn-glow" style="float: left">السابق</a>
+                                    @endif
+                                    <button type="submit" class="btn mb-1 btn-primary btn-lg btn-glow" style="float: left">حفظ و عودة لاحقا</button>
                                 </div>
                             </fieldset>
                         </form>
@@ -653,9 +691,24 @@
 
 
 <script>
+
+
+function updateProj(oldStep){
+    $('#theStep').val(oldStep+1);
+    $('#mashroo3').submit();
+}
+
+
+
+
+
+
     var nextAllowed = $('#theStep').val();
     nextAllowed = parseInt(nextAllowed);
-    $(".icons-tab-steps").steps({
+    if(nextAllowed == 7){
+        nextAllowed = 6;
+    }
+    stepsWizard  = $(".icons-tab-steps").steps({
     headerTag: "h6",
     bodyTag: "fieldset",
     transitionEffect: "fade",
