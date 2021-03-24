@@ -76,7 +76,7 @@ class ProjectsController extends Controller
         $product = $request->product;
 
 if($product){
-        ProjectsPriceQuotationsProducts::where('quotation_id', $eproject->id)->delete();
+        ProjectsPriceQuotationsProducts::where('project_id', $eproject->id)->delete();
 
 //Save Items
 $listOfProducts = [];
