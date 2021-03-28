@@ -204,6 +204,7 @@ class ReportsController extends Controller
             'posInvoicesNet',
             'invoicesNet',
             'branches',
+            'branch',
             'expenses',
             'income',
             'customersCount',
