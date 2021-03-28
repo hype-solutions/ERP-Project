@@ -8,7 +8,11 @@ use App\Models\Projects\Projects;
 use App\Models\Projects\ProjectsContractFiles;
 use App\Models\Projects\ProjectsPreviewFiles;
 use App\Models\Projects\ProjectsAttachmentFiles;
+use App\Models\Projects\ProjectsPayments;
 use App\Models\Projects\ProjectsPriceQuotationsProducts;
+use App\Models\Safes\Safes;
+use App\Models\Safes\SafesTransactions;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -48,13 +52,10 @@ class ProjectsController extends Controller
         $contractFiles = ProjectsContractFiles::where('project_id', $project->id)->get();
         $attachmentFiles = ProjectsAttachmentFiles::where('project_id', $project->id)->get();
         $priceQuotation = ProjectsPriceQuotationsProducts::where('project_id', $project->id)->get();
-        // if(!$priceQuotation){
-            // $key = 0;
-        // }else{
-            $key = 0;
-        // }
+        $key = 0;
         $products = Products::all();
-        return view('projects.edit', compact('products','key','project', 'customers', 'previewFiles', 'contractFiles', 'attachmentFiles', 'priceQuotation', 'user_id'));
+
+        return view('projects.edit', compact('products', 'key', 'project', 'customers', 'previewFiles', 'contractFiles', 'attachmentFiles', 'priceQuotation', 'user_id'));
     }
 
     public function update(Request $request, $project)
@@ -72,35 +73,82 @@ class ProjectsController extends Controller
         $eproject->total = $request->total;
         $eproject->save();
 
+        $date = $request->later;
+
+        $safe_id = Safes::where('branch_id', 1)->value('id');
+
+        //Delete old payment records
+        ProjectsPayments::where('project_id', $eproject->id)->delete();
+        //Save new payment records
+        $listOfDates = [];
+        foreach ($date as $item) {
+
+            $da = new ProjectsPayments();
+            $da->project_id = $eproject->id;
+            $da->customer_id = $eproject->customer_id;
+            $da->amount = $item['amount'];
+            $da->date = $item['date'];
+            $da->notes = $item['notes'];
+            //If paynow is checked
+            if (!empty($item['paynow'])) {
+                //If the user has paid before and transaction id is saved
+                if (!empty($item['safe_payment_id'])) {
+                    $da->paid = 'Yes';
+                    $da->safe_payment_id = $item['safe_payment_id'];
+                    $da->safe_id = $safe_id;
+                } else {
+                    $da->paid = 'Yes';
+                    $payment = new SafesTransactions();
+                    $payment->safe_id = $safe_id;
+                    $payment->transaction_type = 1;
+                    $payment->transaction_amount = $item['amount'];
+                    $payment->transaction_datetime = Carbon::now();
+                    $payment->done_by = Auth::user()->id;
+                    $payment->authorized_by = Auth::user()->id;
+                    $payment->transaction_notes = 'قسط على مشروع رقم' . $eproject->id;
+                    $payment->save();
+                    $payment_id = $payment->id;
+                    $da->safe_id = $safe_id;
+                    $da->safe_payment_id = $payment_id;
+                    Safes::where('id', $safe_id)->decrement('safe_balance', $item['amount']);
+                }
+            } else {
+                $da->paid = 'No';
+            }
+            $da->save();
+            $listOfDates[] = $da;
+        }
+
+
+
 
         $product = $request->product;
 
-if($product){
-        ProjectsPriceQuotationsProducts::where('project_id', $eproject->id)->delete();
+        if ($product) {
+            ProjectsPriceQuotationsProducts::where('project_id', $eproject->id)->delete();
 
-//Save Items
-$listOfProducts = [];
-foreach ($product as $item) {
-    $pro = new ProjectsPriceQuotationsProducts();
-    $pro->project_id = $eproject->id;
-    $pro->customer_id = $eproject->customer_id;
-    if (ctype_digit($item['id'])) {
-        $pro->product_id = $item['id'];
-        $pro->product_temp = '';
-    } else {
-        $pro->product_id = 0;
-        $pro->product_temp = $item['id'];
-    }
+            //Save Items
+            $listOfProducts = [];
+            foreach ($product as $item) {
+                $pro = new ProjectsPriceQuotationsProducts();
+                $pro->project_id = $eproject->id;
+                $pro->customer_id = $eproject->customer_id;
+                if (ctype_digit($item['id'])) {
+                    $pro->product_id = $item['id'];
+                    $pro->product_temp = '';
+                } else {
+                    $pro->product_id = 0;
+                    $pro->product_temp = $item['id'];
+                }
 
-    $pro->product_desc = $item['desc'];
-    $pro->product_price = $item['price'];
-    $pro->product_qty = $item['qty'];
-    $pro->status = 'Pending';
-    $pro->save();
-    $listOfProducts[] = $pro;
-
-}
-}
+                $pro->product_desc = $item['desc'];
+                $pro->product_price = $item['price'];
+                $pro->product_qty = $item['qty'];
+                $pro->status = 'Pending';
+                $pro->save();
+                $listOfProducts[] = $pro;
+            }
+        }
 
 
 
@@ -129,8 +177,6 @@ foreach ($product as $item) {
                         ]);
                     }
                 }
-
-                // dd($check);
             }
         }
 
@@ -159,8 +205,6 @@ foreach ($product as $item) {
                         ]);
                     }
                 }
-
-                // dd($check);
             }
         }
 
@@ -189,30 +233,8 @@ foreach ($product as $item) {
                         ]);
                     }
                 }
-
-                // dd($check);
             }
         }
-
-        // ProjectsPriceQuotationsProducts::where('project_id', $project)->delete();
-
-        // $product = $request->product;
-        // $customerId = $request->customer_id;
-        // //Save Items
-        // $listOfProducts = [];
-        // foreach ($product as $item) {
-        //     $pro = new ProjectsPriceQuotationsProducts();
-        //     $pro->project_id = $project;
-        //     $pro->customer_id = $customerId;
-        //     $pro->product_id = 0;
-        //     $pro->product_temp = '';
-        //     $pro->product_desc = $item['desc'];
-        //     $pro->product_price = $item['price'];
-        //     $pro->product_qty = $item['qty'];
-        //     $pro->status = 'Pending';
-        //     $pro->save();
-        //     $listOfProducts[] = $pro;
-        // }
 
         return back()->with('success', '1');
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models\Projects;
 
+use App\Models\Safes\Safes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -31,5 +32,14 @@ class Projects extends Model
         return $this->hasOne('App\Models\Customers\Customers', 'id', 'customer_id');
     }
 
+    public function allSafes(){
+        return Safes::all();
+    }
+
+
+    public function datesInProject()
+    {
+        return $this->hasMany('App\Models\Projects\ProjectsPayments', 'project_id', 'id');
+    }
 
 }
