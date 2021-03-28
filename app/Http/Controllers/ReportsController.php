@@ -45,7 +45,7 @@ class ReportsController extends Controller
             $branch = '1';
         }
 
-         dd($branch);
+
         $fromX = $from;
         $toX = $to;
         //Insure covering whole days
@@ -195,7 +195,7 @@ class ReportsController extends Controller
 
         // return $invoicesSumLater;
 
-
+        dd($branch);
         return view('reports.landing', compact(
             'invoicesNetLater',
             'invoicesSumLater',
