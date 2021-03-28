@@ -82,7 +82,7 @@ class ProjectsController extends Controller
         //Save new payment records
         $listOfDates = [];
         foreach ($date as $item) {
-
+            if($item['amount'] > 0){
             $da = new ProjectsPayments();
             $da->project_id = $eproject->id;
             $da->customer_id = $eproject->customer_id;
@@ -118,7 +118,7 @@ class ProjectsController extends Controller
             $da->save();
             $listOfDates[] = $da;
         }
-
+    }
 
 
 
