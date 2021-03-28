@@ -929,7 +929,7 @@
                                                                                                                                 {{ $supplier->supplier_company }}
                                                                                                                             @endif
                                                                                                                         </option>
-                                                                                                                    @endfor
+                                                                                                                    @endforeach
                                                                                                                     each
                                                                                                                 </select>
                                                                                                             </div>
