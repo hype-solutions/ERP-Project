@@ -228,7 +228,7 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <textarea name="" class="form-control" id="" cols="5" rows="10"
+                                                            <textarea name="mo3ayna_details" class="form-control" id="" cols="5" rows="10"
                                                                 placeholder="تفاصيل المعاينة"></textarea>
                                                         </div>
                                                     </div>
@@ -647,7 +647,7 @@
                                                                                         </th>
                                                                                         <td>
                                                                                             <fieldset class="form-group">
-                                                                                            <input type="date" class="form-control"    name="later[1][date]" required>
+                                                                                            <input type="date" class="form-control"    name="later[1][date]" >
                                                                                         </fieldset>
                                                                                         <fieldset class="form-group">
                                                                                             <div class="labrl">الملاحظات</div>

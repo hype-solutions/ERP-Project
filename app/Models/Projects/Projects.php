@@ -22,6 +22,7 @@ class Projects extends Model
         'shipping_fees',
         'total',
         'step',
+        'mo3ayna_details',
         'created_by',
         'authorized_by',
 
