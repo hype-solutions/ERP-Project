@@ -73,8 +73,8 @@
                                         <div class="form-group col-md-12 mb-2">
                                             <label class="sr-only" for="projectinput6">الفرع</label>
                                             <select id="projectinput6" name="branch" class="form-control">
-                                                 @foreach($branches as $branch)
-                                                <option value="{{$branch->id}}">{{$branch->branch_name}}</option>
+                                                 @foreach($branches as $branchx)
+                                                <option value="{{$branchx->id}}">{{$branchx->branch_name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>

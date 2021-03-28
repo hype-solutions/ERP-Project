@@ -195,7 +195,6 @@ class ReportsController extends Controller
 
         // return $invoicesSumLater;
 
-        dd($branch);
         return view('reports.landing', compact(
             'invoicesNetLater',
             'invoicesSumLater',
