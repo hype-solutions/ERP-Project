@@ -1203,7 +1203,7 @@
                                                                                                                                     value="{{ $product->id }}">
                                                                                                                                     {{ $product->product_name }}
                                                                                                                                 </option>
-                                                                                                                            @endfor
+                                                                                                                            @endforeach
                                                                                                                             each
                                                                                                                         </select>
                                                                                                                     </div>
