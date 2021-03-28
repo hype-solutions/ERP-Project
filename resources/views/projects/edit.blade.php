@@ -38,11 +38,13 @@
         }
 
     </style>
-<script type="text/javascript">
-    function pay(url) {
-        popupWindow = window.open(
-        url,'popUpWindow','height=700,width=300,left=10,top=10,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no')
-    }
+    <script type="text/javascript">
+        function pay(url) {
+            popupWindow = window.open(
+                url, 'popUpWindow',
+                'height=700,width=300,left=10,top=10,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no'
+                )
+        }
 
     </script>
     <!-- END: Page CSS-->
@@ -235,8 +237,9 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <textarea name="mo3ayna_details" class="form-control" id="" cols="5" rows="10"
-                                                                placeholder="تفاصيل المعاينة">{{$project->mo3ayna_details}}</textarea>
+                                                            <textarea name="mo3ayna_details" class="form-control" id=""
+                                                                cols="5" rows="10"
+                                                                placeholder="تفاصيل المعاينة">{{ $project->mo3ayna_details }}</textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -478,7 +481,8 @@
                                                                         </td>
                                                                         <td colspan="2" class="text-right"
                                                                             style="border-style: none !important;">
-                                                                            <strong>الإجمالي</strong></td>
+                                                                            <strong>الإجمالي</strong>
+                                                                        </td>
                                                                         <td class="text-left"
                                                                             style="border-style: none !important;">
                                                                             <code><span
@@ -506,7 +510,8 @@
                                                                     </tr>
                                                                     <tr id="hidden-row-3" style="display: none">
                                                                         <td colspan="4" class="text-right">
-                                                                            <strong>الشحن</strong></td>
+                                                                            <strong>الشحن</strong>
+                                                                        </td>
                                                                         <td id="TotalValue" class="text-left"><code><span
                                                                                     id="shipping">0</span></code>&nbsp;ج.م
                                                                         </td>
@@ -524,7 +529,8 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td colspan="4" class="text-right">
-                                                                            <strong>الإجمالي</strong></td>
+                                                                            <strong>الإجمالي</strong>
+                                                                        </td>
                                                                         <td id="TotalValue" class="text-left"><code><span
                                                                                     id="total_after_all2">0</span></code>&nbsp;ج.م
                                                                         </td>
@@ -634,108 +640,175 @@
                                                             <h4 class="form-section"><i class="la la-flag"></i> الدفعات
                                                                 <button onclick="addDofaa()" type="button"
                                                                     class="btn btn-success btn-sm"><i
-                                                                        class="la la-plus"></i></button></h4>
-                                                                        <div class="table-responsive">
-                                                                            <table class="table table-bordered   table-hover" id="dofaaTable">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th>المبلغ</th>
-                                                                                        <th>تاريخ الإستحقاق</th>
-                                                                                        <th>تم دفعها؟</th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    @if ($project->datesInProject->isEmpty())
-                                                                                    <tr>
-                                                                                        <th scope="row">
-                                                                                            <div class="form-group">
-                                                                                                <input type="number" id="" class="form-control dof3aSum" placeholder="أدخل المبلغ" name="later[1][amount]" value="0">
-                                                                                            </div>
-                                                                                        </th>
-                                                                                        <td>
-                                                                                            <fieldset class="form-group">
-                                                                                            <input type="date" class="form-control"    name="later[1][date]" >
+                                                                        class="la la-plus"></i></button>
+                                                            </h4>
+                                                            <div class="table-responsive">
+                                                                <table class="table table-bordered   table-hover"
+                                                                    id="dofaaTable">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>المبلغ</th>
+                                                                            <th>تاريخ الإستحقاق</th>
+                                                                            <th>تم دفعها؟</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @if ($project->datesInProject->isEmpty())
+                                                                            <tr>
+                                                                                <th scope="row">
+                                                                                    <div class="form-group">
+                                                                                        <input type="number" id=""
+                                                                                            class="form-control dof3aSum"
+                                                                                            placeholder="أدخل المبلغ"
+                                                                                            name="later[1][amount]"
+                                                                                            value="0">
+                                                                                    </div>
+                                                                                </th>
+                                                                                <td>
+                                                                                    <fieldset class="form-group">
+                                                                                        <input type="date"
+                                                                                            class="form-control"
+                                                                                            name="later[1][date]">
+                                                                                    </fieldset>
+                                                                                    <fieldset class="form-group">
+                                                                                        <div class="labrl">الملاحظات</div>
+                                                                                        <textarea class="form-control"
+                                                                                            id="placeTextarea" rows="3"
+                                                                                            placeholder="مثال: الدفعه المقدمة"
+                                                                                            name="later[1][notes]"></textarea>
+                                                                                    </fieldset>
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    <fieldset class="checkboxsas">
+                                                                                        <label>
+                                                                                            دفع الان
+                                                                                            <input type="checkbox"
+                                                                                                name="later[1][paynow]"
+                                                                                                onchange="return payNow(1)">
+                                                                                        </label>
+                                                                                    </fieldset>
+                                                                                    <div class="form-group"
+                                                                                        style="display:none;"
+                                                                                        id="pay_now_1">
+                                                                                        <label for="projectinput3">خصم
+                                                                                            من:</label>
+                                                                                        <select
+                                                                                            class="select2-rtl form-control"
+                                                                                            data-placeholder="الخزنة"
+                                                                                            name="later[1][safe_id]"
+                                                                                            id="sel_xx_1">
+                                                                                            <option></option>
+                                                                                            @foreach ($project->allSafes() as $safe)
+                                                                                                <option
+                                                                                                    value="{{ $safe->id }}">
+                                                                                                    {{ $safe->safe_name }}
+                                                                                                </option>
+                                                                                            @endforeach
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+
+                                                                        @else
+                                                                            @foreach ($project->datesInProject as $key2 => $item)
+                                                                                <tr>
+                                                                                    <th scope="row">
+                                                                                        <div class="form-group">
+                                                                                            <input type="number"
+                                                                                                class="form-control dof3aSum"
+                                                                                                placeholder="أدخل المبلغ"
+                                                                                                name="later[{{ $key2 + 1 }}][amount]"
+                                                                                                value="{{ $item->amount }}"
+                                                                                                @if ($item->paid != 'No') readonly @endif>
+                                                                                        </div>
+                                                                                    </th>
+                                                                                    <td>
+                                                                                        <fieldset class="form-group">
+                                                                                            <input type="date"
+                                                                                                class="form-control"
+                                                                                                name="later[{{ $key2 + 1 }}][date]"
+                                                                                                value="{{ $item->date }}"
+                                                                                                @if ($item->paid != 'No') readonly @endif>
                                                                                         </fieldset>
                                                                                         <fieldset class="form-group">
-                                                                                            <div class="labrl">الملاحظات</div>
-                                                                                            <textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later[1][notes]"></textarea>
+                                                                                            <div class="label">الملاحظات
+                                                                                            </div>
+                                                                                            <textarea class="form-control"
+                                                                                                rows="3"
+                                                                                                placeholder="مثال: الدفعه المقدمة"
+                                                                                                name="later[{{ $key2 + 1 }}][notes]"
+                                                                                                @if ($item->paid != 'No') readonly @endif>{{ $item->notes }}</textarea>
                                                                                         </fieldset>
                                                                                     </td>
 
-                                                                                        <td>
+                                                                                    <td>
+                                                                                        @if ($item->paid != 'No')
+                                                                                            <p class="text-success"> <input
+                                                                                                    type="checkbox"
+                                                                                                    name="later[{{ $key2 + 1 }}][paynow]"
+                                                                                                    checked
+                                                                                                    onclick="return false;" />
+                                                                                                تم الدفع</p>
+                                                                                            <p><label>رقم ايصال الدفع:
+                                                                                                </label>
+                                                                                                {{ $item->safe_payment_id }}
+                                                                                            </p>
+                                                                                            <button class="btn btn-dark"
+                                                                                                type="button"
+                                                                                                onclick="return pay('{{ route('safes.receipt', $item->safe_payment_id) }}');">استعراض
+                                                                                                الإيصال</button>
+                                                                                            <input type="hidden" id=""
+                                                                                                class="form-control"
+                                                                                                placeholder="رقم العملية في الخزنة"
+                                                                                                name="later[{{ $key2 + 1 }}][safe_payment_id]"
+                                                                                                value="{{ $item->safe_payment_id }}">
+                                                                                            <input type="hidden"
+                                                                                                name="later[{{ $key2 + 1 }}][safe_id]"
+                                                                                                value="{{ $item->safe_id }}">
+                                                                                        @else
                                                                                             <fieldset class="checkboxsas">
                                                                                                 <label>
                                                                                                     دفع الان
-                                                                                                  <input type="checkbox" name="later[1][paynow]" onchange="return payNow(1)">
+                                                                                                    <input type="checkbox"
+                                                                                                        name="later[{{ $key2 + 1 }}][paynow]"
+                                                                                                        onchange="return payNow({{ $key2 + 1 }})">
                                                                                                 </label>
                                                                                             </fieldset>
-                                                                                            <div class="form-group" style="display:none;" id="pay_now_1">
-                                                                                                <label for="projectinput3">خصم من:</label>
-                                                                                                <select class="select2-rtl form-control" data-placeholder="الخزنة" name="later[1][safe_id]" id="sel_xx_1">
+                                                                                            <div class="form-group"
+                                                                                                style="display:none;"
+                                                                                                id="pay_now_{{ $key2 + 1 }}">
+                                                                                                <label
+                                                                                                    for="projectinput3">خصم
+                                                                                                    من:</label>
+                                                                                                <select
+                                                                                                    class="select2-rtl form-control"
+                                                                                                    data-placeholder="الخزنة"
+                                                                                                    name="later[{{ $key2 + 1 }}][safe_id]"
+                                                                                                    id="sel_xx_{{ $key2 + 1 }}">
                                                                                                     <option></option>
                                                                                                     @foreach ($project->allSafes() as $safe)
-                                                                                                    <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
+                                                                                                        <option
+                                                                                                            value="{{ $safe->id }}">
+                                                                                                            {{ $safe->safe_name }}
+                                                                                                        </option>
                                                                                                     @endforeach
                                                                                                 </select>
                                                                                             </div>
-                                                                                        </td>
-                                                                                    </tr>
-
-                                                                                    @else
-                                                                                    @foreach ($project->datesInProject as $key2 => $item)
-                                                                                    <tr>
-                                                                                        <th scope="row">
-                                                                                            <div class="form-group">
-                                                                                                <input type="number"   class="form-control dof3aSum" placeholder="أدخل المبلغ" name="later[{{$key2+1}}][amount]" value="{{$item->amount}}" @if($item->paid != 'No') readonly @endif>
-                                                                                            </div>
-                                                                                        </th>
-                                                                                        <td>
-                                                                                            <fieldset class="form-group">
-                                                                                            <input type="date" class="form-control"    name="later[{{$key2+1}}][date]"  value="{{$item->date}}" @if($item->paid != 'No') readonly @endif>
-                                                                                        </fieldset>
-                                                                                        <fieldset class="form-group">
-                                                                                            <div class="label">الملاحظات</div>
-                                                                                            <textarea class="form-control"  rows="3" placeholder="مثال: الدفعه المقدمة" name="later[{{$key2+1}}][notes]" @if($item->paid != 'No') readonly @endif>{{$item->notes}}</textarea>
-                                                                                        </fieldset>
-                                                                                    </td>
-
-                                                                                        <td>
-                                                                                            @if($item->paid != 'No')
-                                                                                        <p class="text-success"> <input type="checkbox" name="later[{{$key2+1}}][paynow]" checked onclick="return false;"/> تم الدفع</p>
-                                                                                        <p><label>رقم ايصال الدفع: </label> {{$item->safe_payment_id}}</p>
-                                                                                        <button class="btn btn-dark" type="button" onclick="return pay('{{route('safes.receipt',$item->safe_payment_id)}}');">استعراض الفاتورة</button>
-                                                                                        <input type="hidden" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later[{{$key2+1}}][safe_payment_id]" value="{{$item->safe_payment_id}}">
-                                                                                        <input type="hidden" name="later[{{$key2+1}}][safe_id]" value="{{$item->safe_id}}">
-                                                                                            @else
-                                                                                            <fieldset class="checkboxsas">
-                                                                                                <label>
-                                                                                                    دفع الان
-                                                                                                  <input type="checkbox" name="later[{{$key2+1}}][paynow]" onchange="return payNow({{$key2+1}})">
-                                                                                                </label>
-                                                                                            </fieldset>
-                                                                                            <div class="form-group" style="display:none;" id="pay_now_{{$key2+1}}">
-                                                                                                <label for="projectinput3">خصم من:</label>
-                                                                                                <select class="select2-rtl form-control" data-placeholder="الخزنة" name="later[{{$key2+1}}][safe_id]" id="sel_xx_{{$key2+1}}">
-                                                                                                    <option></option>
-                                                                                                    @foreach ($project->allSafes() as $safe)
-                                                                                                    <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
-                                                                                                    @endforeach
-                                                                                                </select>
-                                                                                            </div>
-                                                                                            @endif
+                                                                                        @endif
 
 
 
 
-                                                                                            {{-- <fieldset class="checkboxsas">
+                                                                                        {{-- <fieldset class="checkboxsas">
                                                                                                 <label>
                                                                                                     مدفوعه
-                                                                                                  <input type="checkbox" name="later[{{$key2+1}}][paid]" @if($item->paid != 'No') checked  @endif onchange="return laterPaid({{$key2+1}})">
+                                                                                                  <input type="checkbox" name="later[{{$key2+1}}][paid]" @if ($item->paid != 'No') checked  @endif onchange="return laterPaid({{$key2+1}})">
                                                                                                 </label>
                                                                                             </fieldset> --}}
 
 
-                                                                                            {{-- <div id="later_dates_{{$key2+1}}" @if($item->paid != 'No') style="display: block" @else style="display:none;"  @endif>
+                                                                                        {{-- <div id="later_dates_{{$key2+1}}" @if ($item->paid != 'No') style="display: block" @else style="display:none;"  @endif>
                                                                                             <div class="form-group">
                                                                                                 <div class="label">رقم العملية في الخزنة:</div>
                                                                                                 <input type="text" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later[{{$key2+1}}][safe_payment_id]" value="{{$item->safe_payment_id}}">
@@ -743,8 +816,8 @@
                                                                                             <div class="form-group">
                                                                                                 <label for="projectinput3">خصمت من:</label>
                                                                                                 <select class="select2-rtl form-control" data-placeholder="تعديل" name="later[{{$key2+1}}][safe_id]">
-                                                                                                    @if($item->paid  != 'No')
-                                                                                                        @if($item->safe_id)
+                                                                                                    @if ($item->paid != 'No')
+                                                                                                        @if ($item->safe_id)
                                                                                                     <option value="{{$item->safe_id}}">{{$item->safe->safe_name}}</option>
                                                                                                         @else
                                                                                                         <option></option>
@@ -759,14 +832,14 @@
                                                                                             </div>
                                                                                             </div> --}}
 
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    @endforeach
-                                                                                    @endif
+                                                                                    </td>
+                                                                                </tr>
+                                                                            @endforeach
+                                                                        @endif
 
-                                                                                </tbody>
-                                                                            </table>
-                                                                            </div>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
                                                         </div>
 
 
@@ -815,6 +888,512 @@
                                                                         </div>
                                                                         <div class="modal-body">
                                                                             <h5>تفاصيل الفاتورة</h5>
+
+
+
+
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-8">
+                                                                                    <div class="card">
+                                                                                        <div
+                                                                                            class="card-content collapse show">
+                                                                                            <div class="card-body">
+
+                                                                                                <div class="form-body">
+                                                                                                    <div class="row">
+                                                                                                        <div class="col-md-6"
+                                                                                                            style="border-left: 6px solid #28d094;
+                                                                                                height: 140px;">
+                                                                                                            <div
+                                                                                                                class="form-group">
+                                                                                                                <div
+                                                                                                                    class="text-bold-600 font-medium-2">
+                                                                                                                    اختر
+                                                                                                                    المورد
+                                                                                                                </div>
+                                                                                                                <select
+                                                                                                                    class="select2-rtl form-control"
+                                                                                                                    data-placeholder="إختر المورد..."
+                                                                                                                    name="supplier_id"
+                                                                                                                    id="supplier_id"
+                                                                                                                    required>
+                                                                                                                    <option>
+                                                                                                                    </option>
+                                                                                                                    @foreach ($suppliers as $supplier)
+                                                                                                                        <option
+                                                                                                                            value="{{ $supplier->id }}">
+                                                                                                                            {{ $supplier->supplier_name }}
+                                                                                                                            @if (isset($supplier->supplier_company))
+                                                                                                                                -
+                                                                                                                                {{ $supplier->supplier_company }}
+                                                                                                                            @endif
+                                                                                                                        </option>
+                                                                                                                    @endfor
+                                                                                                                    each
+                                                                                                                </select>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="col-md-6">
+                                                                                                            <div
+                                                                                                                class="form-group">
+                                                                                                                <div
+                                                                                                                    class="text-bold-600 font-medium-2">
+                                                                                                                    مورد
+                                                                                                                    جديد
+                                                                                                                </div>
+                                                                                                                <div
+                                                                                                                    class="form-group">
+                                                                                                                    <input
+                                                                                                                        type="text"
+                                                                                                                        class="form-control"
+                                                                                                                        name="new_supplier_name"
+                                                                                                                        id="new_supplier_name"
+                                                                                                                        placeholder="اسم المورد"
+                                                                                                                        onblur="return chooseSupplierType()" />
+                                                                                                                </div>
+                                                                                                                <div
+                                                                                                                    class="form-group">
+                                                                                                                    <input
+                                                                                                                        type="text"
+                                                                                                                        class="form-control"
+                                                                                                                        name="new_supplier_mobile"
+                                                                                                                        id="new_supplier_mobile"
+                                                                                                                        placeholder="موبايل المورد"
+                                                                                                                        onblur="return chooseSupplierType()" />
+                                                                                                                    <small
+                                                                                                                        id="supplierHelp"
+                                                                                                                        class="text-danger"
+                                                                                                                        style="display: none">
+                                                                                                                        هذا
+                                                                                                                        الرقم
+                                                                                                                        مسجل
+                                                                                                                        بالفعل
+                                                                                                                    </small>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+
+
+                                                                                                </div>
+
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="card">
+                                                                                        <div
+                                                                                            class="card-content collapse show">
+                                                                                            <div class="card-body">
+                                                                                                <ul
+                                                                                                    class="nav nav-tabs nav-top-border no-hover-bg">
+                                                                                                    <li class="nav-item">
+                                                                                                        <a class="nav-link active"
+                                                                                                            id="xxx_base-tab11"
+                                                                                                            data-toggle="tab"
+                                                                                                            aria-controls="xxx_tab11"
+                                                                                                            href="#xxx_tab11"
+                                                                                                            aria-expanded="true">الخصم</a>
+                                                                                                    </li>
+                                                                                                    <li class="nav-item">
+                                                                                                        <a class="nav-link"
+                                                                                                            id="xxx_base-tab13"
+                                                                                                            data-toggle="tab"
+                                                                                                            aria-controls="xxx_tab13"
+                                                                                                            href="#xxx_tab13"
+                                                                                                            aria-expanded="false">الشحن</a>
+                                                                                                    </li>
+                                                                                                    <li class="nav-item">
+                                                                                                        <a class="nav-link"
+                                                                                                            id="xxx_base-tab14"
+                                                                                                            data-toggle="tab"
+                                                                                                            aria-controls="xxx_tab14"
+                                                                                                            href="#xxx_tab14"
+                                                                                                            aria-expanded="false">الضريبة</a>
+                                                                                                    </li>
+                                                                                                </ul>
+                                                                                                <div
+                                                                                                    class="tab-content px-1 pt-1">
+                                                                                                    <div role="tabpanel"
+                                                                                                        class="tab-pane active"
+                                                                                                        id="xxx_tab11"
+                                                                                                        aria-expanded="true"
+                                                                                                        aria-labelledby="xxx_base-tab11">
+                                                                                                        <div class="row">
+                                                                                                            <div class="col-md-4"
+                                                                                                                id="xxx_dis_per">
+                                                                                                                <div
+                                                                                                                    class="form-group">
+                                                                                                                    <label
+                                                                                                                        for="projectinput3">الخصم</label>
+                                                                                                                    <input
+                                                                                                                        type="number"
+                                                                                                                        id="xxx_curr_per"
+                                                                                                                        class="form-control"
+                                                                                                                        placeholder=""
+                                                                                                                        name="discount_percentage"
+                                                                                                                        value="0"
+                                                                                                                        min="0"
+                                                                                                                        max="100"
+                                                                                                                        onblur="return calculateDiscountxxx(1)">
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="col-md-4"
+                                                                                                                style="display: none"
+                                                                                                                id="xxx_dis_amount">
+                                                                                                                <div
+                                                                                                                    class="form-group">
+                                                                                                                    <label
+                                                                                                                        for="projectinput3">الخصم</label>
+                                                                                                                    <input
+                                                                                                                        type="number"
+                                                                                                                        id="xxx_curr_amount"
+                                                                                                                        class="form-control"
+                                                                                                                        placeholder=""
+                                                                                                                        name="discount_amount"
+                                                                                                                        value="0"
+                                                                                                                        min="0"
+                                                                                                                        onblur="return calculateDiscountxxx(2)">
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div
+                                                                                                                class="col-md-8">
+                                                                                                                <div
+                                                                                                                    class="form-group">
+                                                                                                                    <label
+                                                                                                                        for="projectinput3">النوع</label>
+
+                                                                                                                    <select
+                                                                                                                        class="form-control"
+                                                                                                                        onchange="return changeDisTypexxx(this)">
+                                                                                                                        <option
+                                                                                                                            value="percent">
+                                                                                                                            نسبة
+                                                                                                                            مئوية
+                                                                                                                            (%)
+                                                                                                                        </option>
+                                                                                                                        <option
+                                                                                                                            value="fixed">
+                                                                                                                            المبلغ
+                                                                                                                        </option>
+                                                                                                                    </select>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="tab-pane"
+                                                                                                        id="xxx_tab13"
+                                                                                                        aria-labelledby="xxx_base-tab13">
+                                                                                                        <div class="row">
+                                                                                                            <div
+                                                                                                                class="col-md-12">
+                                                                                                                <div
+                                                                                                                    class="form-group">
+                                                                                                                    <label
+                                                                                                                        for="projectinput3">مصاريف
+                                                                                                                        الشحن</label>
+                                                                                                                    <input
+                                                                                                                        type="number"
+                                                                                                                        id="xxx_shipping_fees"
+                                                                                                                        class="form-control"
+                                                                                                                        placeholder=""
+                                                                                                                        name="xxx_shipping_fees"
+                                                                                                                        value="0"
+                                                                                                                        onblur="return updateShippingxxx()"
+                                                                                                                        required>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+
+                                                                                                    </div>
+                                                                                                    <div class="tab-pane"
+                                                                                                        id="xxx_tab14"
+                                                                                                        aria-labelledby="xxx_base-tab14">
+                                                                                                        <div class="row">
+                                                                                                            <div
+                                                                                                                class="col-md-12">
+                                                                                                                <div
+                                                                                                                    class="form-group">
+                                                                                                                    <label
+                                                                                                                        for="projectinput3">نسبة
+                                                                                                                        الضريبة</label>
+                                                                                                                    <input
+                                                                                                                        type="number"
+                                                                                                                        id="xxx_tax_fees"
+                                                                                                                        class="form-control"
+                                                                                                                        placeholder=""
+                                                                                                                        name="tax"
+                                                                                                                        value="0"
+                                                                                                                        onblur="return updateTaxxxx()"
+                                                                                                                        required>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </div>
+
+
+
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="card">
+                                                                                        <div
+                                                                                            class="card-content collapse show">
+                                                                                            <div class="card-body">
+
+                                                                                                <div
+                                                                                                    class="table-responsive">
+                                                                                                    <table
+                                                                                                        class="table mb-0 table-bordered"
+                                                                                                        id="xxxmyTable"
+                                                                                                        style="overflow: hidden;">
+                                                                                                        <thead
+                                                                                                            class="bg-yellow bg-lighten-4">
+                                                                                                            <tr>
+                                                                                                                <th
+                                                                                                                    style="width: 250px">
+                                                                                                                    البند
+                                                                                                                </th>
+                                                                                                                <th>الوصف</span>
+                                                                                                                    <span
+                                                                                                                        class="tooltip">
+                                                                                                                        <a href="#"
+                                                                                                                            tabindex="-1"><img
+                                                                                                                                src="/css/images/question-ar.png"
+                                                                                                                                class="tips-image"></a>
+                                                                                                                    </span>
+                                                                                                                </th>
+                                                                                                                <th>سعر
+                                                                                                                    الوحدة
+                                                                                                                </th>
+                                                                                                                <th>الكمية
+                                                                                                                </th>
+                                                                                                                <th>المجموع
+                                                                                                                </th>
+                                                                                                                <th></th>
+                                                                                                            </tr>
+                                                                                                        </thead>
+                                                                                                        <tbody>
+                                                                                                            <tr
+                                                                                                                id="xxx_row_1">
+                                                                                                                <td>
+                                                                                                                    <div
+                                                                                                                        class="form-group product_sel">
+                                                                                                                        <select
+                                                                                                                            class="select2-rtl form-control"
+                                                                                                                            data-placeholder="إختر المنتج"
+                                                                                                                            name="product[1][id]"
+                                                                                                                            required>
+                                                                                                                            <option>
+                                                                                                                            </option>
+                                                                                                                            @foreach ($products as $product)
+                                                                                                                                <option
+                                                                                                                                    value="{{ $product->id }}">
+                                                                                                                                    {{ $product->product_name }}
+                                                                                                                                </option>
+                                                                                                                            @endfor
+                                                                                                                            each
+                                                                                                                        </select>
+                                                                                                                    </div>
+                                                                                                                </td>
+                                                                                                                <td><input
+                                                                                                                        type="text"
+                                                                                                                        class="product_input"
+                                                                                                                        name="product[1][desc]" />
+                                                                                                                </td>
+                                                                                                                <td><input
+                                                                                                                        type="number"
+                                                                                                                        class="product_input"
+                                                                                                                        id="xxx_p_p_1"
+                                                                                                                        name="product[1][price]"
+                                                                                                                        onblur="return reCalculatexxx(1)"
+                                                                                                                        oninput="return numbersOnly(this)" />
+                                                                                                                </td>
+                                                                                                                <td><input
+                                                                                                                        type="number"
+                                                                                                                        class="product_input"
+                                                                                                                        id="xxx_p_q_1"
+                                                                                                                        name="product[1][qty]"
+                                                                                                                        onblur="return reCalculatexxx(1)"
+                                                                                                                        oninput="return numbersOnly(this)"
+                                                                                                                        value="0" />
+                                                                                                                </td>
+                                                                                                                <td>
+                                                                                                                    <span
+                                                                                                                        id="xxx_tot_1">0</span>
+                                                                                                                    ج.م
+                                                                                                                </td>
+                                                                                                                <td></td>
+                                                                                                            </tr>
+
+                                                                                                            <tr>
+                                                                                                                <td colspan="2"
+                                                                                                                    style="border-style: none !important;">
+                                                                                                                    <div>
+                                                                                                                        <button
+                                                                                                                            type="button"
+                                                                                                                            onclick="addFieldxxx()"
+                                                                                                                            class="add-row btn m-b-xs btn-sm btn-success btn-addon btn-blue">
+                                                                                                                            <i
+                                                                                                                                class="la la-plus"></i>
+                                                                                                                            إضافة
+                                                                                                                            بند
+                                                                                                                        </button>
+                                                                                                                    </div>
+                                                                                                                </td>
+                                                                                                                <td colspan="2"
+                                                                                                                    class="text-right"
+                                                                                                                    style="border-style: none !important;">
+                                                                                                                    <strong>الإجمالي</strong>
+                                                                                                                </td>
+                                                                                                                <td class="text-left"
+                                                                                                                    style="border-style: none !important;">
+                                                                                                                    <code><span
+                                                                                                                            id="xxx_total_after_all">0</span></code>&nbsp;ج.م
+                                                                                                                </td>
+                                                                                                                <td></td>
+                                                                                                            </tr>
+                                                                                                            <tr id="xxx_hidden-row-1"
+                                                                                                                style="display: none">
+                                                                                                                <td colspan="4"
+                                                                                                                    class="text-right">
+                                                                                                                    <strong>
+                                                                                                                        الخصم
+                                                                                                                        (النسبة)[<span
+                                                                                                                            id="xxx_discount_percentage"
+                                                                                                                            style="color: goldenrod">0</span>%]</strong>
+                                                                                                                </td>
+                                                                                                                <td id="xxx_TotalValue"
+                                                                                                                    class="text-left">
+                                                                                                                    <code><span
+                                                                                                                            id="xxx_discount_percentage_amount">0</span></code>&nbsp;ج.م
+                                                                                                                </td>
+                                                                                                                <td></td>
+                                                                                                            </tr>
+                                                                                                            <tr id="xxx_hidden-row-2"
+                                                                                                                style="display: none">
+                                                                                                                <td colspan="4"
+                                                                                                                    class="text-right">
+                                                                                                                    <strong>الخصم
+                                                                                                                        (المبلغ)</strong>
+                                                                                                                </td>
+                                                                                                                <td id="xxx_TotalValue"
+                                                                                                                    class="text-left">
+                                                                                                                    <code><span
+                                                                                                                            id="xxx_discount_amount">0</span></code>&nbsp;ج.م
+                                                                                                                </td>
+                                                                                                                <td></td>
+                                                                                                            </tr>
+                                                                                                            <tr id="xxx_hidden-row-3"
+                                                                                                                style="display: none">
+                                                                                                                <td colspan="4"
+                                                                                                                    class="text-right">
+                                                                                                                    <strong>الشحن</strong>
+                                                                                                                </td>
+                                                                                                                <td id="xxx_TotalValue"
+                                                                                                                    class="text-left">
+                                                                                                                    <code><span
+                                                                                                                            id="xxx_shipping">0</span></code>&nbsp;ج.م
+                                                                                                                </td>
+                                                                                                                <td></td>
+                                                                                                            </tr>
+                                                                                                            <tr id="xxx_hidden-row-4"
+                                                                                                                style="display: none">
+                                                                                                                <td colspan="4"
+                                                                                                                    class="text-right">
+                                                                                                                    <strong>
+                                                                                                                        الضريبة[<span
+                                                                                                                            id="xxx_tax"
+                                                                                                                            style="color: goldenrod">0</span>%]</strong>
+                                                                                                                </td>
+                                                                                                                <td
+                                                                                                                    class="text-left">
+                                                                                                                    <code><span
+                                                                                                                            id="xxx_tax_amount">0</span></code>&nbsp;ج.م
+                                                                                                                </td>
+                                                                                                                <td></td>
+                                                                                                            </tr>
+                                                                                                            <tr>
+                                                                                                                <td colspan="4"
+                                                                                                                    class="text-right">
+                                                                                                                    <strong>الإجمالي</strong>
+                                                                                                                </td>
+                                                                                                                <td id="xxx_TotalValue"
+                                                                                                                    class="text-left">
+                                                                                                                    <code><span
+                                                                                                                            id="xxx_total_after_all2">0</span></code>&nbsp;ج.م
+                                                                                                                </td>
+                                                                                                                <td></td>
+                                                                                                            </tr>
+
+                                                                                                        </tbody>
+                                                                                                    </table>
+
+                                                                                                </div>
+
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="card">
+                                                                                        <div
+                                                                                            class="card-content collapse show">
+                                                                                            <div class="card-body">
+
+                                                                                                <fieldset
+                                                                                                    class="form-group">
+                                                                                                    <p class="text-muted">
+                                                                                                        الشروط / الملاحظات
+                                                                                                    </p>
+                                                                                                    <textarea
+                                                                                                        class="form-control"
+                                                                                                        name="purchase_note"
+                                                                                                        rows="5"
+                                                                                                        id="xxx_terms-conditions"></textarea>
+                                                                                                </fieldset>
+
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                                                                         </div>
                                                                         <div class="modal-footer">
@@ -1439,6 +2018,354 @@
             var currentCell = currentRow.insertCell(-1);
             currentCell.innerHTML = '<center><button type="button" class="btn btn-danger btn-sm" onclick="return delRow(' +
                 currentIndex + ')" style="vertical-align:center">X</button></center>';
+        }
+
+
+        //////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////
+        ///////////////////// JS for Purchase Orders /////////////////////
+        //////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////
+
+        function addFieldxxx(argument) {
+            var myTable = document.getElementById("xxxmyTable");
+            var currentIndex = myTable.rows.length;
+            var currentRow = myTable.insertRow(myTable.rows.length - 5);
+
+            var product_id = document.createElement("input");
+            // product_id.setAttribute("name", "product_id[" + currentIndex + "]");
+            product_id.setAttribute("name", "product[" + currentIndex + "][id]");
+            product_id.setAttribute("class", "product_input");
+
+            var product_desc = document.createElement("input");
+            product_desc.setAttribute("name", "product[" + currentIndex + "][desc]");
+            product_desc.setAttribute("class", "product_input");
+
+            var product_price = document.createElement("input");
+            product_price.setAttribute("name", "product[" + currentIndex + "][price]");
+            product_price.setAttribute("class", "product_input");
+            product_price.setAttribute("type", "number");
+            product_price.setAttribute("id", "xxx_p_p_" + currentIndex);
+            product_price.setAttribute("oninput", "return numbersOnly(this)");
+            product_price.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
+            product_price.setAttribute("required", "required");
+
+
+            var product_qty = document.createElement("input");
+            product_qty.setAttribute("name", "product[" + currentIndex + "][qty]");
+            product_qty.setAttribute("class", "product_input");
+            product_qty.setAttribute("type", "number");
+            product_qty.setAttribute("id", "xxx_p_q_" + currentIndex);
+            product_qty.setAttribute("oninput", "return numbersOnly(this)");
+            product_qty.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
+            product_qty.setAttribute("value", "0");
+            product_qty.setAttribute("required", "required");
+
+            var currentCell = currentRow.insertCell(-1);
+            currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_xxx_' + currentIndex +
+                '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product[' + currentIndex +
+                '][id]" required><option></option> @foreach ($products as $product) <option value="{{ $product->id }}">{{ $product->product_name }}</option>@endforeach</select></div>';
+            $('#sel_xxx_' + currentIndex).select2();
+
+            currentCell = currentRow.insertCell(-1);
+            currentCell.appendChild(product_desc);
+
+            currentCell = currentRow.insertCell(-1);
+            currentCell.appendChild(product_price);
+
+            currentCell = currentRow.insertCell(-1);
+            currentCell.appendChild(product_qty);
+
+            var currentCell = currentRow.insertCell(-1);
+            currentCell.innerHTML = ' <span id="xxx_tot_' + currentIndex + '">0</span> ج.م';
+
+            var currentCell = currentRow.insertCell(-1);
+            currentCell.innerHTML =
+                '<center><button type="button" class="btn btn-danger btn-sm" onclick="return delRowxxx(' +
+                currentIndex + ')" style="vertical-align:center">X</button></center>';
+        }
+
+
+        function reCalculatexxx(rowNum) {
+            var oldRowTotal = $("#xxx_tot_" + rowNum).text();
+            oldRowTotal = parseInt(oldRowTotal);
+            var price = $("#xxx_p_p_" + rowNum).val();
+            var qty = $("#xxx_p_q_" + rowNum).val();
+            var rowTotal = price * qty;
+            $('#xxx_tot_' + rowNum).text(rowTotal);
+            var currentTotal = $("#xxx_total_after_all").text();
+            currentTotal = parseInt(currentTotal);
+            var newTotal = currentTotal - oldRowTotal;
+            newTotal = newTotal + rowTotal;
+            //Subtotal
+            $('#xxx_total_after_all').text(newTotal);
+
+            updateDiscountxxx();
+            updateShippingxxx();
+            updateTaxxxx();
+
+            updateTotalxxx();
+        }
+
+
+
+        function delRowxxx(rowNum) {
+            var oldRowTotal = $("#xxx_tot_" + rowNum).text();
+            oldRowTotal = parseInt(oldRowTotal);
+            var currentTotal = $("#xxx_total_after_all").text();
+            currentTotal = parseInt(currentTotal);
+            var newTotal = currentTotal - oldRowTotal;
+            //sub total
+            $('#xxx_total_after_all').text(newTotal);
+            updateDiscountxxx();
+            updateShippingxxx();
+            updateTaxxxx();
+
+            updateTotalxxx();
+            $("#xxx_tot_" + rowNum).closest('tr').remove();
+
+        }
+
+
+
+        function updateShippingxxx() {
+            newShipping = $('#xxx_shipping_fees').val();
+            if ($('#xxx_shipping_fees').val().length === 0) {
+                newShipping = 0;
+            }
+            if (newShipping > 0) {
+                $('#xxx_hidden-row-3').show();
+            } else {
+                $('#xxx_hidden-row-3').hide();
+            }
+            $('#xxx_shipping').html(newShipping);
+            updateTotalxxx();
+        }
+
+
+        function calculateDiscountxxx(theType) {
+            //clear old discount
+            $('#xxx_discount_percentage').text(0);
+            $('#xxx_discount_percentage_amount').text(0);
+            $('#xxx_discount_amount').text(0);
+            // if discount type is percentage
+            if (theType == 1) {
+                var theValue = $('#xxx_curr_per').val();
+                if ($('#xxx_curr_per').val().length === 0) {
+                    theValue = 0;
+                }
+                if (theValue > 0) {
+                    $('#xxx_hidden-row-1').show();
+                } else {
+                    $('#xxx_hidden-row-1').hide();
+                }
+                $('#xxx_curr_amount').val(0);
+                var currentDiscountP = $('#xxx_discount_percentage').text();
+                currentDiscountP = parseInt(currentDiscountP);
+                var currentInvoiceTotal = $("#xxx_total_after_all").text();
+                currentInvoiceTotal = parseInt(currentInvoiceTotal);
+                var newInvoiceTotal = currentInvoiceTotal - (currentInvoiceTotal * (theValue / 100));
+                var discount_amount = currentInvoiceTotal - newInvoiceTotal;
+                discount_amount = Math.round(discount_amount);
+                $('#xxx_discount_percentage').text(theValue);
+                $('#xxx_discount_percentage_amount').text(discount_amount);
+            }
+            //if discount type is fixed
+            else if (theType == 2) {
+                var theValue = $('#xxx_curr_amount').val();
+                if ($('#xxx_curr_amount').val().length === 0) {
+                    theValue = 0;
+                }
+                if (theValue > 0) {
+                    $('#xxx_hidden-row-2').show();
+                } else {
+                    $('#xxx_hidden-row-2').hide();
+                }
+                $('#xxx_curr_per').val(0);
+                var currentDiscountA = $('#xxx_discount_amount').text();
+                currentDiscountA = parseInt(currentDiscountA);
+                var currentInvoiceTotal = $("#xxx_total_after_all").text();
+                currentInvoiceTotal = parseInt(currentInvoiceTotal);
+                var newInvoiceTotal = parseInt(currentInvoiceTotal) + parseInt(currentDiscountA) - parseInt(theValue);
+                $('#xxx_discount_amount').text(theValue);
+            }
+            updateTotalxxx();
+        }
+
+
+
+        function changeDisTypexxx(type) {
+            if (type.value == 'fixed') {
+                $('#xxx_dis_per').hide();
+                $('#xxx_dis_amount').show();
+            } else {
+                $('#xxx_dis_amount').hide();
+                $('#xxx_dis_per').show();
+            }
+        }
+
+
+        function updateDiscountxx() {
+            var discount_percentage = $('#xxx_curr_per').val();
+            var discount_amount = $('#xxx_curr_amount').val();
+            if (discount_percentage > 0) {
+                discount_percentage = parseInt(discount_percentage);
+                calculateDiscountxxx(1, discount_percentage);
+            }
+
+            if (discount_amount > 0) {
+                discount_amount = parseInt(discount_amount);
+                calculateDiscountxxx(2, discount_amount);
+            }
+
+        }
+
+
+        function updateTotalxxx() {
+
+            //get sub total
+            var getSubTotal = $("#xxx_total_after_all").text();
+            getSubTotal = parseInt(getSubTotal);
+            //get discount amount
+            var getDiscountAmount_1 = $('#xxx_discount_percentage_amount').text();
+            var getDiscountAmount_2 = $('#xxx_discount_amount').text();
+            getDiscountAmount_1 = parseInt(getDiscountAmount_1);
+            getDiscountAmount_2 = parseInt(getDiscountAmount_2);
+            //get shipping
+            var getShipping = $('#xxx_shipping').text();
+            getShipping = parseInt(getShipping);
+            //get Tax
+            var getTax = $('#xxx_tax_amount').text();
+            getTax = parseInt(getTax);
+            //add them all
+            var invoiceTotal = getSubTotal + getShipping + getTax - getDiscountAmount_1 - getDiscountAmount_2;
+            $('#xxx_total_after_all2').text(invoiceTotal);
+            $('#xxx_totalToSave').val(invoiceTotal);
+
+        }
+
+
+
+        function payNowxxx(row) {
+            if ($('#xxx_pay_now_' + row + ':visible').length == 0) {
+                $('#xxx_pay_now_' + row).show();
+            } else {
+                $('#xxx_pay_now_' + row).hide();
+            }
+        }
+
+
+
+        CKEDITOR.ClassicEditor.create(document.querySelector('#xxx_terms-conditions')).catch(error => {
+            console.error(error);
+        });
+
+
+
+
+        function updateTaxxxx() {
+            newTax = $('#xxx_tax_fees').val();
+            if ($('#xxx_tax_fees').val().length === 0) {
+                newTax = 0;
+            }
+            if (newTax > 0) {
+                $('#xxx_hidden-row-4').show();
+            } else {
+                $('#xxx_hidden-row-4').hide();
+            }
+
+            var currentInvoiceTotal = $("#xxx_total_after_all").text();
+            currentInvoiceTotal = parseInt(currentInvoiceTotal);
+            var newInvoiceTotal = currentInvoiceTotal - (currentInvoiceTotal * (newTax / 100));
+            var taxAmount = currentInvoiceTotal - newInvoiceTotal;
+            taxAmount = Math.round(taxAmount);
+            $('#xxx_tax_amount').text(taxAmount);
+
+            $('#xxx_tax').html(newTax);
+            updateTotalxxx();
+        }
+
+
+
+        function updateDiscountxxx() {
+            var discount_percentage = $('#xxx_curr_per').val();
+            var discount_amount = $('#xxx_curr_amount').val();
+            if (discount_percentage > 0) {
+                discount_percentage = parseInt(discount_percentage);
+                calculateDiscountxxx(1, discount_percentage);
+            }
+
+            if (discount_amount > 0) {
+                discount_amount = parseInt(discount_amount);
+                calculateDiscountxxx(2, discount_amount);
+            }
+
+        }
+
+
+
+
+        function chooseSupplierType() {
+            newSupplierName = $('#new_supplier_name').val().length;
+            newSupplierMobile = $('#new_supplier_mobile').val().length;
+            OldSupplierSelect = $('#supplier_id').val().length;
+            if (newSupplierName > 0) {
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                var formData = {
+                    supplier_mobile: $('#new_supplier_mobile').val(),
+                };
+                var type = "POST";
+                var ajaxurl = "{{ route('suppliers.checksupplier') }}";
+                $.ajax({
+                    type: type,
+                    url: ajaxurl,
+                    data: formData,
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.data > 0) {
+                            $('#supplierHelp').css('display', 'block');
+                            $('#new_supplier_mobile').addClass('is-invalid');
+                            $('#new_supplier_mobile').removeClass('is-valid');
+                            $("#saveBtn").prop("disabled", true);
+                        } else {
+                            $('#supplierHelp').css('display', 'none');
+                            $('#new_supplier_mobile').addClass('is-valid');
+                            $('#new_supplier_mobile').removeClass('is-invalid');
+                            $("#saveBtn").prop("disabled", false);
+                        }
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+
+
+
+                $("#supplier_id").attr({
+                    "required": false
+                });
+                $("#new_supplier_name").attr({
+                    "required": true
+                });
+                $("#new_supplier_mobile").attr({
+                    "required": true
+                });
+            } else {
+                $("#supplier_id").attr({
+                    "required": true
+                });
+                $("#new_supplier_name").attr({
+                    "required": false
+                });
+                $("#new_supplier_mobile").attr({
+                    "required": false
+                });
+            }
         }
 
     </script>

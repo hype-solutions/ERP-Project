@@ -40,7 +40,7 @@ class Projects extends Model
 
     public function datesInProject()
     {
-        return $this->hasMany('App\Models\Projects\ProjectsPayments', 'project_id', 'id');
+        return $this->hasMany('App\Models\Projects\ProjectsPriceQuotationsPayments', 'project_id', 'id');
     }
 
 }

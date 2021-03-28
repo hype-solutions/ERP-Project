@@ -8,10 +8,11 @@ use App\Models\Projects\Projects;
 use App\Models\Projects\ProjectsContractFiles;
 use App\Models\Projects\ProjectsPreviewFiles;
 use App\Models\Projects\ProjectsAttachmentFiles;
-use App\Models\Projects\ProjectsPayments;
+use App\Models\Projects\ProjectsPriceQuotationsPayments;
 use App\Models\Projects\ProjectsPriceQuotationsProducts;
 use App\Models\Safes\Safes;
 use App\Models\Safes\SafesTransactions;
+use App\Models\Suppliers\Suppliers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -54,8 +55,9 @@ class ProjectsController extends Controller
         $priceQuotation = ProjectsPriceQuotationsProducts::where('project_id', $project->id)->get();
         $key = 0;
         $products = Products::all();
+        $suppliers = Suppliers::all();
 
-        return view('projects.edit', compact('products', 'key', 'project', 'customers', 'previewFiles', 'contractFiles', 'attachmentFiles', 'priceQuotation', 'user_id'));
+        return view('projects.edit', compact('suppliers', 'products', 'key', 'project', 'customers', 'previewFiles', 'contractFiles', 'attachmentFiles', 'priceQuotation', 'user_id'));
     }
 
     public function update(Request $request, $project)
@@ -79,48 +81,48 @@ class ProjectsController extends Controller
         $safe_id = Safes::where('branch_id', 1)->value('id');
 
         //Delete old payment records
-        ProjectsPayments::where('project_id', $eproject->id)->delete();
+        ProjectsPriceQuotationsPayments::where('project_id', $eproject->id)->delete();
         //Save new payment records
         $listOfDates = [];
         foreach ($date as $item) {
-            if($item['amount'] > 0){
-            $da = new ProjectsPayments();
-            $da->project_id = $eproject->id;
-            $da->customer_id = $eproject->customer_id;
-            $da->amount = $item['amount'];
-            $da->date = $item['date'];
-            $da->notes = $item['notes'];
-            //If paynow is checked
-            if (!empty($item['paynow'])) {
-                //If the user has paid before and transaction id is saved
-                if (!empty($item['safe_payment_id'])) {
-                    $da->paid = 'Yes';
-                    $da->safe_payment_id = $item['safe_payment_id'];
-                    $da->date = Carbon::now();
-                    $da->safe_id = $safe_id;
+            if ($item['amount'] > 0) {
+                $da = new ProjectsPriceQuotationsPayments();
+                $da->project_id = $eproject->id;
+                $da->customer_id = $eproject->customer_id;
+                $da->amount = $item['amount'];
+                $da->date = $item['date'];
+                $da->notes = $item['notes'];
+                //If paynow is checked
+                if (!empty($item['paynow'])) {
+                    //If the user has paid before and transaction id is saved
+                    if (!empty($item['safe_payment_id'])) {
+                        $da->paid = 'Yes';
+                        $da->safe_payment_id = $item['safe_payment_id'];
+                        $da->date = Carbon::now();
+                        $da->safe_id = $safe_id;
+                    } else {
+                        $da->paid = 'Yes';
+                        $payment = new SafesTransactions();
+                        $payment->safe_id = $safe_id;
+                        $payment->transaction_type = 2;
+                        $payment->transaction_amount = $item['amount'];
+                        $payment->transaction_datetime = Carbon::now();
+                        $payment->done_by = Auth::user()->id;
+                        $payment->authorized_by = Auth::user()->id;
+                        $payment->transaction_notes = 'قسط على مشروع رقم' . $eproject->id;
+                        $payment->save();
+                        $payment_id = $payment->id;
+                        $da->safe_id = $safe_id;
+                        $da->safe_payment_id = $payment_id;
+                        Safes::where('id', $safe_id)->decrement('safe_balance', $item['amount']);
+                    }
                 } else {
-                    $da->paid = 'Yes';
-                    $payment = new SafesTransactions();
-                    $payment->safe_id = $safe_id;
-                    $payment->transaction_type = 2;
-                    $payment->transaction_amount = $item['amount'];
-                    $payment->transaction_datetime = Carbon::now();
-                    $payment->done_by = Auth::user()->id;
-                    $payment->authorized_by = Auth::user()->id;
-                    $payment->transaction_notes = 'قسط على مشروع رقم' . $eproject->id;
-                    $payment->save();
-                    $payment_id = $payment->id;
-                    $da->safe_id = $safe_id;
-                    $da->safe_payment_id = $payment_id;
-                    Safes::where('id', $safe_id)->decrement('safe_balance', $item['amount']);
+                    $da->paid = 'No';
                 }
-            } else {
-                $da->paid = 'No';
+                $da->save();
+                $listOfDates[] = $da;
             }
-            $da->save();
-            $listOfDates[] = $da;
         }
-    }
 
 
 
@@ -238,12 +240,11 @@ class ProjectsController extends Controller
             }
         }
 
-        if($request->returnHere == 0){
+        if ($request->returnHere == 0) {
             return redirect()->route('projects.list');
-        }else{
+        } else {
             return back()->with('success', '1');
         }
-
     }
 
     public function projectsList()
