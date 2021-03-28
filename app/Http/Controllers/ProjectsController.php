@@ -238,7 +238,12 @@ class ProjectsController extends Controller
             }
         }
 
-        return back()->with('success', '1');
+        if($request->returnHere == 0){
+            return redirect()->route('projects.list');
+        }else{
+            return back()->with('success', '1');
+        }
+
     }
 
     public function projectsList()

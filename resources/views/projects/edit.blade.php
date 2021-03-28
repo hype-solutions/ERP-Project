@@ -119,6 +119,7 @@
                                             <input type="hidden" name="created_by" value="{{ $user_id }}" />
                                             <input type="hidden" name="total" id="totalToSave" value="0" />
                                             <input type="hidden" name="step" id="theStep" value="{{ $project->step }}" />
+                                            <input type="hidden" name="returnHere" id="returnHere" value="0" />
                                             <!-- Step 1 -->
                                             <h6><i class="step-icon la la-eye"></i> بيانات المشروع</h6>
                                             <fieldset>
@@ -980,6 +981,7 @@
     <script>
         function updateProj(oldStep) {
             $('#theStep').val(oldStep + 1);
+            $('#returnHere').val(1);
             $('#mashroo3').submit();
         }
 
