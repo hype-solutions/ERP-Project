@@ -229,7 +229,7 @@
                                                     <div class="col-md-12">
                                                         <div class="form-group">
                                                             <textarea name="mo3ayna_details" class="form-control" id="" cols="5" rows="10"
-                                                                placeholder="تفاصيل المعاينة"></textarea>
+                                                                placeholder="تفاصيل المعاينة">{{$project->mo3ayna_details}}</textarea>
                                                         </div>
                                                     </div>
                                                 </div>
