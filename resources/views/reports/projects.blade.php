@@ -201,7 +201,7 @@
                                 @foreach ($projects as $project)
                                 <tr>
                                     <td>{{$project->id}}</td>
-                                    <td>{{$project->project_name}} ج.م</td>
+                                    <td>{{$project->project_name}}</td>
                                     <td>{{$project->total}}</td>
                                     <td>{{$project->project_start_date}}</td>
                                     <td>{{$project->project_end_date}}</td>

@@ -102,7 +102,7 @@ class ProjectsController extends Controller
                     $da->paid = 'Yes';
                     $payment = new SafesTransactions();
                     $payment->safe_id = $safe_id;
-                    $payment->transaction_type = 1;
+                    $payment->transaction_type = 2;
                     $payment->transaction_amount = $item['amount'];
                     $payment->transaction_datetime = Carbon::now();
                     $payment->done_by = Auth::user()->id;
