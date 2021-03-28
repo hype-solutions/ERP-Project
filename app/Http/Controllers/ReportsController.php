@@ -45,6 +45,7 @@ class ReportsController extends Controller
             $branch = '1';
         }
 
+         dd($branch);
         $fromX = $from;
         $toX = $to;
         //Insure covering whole days
@@ -564,7 +565,7 @@ class ReportsController extends Controller
 
 
 
-        return view('reports.income', compact('externalFund','incomeSum', 'incomeBndSum', 'deposits', 'branch', 'branches', 'fromX', 'toX', 'income', 'deposit'));
+        return view('reports.income', compact('externalFund', 'incomeSum', 'incomeBndSum', 'deposits', 'branch', 'branches', 'fromX', 'toX', 'income', 'deposit'));
     }
 
 
