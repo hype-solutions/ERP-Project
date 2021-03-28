@@ -38,7 +38,13 @@
         }
 
     </style>
+<script type="text/javascript">
+    function pay(url) {
+        popupWindow = window.open(
+        url,'popUpWindow','height=700,width=300,left=10,top=10,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no')
+    }
 
+    </script>
     <!-- END: Page CSS-->
 @endsection
 
@@ -695,7 +701,7 @@
                                                                                         <td>
                                                                                             @if($item->paid != 'No')
                                                                                         <p class="text-success"> <input type="checkbox" name="later[{{$key2+1}}][paynow]" checked onclick="return false;"/> تم الدفع</p>
-                                                                                        <p><label>رقم فاتورة الدفع: </label> {{$item->safe_payment_id}}</p>
+                                                                                        <p><label>رقم ايصال الدفع: </label> {{$item->safe_payment_id}}</p>
                                                                                         <button class="btn btn-dark" type="button" onclick="return pay('{{route('safes.receipt',$item->safe_payment_id)}}');">استعراض الفاتورة</button>
                                                                                         <input type="hidden" id="" class="form-control" placeholder="رقم العملية في الخزنة" name="later[{{$key2+1}}][safe_payment_id]" value="{{$item->safe_payment_id}}">
                                                                                         <input type="hidden" name="later[{{$key2+1}}][safe_id]" value="{{$item->safe_id}}">

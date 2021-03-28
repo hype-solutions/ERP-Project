@@ -96,6 +96,7 @@ class ProjectsController extends Controller
                 if (!empty($item['safe_payment_id'])) {
                     $da->paid = 'Yes';
                     $da->safe_payment_id = $item['safe_payment_id'];
+                    $da->date = Carbon::now();
                     $da->safe_id = $safe_id;
                 } else {
                     $da->paid = 'Yes';
