@@ -1035,7 +1035,7 @@
                                                                                                                         id="xxx_curr_per"
                                                                                                                         class="form-control"
                                                                                                                         placeholder=""
-                                                                                                                        name="discount_percentage"
+                                                                                                                        name="xxx_discount_percentage"
                                                                                                                         value="0"
                                                                                                                         min="0"
                                                                                                                         max="100"
@@ -1054,7 +1054,7 @@
                                                                                                                         id="xxx_curr_amount"
                                                                                                                         class="form-control"
                                                                                                                         placeholder=""
-                                                                                                                        name="discount_amount"
+                                                                                                                        name="xxx_discount_amount"
                                                                                                                         value="0"
                                                                                                                         min="0"
                                                                                                                         onblur="return calculateDiscountxxx(2)">
@@ -1126,7 +1126,7 @@
                                                                                                                         id="xxx_tax_fees"
                                                                                                                         class="form-control"
                                                                                                                         placeholder=""
-                                                                                                                        name="tax"
+                                                                                                                        name="xxx_tax"
                                                                                                                         value="0"
                                                                                                                         onblur="return updateTaxxxx()"
                                                                                                                         required>
@@ -1194,7 +1194,7 @@
                                                                                                                         <select
                                                                                                                             class="select2-rtl form-control"
                                                                                                                             data-placeholder="إختر المنتج"
-                                                                                                                            name="product[1][id]"
+                                                                                                                            name="xxx_product[1][id]"
                                                                                                                             required>
                                                                                                                             <option>
                                                                                                                             </option>
@@ -1211,13 +1211,13 @@
                                                                                                                 <td><input
                                                                                                                         type="text"
                                                                                                                         class="product_input"
-                                                                                                                        name="product[1][desc]" />
+                                                                                                                        name="xxx_product[1][desc]" />
                                                                                                                 </td>
                                                                                                                 <td><input
                                                                                                                         type="number"
                                                                                                                         class="product_input"
                                                                                                                         id="xxx_p_p_1"
-                                                                                                                        name="product[1][price]"
+                                                                                                                        name="xxx_product[1][price]"
                                                                                                                         onblur="return reCalculatexxx(1)"
                                                                                                                         oninput="return numbersOnly(this)" />
                                                                                                                 </td>
@@ -1225,7 +1225,7 @@
                                                                                                                         type="number"
                                                                                                                         class="product_input"
                                                                                                                         id="xxx_p_q_1"
-                                                                                                                        name="product[1][qty]"
+                                                                                                                        name="xxx_product[1][qty]"
                                                                                                                         onblur="return reCalculatexxx(1)"
                                                                                                                         oninput="return numbersOnly(this)"
                                                                                                                         value="0" />
@@ -1363,7 +1363,7 @@
                                                                                                     </p>
                                                                                                     <textarea
                                                                                                         class="form-control"
-                                                                                                        name="purchase_note"
+                                                                                                        name="xxx_purchase_note"
                                                                                                         rows="5"
                                                                                                         id="xxx_terms-conditions"></textarea>
                                                                                                 </fieldset>
@@ -2034,15 +2034,15 @@
 
             var product_id = document.createElement("input");
             // product_id.setAttribute("name", "product_id[" + currentIndex + "]");
-            product_id.setAttribute("name", "product[" + currentIndex + "][id]");
+            product_id.setAttribute("name", "xxx_product[" + currentIndex + "][id]");
             product_id.setAttribute("class", "product_input");
 
             var product_desc = document.createElement("input");
-            product_desc.setAttribute("name", "product[" + currentIndex + "][desc]");
+            product_desc.setAttribute("name", "xxx_product[" + currentIndex + "][desc]");
             product_desc.setAttribute("class", "product_input");
 
             var product_price = document.createElement("input");
-            product_price.setAttribute("name", "product[" + currentIndex + "][price]");
+            product_price.setAttribute("name", "xxx_product[" + currentIndex + "][price]");
             product_price.setAttribute("class", "product_input");
             product_price.setAttribute("type", "number");
             product_price.setAttribute("id", "xxx_p_p_" + currentIndex);
@@ -2052,7 +2052,7 @@
 
 
             var product_qty = document.createElement("input");
-            product_qty.setAttribute("name", "product[" + currentIndex + "][qty]");
+            product_qty.setAttribute("name", "xxx_product[" + currentIndex + "][qty]");
             product_qty.setAttribute("class", "product_input");
             product_qty.setAttribute("type", "number");
             product_qty.setAttribute("id", "xxx_p_q_" + currentIndex);
@@ -2063,7 +2063,7 @@
 
             var currentCell = currentRow.insertCell(-1);
             currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_xxx_' + currentIndex +
-                '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product[' + currentIndex +
+                '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="xxx_product[' + currentIndex +
                 '][id]" required><option></option> @foreach ($products as $product) <option value="{{ $product->id }}">{{ $product->product_name }}</option>@endforeach</select></div>';
             $('#sel_xxx_' + currentIndex).select2();
 
