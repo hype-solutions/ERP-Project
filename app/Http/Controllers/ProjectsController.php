@@ -10,6 +10,7 @@ use App\Models\Projects\ProjectsPreviewFiles;
 use App\Models\Projects\ProjectsAttachmentFiles;
 use App\Models\Projects\ProjectsPriceQuotationsPayments;
 use App\Models\Projects\ProjectsPriceQuotationsProducts;
+use App\Models\Projects\ProjectsPurchasesOrdersProducts;
 use App\Models\Safes\Safes;
 use App\Models\Safes\SafesTransactions;
 use App\Models\Suppliers\Suppliers;
@@ -155,7 +156,33 @@ class ProjectsController extends Controller
         }
 
 
+        if ($request->new_supplier_name != '') {
+            $supplier = new Suppliers();
+            $supplier->supplier_name = $request->new_supplier_name;
+            $supplier->supplier_mobile = $request->new_supplier_mobile;
+            $supplier->save();
+            $supplierId = $supplier->id;
+        } else {
+            $supplierId = $request->supplier_id;
+        }
 
+
+
+        $xxx_product = $request->xxx_product;
+        if ($xxx_product) {
+        $listOfProducts = [];
+        foreach ($product as $item) {
+            $pro = new ProjectsPurchasesOrdersProducts();
+            $pro->project_id = $eproject->id;
+            $pro->supplier_id = $supplierId;
+            $pro->product_id = $item['id'];
+            $pro->product_desc = $item['desc'];
+            $pro->product_price = $item['price'];
+            $pro->product_qty = $item['qty'];
+            $pro->save();
+            $listOfProducts[] = $pro;
+        }
+    }
 
         if ($request->hasFile('mo3ayna')) {
             $allowedfileExtension = ['pdf', 'jpg', 'png', 'docx'];

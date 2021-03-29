@@ -871,7 +871,7 @@
                                                                 class="btn mb-1 btn-success btn-icon btn-lg btn-block"
                                                                 data-toggle="modal" data-target="#xlarge">
                                                                 <i class="la la-plus-circle"></i>
-                                                                أضف فاتورة جديدة
+                                                                أضف أمر شراء خاص بالمشروع
                                                             </button>
                                                             <div class="modal fade text-left" id="xlarge" tabindex="-1"
                                                                 role="dialog" aria-labelledby="myModalLabel16"
@@ -1541,10 +1541,6 @@
 
 
 @section('pageJs')
-
-
-
-
     <!-- BEGIN: Theme JS-->
 
     <script src="{{ asset('theme/app-assets/vendors/js/forms/select/select2.full.min.js') }}"></script>
@@ -1553,6 +1549,8 @@
     <script src="{{ asset('theme/app-assets/vendors/js/pickers/dateTime/moment-with-locales.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/vendors/js/pickers/daterange/daterangepicker.js') }}"></script>
     <script src="{{ asset('theme/app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('theme/app-assets/vendors/js/editors/ckeditor/ckeditor-super-build.js') }}"></script>
+
     <!-- END: Theme JS-->
 
 
@@ -2030,7 +2028,7 @@
         function addFieldxxx(argument) {
             var myTable = document.getElementById("xxxmyTable");
             var currentIndex = myTable.rows.length;
-            var currentRow = myTable.insertRow(myTable.rows.length - 5);
+            var currentRow = myTable.insertRow(myTable.rows.length - 6);
 
             var product_id = document.createElement("input");
             // product_id.setAttribute("name", "product_id[" + currentIndex + "]");
