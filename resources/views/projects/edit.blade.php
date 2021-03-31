@@ -120,6 +120,7 @@
                                             @method('patch')
                                             <input type="hidden" name="created_by" value="{{ $user_id }}" />
                                             <input type="hidden" name="total" id="totalToSave" value="0" />
+                                            <input type="hidden" name="xxx_total" id="xxx_totalToSave" value="0" />
                                             <input type="hidden" name="step" id="theStep" value="{{ $project->step }}" />
                                             <input type="hidden" name="returnHere" id="returnHere" value="0" />
                                             <!-- Step 1 -->
@@ -157,8 +158,8 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="date2">تاريخ بداية المشروع:</label>
-                                                            <input type="date" class="form-control" id="date2"
+                                                            <label for="date2x">تاريخ بداية المشروع:</label>
+                                                            <input type="date" class="form-control" id="date2x"
                                                                 name="project_start_date"
                                                                 value="{{ $project->project_start_date }}">
                                                         </div>
@@ -191,10 +192,10 @@
                                                             <label>أرفق ملفات المعاينة</label>
                                                             <div class="custom-file">
                                                                 <input type="file" name="mo3ayna[]"
-                                                                    class="custom-file-input" id="inputGroupFile02"
+                                                                    class="custom-file-input" id="inputGroupFile02y"
                                                                     multiple>
-                                                                <label class="custom-file-label" for="inputGroupFile02"
-                                                                    aria-describedby="inputGroupFile02">اختر الملف </label>
+                                                                <label class="custom-file-label" for="inputGroupFile02y"
+                                                                    aria-describedby="inputGroupFile02y">اختر الملف </label>
                                                             </div>
                                                         </fieldset>
                                                     </div>
@@ -237,7 +238,7 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <textarea name="mo3ayna_details" class="form-control" id=""
+                                                            <textarea name="mo3ayna_details" class="form-control"
                                                                 cols="5" rows="10"
                                                                 placeholder="تفاصيل المعاينة">{{ $project->mo3ayna_details }}</textarea>
                                                         </div>
@@ -573,9 +574,9 @@
                                                             <label>أرفق بنود العقد</label>
                                                             <div class="custom-file">
                                                                 <input type="file" name="bnood[]" class="custom-file-input"
-                                                                    id="inputGroupFile02" multiple>
-                                                                <label class="custom-file-label" for="inputGroupFile02"
-                                                                    aria-describedby="inputGroupFile02">اختر الملف </label>
+                                                                    id="inputGroupFile02z" multiple>
+                                                                <label class="custom-file-label" for="inputGroupFile02z"
+                                                                    aria-describedby="inputGroupFile02z">اختر الملف </label>
                                                             </div>
                                                         </fieldset>
                                                     </div>
@@ -865,7 +866,7 @@
                                             <h6><i class="step-icon la la-files-o"></i>فواتير المشتريات</h6>
                                             <fieldset>
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <div class="form-group">
                                                             <button type="button"
                                                                 class="btn mb-1 btn-success btn-icon btn-lg btn-block"
@@ -873,6 +874,7 @@
                                                                 <i class="la la-plus-circle"></i>
                                                                 أضف أمر شراء خاص بالمشروع
                                                             </button>
+                                                            @if($project->step == 5)
                                                             <div class="modal fade text-left" id="xlarge" tabindex="-1"
                                                                 role="dialog" aria-labelledby="myModalLabel16"
                                                                 aria-hidden="true" style="display: none;">
@@ -1186,7 +1188,7 @@
                                                                                                             </tr>
                                                                                                         </thead>
                                                                                                         <tbody>
-                                                                                                            <tr
+                                                                                                            {{-- <tr
                                                                                                                 id="xxx_row_1">
                                                                                                                 <td>
                                                                                                                     <div
@@ -1236,7 +1238,7 @@
                                                                                                                     ج.م
                                                                                                                 </td>
                                                                                                                 <td></td>
-                                                                                                            </tr>
+                                                                                                            </tr> --}}
 
                                                                                                             <tr>
                                                                                                                 <td colspan="2"
@@ -1400,32 +1402,38 @@
                                                                             <button type="button"
                                                                                 class="btn grey btn-outline-secondary"
                                                                                 data-dismiss="modal">إغلاق</button>
-                                                                            <button type="button"
+                                                                            <button type="submit"
                                                                                 class="btn btn-outline-primary">حفظ</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            @endif
 
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-8">
                                                         <div class="table-responsive">
                                                             <table class="table table-bordered mb-0">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>#</th>
                                                                         <th>تاريخ الفاتورة</th>
+                                                                        <th>الدفع</th>
+                                                                        <th>التوريد</th>
                                                                         <th>إجمالي الفاتورة</th>
                                                                         <th>التحكم</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
+                                                                    @foreach ($purchasesOrders as $item)
                                                                     <tr>
                                                                         <th scope="row">1</th>
-                                                                        <td>03/04/2021</td>
-                                                                        <td>5698 ج.م</td>
+                                                                        <td>{{$item->purchase_date}}</td>
+                                                                        <td>{{$item->already_paid}}</td>
+                                                                        <td>{{$item->already_delivered}}</td>
+                                                                        <td>{{$item->purchase_total}} ج.م</td>
                                                                         <td>
                                                                             <button
                                                                                 class="btn btn-success btn-sm">استعراض</button>
@@ -1433,6 +1441,7 @@
                                                                                 class="btn btn-danger btn-sm">حذف</button>
                                                                         </td>
                                                                     </tr>
+                                                                    @endforeach
 
                                                                 </tbody>
                                                             </table>
@@ -1462,10 +1471,10 @@
                                                             <label>أرفق ملف ملحق</label>
                                                             <div class="custom-file">
                                                                 <input type="file" name="mol7kat[]"
-                                                                    class="custom-file-input" id="inputGroupFile02"
+                                                                    class="custom-file-input" id="inputGroupFile02x"
                                                                     multiple>
-                                                                <label class="custom-file-label" for="inputGroupFile02"
-                                                                    aria-describedby="inputGroupFile02">اختر الملف </label>
+                                                                <label class="custom-file-label" for="inputGroupFile02x"
+                                                                    aria-describedby="inputGroupFile02x">اختر الملف </label>
                                                             </div>
                                                         </fieldset>
                                                     </div>
@@ -2045,7 +2054,7 @@
             product_price.setAttribute("type", "number");
             product_price.setAttribute("id", "xxx_p_p_" + currentIndex);
             product_price.setAttribute("oninput", "return numbersOnly(this)");
-            product_price.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
+            product_price.setAttribute("onblur", "return reCalculatexxx(" + currentIndex + ")");
             product_price.setAttribute("required", "required");
 
 
@@ -2055,7 +2064,7 @@
             product_qty.setAttribute("type", "number");
             product_qty.setAttribute("id", "xxx_p_q_" + currentIndex);
             product_qty.setAttribute("oninput", "return numbersOnly(this)");
-            product_qty.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
+            product_qty.setAttribute("onblur", "return reCalculatexxx(" + currentIndex + ")");
             product_qty.setAttribute("value", "0");
             product_qty.setAttribute("required", "required");
 

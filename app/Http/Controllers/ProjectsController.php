@@ -10,6 +10,7 @@ use App\Models\Projects\ProjectsPreviewFiles;
 use App\Models\Projects\ProjectsAttachmentFiles;
 use App\Models\Projects\ProjectsPriceQuotationsPayments;
 use App\Models\Projects\ProjectsPriceQuotationsProducts;
+use App\Models\Projects\ProjectsPurchasesOrders;
 use App\Models\Projects\ProjectsPurchasesOrdersProducts;
 use App\Models\Safes\Safes;
 use App\Models\Safes\SafesTransactions;
@@ -54,15 +55,18 @@ class ProjectsController extends Controller
         $contractFiles = ProjectsContractFiles::where('project_id', $project->id)->get();
         $attachmentFiles = ProjectsAttachmentFiles::where('project_id', $project->id)->get();
         $priceQuotation = ProjectsPriceQuotationsProducts::where('project_id', $project->id)->get();
+        $purchasesOrders = ProjectsPurchasesOrders::where('project_id', $project->id)->get();
         $key = 0;
         $products = Products::all();
         $suppliers = Suppliers::all();
 
-        return view('projects.edit', compact('suppliers', 'products', 'key', 'project', 'customers', 'previewFiles', 'contractFiles', 'attachmentFiles', 'priceQuotation', 'user_id'));
+        return view('projects.edit', compact('purchasesOrders','suppliers', 'products', 'key', 'project', 'customers', 'previewFiles', 'contractFiles', 'attachmentFiles', 'priceQuotation', 'user_id'));
     }
 
     public function update(Request $request, $project)
     {
+        $safe_id = Safes::where('branch_id', 1)->value('id');
+        //Data
         $eproject = Projects::find($project);
         $eproject->project_name = $request->project_name;
         $eproject->customer_id = $request->customer_id;
@@ -77,13 +81,92 @@ class ProjectsController extends Controller
         $eproject->total = $request->total;
         $eproject->save();
 
+        //Mo3ayna
+        if ($request->hasFile('mo3ayna')) {
+            $allowedfileExtension = ['pdf', 'jpg', 'png', 'docx'];
+            $files = $request->file('mo3ayna');
+
+            foreach ($files as $file) {
+
+                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $check = in_array($extension, $allowedfileExtension);
+                if ($check) {
+                    $folder = "projects-images/mo3ayna/" . $eproject->id;
+                    if (!Storage::disk('erp')->exists($folder)) {
+                        Storage::disk('erp')->makeDirectory($folder, 0775, true, true);
+                    }
+                    if (!empty($file)) {
+                        Storage::disk('erp')->put($folder . '/' . $filename, File::get($file));
+                        ProjectsPreviewFiles::create([
+                            'project_id' => $eproject->id,
+                            'file_name' => $filename,
+                            'file_ext' => $extension,
+                            'file_path' => $folder . '/' . $filename,
+                        ]);
+                    }
+                }
+            }
+        }
+
+        //Price Quotation
+        $product = $request->product;
+        if ($product) {
+            ProjectsPriceQuotationsProducts::where('project_id', $eproject->id)->delete();
+            //Save Items
+            $listOfProducts = [];
+            foreach ($product as $item) {
+                $pro = new ProjectsPriceQuotationsProducts();
+                $pro->project_id = $eproject->id;
+                $pro->customer_id = $eproject->customer_id;
+                if (ctype_digit($item['id'])) {
+                    $pro->product_id = $item['id'];
+                    $pro->product_temp = '';
+                } else {
+                    $pro->product_id = 0;
+                    $pro->product_temp = $item['id'];
+                }
+
+                $pro->product_desc = $item['desc'];
+                $pro->product_price = $item['price'];
+                $pro->product_qty = $item['qty'];
+                $pro->status = 'Pending';
+                $pro->save();
+                $listOfProducts[] = $pro;
+            }
+        }
+
+        //Bnood
+        if ($request->hasFile('bnood')) {
+            $allowedfileExtension = ['pdf', 'jpg', 'png', 'docx'];
+            $files = $request->file('bnood');
+
+            foreach ($files as $file) {
+
+                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $check = in_array($extension, $allowedfileExtension);
+                if ($check) {
+                    $folder = "projects-images/bnood/" . $eproject->id;
+                    if (!Storage::disk('erp')->exists($folder)) {
+                        Storage::disk('erp')->makeDirectory($folder, 0775, true, true);
+                    }
+                    if (!empty($file)) {
+                        Storage::disk('erp')->put($folder . '/' . $filename, File::get($file));
+                        ProjectsContractFiles::create([
+                            'project_id' => $eproject->id,
+                            'file_name' => $filename,
+                            'file_ext' => $extension,
+                            'file_path' => $folder . '/' . $filename,
+                        ]);
+                    }
+                }
+            }
+        }
+
+        //Dof3at
         $date = $request->later;
-
-        $safe_id = Safes::where('branch_id', 1)->value('id');
-
-        //Delete old payment records
         ProjectsPriceQuotationsPayments::where('project_id', $eproject->id)->delete();
-        //Save new payment records
         $listOfDates = [];
         foreach ($date as $item) {
             if ($item['amount'] > 0) {
@@ -93,9 +176,7 @@ class ProjectsController extends Controller
                 $da->amount = $item['amount'];
                 $da->date = $item['date'];
                 $da->notes = $item['notes'];
-                //If paynow is checked
                 if (!empty($item['paynow'])) {
-                    //If the user has paid before and transaction id is saved
                     if (!empty($item['safe_payment_id'])) {
                         $da->paid = 'Yes';
                         $da->safe_payment_id = $item['safe_payment_id'];
@@ -125,37 +206,7 @@ class ProjectsController extends Controller
             }
         }
 
-
-
-        $product = $request->product;
-
-        if ($product) {
-            ProjectsPriceQuotationsProducts::where('project_id', $eproject->id)->delete();
-
-            //Save Items
-            $listOfProducts = [];
-            foreach ($product as $item) {
-                $pro = new ProjectsPriceQuotationsProducts();
-                $pro->project_id = $eproject->id;
-                $pro->customer_id = $eproject->customer_id;
-                if (ctype_digit($item['id'])) {
-                    $pro->product_id = $item['id'];
-                    $pro->product_temp = '';
-                } else {
-                    $pro->product_id = 0;
-                    $pro->product_temp = $item['id'];
-                }
-
-                $pro->product_desc = $item['desc'];
-                $pro->product_price = $item['price'];
-                $pro->product_qty = $item['qty'];
-                $pro->status = 'Pending';
-                $pro->save();
-                $listOfProducts[] = $pro;
-            }
-        }
-
-
+        //Purchases Orders
         if ($request->new_supplier_name != '') {
             $supplier = new Suppliers();
             $supplier->supplier_name = $request->new_supplier_name;
@@ -166,10 +217,24 @@ class ProjectsController extends Controller
             $supplierId = $request->supplier_id;
         }
 
-
-
         $xxx_product = $request->xxx_product;
         if ($xxx_product) {
+            ProjectsPurchasesOrders::create([
+                'project_id' => $eproject->id,
+                'supplier_id' => $supplierId,
+                'purchase_date' => Carbon::now(),
+                'discount_percentage' => $request->xxx_discount_percentage,
+                'discount_amount' => $request->xxx_discount_amount,
+                'shipping_fees' => $request->xxx_shipping_fees,
+                'purchase_tax' => $request->xxx_tax,
+                'purchase_total' => $request->xxx_total,
+                'purchase_note' => $request->xxx_purchase_note,
+                'already_paid' => 0,
+                'payment_method' => 'none',
+                'already_delivered' => 0,
+                'added_by' => Auth::user()->id,
+                'autherized_by' => Auth::user()->id,
+            ]);
         $listOfProducts = [];
         foreach ($product as $item) {
             $pro = new ProjectsPurchasesOrdersProducts();
@@ -181,65 +246,10 @@ class ProjectsController extends Controller
             $pro->product_qty = $item['qty'];
             $pro->save();
             $listOfProducts[] = $pro;
-        }
-    }
-
-        if ($request->hasFile('mo3ayna')) {
-            $allowedfileExtension = ['pdf', 'jpg', 'png', 'docx'];
-            $files = $request->file('mo3ayna');
-
-            foreach ($files as $file) {
-
-                $filename = $file->getClientOriginalName();
-                $extension = $file->getClientOriginalExtension();
-                $check = in_array($extension, $allowedfileExtension);
-                if ($check) {
-                    $folder = "projects-images/mo3ayna/" . $eproject->id;
-                    if (!Storage::disk('erp')->exists($folder)) {
-                        Storage::disk('erp')->makeDirectory($folder, 0775, true, true);
-                    }
-                    if (!empty($file)) {
-                        Storage::disk('erp')->put($folder . '/' . $filename, File::get($file));
-                        ProjectsPreviewFiles::create([
-                            'project_id' => $eproject->id,
-                            'file_name' => $filename,
-                            'file_ext' => $extension,
-                            'file_path' => $folder . '/' . $filename,
-                        ]);
-                    }
-                }
             }
         }
 
-
-        if ($request->hasFile('bnood')) {
-            $allowedfileExtension = ['pdf', 'jpg', 'png', 'docx'];
-            $files = $request->file('bnood');
-
-            foreach ($files as $file) {
-
-                $filename = $file->getClientOriginalName();
-                $extension = $file->getClientOriginalExtension();
-                $check = in_array($extension, $allowedfileExtension);
-                if ($check) {
-                    $folder = "projects-images/bnood/" . $eproject->id;
-                    if (!Storage::disk('erp')->exists($folder)) {
-                        Storage::disk('erp')->makeDirectory($folder, 0775, true, true);
-                    }
-                    if (!empty($file)) {
-                        Storage::disk('erp')->put($folder . '/' . $filename, File::get($file));
-                        ProjectsContractFiles::create([
-                            'project_id' => $eproject->id,
-                            'file_name' => $filename,
-                            'file_ext' => $extension,
-                            'file_path' => $folder . '/' . $filename,
-                        ]);
-                    }
-                }
-            }
-        }
-
-
+        //Mol7kat
         if ($request->hasFile('mol7kat')) {
             $allowedfileExtension = ['pdf', 'jpg', 'png', 'docx'];
             $files = $request->file('mol7kat');
@@ -267,6 +277,8 @@ class ProjectsController extends Controller
             }
         }
 
+
+        //Redirect after save
         if ($request->returnHere == 0) {
             return redirect()->route('projects.list');
         } else {
