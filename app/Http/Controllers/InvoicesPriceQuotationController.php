@@ -42,6 +42,7 @@ class InvoicesPriceQuotationController extends Controller
         $user_id = $user->id;
         $customers = Customers::all();
         $products = Products::all();
+
         return view('invoices_price_quotations.add', compact('user_id', 'customers', 'products'));
     }
 
@@ -54,14 +55,19 @@ class InvoicesPriceQuotationController extends Controller
         $currentProducts = InvoicesPriceQuotationsProducts::where('quotation_id', $invoice->id)->get();
         $products = Products::all();
         ERPLog::create(['type' => 'Price Quotations', 'action' => 'View', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
-        if(request()->getHttpHost() == 'e1.mygesture.co'){$modeer = 4;}
-        else if(request()->getHttpHost() == 'e2.mygesture.co'){$modeer = 3;}
-        else if(request()->getHttpHost() == 'e3.mygesture.co'){$modeer = 2;}
-        else{$modeer = 2; }
+        if (request()->getHttpHost() == 'e1.mygesture.co') {
+            $modeer = 4;
+        } else if (request()->getHttpHost() == 'e2.mygesture.co') {
+            $modeer = 3;
+        } else if (request()->getHttpHost() == 'e3.mygesture.co') {
+            $modeer = 2;
+        } else {
+            $modeer = 2;
+        }
         $userSig = User::find($modeer);
-        $logo = Settings::where('key','logo')->value('value');
-        $company = Settings::where('key','company_name')->value('value');
-        return view('invoices_price_quotations.profile', compact('company','logo','userSig','currentProducts', 'invoice', 'user_id', 'customers', 'products'));
+        $logo = Settings::where('key', 'logo')->value('value');
+        $company = Settings::where('key', 'company_name')->value('value');
+        return view('invoices_price_quotations.profile', compact('company', 'logo', 'userSig', 'currentProducts', 'invoice', 'user_id', 'customers', 'products'));
     }
 
     public function edit(InvoicesPriceQuotation $invoice)
@@ -380,10 +386,15 @@ class InvoicesPriceQuotationController extends Controller
         $products = Products::all();
         $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
         $p = '2';
-        if(request()->getHttpHost() == 'e1.mygesture.co'){$modeer = 4;}
-        else if(request()->getHttpHost() == 'e2.mygesture.co'){$modeer = 3;}
-        else if(request()->getHttpHost() == 'e3.mygesture.co'){$modeer = 2;}
-        else{$modeer = 2; }
+        if (request()->getHttpHost() == 'e1.mygesture.co') {
+            $modeer = 4;
+        } else if (request()->getHttpHost() == 'e2.mygesture.co') {
+            $modeer = 3;
+        } else if (request()->getHttpHost() == 'e3.mygesture.co') {
+            $modeer = 2;
+        } else {
+            $modeer = 2;
+        }
         $userSig = User::find($modeer);
         ERPLog::create(['type' => 'Price Quotations', 'action' => 'Print', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
@@ -403,18 +414,21 @@ class InvoicesPriceQuotationController extends Controller
         $count = $currentProducts->count();
         ERPLog::create(['type' => 'Price Quotations', 'action' => 'Print', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
         $alreadyShown = 0;
-        if(request()->getHttpHost() == 'e1.mygesture.co'){$modeer = 4;}
-        else if(request()->getHttpHost() == 'e2.mygesture.co'){$modeer = 3;}
-        else if(request()->getHttpHost() == 'e3.mygesture.co'){$modeer = 2;}
-        else{$modeer = 2; }
+        if (request()->getHttpHost() == 'e1.mygesture.co') {
+            $modeer = 4;
+        } else if (request()->getHttpHost() == 'e2.mygesture.co') {
+            $modeer = 3;
+        } else if (request()->getHttpHost() == 'e3.mygesture.co') {
+            $modeer = 2;
+        } else {
+            $modeer = 2;
+        }
         $userSig = User::find($modeer);
 
         $settings = Settings::all();
-        $logo = Settings::where('key','logo')->value('value');
+        $logo = Settings::where('key', 'logo')->value('value');
 
         // return view('invoices_price_quotations.print', compact('template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
-        return view('invoices_price_quotations.new', compact('logo','userSig','alreadyShown','count','template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
+        return view('invoices_price_quotations.new', compact('logo', 'userSig', 'alreadyShown', 'count', 'template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
     }
-
-
 }

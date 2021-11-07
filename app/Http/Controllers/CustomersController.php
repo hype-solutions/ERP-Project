@@ -87,11 +87,19 @@ class CustomersController extends Controller
     public function addLinked(Customers $customer, Request $request)
     {
 
-        $linked = new LinkedCustomers;
-        $linked->parent_customer_id = $customer->id;
+
+        $linked = new Customers();
+        $linked->customer_parent = $customer->id;
         $linked->customer_name = $request->linked_name;
         $linked->customer_mobile = $request->linked_mobile;
         $linked->save();
+
+        // $linked = new LinkedCustomers;
+        // $linked->parent_customer_id = $customer->id;
+        // $linked->customer_name = $request->linked_name;
+        // $linked->customer_mobile = $request->linked_mobile;
+        // $linked->save();
+
         ERPLog::create(['type' => 'Linked Customers', 'action' => 'Add', 'custom_id' => $customer->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
         return back()->with('success', 'Customer Added');
@@ -115,7 +123,8 @@ class CustomersController extends Controller
             ->orderBy('count', 'desc')
             ->get();
 
-        $linkedCustomers = LinkedCustomers::where('parent_customer_id', $customer->id)->get();
+        // $linkedCustomers = LinkedCustomers::where('parent_customer_id', $customer->id)->get();
+        $linkedCustomers = Customers::where('customer_parent', $customer->id)->get();
         ERPLog::create(['type' => 'Customers', 'action' => 'View', 'custom_id' => $customer->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
 
@@ -156,7 +165,7 @@ class CustomersController extends Controller
 
     public function customersList()
     {
-        $customers = Customers::all();
+        $customers = Customers::where('customer_parent',NULL)->get();
         return view('customers.list', compact('customers'));
     }
 }

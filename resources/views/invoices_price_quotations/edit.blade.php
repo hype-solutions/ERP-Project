@@ -154,7 +154,11 @@
                                         <select class="select2-rtl form-control" data-placeholder="إختر العميل..." name="customer_id"   required>
                                             <option value="{{$invoice->customer_id}}">{{$invoice->customer->customer_name}}</option>
                                             @foreach ($customers as $customer)
-                                            <option value="{{$customer->id}}">{{$customer->customer_name}}</option>
+                                            <option value="{{$customer->id}}">{{$customer->customer_name}}
+                                                @if($customer->parent)
+                                                - {{$customer->parent->customer_name}}
+                                                @endif
+                                                </option>
                                             @endforeach
                                         </select>
                                       </div>

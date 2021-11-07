@@ -366,7 +366,9 @@
                                         <tbody>
                                             <tr>
                                                 <th>إسم العميل</th>
-                                                <td>{{$currentSession->customer->customer_name}}</td>
+                                                <td>{{$currentSession->customer->customer_name}} @if($customer->parent)
+                                                    - {{$customer->parent->customer_name}}
+                                                    @endif</td>
                                              </tr>
                                             <tr>
                                                 <th>رقم الموبايل</th>

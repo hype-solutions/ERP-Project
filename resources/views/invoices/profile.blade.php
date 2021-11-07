@@ -89,7 +89,9 @@
                 </div>
                 <div class="col-sm-6 col-12 text-center text-sm-left">
                   <ul class="px-0 list-unstyled">
-                    <li class="text-bold-800">{{$invoice->customer->customer_name}}</li>
+                    <li class="text-bold-800">{{$invoice->customer->customer_name}} @if($customer->parent)
+                        - {{$customer->parent->customer_name}}
+                        @endif</li>
                     <li>موبايل: {{ $invoice->customer->customer_mobile }}</li>
                     <li>@if(isset($invoice->customer->customer_phone))
                         هاتف: {{ $invoice->customer->customer_phone }}

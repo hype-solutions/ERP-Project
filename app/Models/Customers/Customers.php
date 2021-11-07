@@ -11,6 +11,7 @@ class Customers extends Model
     protected $table = 'customers';
     protected $fillable =
     [
+        'customer_parent',
         'customer_name',
         'customer_title',
         'customer_company',
@@ -23,4 +24,9 @@ class Customers extends Model
         'customer_tax_card',
     ];
 
+
+    public function parent()
+    {
+        return $this->hasOne(Customers::class, 'id','customer_parent');
+    }
 }

@@ -147,8 +147,11 @@
                                                                 <option value="{{ $project->customer_id }}">
                                                                     {{ $project->customer->customer_name }}</option>
                                                                 @foreach ($customers as $customer)
-                                                                    <option value="{{ $customer->id }}">
-                                                                        {{ $customer->customer_name }}</option>
+                                                                <option value="{{$customer->id}}">{{$customer->customer_name}}
+                                                                    @if($customer->parent)
+                                                                    - {{$customer->parent->customer_name}}
+                                                                    @endif
+                                                                    </option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
