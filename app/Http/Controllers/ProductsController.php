@@ -82,7 +82,9 @@ class ProductsController extends Controller
         $product->product_price = $request->product_price;
         $product->product_desc = $request->product_desc;
         $product->product_brand = $request->product_brand;
-        $product->product_track_stock = $request->product_track_stock;
+        if(!$request->product_track_stock) {$product->product_track_stock = 0;}else{
+            $product->product_track_stock = $request->product_track_stock;
+        }
         $product->product_low_stock_thershold = $request->product_low_stock_thershold;
         $product->product_notes = $request->product_notes;
         $product->save();
