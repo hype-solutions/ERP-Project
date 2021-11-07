@@ -199,11 +199,11 @@
                                             </select>
                                           </div>
                                     </td>
-                                    <td><input type="text" class="product_input" name="product[{{$key+1}}][desc]" value="{{$item->product_desc}}"/></td>
-                                    <td><input type="number" class="product_input" id="p_p_{{$key+1}}" name="product[{{$key+1}}][price]"  value="{{$item->product_price}}" onblur="return reCalculate({{$key+1}})" min="0"/>
+                                    <td><input type="text" class="product_input" name="product[{{$key+1}}][desc]" value="{{$item->product_desc}}"  autocomplete="off"/></td>
+                                    <td><input type="number" class="product_input" id="p_p_{{$key+1}}" name="product[{{$key+1}}][price]"  value="{{$item->product_price}}" onkeyup="return reCalculate({{$key+1}})" onmouseup="return reCalculate({{$key+1}})" min="0"  autocomplete="off"/>
                                         <input type="hidden" name="product[1][cost]" id="p_c_{{$key+1}}" value="{{$item->product_cost}}"/>
                                     </td>
-                                    <td><input type="number" class="product_input" id="p_q_{{$key+1}}" name="product[{{$key+1}}][qty]"  value="{{$item->product_qty}}" onblur="return reCalculate({{$key+1}})"  min="0"/></td>
+                                    <td><input type="number" class="product_input" id="p_q_{{$key+1}}" name="product[{{$key+1}}][qty]"  value="{{$item->product_qty}}" onkeyup="return reCalculate({{$key+1}})" onmouseup="return reCalculate({{$key+1}})"  min="0"  autocomplete="off"/></td>
                                     <td>
                                         <span id="tot_{{$key+1}}">0</span> ج.م
                                     </td>
@@ -285,13 +285,13 @@
                               <div class="col-md-4"  id="dis_per">
                                   <div class="form-group">
                                       <label for="projectinput3">الخصم</label>
-                                      <input type="number" id="curr_per" class="form-control" placeholder="" name="discount_percentage" value="{{$invoice->discount_percentage}}" min="0" max="100" onblur="return calculateDiscount(1)">
+                                      <input type="number" id="curr_per" class="form-control" placeholder="" name="discount_percentage" value="{{$invoice->discount_percentage}}" min="0" max="100" onkeyup="return calculateDiscount(1)" onmouseup="return calculateDiscount(1)"  autocomplete="off">
                                   </div>
                               </div>
                               <div class="col-md-4" style="display: none" id="dis_amount">
                                 <div class="form-group">
                                     <label for="projectinput3">الخصم</label>
-                                    <input type="number" id="curr_amount" class="form-control" placeholder="" name="discount_amount" value="{{$invoice->discount_amount}}" min="0" onblur="return calculateDiscount(2)">
+                                    <input type="number" id="curr_amount" class="form-control" placeholder="" name="discount_amount" value="{{$invoice->discount_amount}}" min="0" onkeyup="return calculateDiscount(2)" onmouseup="return calculateDiscount(2)" autocomplete="off">
                                 </div>
                             </div>
                               <div class="col-md-8">
@@ -311,7 +311,7 @@
                               <div class="col-md-12">
                                   <div class="form-group">
                                       <label for="projectinput3">مصاريف الشحن</label>
-                                      <input type="number" id="shipping_fees" class="form-control" placeholder="" name="shipping_fees" value="{{$invoice->shipping_fees}}" onblur="return updateShipping()" required>
+                                      <input type="number" id="shipping_fees" class="form-control" placeholder="" name="shipping_fees" value="{{$invoice->shipping_fees}}" onkeyup="return updateShipping()" onmouseup="return updateShipping()" required autocomplete="off">
                                   </div>
                               </div>
                           </div>
@@ -322,7 +322,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="projectinput3">نسبة الضريبة</label>
-                                    <input type="number" id="tax_fees" class="form-control" placeholder="" name="tax" value="{{$invoice->invoice_tax}}" onblur="return updateTax()" required>
+                                    <input type="number" id="tax_fees" class="form-control" placeholder="" name="tax" value="{{$invoice->invoice_tax}}" onkeyup="return updateTax()" onmouseup="return updateTax()" required  autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -333,7 +333,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="projectinput3">رقم الفاتورة الورقية</label>
-                                    <input type="text" id="" class="form-control" placeholder="" name="invoice_paper_num" value="{{$invoice->invoice_paper_num}}">
+                                    <input type="text" id="" class="form-control" placeholder="" name="invoice_paper_num" value="{{$invoice->invoice_paper_num}}"  autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -445,12 +445,12 @@
                             <tr>
                                 <th scope="row">
                                     <div class="form-group">
-                                        <input type="number" id="" class="form-control dof3aSum" placeholder="أدخل المبلغ" name="later[1][amount]" value="0">
+                                        <input type="number" id="" class="form-control dof3aSum" placeholder="أدخل المبلغ" name="later[1][amount]" value="0"  autocomplete="off">
                                     </div>
                                 </th>
                                 <td>
                                     <fieldset class="form-group">
-                                    <input type="date" class="form-control"    name="later[1][date]" required>
+                                    <input type="date" class="form-control"    name="later[1][date]" required  autocomplete="off">
                                 </fieldset>
                                 <fieldset class="form-group">
                                     <div class="labrl">الملاحظات</div>
@@ -482,12 +482,12 @@
                             <tr>
                                 <th scope="row">
                                     <div class="form-group">
-                                        <input type="number"   class="form-control dof3aSum" placeholder="أدخل المبلغ" name="later[{{$key2+1}}][amount]" value="{{$item->amount}}" @if($item->paid != 'No') readonly @endif>
+                                        <input type="number"   class="form-control dof3aSum" placeholder="أدخل المبلغ" name="later[{{$key2+1}}][amount]" value="{{$item->amount}}" @if($item->paid != 'No') readonly @endif  autocomplete="off">
                                     </div>
                                 </th>
                                 <td>
                                     <fieldset class="form-group">
-                                    <input type="date" class="form-control"    name="later[{{$key2+1}}][date]"  value="{{$item->date}}" @if($item->paid != 'No') readonly @endif>
+                                    <input type="date" class="form-control"    name="later[{{$key2+1}}][date]"  value="{{$item->date}}" @if($item->paid != 'No') readonly @endif  autocomplete="off">
                                 </fieldset>
                                 <fieldset class="form-group">
                                     <div class="label">الملاحظات</div>
@@ -628,7 +628,7 @@
 
 
 
-$(document).on("keyup", ".dof3aSum", function() {
+$(document).on("keyup mouseup", ".dof3aSum", function() {
     var sum = 0;
     var total = $('#total_after_all2').text();
     total = parseInt(total);
@@ -851,6 +851,7 @@ if (theType == 1) {
   if ($('#curr_per').val().length === 0) {
     theValue = 0;
   }
+  alert(theValue);
   if (theValue > 0) {
     $('#hidden-row-1').show();
   } else {
@@ -873,6 +874,7 @@ else if (theType == 2) {
   if ($('#curr_amount').val().length === 0) {
     theValue = 0;
   }
+  alert(theValue);
   if (theValue > 0) {
     $('#hidden-row-2').show();
   } else {
@@ -973,10 +975,10 @@ var currentRow = dofaaTable.insertRow(-1);
 
 
 var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = '<div class="form-group"><input type="number" id="" class="form-control dof3aSum" placeholder="أدخل المبلغ" name="later['+currentIndex+'][amount]" value="0" required></div>';
+currentCell.innerHTML = '<div class="form-group"><input type="number" id="" class="form-control dof3aSum" placeholder="أدخل المبلغ" name="later['+currentIndex+'][amount]" value="0" required  autocomplete="off"></div>';
 
 var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="form-control" name="later['+currentIndex+'][date]" required></fieldset><fieldset class="form-group"><textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later['+currentIndex+'][notes]"></textarea></fieldset>';
+currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="form-control" name="later['+currentIndex+'][date]" required  autocomplete="off"></fieldset><fieldset class="form-group"><textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later['+currentIndex+'][notes]"></textarea></fieldset>';
 
 var currentCell = currentRow.insertCell(-1);
 //currentCell.innerHTML = '<fieldset class="checkboxsas"><label><input type="checkbox" name="later['+currentIndex+'][paid]">مدفوعه</label></fieldset>';
@@ -1039,16 +1041,17 @@ function addField(argument) {
 
 var myTable = document.getElementById("myTable");
 var currentIndex = myTable.rows.length;
-var currentRow = myTable.insertRow(myTable.rows.length - 5);
+var currentRow = myTable.insertRow(myTable.rows.length - 6);
 
-var product_id = document.createElement("input");
-// product_id.setAttribute("name", "product_id[" + currentIndex + "]");
-product_id.setAttribute("name", "product[" + currentIndex + "][id]");
-product_id.setAttribute("class", "product_input");
+// var product_id = document.createElement("input");
+// // product_id.setAttribute("name", "product_id[" + currentIndex + "]");
+// product_id.setAttribute("name", "product[" + currentIndex + "][id]");
+// product_id.setAttribute("class", "product_input");
 
 var product_desc = document.createElement("input");
 product_desc.setAttribute("name", "product[" + currentIndex + "][desc]");
 product_desc.setAttribute("class", "product_input");
+product_desc.setAttribute("autocomplete", "off");
 
 var product_price = document.createElement("input");
 product_price.setAttribute("name", "product[" + currentIndex + "][price]");
@@ -1056,7 +1059,9 @@ product_price.setAttribute("type", "number");
 product_price.setAttribute("min", "0");
 product_price.setAttribute("class", "product_input");
 product_price.setAttribute("id", "p_p_" + currentIndex);
-product_price.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
+product_price.setAttribute("onkeyup", "return reCalculate(" + currentIndex + ")");
+product_price.setAttribute("onmouseup", "return reCalculate(" + currentIndex + ")");
+product_price.setAttribute("autocomplete", "off");
 
 var product_cost = document.createElement("input");
 product_cost.setAttribute("name","product[" + currentIndex + "][cost]");
@@ -1069,8 +1074,10 @@ product_qty.setAttribute("type", "number");
 product_qty.setAttribute("min", "0");
 product_qty.setAttribute("class", "product_input");
 product_qty.setAttribute("id", "p_q_" + currentIndex);
-product_qty.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
+product_qty.setAttribute("onkeyup", "return reCalculate(" + currentIndex + ")");
+product_qty.setAttribute("onmouseup", "return reCalculate(" + currentIndex + ")");
 product_qty.setAttribute("placeholder", "0");
+product_qty.setAttribute("autocomplete", "off");
 
 var currentCell = currentRow.insertCell(-1);
 currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_' + currentIndex + '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product['+currentIndex+'][id]" required onchange="return getProductInfo(this,'+currentIndex+')"><option></option> @foreach ($invoice->allProducts() as $product) <option value="{{$product->id}}">{{$product->product_name}}</option>  @endforeach</select></div>';

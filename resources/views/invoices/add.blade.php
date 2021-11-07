@@ -110,7 +110,7 @@
                                         <div class="text-bold-600 font-medium-2">
                                             رقم الفاتورة الورقية
                                            </div>
-                                        <input type="text" class="form-control" name="invoice_paper_num" placeholder="أدخل الرقم"/>
+                                        <input type="text" class="form-control" name="invoice_paper_num" placeholder="أدخل الرقم" autocomplete="off"/>
                                     </div>
                                 </div>
 
@@ -135,10 +135,10 @@
                                          عميل جديد
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="new_customer_name" id="new_customer_name" placeholder="اسم العميل" onblur="return chooseCustomerType()"/>
+                                            <input type="text" class="form-control" name="new_customer_name" id="new_customer_name" placeholder="اسم العميل" onblur="return chooseCustomerType()"  autocomplete="off"/>
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="new_customer_mobile" id="new_customer_mobile" placeholder="موبايل العميل"  onblur="return chooseCustomerType()"/>
+                                            <input type="text" class="form-control" name="new_customer_mobile" id="new_customer_mobile" placeholder="موبايل العميل"  onblur="return chooseCustomerType()"  autocomplete="off"/>
                                             <small id="customerHelp" class="text-danger" style="display: none">
                                                 هذا الرقم مسجل بالفعل
                                               </small>
@@ -210,11 +210,11 @@
                                             </select>
                                           </div>
                                     </td>
-                                    <td><input type="text" class="product_input" name="product[1][desc]"/></td>
-                                    <td><input type="number" class="product_input" id="p_p_1" name="product[1][price]" onblur="return reCalculate(1)" min="0" required @can('Change Product Price in Invoice')  @else readonly  @endcan />
+                                    <td><input type="text" class="product_input" name="product[1][desc]"  autocomplete="off"/></td>
+                                    <td><input type="number" class="product_input" id="p_p_1" name="product[1][price]" onblur="return reCalculate(1)" min="0" required @can('Change Product Price in Invoice')  @else readonly  @endcan  autocomplete="off" />
                                     <input type="hidden" name="product[1][cost]" id="p_c_1" />
                                     </td>
-                                    <td><input type="number" class="product_input" id="p_q_1" name="product[1][qty]" onblur="return reCalculate(1)" min="0" placeholder="0" required/></td>
+                                    <td><input type="number" class="product_input" id="p_q_1" name="product[1][qty]" onblur="return reCalculate(1)" min="0" placeholder="0" required  autocomplete="off"/></td>
                                     <td>
                                         <span id="tot_1">0</span> ج.م
                                     </td>
@@ -293,13 +293,13 @@
                               <div class="col-md-4"  id="dis_per">
                                   <div class="form-group">
                                       <label for="projectinput3">الخصم</label>
-                                      <input type="number" id="curr_per" class="form-control" placeholder="" name="discount_percentage" value="0" min="0" max="100" onblur="return calculateDiscount(1)">
+                                      <input type="number" id="curr_per" class="form-control" placeholder="" name="discount_percentage" value="0" min="0" max="100" onblur="return calculateDiscount(1)"  autocomplete="off">
                                   </div>
                               </div>
                               <div class="col-md-4" style="display: none" id="dis_amount">
                                 <div class="form-group">
                                     <label for="projectinput3">الخصم</label>
-                                    <input type="number" id="curr_amount" class="form-control" placeholder="" name="discount_amount" value="0" min="0" onblur="return calculateDiscount(2)">
+                                    <input type="number" id="curr_amount" class="form-control" placeholder="" name="discount_amount" value="0" min="0" onblur="return calculateDiscount(2)"  autocomplete="off">
                                 </div>
                             </div>
                               <div class="col-md-8">
@@ -319,7 +319,7 @@
                               <div class="col-md-12">
                                   <div class="form-group">
                                       <label for="projectinput3">مصاريف الشحن</label>
-                                      <input type="number" id="shipping_fees" class="form-control" placeholder="" name="shipping_fees" value="0" onblur="return updateShipping()" required>
+                                      <input type="number" id="shipping_fees" class="form-control" placeholder="" name="shipping_fees" value="0" onblur="return updateShipping()" required  autocomplete="off">
                                   </div>
                               </div>
                           </div>
@@ -330,7 +330,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="projectinput3">نسبة الضريبة</label>
-                                    <input type="number" id="tax_fees" class="form-control" placeholder="" name="tax" value="0" onblur="return updateTax()" required>
+                                    <input type="number" id="tax_fees" class="form-control" placeholder="" name="tax" value="0" onblur="return updateTax()" required  autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -469,12 +469,12 @@
                     <tr>
                         <th scope="row">
                             <div class="form-group">
-                                <input type="number" id="" class="form-control dof3aSum" placeholder="أدخل المبلغ" name="later[1][amount]" value="0">
+                                <input type="number" id="" class="form-control dof3aSum" placeholder="أدخل المبلغ" name="later[1][amount]" value="0"  autocomplete="off">
                             </div>
                         </th>
                         <td>
                             <fieldset class="form-group">
-                            <input type="date" class="form-control" name="later[1][date]" value="2020-01-10" required>
+                            <input type="date" class="form-control" name="later[1][date]" value="2021-01-10" required  autocomplete="off">
                         </fieldset>
                         <fieldset class="form-group">
                             <div class="labrl">الملاحظات</div>
@@ -957,10 +957,10 @@ var currentRow = dofaaTable.insertRow(-1);
 
 
 var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = '<div class="form-group"><input type="number" id="" class="form-control dof3aSum" placeholder="أدخل المبلغ" name="later['+currentIndex+'][amount]" value="0" required></div>';
+currentCell.innerHTML = '<div class="form-group"><input type="number" id="" class="form-control dof3aSum" placeholder="أدخل المبلغ" name="later['+currentIndex+'][amount]" value="0" required  autocomplete="off"></div>';
 
 var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="form-control"  name="later['+currentIndex+'][date]" required></fieldset><fieldset class="form-group"><textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later['+currentIndex+'][notes]"></textarea></fieldset>';
+currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="form-control"  name="later['+currentIndex+'][date]" required  autocomplete="off"></fieldset><fieldset class="form-group"><textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later['+currentIndex+'][notes]"></textarea></fieldset>';
 
 var currentCell = currentRow.insertCell(-1);
 //currentCell.innerHTML = '<fieldset class="checkboxsas"><label><input type="checkbox" name="later['+currentIndex+'][paid]">مدفوعه</label></fieldset>';
@@ -973,66 +973,19 @@ currentCell.innerHTML = '<fieldset class="checkboxsas"><label>دفع الان <i
 
 
 function addField(argument) {
-
-   // requestData = ['1'];
-    //var requestData = JSON.stringify(currentProductIds[0]);
-//var requestData = JSON.stringify(myArr);
-
-    //console.log(requestData);
-//     $.ajaxSetup({
-//             headers: {
-//                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-//             }
-//                         });
-//         // var formData = {
-//         //     other_ids: currentProductIds.value,
-//         // };
-//         var type = "POST";
-//         var ajaxurl = "{{--route('invoices.getOtherProducts')--}}";
-//         $.ajax({
-//             type: type,
-//             url: ajaxurl,
-//             data: {
-//                 other_ids : currentProductIds
-//             },
-//             dataType: "json",
-//             beforeSend: function () {
-//                 $("#addingRowBtn").prop("disabled",true);
-//                 $("#sel_x_"+ currentIndex).prop("disabled",true);
-//   },
-//   complete: function () {
-//     $("#addingRowBtn").prop("disabled",false);
-//     $("#sel_x_"+ currentIndex).prop("disabled",false);
-
-//   },
-//             success: function (data) {
-
-//                 for (var i = 0; i < data.length; i++) {
-//                     $("#sel_x_"+ currentIndex).append("<option></option>");
-//                     $("#sel_x_"+ currentIndex).append("<option value='"+ data[i].id +"'>"+ data[i].product_name +"</option>");
-
-
-//                 }
-//             },
-//             error: function (data) {
-//                 console.log(data);
-//             }
-//         });
-
-
-
 var myTable = document.getElementById("myTable");
 var currentIndex = myTable.rows.length;
 var currentRow = myTable.insertRow(myTable.rows.length - 6);
 
-var product_id = document.createElement("input");
-// product_id.setAttribute("name", "product_id[" + currentIndex + "]");
-product_id.setAttribute("name", "product[" + currentIndex + "][id]");
-product_id.setAttribute("class", "product_input");
+// var product_id = document.createElement("input");
+// // product_id.setAttribute("name", "product_id[" + currentIndex + "]");
+// product_id.setAttribute("name", "product[" + currentIndex + "][id]");
+// product_id.setAttribute("class", "product_input");
 
 var product_desc = document.createElement("input");
 product_desc.setAttribute("name", "product[" + currentIndex + "][desc]");
 product_desc.setAttribute("class", "product_input");
+product_desc.setAttribute("autocomplete", "off");
 
 var product_price = document.createElement("input");
 product_price.setAttribute("name", "product[" + currentIndex + "][price]");
@@ -1042,6 +995,7 @@ product_price.setAttribute("required", true);
 product_price.setAttribute("class", "product_input");
 product_price.setAttribute("id", "p_p_" + currentIndex);
 product_price.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
+product_price.setAttribute("autocomplete", "off");
 if({{$readonly}}){
     product_price.setAttribute("readonly", true);
 }else{
@@ -1064,6 +1018,7 @@ product_qty.setAttribute("class", "product_input");
 product_qty.setAttribute("id", "p_q_" + currentIndex);
 product_qty.setAttribute("onblur", "return reCalculate(" + currentIndex + ")");
 product_qty.setAttribute("placeholder", "0");
+product_qty.setAttribute("autocomplete", "off");
 
 var currentCell = currentRow.insertCell(-1);
 currentCell.innerHTML = '<div class="form-group product_sel"><select id="sel_x_' + currentIndex + '" class="select2-rtl form-control" data-placeholder="إختر المنتج" name="product['+currentIndex+'][id]" required onchange="return getProductInfo(this,'+currentIndex+')"><option></option> @foreach ($invoice->allProducts() as $product) <option value="{{$product->id}}">{{$product->product_name}}</option>  @endforeach</select></div>';
