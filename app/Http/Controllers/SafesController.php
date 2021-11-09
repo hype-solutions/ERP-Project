@@ -201,7 +201,7 @@ class SafesController extends Controller
         $update_old_safe->safe_balance = $transfer->safeFrom->safe_balance - $transfer->transfer_amount;
         $update_old_safe->save();
         $update_new_safe = Safes::find($transfer->safe_to);
-        $update_new_safe->safe_balance = $transfer->safe_to->safe_balance + $transfer->transfer_amount;
+        $update_new_safe->safe_balance = $transfer->safeTo->safe_balance + $transfer->transfer_amount;
         $update_new_safe->save();
         $transfer->authorized_by = Auth::id();
         $transfer->save();

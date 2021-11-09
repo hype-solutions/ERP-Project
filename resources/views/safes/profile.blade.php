@@ -298,9 +298,9 @@
                                         <br>
                                         الرصيد بعد: {{$transfer->amount_after_transfer_to}} ج.م
                                         @else
-                                        الرصيد قبل: {{$transfer->safe_to->safe_balance}} ج.م
+                                        الرصيد قبل: {{$transfer->safeTo->safe_balance}} ج.م
                                         <br>
-                                        الرصيد بعد: {{$transfer->safe_to->safe_balance + $transfer->transfer_amount}} ج.م
+                                        الرصيد بعد: {{$transfer->safeTo->safe_balance + $transfer->transfer_amount}} ج.م
                                         @endif
                               </td>
                                 <td>{{$transfer->transfer_amount}} ج.م</td>
