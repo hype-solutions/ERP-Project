@@ -261,9 +261,16 @@
                                       <span style="color: red">(خزنة محذوفة)</span>
                                     @endif
                                       <hr>
+                                      @if ($transfer->authUser)
+                                        الرصيد قبل: {{$transfer->amount_before_transfer_from}} ج.م
+                                        <br>
+                                        الرصيد بعد: {{$transfer->amount_after_transfer_from}} ج.م
+                                        @else
                                         الرصيد قبل: {{$transfer->safeFrom->safe_balance}} ج.م
                                         <br>
                                         الرصيد بعد: {{$transfer->safeFrom->safe_balance - $transfer->transfer_amount}} ج.م
+
+                                        @endif
                                   </td>
                                 <td>
                                   @if(isset($transfer->safeTo))
@@ -285,9 +292,16 @@
                                       </div>
                                       <span style="color: red">(خزنة محذوفة)</span>                        @endif
                                   <hr>
+                                  @if ($transfer->authUser)
+
+                                        الرصيد قبل: {{$transfer->amount_before_transfer_to}} ج.م
+                                        <br>
+                                        الرصيد بعد: {{$transfer->amount_after_transfer_to}} ج.م
+                                        @else
                                         الرصيد قبل: {{$transfer->safe_to->safe_balance}} ج.م
                                         <br>
                                         الرصيد بعد: {{$transfer->safe_to->safe_balance + $transfer->transfer_amount}} ج.م
+                                        @endif
                               </td>
                                 <td>{{$transfer->transfer_amount}} ج.م</td>
                                 <td>
