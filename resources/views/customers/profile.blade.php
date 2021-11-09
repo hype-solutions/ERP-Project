@@ -444,8 +444,9 @@
                   </div>
                   <div class="tab-pane" id="linkOpt2xx" role="tabpanel" aria-labelledby="linkOpt-tab2" aria-expanded="false">
                     <button type="button" class="btn btn-outline-primary block btn-lg" data-toggle="modal" data-target="#default">
-                        إضافة عميل فرعي
+                        إضافة عميل \ قطاع فرعي
                     </button>
+                    <br>
                     <div class="modal fade text-left" id="default" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -477,7 +478,7 @@
                         <table class="table mb-0" id="linked">
                           <thead>
                             <tr>
-                              <th>اسم العميل</th>
+                              <th>اسم العميل \ القطاع</th>
                               <th>رقم التليفون</th>
                             </tr>
                           </thead>
