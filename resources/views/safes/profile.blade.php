@@ -304,6 +304,8 @@
                                           <i class="la la-user font-medium-2"></i>
                                               <span>{{$transfer->authUser->username}}</span>
                                           </div>
+                                      @else
+                                      <small class="danger">لم يتم التصديق عليها بعد</small>
                                       @endif
 
                                 </td>
