@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Gesture ERP | عملية بيع سريع رقم #{{$sessionId}}</title>
 
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/pos/css/bootstrap.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/pos/css/ui.css') }}">
@@ -366,7 +366,7 @@
                                         <tbody>
                                             <tr>
                                                 <th>إسم العميل</th>
-                                                <td>{{$currentSession->customer->customer_name}} @if($customer->parent)
+                                                <td>{{$currentSession->customer->customer_name}} @if($currentSession->customer->parent)
                                                     - {{$customer->parent->customer_name}}
                                                     @endif</td>
                                              </tr>

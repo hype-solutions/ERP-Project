@@ -1,4 +1,5 @@
 @extends('layouts.erp')
+@section('title', 'ملف منتج - '.$product->product_name)
 
 @section('pageCss')
 <!-- BEGIN: Page CSS-->

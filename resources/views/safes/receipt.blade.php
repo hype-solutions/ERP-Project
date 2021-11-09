@@ -1,7 +1,16 @@
 
 <html>
     <head>
-
+        <title>
+            ايصال
+            @if($transactionId->transaction_type == 1)
+        سحب
+        @else
+        ايداع
+        @endif
+        رقم
+        {{$transactionId->id}}
+        </title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
      @font-face {

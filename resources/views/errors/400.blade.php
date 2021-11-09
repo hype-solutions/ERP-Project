@@ -1,4 +1,5 @@
 @extends('layouts.erp')
+@section('title', '400')
 
 @section('pageCss')
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/forms/icheck/icheck.css') }}">

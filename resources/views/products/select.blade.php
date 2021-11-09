@@ -1,4 +1,5 @@
 @extends('layouts.erp')
+@section('title', 'عمليات على المنتجات')
 
 @section('pageCss')
 <!-- BEGIN: Page CSS-->

@@ -1,4 +1,5 @@
 @extends('layouts.erp')
+@section('title', 'ملف فرع - '.$branch->branch_name)
 
 @section('pageCss')
 <!-- BEGIN: Page CSS-->

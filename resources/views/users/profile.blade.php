@@ -1,4 +1,5 @@
 @extends('layouts.erp')
+@section('title', 'ملف مستخدم '. $user->name )
 
 @section('pageCss')
 <!-- BEGIN: Page CSS-->

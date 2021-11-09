@@ -1,6 +1,6 @@
     <html>
     <head>
-        <title>طباعة</title>
+        <title>فاتورة رقم #{{$invoice->id}}</title>
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/vendors-rtl.min.css') }}">
 
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/bootstrap.min.css') }}">
@@ -69,7 +69,7 @@
                 <div class="col-sm-6 col-12 text-center text-sm-left"  @if($template == 3) style="margin-top:100px;" @endif>
                     <p class="text-muted">بيانات الجهه</p>
                   <ul class="px-0 list-unstyled">
-                    <li class="text-bold-800">{{$invoice->customer->customer_name}} @if($customer->parent)
+                    <li class="text-bold-800">{{$invoice->customer->customer_name}} @if($invoice->customer->parent)
                         - {{$customer->parent->customer_name}}
                         @endif</li>
                     <li>موبايل: {{ $invoice->customer->customer_mobile }}</li>

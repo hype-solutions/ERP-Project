@@ -1,4 +1,5 @@
 @extends('layouts.erp')
+@section('title', 'التقارير')
 
 @section('pageCss')
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/datatable/datatables.min.css') }}">

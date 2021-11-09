@@ -1,4 +1,5 @@
 @extends('layouts.erp')
+@section('title', 'إستعراض عرض سعر رقم #'.$invoice->id)
 
 @section('pageCss')
 <!-- BEGIN: Page CSS-->

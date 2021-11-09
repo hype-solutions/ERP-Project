@@ -1,4 +1,5 @@
 @extends('layouts.erp')
+@section('title', 'سحب من خزنه '.$safe->safe_name)
 
 @section('pageCss')
 <!-- BEGIN: Page CSS-->
@@ -75,7 +76,7 @@
                 @csrf
                 <input type="hidden" name="safe_id" value="{{$safe->id}}" />
                 <div class="form-body">
-                    <h4 class="form-section"><i class="ft-user"></i> عملية سحب</h4>
+                    <h4 class="form-section"><i class="ft-user"></i> عملية سحب من خزنه {{$safe->safe_name}}</h4>
                     <div class="row">
 
                         <div class="col-md-6">

@@ -1,4 +1,5 @@
 @extends('layouts.erp')
+@section('title', 'تحويل كميات بين المخازن ل '.$product->product_name)
 
 @section('pageCss')
 <!-- BEGIN: Page CSS-->

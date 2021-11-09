@@ -1,5 +1,7 @@
 @extends('layouts.erp')
 
+@section('title', 'مراجعة على الأصناف الموجودة في عرض السعر و الكميات')
+
 @section('pageCss')
 <!-- BEGIN: Page CSS-->
 <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/menu/menu-types/vertical-compact-menu.min.css') }}">

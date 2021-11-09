@@ -1,7 +1,7 @@
 
 <html>
     <head>
-
+        <title>فاتورة بيع سريع رقم #{{$sessionId}}</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
      @font-face {

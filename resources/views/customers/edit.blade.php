@@ -1,4 +1,5 @@
 @extends('layouts.erp')
+@section('title', 'تعديل عميل - '.$customer->customer_name)
 
 @section('pageCss')
 <!-- BEGIN: Page CSS-->

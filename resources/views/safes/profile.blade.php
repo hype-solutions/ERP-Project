@@ -1,4 +1,5 @@
 @extends('layouts.erp')
+@section('title', 'ملف خزنه '.$safe->safe_name)
 
 @section('pageCss')
 <!-- BEGIN: Page CSS-->

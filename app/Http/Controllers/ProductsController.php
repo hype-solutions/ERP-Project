@@ -82,7 +82,9 @@ class ProductsController extends Controller
         $product->product_price = $request->product_price;
         $product->product_desc = $request->product_desc;
         $product->product_brand = $request->product_brand;
-        if(!$request->product_track_stock) {$product->product_track_stock = 0;}else{
+        if (!$request->product_track_stock) {
+            $product->product_track_stock = 0;
+        } else {
             $product->product_track_stock = $request->product_track_stock;
         }
         $product->product_low_stock_thershold = $request->product_low_stock_thershold;
@@ -107,7 +109,7 @@ class ProductsController extends Controller
     public function view(products $product)
     {
 
-        $allowedBranches = BranchesProductsSelling::where('product_id', $product->id)->where('selling',1)->with('branch')->get();
+        $allowedBranches = BranchesProductsSelling::where('product_id', $product->id)->where('selling', 1)->with('branch')->get();
         $branches = BranchesProducts::where('product_id', $product->id)
             // ->where('amount', '!=', 0)
             ->with('branch')->get();

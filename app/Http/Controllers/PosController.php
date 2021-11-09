@@ -78,7 +78,8 @@ class PosController extends Controller
     }
     public function index($sessionId)
     {
-        $currentSession = PosSessions::find($sessionId);
+        $currentSession = PosSessions::with('customer')->find($sessionId);
+
         $currentBranch = $currentSession->branch_id;
         $allowedProducts = [];
         $getBranchProducts = BranchesProductsSelling::where('branch_id', $currentBranch)->get();

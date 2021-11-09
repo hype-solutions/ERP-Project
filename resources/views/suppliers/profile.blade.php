@@ -1,4 +1,5 @@
 @extends('layouts.erp')
+@section('title', 'ملف مورد '.$supplier->supplier_name)
 
 @section('pageCss')
 <!-- BEGIN: Page CSS-->

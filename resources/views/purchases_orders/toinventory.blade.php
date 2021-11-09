@@ -1,4 +1,5 @@
 @extends('layouts.erp')
+@section('title', 'توريد أصناف أمر شراء رقم #'.$purchaseOrder->id)
 
 @section('pageCss')
 <!-- BEGIN: Page CSS-->
