@@ -297,13 +297,15 @@
                                           <span>{{$transfer->transferUser->username}}</span>
                                       </div>
 
+                                      @if ($transfer->authUser)
+                                      <br>
+                                      صرح بالتحويل
+                                      <div class="badge border-success success badge-square badge-border">
+                                          <i class="la la-user font-medium-2"></i>
+                                              <span>{{$transfer->authUser->username}}</span>
+                                          </div>
+                                      @endif
 
-                                    <br>
-                                  صرح بالتحويل
-                                  <div class="badge border-success success badge-square badge-border">
-                                      <i class="la la-user font-medium-2"></i>
-                                          <span>{{$transfer->authUser->username}}</span>
-                                      </div>
                                 </td>
                                 <td>
                                   {{$transfer->transfer_notes}}

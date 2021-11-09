@@ -24,7 +24,6 @@ class SafesTransfers extends Model
 
     ];
 
-
     public function safeFrom()
     {
         return $this->hasOne('App\Models\Safes\Safes', 'id', 'safe_from');
