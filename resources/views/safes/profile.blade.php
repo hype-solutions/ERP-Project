@@ -261,9 +261,9 @@
                                       <span style="color: red">(خزنة محذوفة)</span>
                                     @endif
                                       <hr>
-                                        الرصيد قبل: {{$transfer->amount_before_transfer_from}} ج.م
+                                        الرصيد قبل: {{$transfer->safeFrom->safe_balance}} ج.م
                                         <br>
-                                        الرصيد بعد: {{$transfer->amount_after_transfer_from}} ج.م
+                                        الرصيد بعد: {{$transfer->safeFrom->safe_balance - $transfer->transfer_amount}} ج.م
                                   </td>
                                 <td>
                                   @if(isset($transfer->safeTo))
@@ -285,9 +285,9 @@
                                       </div>
                                       <span style="color: red">(خزنة محذوفة)</span>                        @endif
                                   <hr>
-                                        الرصيد قبل: {{$transfer->amount_before_transfer_to}} ج.م
+                                        الرصيد قبل: {{$transfer->safe_to->safe_balance}} ج.م
                                         <br>
-                                        الرصيد بعد: {{$transfer->amount_after_transfer_to}} ج.م
+                                        الرصيد بعد: {{$transfer->safe_to->safe_balance + $transfer->transfer_amount}} ج.م
                               </td>
                                 <td>{{$transfer->transfer_amount}} ج.م</td>
                                 <td>
@@ -296,9 +296,9 @@
                                       <i class="la la-user font-medium-2"></i>
                                           <span>{{$transfer->transferUser->username}}</span>
                                       </div>
-
-                                      @if ($transfer->authUser)
                                       <br>
+                                      @if ($transfer->authUser)
+
                                       صرح بالتحويل
                                       <div class="badge border-success success badge-square badge-border">
                                           <i class="la la-user font-medium-2"></i>
