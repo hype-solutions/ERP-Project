@@ -31,12 +31,12 @@ class InvoicesPriceQuotation extends Model
     }
 
 
-//     public function is_string_float($string) {
-//     if(is_numeric($string)) {
-//       $val = $string+0;
-//       return is_float($val);
-//     } else {
-//       return false;
-//     }
-//  }
+    //     public function is_string_float($string) {
+    //     if(is_numeric($string)) {
+    //       $val = $string+0;
+    //       return is_float($val);
+    //     } else {
+    //       return false;
+    //     }
+    //  }
 }

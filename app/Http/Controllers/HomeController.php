@@ -41,7 +41,8 @@ class HomeController extends Controller
         return view('home', compact('priceQuotations', 'purchasesOrders', 'safesTransfers', 'productTransfers'));
     }
 
-    public function shit(){
+    public function shit()
+    {
         return storage_path('/app/public');
         // return __DIR__;
     }

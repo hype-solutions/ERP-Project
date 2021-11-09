@@ -34,5 +34,4 @@ class PurchasesOrdersProducts extends Model
     {
         return $this->belongsTo('App\Models\PurchasesOrders\PurchasesOrders', 'purchase_id', 'id');
     }
-
 }

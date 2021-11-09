@@ -4,7 +4,8 @@ namespace App\Traits\Customers;
 
 use App\Models\Customers\Customers;
 
-trait CustomersTrait {
+trait CustomersTrait
+{
 
     // public function allCustomers(){
     //     return Customers::all();

@@ -4,9 +4,11 @@ namespace App\Traits\Branches;
 
 use App\Models\Branches\Branches;
 
-trait BranchesTrait {
+trait BranchesTrait
+{
 
-    public function allBranches(){
+    public function allBranches()
+    {
         return Branches::all();
     }
 }

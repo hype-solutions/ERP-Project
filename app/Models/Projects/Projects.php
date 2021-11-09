@@ -33,7 +33,8 @@ class Projects extends Model
         return $this->hasOne('App\Models\Customers\Customers', 'id', 'customer_id');
     }
 
-    public function allSafes(){
+    public function allSafes()
+    {
         return Safes::all();
     }
 
@@ -42,5 +43,4 @@ class Projects extends Model
     {
         return $this->hasMany('App\Models\Projects\ProjectsPriceQuotationsPayments', 'project_id', 'id');
     }
-
 }

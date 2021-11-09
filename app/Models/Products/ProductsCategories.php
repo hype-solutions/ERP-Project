@@ -13,8 +13,8 @@ class ProductsCategories extends Model
     protected $fillable = ['cat_name'];
 
 
-public function product()
-{
-    return $this->hasMany('App\Models\Products\Products', 'procuct_category', 'id');
-}
+    public function product()
+    {
+        return $this->hasMany('App\Models\Products\Products', 'procuct_category', 'id');
+    }
 }

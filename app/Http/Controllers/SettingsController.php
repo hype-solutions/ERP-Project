@@ -22,29 +22,27 @@ class SettingsController extends Controller
     }
     public function update(Request $request, Settings $setting)
     {
-        if($setting->key != 'logo'){
-        $setting->value = $request->setting;
-        }else{
+        if ($setting->key != 'logo') {
+            $setting->value = $request->setting;
+        } else {
 
 
             $request->validate([
                 'setting' => 'required|mimes:png,jpg,svg,gif|max:2048',
             ]);
             $file = $request->file('setting');
-            $fileName = time().'.'.$request->setting->getClientOriginalExtension();
+            $fileName = time() . '.' . $request->setting->getClientOriginalExtension();
 
             $folder = "logos/";
             if (!Storage::disk('erp')->exists($folder)) {
                 Storage::disk('erp')->makeDirectory($folder, 0775, true, true);
             }
             if (!empty($file)) {
-                    Storage::disk('erp')->put($folder.'/'.$fileName, File::get($request->setting));
+                Storage::disk('erp')->put($folder . '/' . $fileName, File::get($request->setting));
             }
-            $setting->value = 'uploads/logos/'.$fileName;
+            $setting->value = 'uploads/logos/' . $fileName;
             $setting->save();
-           return back();
-
-
+            return back();
         }
         $setting->save();
         return back()->with('success', 'updated');

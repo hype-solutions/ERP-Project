@@ -130,7 +130,6 @@ Route::group(['middleware' => ['permission:Sell POS']], function () {
     Route::post('/pos/finish', [PosController::class, 'finish'])->name('pos.finish');
     Route::get('/pos/receipt/{sessionId}', [PosController::class, 'receipt'])->name('pos.receipt');
     Route::get('/pos/cancel/{sessionId}', [PosController::class, 'cancel'])->name('pos.cancel');
-
 });
 
 
@@ -301,7 +300,6 @@ Route::group(['middleware' => ['permission:View Safes']], function () {
     Route::get('/safes/receipt/{transactionId}', [SafesController::class, 'receipt'])->name('safes.receipt');
     Route::post('/safes/fetchamount', [SafesController::class, 'fetchAmount'])->name('safes.fetchAmount');
     Route::post('/safes/fetchothersafes', [SafesController::class, 'fetchOtherSafes'])->name('safes.fetchOtherSafes');
-
 });
 Route::group(['middleware' => ['permission:Add Safes']], function () {
     Route::post('/safes/adding', [SafesController::class, 'store'])->name('safes.adding');
@@ -335,12 +333,10 @@ Route::group(['middleware' => ['permission:Accept Safes Transfers']], function (
  *************************/
 Route::group(['middleware' => ['permission:View Income']], function () {
     Route::get('/ins', [InsController::class, 'insList'])->name('ins.list');
-
 });
 Route::group(['middleware' => ['permission:Add Income']], function () {
     Route::get('/ins/add', [InsController::class, 'add'])->name('ins.add');
     Route::post('/ins/adding', [InsController::class, 'store'])->name('ins.adding');
-
 });
 Route::group(['middleware' => ['permission:View Income Cat']], function () {
     Route::get('/ins/categories', [InsController::class, 'categories'])->name('ins.categories');
@@ -398,23 +394,23 @@ Route::get('/outs/entities/deleting/{ent}', [OutsController::class, 'deleteEnt']
  ******** Reports ********
  *************************/
 Route::group(['middleware' => ['permission:View Reports']], function () {
-Route::get('/reports', [ReportsController::class, 'landing'])->name('reports.landing');
-Route::get('/reports/sales/{from}/{to}/{branch}', [ReportsController::class, 'sales'])->name('reports.sales');
-Route::get('/reports/projects/{from}/{to}/{branch}', [ReportsController::class, 'projects'])->name('reports.projects');
-Route::get('/reports/income/{from}/{to}/{branch}', [ReportsController::class, 'income'])->name('reports.income');
-Route::get('/reports/expenses/{from}/{to}/{branch}', [ReportsController::class, 'expenses'])->name('reports.expenses');
-Route::get('/reports/invoicespayments/{from}/{to}/{branch}', [ReportsController::class, 'invoicespayments'])->name('reports.invoicespayments');
-Route::get('/reports/purchasesorderspayments/{from}/{to}/{branch}', [ReportsController::class, 'purchasesorderspayments'])->name('reports.purchasesorderspayments');
-Route::get('/reports/transactions/{from}/{to}/{branch}', [ReportsController::class, 'transactions'])->name('reports.transactions');
-Route::get('/reports/log/{from}/{to}/{branch}', [ReportsController::class, 'log'])->name('reports.log');
-Route::post('/reports/sales/search', [ReportsController::class, 'searchsales'])->name('reports.sales.search');
-Route::post('/reports/projects/search', [ReportsController::class, 'searchprojects'])->name('reports.projects.search');
-Route::post('/reports/income/search', [ReportsController::class, 'searchincome'])->name('reports.income.search');
-Route::post('/reports/expenses/search', [ReportsController::class, 'searchexpenses'])->name('reports.expenses.search');
-Route::post('/reports/invoicespayments/search', [ReportsController::class, 'searchinvoicespayments'])->name('reports.invoicespayments.search');
-Route::post('/reports/purchasesorderspayments/search', [ReportsController::class, 'searchexpensespurchasesorderspayments'])->name('reports.purchasesorderspayments.search');
-Route::post('/reports/transactions/search', [ReportsController::class, 'searchtransactions'])->name('reports.transactions.search');
-Route::post('/reports/log/search', [ReportsController::class, 'searchlog'])->name('reports.log.search');
+    Route::get('/reports', [ReportsController::class, 'landing'])->name('reports.landing');
+    Route::get('/reports/sales/{from}/{to}/{branch}', [ReportsController::class, 'sales'])->name('reports.sales');
+    Route::get('/reports/projects/{from}/{to}/{branch}', [ReportsController::class, 'projects'])->name('reports.projects');
+    Route::get('/reports/income/{from}/{to}/{branch}', [ReportsController::class, 'income'])->name('reports.income');
+    Route::get('/reports/expenses/{from}/{to}/{branch}', [ReportsController::class, 'expenses'])->name('reports.expenses');
+    Route::get('/reports/invoicespayments/{from}/{to}/{branch}', [ReportsController::class, 'invoicespayments'])->name('reports.invoicespayments');
+    Route::get('/reports/purchasesorderspayments/{from}/{to}/{branch}', [ReportsController::class, 'purchasesorderspayments'])->name('reports.purchasesorderspayments');
+    Route::get('/reports/transactions/{from}/{to}/{branch}', [ReportsController::class, 'transactions'])->name('reports.transactions');
+    Route::get('/reports/log/{from}/{to}/{branch}', [ReportsController::class, 'log'])->name('reports.log');
+    Route::post('/reports/sales/search', [ReportsController::class, 'searchsales'])->name('reports.sales.search');
+    Route::post('/reports/projects/search', [ReportsController::class, 'searchprojects'])->name('reports.projects.search');
+    Route::post('/reports/income/search', [ReportsController::class, 'searchincome'])->name('reports.income.search');
+    Route::post('/reports/expenses/search', [ReportsController::class, 'searchexpenses'])->name('reports.expenses.search');
+    Route::post('/reports/invoicespayments/search', [ReportsController::class, 'searchinvoicespayments'])->name('reports.invoicespayments.search');
+    Route::post('/reports/purchasesorderspayments/search', [ReportsController::class, 'searchexpensespurchasesorderspayments'])->name('reports.purchasesorderspayments.search');
+    Route::post('/reports/transactions/search', [ReportsController::class, 'searchtransactions'])->name('reports.transactions.search');
+    Route::post('/reports/log/search', [ReportsController::class, 'searchlog'])->name('reports.log.search');
 });
 
 
@@ -436,7 +432,6 @@ Route::group(['middleware' => ['permission:Edit Users']], function () {
     Route::patch('/users/signature/update/{user}', [UsersController::class, 'signature'])->name('users.signature');
     Route::get('/users/permissions/{user}', [UsersController::class, 'permissions'])->name('users.permissions');
     Route::post('/users/reSyncRolewithPermissions', [UsersController::class, 'reSyncRolewithPermissions'])->name('users.reSyncRolewithPermissions');
-
 });
 
 Route::group(['middleware' => ['permission:Delete Users']], function () {
@@ -479,7 +474,7 @@ Route::get('/others/calculator', [CalculatorController::class, 'index'])->name('
 
 Route::get('/shit', [HomeController::class, 'shit'])->name('shit');
 
-Route::get('/generate', function (){
+Route::get('/generate', function () {
     // \Illuminate\Support\Facades\Artisan::call('storage:link');
     // app('files')->link(storage_path('app/public'), public_path('storage'));
     // app('files')->link(storage_path('app/public'), '/home2/qzojqlmy/public_html/mygesture/erp/demo/public');

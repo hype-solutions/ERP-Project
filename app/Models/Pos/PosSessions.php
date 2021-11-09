@@ -42,4 +42,3 @@ class PosSessions extends Model
         return $this->hasOne('App\Models\Customers\Customers', 'id', 'customer_id');
     }
 }
-

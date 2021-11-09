@@ -7,7 +7,8 @@ use App\Models\Safes\SafesTransactions;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-trait SafesTrait {
+trait SafesTrait
+{
     // public function allSafes(){
     //     return Safes::all();
     // }

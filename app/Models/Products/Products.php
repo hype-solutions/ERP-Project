@@ -27,12 +27,11 @@ class Products extends Model
 
     public function cat()
     {
-        return $this->hasOne('App\Models\Products\ProductsCategories','id','product_category');
+        return $this->hasOne('App\Models\Products\ProductsCategories', 'id', 'product_category');
     }
 
     public function purchasesOrders()
     {
-        return $this->belongsTo('App\Models\PurchasesOrders\PurchasesOrdersProducts','id','product_id')->where('status','Delivered')->avg('product_price');
+        return $this->belongsTo('App\Models\PurchasesOrders\PurchasesOrdersProducts', 'id', 'product_id')->where('status', 'Delivered')->avg('product_price');
     }
-
 }

@@ -18,11 +18,9 @@ class BranchesProducts extends Model
     public function product()
     {
         return $this->hasMany('App\Models\Products\Products', 'id', 'product_id');
-
     }
     public function branch()
     {
         return $this->hasOne('App\Models\Branches\Branches', 'id', 'branch_id');
-
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SafesTransactions extends Model
 {
     use HasFactory;
-    protected $table ='safes_transactions';
+    protected $table = 'safes_transactions';
     protected $fillable = [
         'safe_id',
         'transaction_type',
@@ -27,9 +27,8 @@ class SafesTransactions extends Model
     {
         return $this->hasOne('App\Models\User', 'id', 'authorized_by');
     }
-        public function safe()
+    public function safe()
     {
         return $this->hasOne('App\Models\Safes\Safes', 'id', 'safe_id');
     }
 }
-

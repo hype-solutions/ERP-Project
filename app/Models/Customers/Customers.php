@@ -27,6 +27,6 @@ class Customers extends Model
 
     public function parent()
     {
-        return $this->hasOne(Customers::class, 'id','customer_parent');
+        return $this->hasOne(Customers::class, 'id', 'customer_parent');
     }
 }

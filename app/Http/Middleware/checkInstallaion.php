@@ -18,9 +18,9 @@ class checkInstallaion
     public function handle(Request $request, Closure $next)
     {
         $config = Config::first();
-        if($config->installed){
+        if ($config->installed) {
             return $next($request);
-        }else{
+        } else {
             // return view('config.install');
             return redirect()->route('config.install');
         }

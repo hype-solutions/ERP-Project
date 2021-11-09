@@ -97,7 +97,7 @@ class UsersController extends Controller
         $user->email = $request->email;
         $user->username = $request->username;
         $user->mobile = $request->mobile;
-        if($request->role != 'change'){
+        if ($request->role != 'change') {
             $user->role = $request->role;
             $user->syncRoles($request->role);
         }
@@ -115,28 +115,30 @@ class UsersController extends Controller
     }
 
 
-    public function delete(User $user){
+    public function delete(User $user)
+    {
         User::destroy($user->id);
         return back()->with('success', 'User Deleted');
     }
 
-    public function profilepic(User $user, Request $request){
+    public function profilepic(User $user, Request $request)
+    {
         $request->validate([
             'profile_pic' => 'required|mimes:png,jpg,svg,gif|max:2048',
         ]);
         $file = $request->file('profile_pic');
-        $fileName = time().'.'.$request->profile_pic->getClientOriginalExtension();
+        $fileName = time() . '.' . $request->profile_pic->getClientOriginalExtension();
 
-        $folder = "users/".$user->id."/p";
+        $folder = "users/" . $user->id . "/p";
         if (!Storage::disk('erp')->exists($folder)) {
             Storage::disk('erp')->makeDirectory($folder, 0775, true, true);
         }
         if (!empty($file)) {
-                Storage::disk('erp')->put($folder.'/'.$fileName, File::get($request->profile_pic));
+            Storage::disk('erp')->put($folder . '/' . $fileName, File::get($request->profile_pic));
         }
-        $user->profile_pic = 'uploads/users/'.$user->id.'/p/'.$fileName;
+        $user->profile_pic = 'uploads/users/' . $user->id . '/p/' . $fileName;
         $user->save();
-       return back();
+        return back();
     }
 
     public function signature(User $user, Request $request)
@@ -145,21 +147,22 @@ class UsersController extends Controller
             'signature' => 'required|mimes:png,jpg,svg,gif|max:2048',
         ]);
         $file = $request->file('signature');
-        $fileName = time().'.'.$request->signature->getClientOriginalExtension();
+        $fileName = time() . '.' . $request->signature->getClientOriginalExtension();
 
-        $folder = "users/".$user->id."/s";
+        $folder = "users/" . $user->id . "/s";
         if (!Storage::disk('erp')->exists($folder)) {
             Storage::disk('erp')->makeDirectory($folder, 0775, true, true);
         }
         if (!empty($file)) {
-                Storage::disk('erp')->put($folder.'/'.$fileName, File::get($request->signature));
+            Storage::disk('erp')->put($folder . '/' . $fileName, File::get($request->signature));
         }
-        $user->signature = 'uploads/users/'.$user->id.'/s/'.$fileName;
+        $user->signature = 'uploads/users/' . $user->id . '/s/' . $fileName;
         $user->save();
-       return back();
+        return back();
     }
 
-    public function permissions(User $user){
+    public function permissions(User $user)
+    {
         $allPermissions = Permission::all();
         $permissions = $user->permissions()->get();
         App::setLocale('ar');

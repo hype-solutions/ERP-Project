@@ -101,24 +101,28 @@ class OutsController extends Controller
     }
 
 
-    public function updateEnt(OutEntities $ent, Request $request){
+    public function updateEnt(OutEntities $ent, Request $request)
+    {
         $ent->entity_name = $request->entity_name;
         $ent->save();
         return redirect()->route('outs.entities');
     }
 
-    public function deleteEnt(OutEntities $ent){
+    public function deleteEnt(OutEntities $ent)
+    {
         OutEntities::destroy($ent->id);
         return redirect()->route('outs.entities');
     }
 
-    public function updateCat(OutCategories $cat, Request $request){
+    public function updateCat(OutCategories $cat, Request $request)
+    {
         $cat->category_name = $request->category_name;
         $cat->save();
         return redirect()->route('outs.categories');
     }
 
-    public function deleteCat(OutCategories $cat){
+    public function deleteCat(OutCategories $cat)
+    {
         OutCategories::destroy($cat->id);
         return redirect()->route('outs.categories');
     }

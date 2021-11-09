@@ -60,7 +60,7 @@ class ProjectsController extends Controller
         $products = Products::all();
         $suppliers = Suppliers::all();
 
-        return view('projects.edit', compact('purchasesOrders','suppliers', 'products', 'key', 'project', 'customers', 'previewFiles', 'contractFiles', 'attachmentFiles', 'priceQuotation', 'user_id'));
+        return view('projects.edit', compact('purchasesOrders', 'suppliers', 'products', 'key', 'project', 'customers', 'previewFiles', 'contractFiles', 'attachmentFiles', 'priceQuotation', 'user_id'));
     }
 
     public function update(Request $request, $project)
@@ -235,17 +235,17 @@ class ProjectsController extends Controller
                 'added_by' => Auth::user()->id,
                 'autherized_by' => Auth::user()->id,
             ]);
-        $listOfProducts = [];
-        foreach ($product as $item) {
-            $pro = new ProjectsPurchasesOrdersProducts();
-            $pro->project_id = $eproject->id;
-            $pro->supplier_id = $supplierId;
-            $pro->product_id = $item['id'];
-            $pro->product_desc = $item['desc'];
-            $pro->product_price = $item['price'];
-            $pro->product_qty = $item['qty'];
-            $pro->save();
-            $listOfProducts[] = $pro;
+            $listOfProducts = [];
+            foreach ($product as $item) {
+                $pro = new ProjectsPurchasesOrdersProducts();
+                $pro->project_id = $eproject->id;
+                $pro->supplier_id = $supplierId;
+                $pro->product_id = $item['id'];
+                $pro->product_desc = $item['desc'];
+                $pro->product_price = $item['price'];
+                $pro->product_qty = $item['qty'];
+                $pro->save();
+                $listOfProducts[] = $pro;
             }
         }
 

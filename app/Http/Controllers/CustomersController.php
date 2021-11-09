@@ -165,7 +165,7 @@ class CustomersController extends Controller
 
     public function customersList()
     {
-        $customers = Customers::where('customer_parent',NULL)->get();
+        $customers = Customers::where('customer_parent', NULL)->get();
         return view('customers.list', compact('customers'));
     }
 }

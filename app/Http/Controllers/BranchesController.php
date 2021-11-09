@@ -79,7 +79,7 @@ class BranchesController extends Controller
     {
         $branchData = $this->branch->findOrFail($branchId);
         // $safeBalance = $branchData->getBranchSafeDetails()->value('safe_balance');
-        $safeBalancex = Safes::where('branch_id',$branchId)->first();
+        $safeBalancex = Safes::where('branch_id', $branchId)->first();
         $safeBalance = $safeBalancex->safeBalance($safeBalancex->id);
         $branchProducts = $branchData->branchProductsinStock();
         $branchProductsSelling = $branchData->branchProductsinSelling();

@@ -4,7 +4,8 @@ namespace App\Traits\Products;
 
 use App\Models\Products\Products;
 
-trait ProductsTrait {
+trait ProductsTrait
+{
 
     // public function allProducts(){
     //     return Products::all();

@@ -30,6 +30,4 @@ class ERPLog extends Model
     protected $casts = [
         'action_date' => 'datetime',
     ];
-
-
 }

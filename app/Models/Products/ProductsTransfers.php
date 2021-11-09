@@ -48,6 +48,4 @@ class ProductsTransfers extends Model
     {
         return $this->hasOne('App\Models\User', 'id', 'authorized_by');
     }
-
-
 }

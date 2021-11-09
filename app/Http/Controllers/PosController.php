@@ -72,9 +72,9 @@ class PosController extends Controller
     {
         $currentCart = Cart::where('pos_session_id', $sessionId)->get();
         $currentSession = PosSessions::find($sessionId);
-        $logo = Settings::where('key','logo')->value('value');
-        $company = Settings::where('key','company_name')->value('value');
-        return view('pos.receipt', compact('company','logo','currentCart', 'sessionId', 'currentSession'));
+        $logo = Settings::where('key', 'logo')->value('value');
+        $company = Settings::where('key', 'company_name')->value('value');
+        return view('pos.receipt', compact('company', 'logo', 'currentCart', 'sessionId', 'currentSession'));
     }
     public function index($sessionId)
     {
@@ -305,9 +305,10 @@ class PosController extends Controller
     //     return 1;
     // }
 
-    public function cancel($sessionId){
+    public function cancel($sessionId)
+    {
         $posSession = PosSessions::find($sessionId);
-        $items = Cart::where('pos_session_id',$sessionId)->get();
+        $items = Cart::where('pos_session_id', $sessionId)->get();
         //die($items);
         foreach ($items as $item) {
             Products::where('id', $item->product_id)->decrement('product_total_out', $item->product_qty);
@@ -319,6 +320,5 @@ class PosController extends Controller
         Cart::where('pos_session_id', $sessionId)->delete();
 
         return redirect()->route('pos.landing');
-
     }
 }

@@ -93,76 +93,85 @@ class Invoices extends Model
     //     return $payment->id;
     // }
 
-    public function productIncrementOut($productId, $amount){
+    public function productIncrementOut($productId, $amount)
+    {
         return Products::where('id', $productId)->increment('product_total_out', $amount);
     }
 
-    public function decrementProductInBranch($productId, $branchId, $amount){
+    public function decrementProductInBranch($productId, $branchId, $amount)
+    {
         return BranchesProducts::where('product_id', $productId)
-                ->where('branch_id', $branchId)
-                ->decrement('amount', $amount);
+            ->where('branch_id', $branchId)
+            ->decrement('amount', $amount);
     }
 
 
 
-    public function insertProductIntoInvoice($invoiceId,$customerId,$pId,$pDesc,$pPrice,$pCost,$pQty){
-            $pro = new InvoicesProducts();
-            $pro->invoice_id = $invoiceId;
-            $pro->customer_id = $customerId;
-            $pro->product_id = $pId;
-            $pro->product_desc = $pDesc;
-            $pro->product_price = $pPrice;
-            $pro->product_cost = $pCost * $pQty;
-            $pro->product_qty = $pQty;
-            $pro->status = 'shipped';
-            $pro->save();
+    public function insertProductIntoInvoice($invoiceId, $customerId, $pId, $pDesc, $pPrice, $pCost, $pQty)
+    {
+        $pro = new InvoicesProducts();
+        $pro->invoice_id = $invoiceId;
+        $pro->customer_id = $customerId;
+        $pro->product_id = $pId;
+        $pro->product_desc = $pDesc;
+        $pro->product_price = $pPrice;
+        $pro->product_cost = $pCost * $pQty;
+        $pro->product_qty = $pQty;
+        $pro->status = 'shipped';
+        $pro->save();
     }
 
-    public function getInvoiceCostSum(){
+    public function getInvoiceCostSum()
+    {
         InvoicesProducts::where('invoice_id', $this->id)->sum('product_cost');
     }
 
-    public function updateInvoiceCost($sumCost){
+    public function updateInvoiceCost($sumCost)
+    {
         Invoices::find($this->id)->update([
-            'invoice_cost'=> $sumCost,
+            'invoice_cost' => $sumCost,
         ]);
     }
 
 
-    public function updateSafeTransactionAddDesc($paymentId){
-            $edtPayment = SafesTransactions::find($paymentId);
-            $edtPayment->transaction_notes = 'فاتورة مبيعات رقم  ' . $this->invoice;
-            $edtPayment->save();
+    public function updateSafeTransactionAddDesc($paymentId)
+    {
+        $edtPayment = SafesTransactions::find($paymentId);
+        $edtPayment->transaction_notes = 'فاتورة مبيعات رقم  ' . $this->invoice;
+        $edtPayment->save();
     }
 
-    public function addInvoiceInstallment($safeId, $invoiceId, $customerId, $amount, $date, $notes, $paynow){
-                $da = new InvoicesPayments();
-                $da->invoice_id = $invoiceId;
-                $da->customer_id = $customerId;
-                $da->amount = $amount;
-                $da->date = $date;
-                $da->notes = $notes;
-                if (!empty($paynow)) {
-                    $da->paid = 'Yes';
-                    //pay here
-                    $payment_id = $this->safeTransactionIn($safeId, $amount, 'قسط على فاتورة رقم' . $invoiceId);
-                    $da->safe_id = $safeId;
-                    $da->safe_payment_id = $payment_id;
-                    $this->safeIncrement($safeId, $amount);
-                    Invoices::where('id', $invoiceId)->increment('amount_collected', $amount);
-                } else {
-                    $da->paid = 'No';
-                }
-                $da->save();
+    public function addInvoiceInstallment($safeId, $invoiceId, $customerId, $amount, $date, $notes, $paynow)
+    {
+        $da = new InvoicesPayments();
+        $da->invoice_id = $invoiceId;
+        $da->customer_id = $customerId;
+        $da->amount = $amount;
+        $da->date = $date;
+        $da->notes = $notes;
+        if (!empty($paynow)) {
+            $da->paid = 'Yes';
+            //pay here
+            $payment_id = $this->safeTransactionIn($safeId, $amount, 'قسط على فاتورة رقم' . $invoiceId);
+            $da->safe_id = $safeId;
+            $da->safe_payment_id = $payment_id;
+            $this->safeIncrement($safeId, $amount);
+            Invoices::where('id', $invoiceId)->increment('amount_collected', $amount);
+        } else {
+            $da->paid = 'No';
+        }
+        $da->save();
     }
 
-    public function createCustomer($name, $mobile){
+    public function createCustomer($name, $mobile)
+    {
         $newCustomer = Customers::create(['customer_name' => $name, 'customer_mobile' => $mobile]);
         return $newCustomer->id;
     }
 
 
-    public function checkIfCustomerIsNewAndAdd($name, $mobile, $checkId){
+    public function checkIfCustomerIsNewAndAdd($name, $mobile, $checkId)
+    {
         if ($name != '') {
             $customerId = $this->createCustomer($name, $mobile);
         } else {
@@ -171,27 +180,33 @@ class Invoices extends Model
         return $customerId;
     }
 
-    public function allCustomers(){
+    public function allCustomers()
+    {
         return Customers::all();
     }
 
-    public function allSafes(){
+    public function allSafes()
+    {
         return Safes::all();
     }
 
-    public function getBranchLinkedSafeId($branchId){
+    public function getBranchLinkedSafeId($branchId)
+    {
         return Safes::where('branch_id', $branchId)->value('id');
     }
 
-    public function safeIncrement($safeId, $amount){
+    public function safeIncrement($safeId, $amount)
+    {
         return Safes::where('id', $safeId)->increment('safe_balance', $amount);
     }
 
-    public function safeDecrement($safeId, $amount){
+    public function safeDecrement($safeId, $amount)
+    {
         return Safes::where('id', $safeId)->decrement('safe_balance', $amount);
     }
 
-    public function safeTransactionIn($safeId, $amount, $desc){
+    public function safeTransactionIn($safeId, $amount, $desc)
+    {
         $payment = new SafesTransactions();
         $payment->safe_id = $safeId;
         $payment->transaction_type = 2;
@@ -204,23 +219,27 @@ class Invoices extends Model
         return $payment->id;
     }
 
-    public function safeTransactionOut(){
-
+    public function safeTransactionOut()
+    {
     }
 
-    public function allBranches(){
+    public function allBranches()
+    {
         return Branches::all();
     }
 
-    public function allProducts(){
+    public function allProducts()
+    {
         return Products::all();
     }
 
-    public function allUsers(){
+    public function allUsers()
+    {
         return User::all();
     }
 
-    public function loggedInUserId(){
+    public function loggedInUserId()
+    {
         return Auth::id();
     }
 }

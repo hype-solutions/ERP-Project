@@ -21,5 +21,4 @@ class Suppliers extends Model
         'supplier_commercial_registry',
         'supplier_tax_card',
     ];
-
 }

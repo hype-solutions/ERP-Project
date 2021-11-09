@@ -233,12 +233,13 @@ class SafesController extends Controller
         return view('safes.receipt', compact('transactionId'));
     }
 
-    public function externalFund(Safes $safe){
+    public function externalFund(Safes $safe)
+    {
         return view('safes.externalFund', compact('safe'));
-
     }
 
-    public function externalFunding(Request $request){
+    public function externalFunding(Request $request)
+    {
         $user = Auth::user();
         $user_id = $user->id;
 
@@ -262,11 +263,10 @@ class SafesController extends Controller
         $payment->transaction_datetime = Carbon::now();
         $payment->done_by = $user_id;
         $payment->authorized_by = $user_id;
-        $payment->transaction_notes = 'تمويل خارجي على خزنة, رقم ايصال التمويل '. $fund->id;
+        $payment->transaction_notes = 'تمويل خارجي على خزنة, رقم ايصال التمويل ' . $fund->id;
         $payment->save();
         Safes::where('id', $request->safe_id)->increment('safe_balance', $request->amount);
 
         return back()->with('success', 'funded');
-
     }
 }

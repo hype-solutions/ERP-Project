@@ -39,9 +39,9 @@ class InvoicesController extends Controller
     {
         $invoice = $this->invoice->find($invoiceId);
         $this->addLogRecord('Invoices', 'View', $invoiceId);
-        $logo = Settings::where('key','logo')->value('value');
-        $company = Settings::where('key','company_name')->value('value');
-        return view('invoices.profile', compact('company','logo','invoice'));
+        $logo = Settings::where('key', 'logo')->value('value');
+        $company = Settings::where('key', 'company_name')->value('value');
+        return view('invoices.profile', compact('company', 'logo', 'invoice'));
     }
 
 
@@ -98,24 +98,24 @@ class InvoicesController extends Controller
 
         // dd($data);
 
-            $invoice = new Invoices();
-            $invoice->customer_id = $customerId;
-            $invoice->invoice_paper_num = $data['invoice_paper_num'];
-            $invoice->branch_id = $data['branch_id'];
-            $invoice->invoice_note = $data['invoice_note'];
-            $invoice->discount_percentage = $data['discount_percentage'];
-            $invoice->discount_amount = $data['discount_amount'];
-            $invoice->invoice_tax = $data['tax'];
-            $invoice->payment_method = $data['payment_method'];
-            $invoice->invoice_date = Carbon::now();
-            $invoice->invoice_total = $data['invoice_total'];
-            $invoice->shipping_fees = $data['shipping_fees'];
-            $invoice->already_paid = $alreadyPaid;
-            $invoice->safe_id = $safeId;
-            $invoice->safe_transaction_id = $paymentId;
-            $invoice->sold_by = $data['sold_by'];
-            $invoice->authorized_by = $data['sold_by'];
-            $invoice->save();
+        $invoice = new Invoices();
+        $invoice->customer_id = $customerId;
+        $invoice->invoice_paper_num = $data['invoice_paper_num'];
+        $invoice->branch_id = $data['branch_id'];
+        $invoice->invoice_note = $data['invoice_note'];
+        $invoice->discount_percentage = $data['discount_percentage'];
+        $invoice->discount_amount = $data['discount_amount'];
+        $invoice->invoice_tax = $data['tax'];
+        $invoice->payment_method = $data['payment_method'];
+        $invoice->invoice_date = Carbon::now();
+        $invoice->invoice_total = $data['invoice_total'];
+        $invoice->shipping_fees = $data['shipping_fees'];
+        $invoice->already_paid = $alreadyPaid;
+        $invoice->safe_id = $safeId;
+        $invoice->safe_transaction_id = $paymentId;
+        $invoice->sold_by = $data['sold_by'];
+        $invoice->authorized_by = $data['sold_by'];
+        $invoice->save();
         // $invoice = $this->invoice->create([
         //     'customer_id' >= $customerId,
         //     'invoice_paper_num' >= $data['invoice_paper_num'],
@@ -135,12 +135,18 @@ class InvoicesController extends Controller
         //     'authorized_by' >= $data['sold_by'],
         // ]);
         $invoiceId = $invoice->id;
-         if ($data['payment_method'] != 'later') {
+        if ($data['payment_method'] != 'later') {
             $this->invoice->updateSafeTransactionAddDesc($paymentId);
         } else {
             foreach ($data['later'] as $item) {
                 $this->invoice->addInvoiceInstallment(
-                    $safe_id, $invoiceId, $customerId, $item['amount'], $item['date'], $item['notes'], isset($item['paynow']) ? $item['paynow']: ''
+                    $safe_id,
+                    $invoiceId,
+                    $customerId,
+                    $item['amount'],
+                    $item['date'],
+                    $item['notes'],
+                    isset($item['paynow']) ? $item['paynow'] : ''
                 );
             }
         }

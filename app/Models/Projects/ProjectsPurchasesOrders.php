@@ -31,4 +31,3 @@ class ProjectsPurchasesOrders extends Model
         'autherized_by',
     ];
 }
-
