@@ -204,7 +204,8 @@
                                 <div class="badge badge-primary"><li class="la la-link"></li> مربوطة بفرع</div>
                                 @endif
                             </td>
-                            <td><li class="la la-money"></li> {{ $safe->safeBalance($safe->id) }} جنية</td>
+                            <td><li class="la la-money"></li> {{ $safe->safe_balance }} جنية</td>
+                            {{-- <td><li class="la la-money"></li> {{ $safe->safeBalance($safe->id) }} جنية</td> --}}
 
                             <td>
                                 <a class="btn grey btn-outline-success" href="{{ route('safes.deposit',$safe->id) }}"> إيداع</a>
