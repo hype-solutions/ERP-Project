@@ -120,8 +120,8 @@
           <div class="col-xl-6 col-lg-12 mb-1">
             <div class="form-group text-center">
                 <!-- Floating Outline button with text -->
-            {{-- <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">{{ $safe->safe_balance }} ج.م</i><span>رصيد الخزنة</span></button> --}}
-            <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">{{ $safe->safeBalance($safe->id) }} ج.م</i><span>رصيد الخزنة</span></button>
+            <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">{{ $safe->safe_balance }} ج.م</i><span>رصيد الخزنة</span></button>
+            {{-- <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"><i class="">{{ $safe->safeBalance($safe->id) }} ج.م</i><span>رصيد الخزنة</span></button> --}}
              </div>
         </div>
         </div>
