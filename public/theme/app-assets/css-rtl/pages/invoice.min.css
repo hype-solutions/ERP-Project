@@ -7,6 +7,7 @@
     .footer,
     .main-menu,
     .modal,
+    .hidePrint,
     .open {
         display: none
     }

@@ -147,7 +147,7 @@
                                         <div class="col-sm-6 col-12 text-center text-sm-left notFirst2" @if ($template == 3) style="margin-top:150px;" @endif>
                                             <p class="text-muted">بيانات الجهة</p>
                                             <ul class="px-0 list-unstyled">
-                                                <li class="text-bold-800">{{ $invoice->customer->customer_name }}@if($customer->parent)
+                                                <li class="text-bold-800">{{ $invoice->customer->customer_name }}@if($invoice->customer->parent)
                                                     - {{$customer->parent->customer_name}}
                                                     @endif</li>
                                                 <li>موبايل: {{ $invoice->customer->customer_mobile }}</li>
