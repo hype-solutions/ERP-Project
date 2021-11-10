@@ -233,6 +233,12 @@ class SafesController extends Controller
         return view('safes.receipt', compact('transactionId'));
     }
 
+    public function transferReceipt(SafesTransfers $transferId)
+    {
+
+        return view('safes.transferReceipt', compact('transferId'));
+    }
+
     public function externalFund(Safes $safe)
     {
         return view('safes.externalFund', compact('safe'));

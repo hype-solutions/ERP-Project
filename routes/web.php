@@ -298,6 +298,7 @@ Route::group(['middleware' => ['permission:View Safes']], function () {
     Route::get('/safes', [SafesController::class, 'safesList'])->name('safes.list');
     Route::get('/safes/view/{safe}', [SafesController::class, 'view'])->name('safes.view');
     Route::get('/safes/receipt/{transactionId}', [SafesController::class, 'receipt'])->name('safes.receipt');
+    Route::get('/safes/transfer/{transferId}', [SafesController::class, 'transferReceipt'])->name('safes.transferReceipt');
     Route::post('/safes/fetchamount', [SafesController::class, 'fetchAmount'])->name('safes.fetchAmount');
     Route::post('/safes/fetchothersafes', [SafesController::class, 'fetchOtherSafes'])->name('safes.fetchOtherSafes');
 });

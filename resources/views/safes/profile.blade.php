@@ -208,8 +208,7 @@
                             </td>
 
                             <td>
-                                <button class="btn btn-success">استعراض</button>
-                                <button class="btn btn-dark">طباعة</button>
+                                <button type="button" class="btn btn-success" onclick="return pay('{{route('safes.receipt',$transaction->id)}}');">استعراض</button>
                             </td>
                           </tr>
                           @endforeach
@@ -327,7 +326,7 @@
                                   {{$transfer->transfer_notes}}
                                 </td>
                                 <td>
-                                    <button class="btn btn-dark">طباعة</button>
+                                    <button type="button" class="btn btn-success" onclick="return pay('{{route('safes.transferReceipt',$transfer->id)}}');">استعراض</button>
                                 </td>
                               </tr>
                               @endforeach
@@ -441,7 +440,13 @@ $("#transactions").DataTable( {
     });
 </script>
 
+<script type="text/javascript">
+    function pay(url) {
+        popupWindow = window.open(
+        url,'popUpWindow','height=700,width=300,left=10,top=10,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no')
+    }
 
+    </script>
 <!-- BEGIN: Theme JS-->
 
 

@@ -143,7 +143,7 @@
                                 @if(isset($out->theCategory->category_name))
                                 {{ $out->theCategory->category_name }}
                                 @else
-                                بدون جهه
+                                بدون بند
                                 @endif
                             </td>
                             <td>
@@ -154,7 +154,10 @@
                                 @endif
                             </td>
                             <td> {{ $out->safe->safe_name }}</td>
-                            <td> {{ $out->safe_transaction_id }}</td>
+                            <td class="text-center"> <b>{{ $out->safe_transaction_id }}</b>
+                                <br>
+                                <button onclick="return pay('{{route('safes.receipt',$out->safe_transaction_id)}}');" class="btn btn-warning">الإيصال</button>
+                            </td>
                             <td> {{ $out->notes }}</td>
                             <td> {{ $out->amount }} ج.م</td>
                             <td>
@@ -199,7 +202,13 @@
 <!-- END: Page Vendor JS-->
     <!-- BEGIN: Theme JS-->
 
+    <script type="text/javascript">
+        function pay(url) {
+            popupWindow = window.open(
+            url,'popUpWindow','height=700,width=300,left=10,top=10,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no')
+        }
 
+        </script>
 
     <!-- END: Theme JS-->
 <!-- BEGIN: Page JS-->

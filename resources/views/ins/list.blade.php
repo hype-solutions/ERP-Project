@@ -146,7 +146,10 @@
                                 @endif
                             </td>
                             <td> {{ $in->safe->safe_name }}</td>
-                            <td> {{ $in->safe_transaction_id }}</td>
+                            <td class="text-center"> <b>{{ $in->safe_transaction_id }}</b>
+                                <br>
+                                <button onclick="return pay('{{route('safes.receipt',$in->safe_transaction_id)}}');" class="btn btn-warning">الإيصال</button>
+                            </td>
                             <td> {{ $in->notes }}</td>
                             <td> {{ $in->amount }} ج.م</td>
                             <td>
@@ -192,7 +195,13 @@
 <!-- END: Page Vendor JS-->
     <!-- BEGIN: Theme JS-->
 
+    <script type="text/javascript">
+        function pay(url) {
+            popupWindow = window.open(
+            url,'popUpWindow','height=700,width=300,left=10,top=10,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no')
+        }
 
+        </script>
 
     <!-- END: Theme JS-->
 <!-- BEGIN: Page JS-->
