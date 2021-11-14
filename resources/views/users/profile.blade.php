@@ -238,7 +238,7 @@
                                                             الغاء</button>
                                                         <button type="submit" class="btn btn-outline-primary"><i
                                                                 class="la la-check-square-o"></i>
-                                                            تسجيل</button>
+                                                            حفظ</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -298,7 +298,7 @@
                                                             الغاء</button>
                                                         <button type="submit" class="btn btn-outline-primary"><i
                                                                 class="la la-check-square-o"></i>
-                                                            تسجيل</button>
+                                                            حفظ</button>
                                                     </div>
                                                 </form>
                                             </div>
