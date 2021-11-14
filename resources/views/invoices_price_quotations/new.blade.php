@@ -370,7 +370,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <span style="display: none">{{ $subtotal = 0 }}</span>
                                         @foreach ($currentProducts->slice(5, 5) as $key => $product)
 
                                             <tr>
@@ -522,7 +521,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <span style="display: none">{{ $subtotal = 0 }}</span>
                                     @foreach ($currentProducts->slice(10, 5) as $key => $product)
 
                                         <tr>
@@ -671,7 +669,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <span style="display: none">{{ $subtotal = 0 }}</span>
                                     @foreach ($currentProducts->slice(15, 5) as $key => $product)
 
                                         <tr>
@@ -825,7 +822,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <span style="display: none">{{ $subtotal = 0 }}</span>
                                     @foreach ($currentProducts->slice(20, 5) as $key => $product)
 
                                         <tr>
