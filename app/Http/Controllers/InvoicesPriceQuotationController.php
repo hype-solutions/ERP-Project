@@ -398,7 +398,11 @@ class InvoicesPriceQuotationController extends Controller
         $userSig = User::find($modeer);
         ERPLog::create(['type' => 'Price Quotations', 'action' => 'Print', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
-        return view('invoices_price_quotations.print', compact('p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
+         $logo = Settings::where('key', 'logo')->value('value');
+         $template = 0;
+         $alreadyShown = 0;
+         $count = $currentProducts->count();
+        return view('invoices_price_quotations.print', compact('template','count','alreadyShown','userSig','logo','p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
     }
 
     function print3(InvoicesPriceQuotation $invoice, Request $request)
