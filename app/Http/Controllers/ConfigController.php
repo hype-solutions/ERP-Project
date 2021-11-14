@@ -66,6 +66,7 @@ class ConfigController extends Controller
         $superUser->email = 'info@hype-solutions.com';
         $superUser->name = 'Super User';
         $superUser->username = 'hype';
+        $superUser->signature = 'theme/app-assets/images/custom/hype.png';
         $superUser->save();
         $superUser->assignRole('Super Admin');
 
@@ -75,6 +76,7 @@ class ConfigController extends Controller
         $user->email = 'admin@mygesture.co';
         $user->name = 'Admin Admin';
         $user->username = 'admin';
+        $user->role = 'مدير';
         $user->save();
         $user->assignRole('مدير');
 

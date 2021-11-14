@@ -38,9 +38,14 @@
             @can('Add PQ')
           <div class="btn-group">
           <a href="{{route('invoicespricequotations.add')}}" class="btn btn-outline-success block btn-lg" >
-                إضافه عرض سعر جديد
+                إضافه
+                <br>
+                عرض سعر جديد
             </a>
-
+            {{-- add can first --}}
+            <a href="{{ route('users.add') }}" class="btn btn-outline-danger block btn-lg">
+                تحديد التوقيع في عروض الأسعار
+            </a>
           </div>
           @endcan
         </div>

@@ -45,7 +45,8 @@ class UsersController extends Controller
     }
     public function usersList()
     {
-        $users = User::where('id', '!=', 1)->get();
+        $users = User::where('id', '!=', 1)->with('roles')->get();
+        // return($users);
         return view('users.list', compact('users'));
     }
 

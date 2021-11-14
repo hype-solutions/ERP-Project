@@ -287,13 +287,13 @@
                                 class="mr-1 user-name text-bold-700">{{ Auth::user()->username }}</span><span
                                 class="avatar avatar-online">
         @if(!isset(Auth::user()->profile_pic))
-        <img src="{{ asset('theme/app-assets/images/portrait/small/avatar-s-19.png') }}"alt="avatar">
+        <img src="{{ asset('theme/app-assets/images/custom/no-profile.jpg') }}"alt="avatar">
         @else
         <img src="{{ asset($myPP) }}" alt="avatar"/>
         @endif
                                     <i></i></span></a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            {{-- <a class="dropdown-item" href="user-profile.html"><i class="ft-user"></i> Edit Profile</a> --}}
+                            <a class="dropdown-item" href="{{route('users.view',Auth::user()->id)}}"><i class="ft-user"></i> الملف الشخصي</a>
                             {{-- <a class="dropdown-item" href="app-kanban.html"><i class="ft-clipboard"></i> Todo</a> --}}
                             {{-- <a class="dropdown-item" href="user-cards.html"><i class="ft-check-square"></i> Task</a> --}}
                             <div class="dropdown-divider"></div>
