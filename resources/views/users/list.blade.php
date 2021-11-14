@@ -182,38 +182,7 @@
                                                         @else
                                                             <span class="danger">غير مسجل</span>
                                                         @endif
-                                                        <br>
-                                                        <div class="btn-group mr-1 mb-1">
-                                                            <button type="button"
-                                                                class="btn btn-info btn-sm btn-min-width dropdown-toggle"
-                                                                data-toggle="dropdown" aria-haspopup="true"
-                                                                aria-expanded="false"> التواصل مع
-                                                                المستخدم</button>
-                                                            <div class="dropdown-menu" x-placement="bottom-start"
-                                                                style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-                                                                @if (isset($user->mobile))
-                                                                    <a class="dropdown-item"
-                                                                        href="tel:{{ $user->mobile }}">اتصال بالموبايل
-                                                                    </a>
-                                                                @else
-                                                                    <button class="dropdown-item" disabled>اتصال بالموبايل
-                                                                        <small style="color: red">غير
-                                                                            مسجل</small></button>
-                                                                @endif
 
-                                                                <button class="dropdown-item" disabled>ارسال SMS <small
-                                                                        style="color: red">غير
-                                                                        متاحة</small></button>
-                                                                @if (isset($user->email))
-                                                                    <a class="dropdown-item"
-                                                                        href="mailto:{{ $user->email }}"> ارسال ايميل</a>
-                                                                @else
-                                                                    <button class="dropdown-item" disabled> ارسال
-                                                                        ايميل<small style="color: red">غير
-                                                                            مسجل</small></button>
-                                                                @endif
-                                                            </div>
-                                                        </div>
                                                     </td>
 
                                                     <td>
@@ -266,6 +235,37 @@
                                                                         <a class="dropdown-item btn-danger" onclick="return confirm('هل أنت متأكد من حذف هذا المستخدم نهائيا و جميع تفاصيله من البرنامج')"
                                                                             href="{{ route('users.delete', $user->id) }}"><i
                                                                                 class="la la-trash"></i>حذف</a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="btn-group"  role="group">
+                                                                    <button type="button"
+                                                                        class="btn btn-outline-info dropdown-toggle  btn-sm"
+                                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                                        aria-expanded="false"> التواصل مع
+                                                                        المستخدم</button>
+                                                                    <div class="dropdown-menu" x-placement="bottom-start"
+                                                                        style="width:fit-content;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
+                                                                        @if (isset($user->mobile))
+                                                                            <a class="dropdown-item"
+                                                                                href="tel:{{ $user->mobile }}">اتصال بالموبايل
+                                                                            </a>
+                                                                        @else
+                                                                            <button class="dropdown-item" disabled>اتصال بالموبايل
+                                                                                <small style="color: red">غير
+                                                                                    مسجل</small></button>
+                                                                        @endif
+
+                                                                        <button class="dropdown-item" disabled>ارسال SMS <small
+                                                                                style="color: red">غير
+                                                                                متاحة</small></button>
+                                                                        @if (isset($user->email))
+                                                                            <a class="dropdown-item"
+                                                                                href="mailto:{{ $user->email }}"> ارسال ايميل</a>
+                                                                        @else
+                                                                            <button class="dropdown-item" disabled> ارسال
+                                                                                ايميل<small style="color: red">غير
+                                                                                    مسجل</small></button>
+                                                                        @endif
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -414,7 +414,7 @@
                     text: 'حفظ كملف EXCEL',
                     messageTop: 'قائمة المستخدمين',
                     exportOptions: {
-                        columns: [5, 4, 3, 2, 1, 0]
+                        columns: [4, 3, 2, 1, 0]
                     }
                 },
                 {
@@ -422,7 +422,7 @@
                     text: 'حفظ كملف PDF',
                     messageTop: 'قائمة المستخدمين',
                     exportOptions: {
-                        columns: [5, 4, 3, 2, 1, 0]
+                        columns: [ 4, 3, 2, 1, 0]
                     },
 
                 },
@@ -431,7 +431,7 @@
                     text: 'طباعة',
                     messageTop: 'قائمة المستخدمين',
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5]
+                        columns: [0, 1, 2, 3, 4]
                     }
                 }
             ]

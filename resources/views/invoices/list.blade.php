@@ -221,7 +221,20 @@
                 messageTop: 'قائمة فواتير المبيعات',
                 exportOptions: {
                     columns: [ 0, 1, 2,3 ,4 ]
-                }
+                },
+                customize: function (win){
+                            // $(win.document.body).addClass('white-bg');
+                            $(win.document.body)
+                                    // .css('font-size', '10px')
+                                    .prepend(
+                                        '<img src={{asset("uploads/letterHead1.jpg")}} style="opacity: 0.2;position:absolute; top:100; left:350;width:100%;height:100%" />'
+                                        // '<img src="http://localhost:8000/uploads/letterHead1.jpg" style="opacity: 0.1;position:absolute; top:100; left:350;" />'
+                                    );
+
+                            $(win.document.body).find('table')
+                                    .addClass('compact')
+                                    .css('font-size', 'inherit');
+                        },
             }
         ]
     });

@@ -64,37 +64,29 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">التحكم السريع</button>
                             <div class="dropdown-menu" x-placement="bottom-start"
                                 style="width:fit-content;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
-                                <a class="dropdown-item"
-                                                                            href="{{ route('users.edit', $user->id) }}"><i
-                                                                                class="la la-pencil-square-o"></i> تعديل</a>
-                                                                        <a class="dropdown-item"
-                                                                            href="{{ route('users.permissions', $user->id) }}"><i
-                                                                                class="la la-balance-scale"></i> تعديل
-                                                                            الصلاحيات</a>
-                                                                            <a class="dropdown-item"
-                                                                            href="#"><i
-                                                                                class="la la-lock"></i> تعديل
-                                                                            كلمة المرور</a>
-                                                                            <div class="dropdown-divider"></div>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            data-toggle="modal"
-                                                                            data-target="#edit_profilePicture{{ $user->id }}"><i
-                                                                                class="la la-pencil-square-o"></i> تغيير
-                                                                            الصورة</a>
-                                                                        <a class="dropdown-item" href="#"
-                                                                            data-toggle="modal"
-                                                                            data-target="#edit_signature{{ $user->id }}"><i
-                                                                                class="la la-pencil-square-o"></i> تغيير
-                                                                            التوقيع</a>
-                                                                        <div class="dropdown-divider"></div>
-                                                                        <a class="dropdown-item"
-                                                                            href="#"><i
-                                                                                class="la la-exchange"></i> سجل
-                                                                            الحركات</a>
-                                                                        <div class="dropdown-divider"></div>
-                                                                        <a class="dropdown-item btn-danger" onclick="return confirm('هل أنت متأكد من حذف هذا المستخدم نهائيا و جميع تفاصيله من البرنامج')"
-                                                                            href="{{ route('users.delete', $user->id) }}"><i
-                                                                                class="la la-trash"></i>حذف</a>
+                                <a class="dropdown-item" href="{{ route('users.edit', $user->id) }}"><i
+                                        class="la la-pencil-square-o"></i> تعديل</a>
+                                <a class="dropdown-item" href="{{ route('users.permissions', $user->id) }}"><i
+                                        class="la la-balance-scale"></i> تعديل
+                                    الصلاحيات</a>
+                                <a class="dropdown-item" href="#"><i class="la la-lock"></i> تعديل
+                                    كلمة المرور</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal"
+                                    data-target="#edit_profilePicture{{ $user->id }}"><i
+                                        class="la la-pencil-square-o"></i> تغيير
+                                    الصورة</a>
+                                <a class="dropdown-item" href="#" data-toggle="modal"
+                                    data-target="#edit_signature{{ $user->id }}"><i class="la la-pencil-square-o"></i>
+                                    تغيير
+                                    التوقيع</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#"><i class="la la-exchange"></i> سجل
+                                    الحركات</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item btn-danger"
+                                    onclick="return confirm('هل أنت متأكد من حذف هذا المستخدم نهائيا و جميع تفاصيله من البرنامج')"
+                                    href="{{ route('users.delete', $user->id) }}"><i class="la la-trash"></i>حذف</a>
                             </div>
                         </div>
                         <div class="btn-group mr-1 mb-1">
@@ -156,11 +148,13 @@
 
                                             <tr>
                                                 <td>الموبايل:</td>
-                                                <td>@if (isset($user->mobile))
-                                                    {{ $user->mobile }}
-                                                @else
-                                                    <span class="danger">غير مسجل</span>
-                                                @endif</td>
+                                                <td>
+                                                    @if (isset($user->mobile))
+                                                        {{ $user->mobile }}
+                                                    @else
+                                                        <span class="danger">غير مسجل</span>
+                                                    @endif
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>username:</td>
