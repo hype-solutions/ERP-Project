@@ -55,10 +55,9 @@
                                     <div class="media-body">
                                         <ul class="ml-2 px-0 list-unstyled">
                                             <li class="text-bold-800">{{ $company }}</li>
-                                            {{-- <li>العنوان 1</li>
-                                            <li>العنوان 2</li>
-                                            <li>المدينة</li>
-                                            <li>الدولة</li> --}}
+                                            <li>{{ $address_1 }}</li>
+                                            <li>{{ $address_2 }}</li>
+
                                         </ul>
                                     </div>
                                 </div>
