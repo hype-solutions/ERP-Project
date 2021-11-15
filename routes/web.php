@@ -101,6 +101,8 @@ Route::group(['middleware' => ['permission:Add PQ']], function () {
 Route::group(['middleware' => ['permission:Edit PQ']], function () {
     Route::get('/invoices/price_quotations/edit/{invoice}', [InvoicesPriceQuotationController::class, 'edit'])->name('invoicespricequotations.edit');
     Route::patch('/invoices/price_quotations/update/{invoice}', [InvoicesPriceQuotationController::class, 'update'])->name('invoicespricequotations.update');
+    Route::post('/invoices/price_quotations/signature', [InvoicesPriceQuotationController::class, 'signature'])->name('invoicespricequotations.signature');
+
 });
 Route::group(['middleware' => ['permission:Print PQ']], function () {
     Route::get('/price_quotations/print2/{invoice}', [InvoicesPriceQuotationController::class, 'print2'])->name('invoicespricequotations.print2');
@@ -421,6 +423,7 @@ Route::group(['middleware' => ['permission:View Reports']], function () {
 Route::group(['middleware' => ['permission:View Users']], function () {
     Route::get('/users', [UsersController::class, 'usersList'])->name('users.list');
     Route::get('/users/view/{user}', [UsersController::class, 'view'])->name('users.view');
+    Route::post('/users/ajax', [UsersController::class, 'ajax'])->name('users.ajax');
 });
 Route::group(['middleware' => ['permission:Add Users']], function () {
     Route::get('/users/add', [UsersController::class, 'add'])->name('users.add');

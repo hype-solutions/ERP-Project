@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Config\Config;
+use App\Models\Invoices\InvoicesPriceQuotationSignature;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -76,9 +77,13 @@ class ConfigController extends Controller
         $user->email = 'admin@mygesture.co';
         $user->name = 'Admin Admin';
         $user->username = 'admin';
+        $superUser->signature = 'theme/app-assets/images/custom/no-signature.jpg';
         $user->role = 'مدير';
         $user->save();
         $user->assignRole('مدير');
+
+        $signature = new InvoicesPriceQuotationSignature();
+        $signature->save();
 
         return view('config.step2');
     }

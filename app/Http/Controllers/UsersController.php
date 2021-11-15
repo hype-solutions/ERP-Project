@@ -188,4 +188,10 @@ class UsersController extends Controller
         $user->syncPermissions($permissionsArray);
         return back();
     }
+
+    public function ajax(Request $request)
+    {
+        $user = User::find($request->userId);
+        return $user;
+    }
 }

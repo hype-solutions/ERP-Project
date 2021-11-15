@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Invoices\Invoices;
 use App\Models\Invoices\InvoicesPayments;
 use App\Models\Invoices\InvoicesPriceQuotation;
+use App\Models\Invoices\InvoicesPriceQuotationSignature;
 use App\Models\Invoices\InvoicesPriceQuotationsProducts;
 use App\Models\Invoices\InvoicesProducts;
 use App\Models\Products\Products;
@@ -33,7 +34,10 @@ class InvoicesPriceQuotationController extends Controller
     public function invoicesPriceQuotationsList()
     {
         $quotations = InvoicesPriceQuotation::all();
-        return view('invoices_price_quotations.list', compact('quotations'));
+        $users = User::where('id','!=','1')->get();
+        $signature = InvoicesPriceQuotationSignature::with('user')->first();
+
+        return view('invoices_price_quotations.list', compact('quotations','users','signature'));
     }
 
     public function add()
@@ -67,7 +71,11 @@ class InvoicesPriceQuotationController extends Controller
         $userSig = User::find($modeer);
         $logo = Settings::where('key', 'logo')->value('value');
         $company = Settings::where('key', 'company_name')->value('value');
-        return view('invoices_price_quotations.profile', compact('company', 'logo', 'userSig', 'currentProducts', 'invoice', 'user_id', 'customers', 'products'));
+        $signature = InvoicesPriceQuotationSignature::with('user')->first();
+
+        // return($signature);
+
+        return view('invoices_price_quotations.profile', compact('signature','company', 'logo', 'userSig', 'currentProducts', 'invoice', 'user_id', 'customers', 'products'));
     }
 
     public function edit(InvoicesPriceQuotation $invoice)
@@ -402,7 +410,9 @@ class InvoicesPriceQuotationController extends Controller
         $template = 0;
         $alreadyShown = 0;
         $count = $currentProducts->count();
-        return view('invoices_price_quotations.print', compact('template', 'count', 'alreadyShown', 'userSig', 'logo', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
+        $signature = InvoicesPriceQuotationSignature::with('user')->first();
+
+        return view('invoices_price_quotations.new', compact('signature','template', 'count', 'alreadyShown', 'userSig', 'logo', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
     }
 
     function print3(InvoicesPriceQuotation $invoice, Request $request)
@@ -431,8 +441,18 @@ class InvoicesPriceQuotationController extends Controller
 
         $settings = Settings::all();
         $logo = Settings::where('key', 'logo')->value('value');
-
+        $signature = InvoicesPriceQuotationSignature::with('user')->first();
         // return view('invoices_price_quotations.print', compact('template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
-        return view('invoices_price_quotations.new', compact('logo', 'userSig', 'alreadyShown', 'count', 'template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
+        return view('invoices_price_quotations.new', compact('signature','logo', 'userSig', 'alreadyShown', 'count', 'template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
+    }
+
+    public function signature(Request $request)
+    {
+        InvoicesPriceQuotationSignature::where('id',1)->update([
+            'user_id' => $request->userId,
+            'title' => $request->title,
+        ]);
+
+        return true;
     }
 }

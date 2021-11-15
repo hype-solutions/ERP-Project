@@ -200,7 +200,8 @@
                                                     <td class="text-right">
                                                         [{{ $invoice->discount_percentage }} %]
                                                         @if (preg_match('/^\d+\.\d+$/', ($invoice->discount_percentage / 100) * $subtotal)) * @endif
-                                                        {{ round(($invoice->discount_percentage / 100) * $subtotal) }} ج.م
+                                                        {{ round(($invoice->discount_percentage / 100) * $subtotal) }}
+                                                        ج.م
                                                     </td>
                                                 </tr>
                                             @endif
@@ -241,42 +242,51 @@
                       <h6>إسم الشخص</h6>
                       <p class="text-muted">الوظيفة</p>
                     </div> --}}
-                                @env('local', 'development')
+
+                    <div class="text-center">
+                        <p class="mb-0 mt-1">التوقيع</p>
+                        <img src="{{ asset($signature->user->signature) }}" alt="signature"
+                            class="height-100" style="height: 100px;" />
+                        <h6>{{ $signature->user->name }}</h6>
+                        <p class="text-muted">{{ $signature->title }}</p>
+                    </div>
+
+                                {{-- @env('local', 'development')
                                 <div class="text-center">
                                     <p class="mb-0 mt-1">التوقيع</p>
-                                    <img src="{{ asset($userSig->signature) }}" alt="signature" class="height-100"
-                                        style="height: 100px;" />
-                                    <h6>إسم الشخص</h6>
-                                    <p class="text-muted">الوظيفة</p>
+                                    <img src="{{ asset($signature->user->signature) }}" alt="signature"
+                                        class="height-100" style="height: 100px;" />
+                                    <h6>{{ $signature->user->name }}</h6>
+                                    <p class="text-muted">{{ $signature->title }}</p>
                                 </div>
                                 @endenv
                                 @env('production')
                                 @if (request()->getHttpHost() == 'e1.mygesture.co')
                                     <div class="text-center">
                                         <p class="mb-0 mt-1">التوقيع</p>
-                                        <img src="{{ asset($userSig->signature) }}" alt="signature" class="height-100"
-                                            style="height: 100px;" />
+                                        <img src="{{ asset($userSig->signature) }}" alt="signature"
+                                            class="height-100" style="height: 100px;" />
                                         <h6>م/ محمد عاطف</h6>
                                         <p class="text-muted">المدير العام</p>
                                     </div>
                                 @elseif(request()->getHttpHost() == 'e2.mygesture.co')
                                     <div class="text-center">
                                         <p class="mb-0 mt-1">التوقيع</p>
-                                        <img src="{{ asset($userSig->signature) }}" alt="signature" class="height-100"
-                                            style="height: 100px;" />
+                                        <img src="{{ asset($userSig->signature) }}" alt="signature"
+                                            class="height-100" style="height: 100px;" />
                                         <h6>م/ أحمد عماد</h6>
                                         <p class="text-muted">المدير العام</p>
                                     </div>
                                 @elseif(request()->getHttpHost() == 'e3.mygesture.co')
                                     <div class="text-center">
                                         <p class="mb-0 mt-1">التوقيع</p>
-                                        <img src="{{ asset($userSig->signature) }}" alt="signature" class="height-100"
-                                            style="height: 100px;" />
+                                        <img src="{{ asset($userSig->signature) }}" alt="signature"
+                                            class="height-100" style="height: 100px;" />
                                         <h6>م/ محمد ممدوح</h6>
                                         <p class="text-muted">المدير العام</p>
                                     </div>
                                 @endif
-                                @endenv
+                                @endenv --}}
                             </div>
                         </div>
                     </div>
@@ -297,8 +307,8 @@
                                     <a target="_blank" href="{{ route('invoicespricequotations.print2', $invoice->id) }}"
                                         class="btn btn-block btn-info btn-print">طباعة على ورق ليتر هيد</a>
                                     <div class="hidePrint">أو</div>
-                                    <form action="{{ route('invoicespricequotations.print3', $invoice->id) }}" class="hidePrint"
-                                        method="POST">
+                                    <form action="{{ route('invoicespricequotations.print3', $invoice->id) }}"
+                                        class="hidePrint" method="POST">
                                         @csrf
 
 
