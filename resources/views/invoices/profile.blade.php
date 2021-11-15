@@ -55,9 +55,6 @@
                                     <div class="media-body">
                                         <ul class="ml-2 px-0 list-unstyled">
                                             <li class="text-bold-800">{{ $company }}</li>
-                                            <li>{{ $address_1 }}</li>
-                                            <li>{{ $address_2 }}</li>
-
                                         </ul>
                                     </div>
                                 </div>
@@ -66,6 +63,15 @@
                                 <div class="col-12">
                                     <img src="{{ asset($logo) }}" alt="{{ $company }}" class="mb-1 mb-sm-0"
                                         style="width: 200px;height:80px;" />
+                                </div>
+                                <div class="col-12">
+                                    <div class="media-body">
+                                        <ul class="ml-2 px-0 list-unstyled">
+                                            <li>{{ $address_1 }}</li>
+                                            <li>{{ $address_2 }}</li>
+
+                                        </ul>
+                                    </div>
                                 </div>
 
                             </div>
