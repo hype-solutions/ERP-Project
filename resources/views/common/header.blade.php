@@ -4,11 +4,11 @@
     <div class="navbar-wrapper">
         <div class="navbar-header">
             <ul class="nav navbar-nav flex-row">
-                <li class="nav-item mobile-menu d-md-none mr-auto"><a
-                        class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i
-                            class="ft-menu font-large-1"></i></a></li>
-                <li class="nav-item"><a class="navbar-brand" href="{{ route('home') }}"><img class="brand-logo"
-                            alt="modern admin logo" src="{{ asset('theme/app-assets/images/logo/logo_2.png') }}">
+                <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs"
+                        href="#"><i class="ft-menu font-large-1"></i></a></li>
+                <li class="nav-item"><a class="navbar-brand" href="{{ route('home') }}"><img
+                            class="brand-logo" alt="modern admin logo"
+                            src="{{ asset('theme/app-assets/images/logo/logo_2.png') }}">
                         <h3 class="brand-text">ERP</h3>
                     </a></li>
                 <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse"
@@ -28,27 +28,26 @@
                             <li class="col-md-4 bg-mega p-2">
                                 <h3 class="text-white mb-1 font-weight-bold">أرسل رسالة واتساب</h3>
                                 <form action="https://api.whatsapp.com/send/" method="GET" target="_blank">
-                                <input type="text" name="phone" class="form-control" placeholder="رقم الموبايل" />
-                                <textarea name="text" class="form-control" placeholder="محتوى الرسالة"></textarea>
-                                <button class="btn btn-outline-white">أرسل</button>
-                            </form>
+                                    <input type="text" name="phone" class="form-control" placeholder="رقم الموبايل" />
+                                    <textarea name="text" class="form-control" placeholder="محتوى الرسالة"></textarea>
+                                    <button class="btn btn-outline-white">أرسل</button>
+                                </form>
                             </li>
                             <li class="col-md-5 px-2">
 
                                 <h6 class="font-weight-bold font-medium-2 ml-1">ارسل ايميل </h6>
                                 <ul class="row mt-2">
-                                   <li class="col-6 col-xl-4"><a class="text-center mb-2 mb-xl-3"
-                                            href="https://mail.google.com/"
-                                            target="_blank"><i class="la la-envelope font-large-1 mr-0"></i>
+                                    <li class="col-6 col-xl-4"><a class="text-center mb-2 mb-xl-3"
+                                            href="https://mail.google.com/" target="_blank"><i
+                                                class="la la-envelope font-large-1 mr-0"></i>
                                             <p class="font-medium-2 mt-25 mb-0">Gmail</p>
                                         </a></li>
-                                        <li class="col-6 col-xl-4"><a class="text-center mb-2 mb-xl-3"
-                                            href="https://outlook.com/"
-                                            target="_blank"><i class="la la-envelope font-large-1 mr-0"></i>
+                                    <li class="col-6 col-xl-4"><a class="text-center mb-2 mb-xl-3"
+                                            href="https://outlook.com/" target="_blank"><i
+                                                class="la la-envelope font-large-1 mr-0"></i>
                                             <p class="font-medium-2 mt-25 mb-0">Outlook</p>
                                         </a></li>
-                                         {{--
-                                    <li class="col-6 col-xl-4"><a class="text-center mb-2 mb-xl-3"
+                                    {{-- <li class="col-6 col-xl-4"><a class="text-center mb-2 mb-xl-3"
                                             href="https://pixinvent.com/modern-admin-clean-bootstrap-4-dashboard-html-template/html/rtl/travel-menu-template"
                                             target="_blank"><i class="la la-plane font-large-1 mr-0"></i>
                                             <p class="font-medium-2 mt-25 mb-0">Travel</p>
@@ -72,23 +71,25 @@
                                             href="https://pixinvent.com/modern-admin-clean-bootstrap-4-dashboard-html-template/html/rtl/bank-menu-template"
                                             target="_blank"><i class="la la-bank font-large-1 mr-0"></i>
                                             <p class="font-medium-2 mt-25 mb-50">Bank</p>
-                                        </a></li>--}}
+                                        </a></li> --}}
                                 </ul>
                             </li>
                             <script type="text/javascript">
                                 function popx(url) {
                                     popupWindow = window.open(
-                                    url,'popUpWindow','height=500,width=380,left=10,top=10,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no')
+                                        url, 'popUpWindow',
+                                        'height=500,width=380,left=10,top=10,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no'
+                                        )
                                 }
-
-                                </script>
+                            </script>
                             <li class="col-md-3">
                                 <h6 class="font-weight-bold font-medium-2">المذيد</h6>
                                 <ul class="row mt-1 mt-xl-2">
                                     <li class="col-12 col-xl-6 pl-0">
                                         <ul class="mega-component-list">
                                             <li class="mega-component-item">
-                                                <a href="#" class="mb-1 mb-xl-2" onclick="return popx('{{route('others.calculator')}}')">
+                                                <a href="#" class="mb-1 mb-xl-2"
+                                                    onclick="return popx('{{ route('others.calculator') }}')">
                                                     <i class="la la-calculator font-large-1 mr-0"></i>
                                                     الاله الحاسبة
                                                 </a>
@@ -139,112 +140,125 @@
                                     class="flag-icon flag-icon-pt"></i> Portuguese</a><a class="dropdown-item" href="#"
                                 data-language="de"><i class="flag-icon flag-icon-de"></i> German</a></div>
                     </li> --}}
-                    @if($notificationCount > 0)
-                    <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#"
-                            data-toggle="dropdown"><i class="ficon ft-bell"></i><span
-                                class="badge badge-pill badge-danger badge-up badge-glow">{{$notificationCount}}</span></a>
-                        <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
-                            <li class="dropdown-menu-header">
-                                <h6 class="dropdown-header m-0"><span class="grey darken-2">التنبيهات</span></h6>
-                                <span class="notification-tag badge badge-danger float-right m-0">{{$notificationCount}}</span>
-                            </li>
-                            <li class="scrollable-container media-list w-100">
-                                @if($lateInvoiceDates->count() > 0)
-                                @foreach($lateInvoiceDates as $noificationsThree)
-                                <a href="{{route('invoices.view',$noificationsThree->invoice_id)}}">
-                                    <div class="media">
-                                        <div class="media-left align-self-center"><i
-                                                class="ft-alert-circle icon-bg-circle bg-red bg-darken-1 mr-0"></i>
-                                        </div>
-                                        <div class="media-body">
-                                            <h6 class="media-heading red darken-1">دفعة متأخرة على فاتورة مبيعات رقم {{$noificationsThree->invoice_id}}</h6>
-                                            <p class="notification-text font-small-3 text-muted">بقيمة {{$noificationsThree->amount}} ج.م</p><small>
-                                                <time class="media-meta text-muted"
-                                                    datetime="{{$noificationsThree->date}}">{{$noificationsThree->date}}</time></small>
-                                        </div>
-                                    </div>
-                                </a>
-                                @endforeach
-                                @endif
-                                @if($latePurchasesDates->count() > 0)
-                                @foreach($latePurchasesDates as $noificationsFour)
-                                <a href="{{route('purchasesorders.view',$noificationsFour->purchase_id)}}">
-                                    <div class="media">
-                                        <div class="media-left align-self-center"><i
-                                                class="ft-alert-circle icon-bg-circle bg-red bg-darken-1 mr-0"></i>
-                                        </div>
-                                        <div class="media-body">
-                                            <h6 class="media-heading red darken-1">دفعة متأخرة على أمر شراء رقم  {{$noificationsFour->invoice_id}}</h6>
-                                            <p class="notification-text font-small-3 text-muted">بقيمة {{$noificationsFour->amount}} ج.م</p><small>
-                                                <time class="media-meta text-muted"
-                                                    datetime="{{$noificationsFour->date}}">{{$noificationsFour->date}}</time></small>
-                                        </div>
-                                    </div>
-                                </a>
-                                @endforeach
-                                @endif
-                                @if($nextInvoiceDates->count() > 0)
-                                @foreach($nextInvoiceDates as $noificationsOne)
-                                <a href="{{route('invoices.view',$noificationsOne->invoice_id)}}">
-                                    <div class="media">
-                                        <div class="media-left align-self-center"><i
-                                                class="ft-alert-triangle icon-bg-circle bg-yellow bg-darken-3 mr-0"></i>
-                                        </div>
-                                        <div class="media-body">
-                                            <h6 class="media-heading yellow darken-3">دفعة قادمة على فاتورة مبيعات رقم {{$noificationsOne->invoice_id}}</h6>
-                                            <p class="notification-text font-small-3 text-muted">
-                                            بقيمة {{$noificationsOne->amount}} ج.م
-                                            </p><small>
-                                                <time class="media-meta text-muted"
-                                                    datetime="{{$noificationsOne->date}}">تاريخ الإستحقاق{{$noificationsOne->date}}</time></small>
-                                        </div>
-                                    </div>
-                                </a>
-                                @endforeach
-                                @endif
-                                @if($nextPurchasesDates->count() > 0)
-                                @foreach($nextPurchasesDates as $noificationsTwo)
-                                <a href="{{route('purchasesorders.view',$noificationsTwo->purchase_id)}}">
-                                    <div class="media">
-                                        <div class="media-left align-self-center"><i
-                                                class="ft-alert-triangle icon-bg-circle bg-yellow bg-darken-3 mr-0"></i>
-                                        </div>
-                                        <div class="media-body">
-                                            <h6 class="media-heading yellow darken-3">دفعة قادمة على أمر شراء رقم {{$noificationsTwo->invoice_id}}</h6>
-                                            <p class="notification-text font-small-3 text-muted">
-                                            بقيمة {{$noificationsTwo->amount}} ج.م
-                                            </p><small>
-                                                <time class="media-meta text-muted"
-                                                    datetime="{{$noificationsTwo->date}}">تاريخ الإستحقاق{{$noificationsTwo->date}}</time></small>
-                                        </div>
-                                    </div>
-                                </a>
-                                @endforeach
-                                @endif
-                                @if($upcomingFundPayments->count() > 0)
-                                @foreach($upcomingFundPayments as $noificationsFive)
-                                <a href="#">
-                                    <div class="media">
-                                        <div class="media-left align-self-center"><i
-                                                class="ft-alert-triangle icon-bg-circle bg-info bg-darken-3 mr-0"></i>
-                                        </div>
-                                        <div class="media-body">
-                                            <h6 class="media-heading info darken-3">موعد سداد تمويل خارجي رقم {{$noificationsFive->id}}</h6>
-                                            <p class="notification-text font-small-3 text-muted">
-                                            بقيمة {{$noificationsFive->amount}} ج.م
-                                            </p><small>
-                                                <time class="media-meta text-muted"
-                                                    datetime="{{$noificationsFive->refund_date}}">تاريخ الإستحقاق{{$noificationsFive->refund_date}}</time></small>
-                                        </div>
-                                    </div>
-                                </a>
-                                @endforeach
-                                @endif
-                            </li>
-                            {{-- <li class="dropdown-menu-footer"><a class="dropdown-item text-muted text-center"
+                    @if ($notificationCount > 0)
+                        <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#"
+                                data-toggle="dropdown"><i class="ficon ft-bell"></i><span
+                                    class="badge badge-pill badge-danger badge-up badge-glow">{{ $notificationCount }}</span></a>
+                            <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
+                                <li class="dropdown-menu-header">
+                                    <h6 class="dropdown-header m-0"><span class="grey darken-2">التنبيهات</span></h6>
+                                    <span
+                                        class="notification-tag badge badge-danger float-right m-0">{{ $notificationCount }}</span>
+                                </li>
+                                <li class="scrollable-container media-list w-100">
+                                    @if ($lateInvoiceDates->count() > 0)
+                                        @foreach ($lateInvoiceDates as $noificationsThree)
+                                            <a href="{{ route('invoices.view', $noificationsThree->invoice_id) }}">
+                                                <div class="media">
+                                                    <div class="media-left align-self-center"><i
+                                                            class="ft-alert-circle icon-bg-circle bg-red bg-darken-1 mr-0"></i>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="media-heading red darken-1">دفعة متأخرة على فاتورة
+                                                            مبيعات رقم {{ $noificationsThree->invoice_id }}</h6>
+                                                        <p class="notification-text font-small-3 text-muted">بقيمة
+                                                            {{ $noificationsThree->amount }} ج.م</p><small>
+                                                            <time class="media-meta text-muted"
+                                                                datetime="{{ $noificationsThree->date }}">{{ $noificationsThree->date }}</time></small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        @endforeach
+                                    @endif
+                                    @if ($latePurchasesDates->count() > 0)
+                                        @foreach ($latePurchasesDates as $noificationsFour)
+                                            <a
+                                                href="{{ route('purchasesorders.view', $noificationsFour->purchase_id) }}">
+                                                <div class="media">
+                                                    <div class="media-left align-self-center"><i
+                                                            class="ft-alert-circle icon-bg-circle bg-red bg-darken-1 mr-0"></i>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="media-heading red darken-1">دفعة متأخرة على أمر شراء
+                                                            رقم {{ $noificationsFour->invoice_id }}</h6>
+                                                        <p class="notification-text font-small-3 text-muted">بقيمة
+                                                            {{ $noificationsFour->amount }} ج.م</p><small>
+                                                            <time class="media-meta text-muted"
+                                                                datetime="{{ $noificationsFour->date }}">{{ $noificationsFour->date }}</time></small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        @endforeach
+                                    @endif
+                                    @if ($nextInvoiceDates->count() > 0)
+                                        @foreach ($nextInvoiceDates as $noificationsOne)
+                                            <a href="{{ route('invoices.view', $noificationsOne->invoice_id) }}">
+                                                <div class="media">
+                                                    <div class="media-left align-self-center"><i
+                                                            class="ft-alert-triangle icon-bg-circle bg-yellow bg-darken-3 mr-0"></i>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="media-heading yellow darken-3">دفعة قادمة على فاتورة
+                                                            مبيعات رقم {{ $noificationsOne->invoice_id }}</h6>
+                                                        <p class="notification-text font-small-3 text-muted">
+                                                            بقيمة {{ $noificationsOne->amount }} ج.م
+                                                        </p><small>
+                                                            <time class="media-meta text-muted"
+                                                                datetime="{{ $noificationsOne->date }}">تاريخ
+                                                                الإستحقاق{{ $noificationsOne->date }}</time></small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        @endforeach
+                                    @endif
+                                    @if ($nextPurchasesDates->count() > 0)
+                                        @foreach ($nextPurchasesDates as $noificationsTwo)
+                                            <a
+                                                href="{{ route('purchasesorders.view', $noificationsTwo->purchase_id) }}">
+                                                <div class="media">
+                                                    <div class="media-left align-self-center"><i
+                                                            class="ft-alert-triangle icon-bg-circle bg-yellow bg-darken-3 mr-0"></i>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="media-heading yellow darken-3">دفعة قادمة على أمر
+                                                            شراء رقم {{ $noificationsTwo->invoice_id }}</h6>
+                                                        <p class="notification-text font-small-3 text-muted">
+                                                            بقيمة {{ $noificationsTwo->amount }} ج.م
+                                                        </p><small>
+                                                            <time class="media-meta text-muted"
+                                                                datetime="{{ $noificationsTwo->date }}">تاريخ
+                                                                الإستحقاق{{ $noificationsTwo->date }}</time></small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        @endforeach
+                                    @endif
+                                    @if ($upcomingFundPayments->count() > 0)
+                                        @foreach ($upcomingFundPayments as $noificationsFive)
+                                            <a href="#">
+                                                <div class="media">
+                                                    <div class="media-left align-self-center"><i
+                                                            class="ft-alert-triangle icon-bg-circle bg-info bg-darken-3 mr-0"></i>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="media-heading info darken-3">موعد سداد تمويل خارجي
+                                                            رقم {{ $noificationsFive->id }}</h6>
+                                                        <p class="notification-text font-small-3 text-muted">
+                                                            بقيمة {{ $noificationsFive->amount }} ج.م
+                                                        </p><small>
+                                                            <time class="media-meta text-muted"
+                                                                datetime="{{ $noificationsFive->refund_date }}">تاريخ
+                                                                الإستحقاق{{ $noificationsFive->refund_date }}</time></small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        @endforeach
+                                    @endif
+                                </li>
+                                {{-- <li class="dropdown-menu-footer"><a class="dropdown-item text-muted text-center"
                                     href="javascript:void(0)">Read all notifications</a></li> --}}
-                        </ul>
-                    </li>
+                            </ul>
+                        </li>
                     @endif
                     {{-- <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#"
                             data-toggle="dropdown"><i class="ficon ft-settings"></i></a>
@@ -286,14 +300,17 @@
                             href="#" data-toggle="dropdown"><span
                                 class="mr-1 user-name text-bold-700">{{ Auth::user()->username }}</span><span
                                 class="avatar avatar-online">
-        @if(!isset(Auth::user()->profile_pic))
-        <img src="{{ asset('theme/app-assets/images/custom/no-profile.jpg') }}"alt="avatar">
-        @else
-        <img src="{{ asset($myPP) }}" alt="avatar"/>
-        @endif
-                                    <i></i></span></a>
+                                @if (!isset(Auth::user()->profile_pic))
+                                    <img src="{{ asset('theme/app-assets/images/custom/no-profile.jpg') }}"
+                                        alt="avatar">
+                                @else
+                                    <img src="{{ asset($myPP) }}" alt="avatar" />
+                                @endif
+                                <i></i>
+                            </span></a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="{{route('users.view',Auth::user()->id)}}"><i class="ft-user"></i> الملف الشخصي</a>
+                            <a class="dropdown-item" href="{{ route('users.view', Auth::user()->id) }}"><i
+                                    class="ft-user"></i> الملف الشخصي</a>
                             {{-- <a class="dropdown-item" href="app-kanban.html"><i class="ft-clipboard"></i> Todo</a> --}}
                             {{-- <a class="dropdown-item" href="user-cards.html"><i class="ft-check-square"></i> Task</a> --}}
                             <div class="dropdown-divider"></div>
@@ -302,7 +319,8 @@
                                 <i class="ft-power"></i> تسجيل الخروج
                             </a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                class="d-none">
                                 @csrf
                             </form>
 
