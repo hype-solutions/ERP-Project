@@ -145,8 +145,10 @@
                                 إسم الشركة
                                 @elseif($setting->key == 'logo')
                                 شعار الشركة
-                                @elseif($setting->key == 'country')
-                                الدولة
+                                @elseif($setting->key == 'address_1')
+                                العنوان (السطر الأول)
+                                @elseif($setting->key == 'address_2')
+                                العنوان (السطر الثاني)
                                 @elseif($setting->key == 'currency')
                                 العملة
                                 @endif

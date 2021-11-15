@@ -18,7 +18,8 @@ class UpdateSettingsTableAddBasicRecords extends Migration
             $data = [
                 ['key'=>'company_name', 'value'=> 'اسم الشركة'],
                 ['key'=>'logo', 'value'=> 'logo_placeholder.png'],
-                ['key'=>'country', 'value'=> 'مصر'],
+                ['key'=>'address_1', 'value'=> 'رقم المبنى, الشارع'],
+                ['key'=>'address_2', 'value'=> 'المدينة, الدوله'],
                 ['key'=>'currency', 'value'=> 'ج.م']
             ];
             DB::table('settings')->insert($data);

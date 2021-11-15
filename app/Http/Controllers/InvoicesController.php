@@ -41,7 +41,10 @@ class InvoicesController extends Controller
         $this->addLogRecord('Invoices', 'View', $invoiceId);
         $logo = Settings::where('key', 'logo')->value('value');
         $company = Settings::where('key', 'company_name')->value('value');
-        return view('invoices.profile', compact('company', 'logo', 'invoice'));
+        $address_1 = Settings::where('key', 'address_1')->value('value');
+        $address_2 = Settings::where('key', 'address_2')->value('value');
+
+        return view('invoices.profile', compact('company', 'logo', 'invoice','address_1','address_2'));
     }
 
 
