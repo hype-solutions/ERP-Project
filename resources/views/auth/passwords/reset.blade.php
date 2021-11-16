@@ -72,7 +72,7 @@
                                         @csrf
                                         <fieldset class="form-group position-relative has-icon-left mb-0">
                                             <input type="text" name="email" class="form-control" id="user-name"
-                                                placeholder="البريد الإلكتروني" value="{{ old('email') }}" required
+                                                placeholder="البريد الإلكتروني"  value="{{ $email ?? old('email') }}" required
                                                 autofocus>
                                             <div class="form-control-position">
                                                 <i class="la la-user"></i>
