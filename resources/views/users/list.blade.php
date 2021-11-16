@@ -215,7 +215,7 @@
                                                                             href="#"><i
                                                                                 class="la la-lock"></i> أرسل كلمة مرور جديدة</a>
                                                                             <div class="dropdown-divider"></div>
-                                                                        <a class="dropdown-item" href="{{route('users.sendResetPassword')}}"
+                                                                        <a class="dropdown-item" href="{{route('users.sendResetPassword',$user->id)}}"
                                                                             data-toggle="modal"
                                                                             data-target="#edit_profilePicture{{ $user->id }}"><i
                                                                                 class="la la-pencil-square-o"></i> تغيير
