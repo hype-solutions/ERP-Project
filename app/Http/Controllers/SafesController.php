@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Safes\Safes;
 use App\Models\Safes\SafesTransactions;
 use App\Models\Safes\SafesTransfers;
+use App\Models\Settings\Settings;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -229,14 +230,16 @@ class SafesController extends Controller
 
     public function receipt(SafesTransactions $transactionId)
     {
+        $logo = Settings::where('key', 'logo')->value('value');
 
-        return view('safes.receipt', compact('transactionId'));
+        return view('safes.receipt', compact('transactionId','logo'));
     }
 
     public function transferReceipt(SafesTransfers $transferId)
     {
+        $logo = Settings::where('key', 'logo')->value('value');
 
-        return view('safes.transferReceipt', compact('transferId'));
+        return view('safes.transferReceipt', compact('transferId','logo'));
     }
 
     public function externalFund(Safes $safe)
