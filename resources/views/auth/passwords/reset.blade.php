@@ -68,7 +68,7 @@
 
                                         @endif
                                     <form method="POST" class="form-horizontal form-simple"
-                                        action="{{ route('password.email') }}">
+                                        action="{{ route('password.update') }}">
                                         @csrf
                                         <fieldset class="form-group position-relative has-icon-left mb-0">
                                             <input type="text" name="email" class="form-control" id="user-name"
