@@ -70,6 +70,7 @@
                                     <form method="POST" class="form-horizontal form-simple"
                                         action="{{ route('password.update') }}">
                                         @csrf
+                                        <input type="hidden" name="token" value="{{ $token }}">
                                         <fieldset class="form-group position-relative has-icon-left mb-0">
                                             <input type="text" name="email" class="form-control" id="user-name"
                                                 placeholder="البريد الإلكتروني"  value="{{ $email ?? old('email') }}" required
