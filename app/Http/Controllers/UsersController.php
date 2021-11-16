@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
@@ -14,6 +15,8 @@ use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
+    use SendsPasswordResetEmails;
+
     public function __construct()
     {
         $this->middleware('installed');
@@ -196,13 +199,27 @@ class UsersController extends Controller
         return $user;
     }
 
-    function sendResetPassword(User $user){
-        $status = Password::sendResetLink(
-            $user->email
-        );
+    // function sendResetPassword(User $user){
+    //     $status = Password::sendResetLink(
+    //         $user->email
+    //     );
 
-        return $status === Password::RESET_LINK_SENT
-                    ? back()->with(['status' => __($status)])
-                    : back()->withErrors(['email' => __($status)]);
-    }
+    //     return $status === Password::RESET_LINK_SENT
+    //                 ? back()->with(['status' => __($status)])
+    //                 : back()->withErrors(['email' => __($status)]);
+    // }
+
+    public function sendResetLinkEmail(Request $request)
+{
+    $this->validateEmail($request);
+
+    // We will send the password reset link to this user. Once we have attempted
+    // to send the link, we will examine the response then see the message we
+    // need to show to the user. Finally, we'll send out a proper response.
+    $response = $this->broker()->sendResetLink(
+        $request->only('email')
+    );
+
+    return back()->with('status', "If you've provided registered e-mail, you should get recovery e-mail shortly.");
+}
 }

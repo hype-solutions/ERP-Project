@@ -211,9 +211,12 @@
                                                                             href="{{ route('users.permissions', $user->id) }}"><i
                                                                                 class="la la-balance-scale"></i> تعديل
                                                                             الصلاحيات</a>
-                                                                            <a class="dropdown-item"
-                                                                            href="{{route('users.sendResetPassword',$user->id)}}"><i
-                                                                                class="la la-lock"></i> أرسل كلمة مرور جديدة</a>
+                                                                            <form action="{{route('users.sendResetPassword')}}">
+                                                                                @csrf
+                                                                            <button class="dropdown-item"
+                                                                            type="submit"><i
+                                                                                class="la la-lock"></i> أرسل كلمة مرور جديدة</button>
+                                                                            </form>
                                                                             <div class="dropdown-divider"></div>
                                                                         <a class="dropdown-item" href="#"
                                                                             data-toggle="modal"
