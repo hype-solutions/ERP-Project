@@ -211,7 +211,7 @@
                                                                             href="{{ route('users.permissions', $user->id) }}"><i
                                                                                 class="la la-balance-scale"></i> تعديل
                                                                             الصلاحيات</a>
-                                                                            <form action="{{route('users.sendResetPassword')}}">
+                                                                            <form action="{{route('users.sendResetPassword')}}" method="post">
                                                                                 @csrf
                                                                             <button class="dropdown-item"
                                                                             type="submit"><i
