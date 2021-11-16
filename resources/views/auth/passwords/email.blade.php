@@ -53,7 +53,8 @@
                                             </ul>
                                         </div>
 
-                                        @if (session('status'))
+                                    @endif
+                                    @if (session('status'))
                                             <div class="alert alert-icon-left alert-success alert-dismissible mb-2"
                                                 role="alert">
                                                 <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
@@ -66,8 +67,6 @@
                                             </div>
 
                                         @endif
-
-                                    @endif
                                     <form method="POST" class="form-horizontal form-simple"
                                         action="{{ route('password.email') }}">
                                         @csrf
