@@ -220,6 +220,6 @@ class UsersController extends Controller
         $request->only('email')
     );
 
-    return back()->with('status', "If you've provided registered e-mail, you should get recovery e-mail shortly.");
+    return back()->with('success', "Reset Sent");
 }
 }
