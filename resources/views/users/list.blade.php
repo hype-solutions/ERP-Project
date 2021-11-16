@@ -213,6 +213,7 @@
                                                                             الصلاحيات</a>
                                                                             <form action="{{route('users.sendResetPassword')}}" method="post">
                                                                                 @csrf
+                                                                                <input type="hidden" value="{{$user->email}}" name="email">
                                                                             <button class="dropdown-item"
                                                                             type="submit"><i
                                                                                 class="la la-lock"></i> أرسل كلمة مرور جديدة</button>
