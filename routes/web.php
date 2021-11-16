@@ -436,6 +436,7 @@ Route::group(['middleware' => ['permission:Edit Users']], function () {
     Route::patch('/users/signature/update/{user}', [UsersController::class, 'signature'])->name('users.signature');
     Route::get('/users/permissions/{user}', [UsersController::class, 'permissions'])->name('users.permissions');
     Route::post('/users/reSyncRolewithPermissions', [UsersController::class, 'reSyncRolewithPermissions'])->name('users.reSyncRolewithPermissions');
+    Route::get('/users/sendResetPassword/{user}', [UsersController::class, 'sendResetPassword'])->name('users.sendResetPassword');
 });
 
 Route::group(['middleware' => ['permission:Delete Users']], function () {

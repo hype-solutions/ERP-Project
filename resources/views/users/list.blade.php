@@ -213,10 +213,9 @@
                                                                             الصلاحيات</a>
                                                                             <a class="dropdown-item"
                                                                             href="#"><i
-                                                                                class="la la-lock"></i> تعديل
-                                                                            كلمة المرور</a>
+                                                                                class="la la-lock"></i> أرسل كلمة مرور جديدة</a>
                                                                             <div class="dropdown-divider"></div>
-                                                                        <a class="dropdown-item" href="#"
+                                                                        <a class="dropdown-item" href="{{route('users.sendResetPassword')}}"
                                                                             data-toggle="modal"
                                                                             data-target="#edit_profilePicture{{ $user->id }}"><i
                                                                                 class="la la-pencil-square-o"></i> تغيير
