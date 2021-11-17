@@ -331,6 +331,9 @@
                                                     </div>
                                                 </div>
                                             @endforeach
+                                            @if ($priceQuotations->count() > 5)
+                                                <a href="{{route('invoicespricequotations.list')}}" class="text-center btn btn-outline-warning btn-sm round">كل العروض</a>
+                                            @endif
                                         </div>
                                     </div>
                                 @endcanany
@@ -389,6 +392,9 @@
                                                     </div>
                                                 </div>
                                             @endforeach
+                                            @if ($purchasesOrders->count() > 5)
+                                                <a href="{{route('purchasesorders.list')}}" class="text-center btn btn-outline-warning btn-sm round">كل العروض</a>
+                                            @endif
                                         </div>
                                     </div>
                                 @endcanany
@@ -451,6 +457,7 @@
                                                     </div>
                                                 </div>
                                             @endforeach
+
                                         </div>
                                     </div>
                                 @endcanany
@@ -508,6 +515,7 @@
                                                     </div>
                                                 </div>
                                             @endforeach
+
                                         </div>
                                     </div>
                                 @endcanany

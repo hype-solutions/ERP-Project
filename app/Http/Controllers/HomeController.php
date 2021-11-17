@@ -30,14 +30,18 @@ class HomeController extends Controller
     {
         $priceQuotations = InvoicesPriceQuotation::where('quotation_status', 'Pending Approval')
             ->orWhere('quotation_status', 'Approved')
-            ->get();
+            ->orderByDesc('id')
+            ->paginate(5);
         $purchasesOrders = PurchasesOrders::where('purchase_status', 'Created')
             ->orWhere('purchase_status', 'Paid')
-            ->get();
+            ->orderByDesc('id')
+            ->paginate(5);
         $safesTransfers = SafesTransfers::where('authorized_by', 0)
-            ->get();
+            ->orderByDesc('id')
+            ->paginate(5);
         $productTransfers = ProductsTransfers::where('status', 'Pending')
-            ->get();
+            ->orderByDesc('id')
+            ->paginate(5);
         return view('home', compact('priceQuotations', 'purchasesOrders', 'safesTransfers', 'productTransfers'));
     }
 
