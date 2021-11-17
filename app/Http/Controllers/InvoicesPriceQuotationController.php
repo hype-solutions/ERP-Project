@@ -72,10 +72,11 @@ class InvoicesPriceQuotationController extends Controller
         $logo = Settings::where('key', 'logo')->value('value');
         $company = Settings::where('key', 'company_name')->value('value');
         $signature = InvoicesPriceQuotationSignature::with('user')->first();
-
+        $address_1 = Settings::where('key', 'address_1')->value('value');
+        $address_2 = Settings::where('key', 'address_2')->value('value');
         // return($signature);
 
-        return view('invoices_price_quotations.profile', compact('signature','company', 'logo', 'userSig', 'currentProducts', 'invoice', 'user_id', 'customers', 'products'));
+        return view('invoices_price_quotations.profile', compact('address_1','address_2','signature','company', 'logo', 'userSig', 'currentProducts', 'invoice', 'user_id', 'customers', 'products'));
     }
 
     public function edit(InvoicesPriceQuotation $invoice)

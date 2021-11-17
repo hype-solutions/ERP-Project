@@ -74,21 +74,29 @@
                     <div id="invoice-company-details" class="row">
                         <div class="col-sm-6 col-12 text-center text-sm-left">
                             <div class="media row">
-                                <div class="col-12 col-sm-3 col-xl-2">
-                                    <img src="{{ asset($logo) }}" alt="{{ $company }}" class="mb-1 mb-sm-0"
-                                        style="width: 80px;height:80px;" />
-                                </div>
-                                <div class="col-12 col-sm-9 col-xl-10">
+                                <div class="col-12 col-sm-12 col-xl-10">
                                     <div class="media-body">
                                         <ul class="ml-2 px-0 list-unstyled">
                                             <li class="text-bold-800">{{ $company }}</li>
-                                            {{-- <li>العنوان 1</li>
-                          <li>العنوان 2</li>
-                          <li>المدينة</li>
-                          <li>الدولة</li> --}}
                                         </ul>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="media row">
+                                <div class="col-12">
+                                    <img src="{{ asset($logo) }}" alt="{{ $company }}" class="mb-1 mb-sm-0"
+                                        style="width: 200px;height:80px;" />
+                                </div>
+                                <div class="col-12">
+                                    <div class="media-body">
+                                        <ul class="ml-2 px-0 list-unstyled">
+                                            <li>{{ $address_1 }}</li>
+                                            <li>{{ $address_2 }}</li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                         <div class="col-sm-6 col-12 text-center text-sm-right">
@@ -105,7 +113,7 @@
                     <!-- Invoice Customer Details -->
                     <div id="invoice-customer-details" class="row pt-2">
                         <div class="col-12 text-center text-sm-left">
-                            <p class="text-muted">بيانات العميل</p>
+                            <p class="text-muted">بيانات الجهه</p>
                         </div>
                         <div class="col-sm-6 col-12 text-center text-sm-left">
                             <ul class="px-0 list-unstyled">
