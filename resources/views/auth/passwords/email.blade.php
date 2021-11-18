@@ -84,7 +84,7 @@
                                                 class="ft-unlock"></i> أرسل رابط تغيير كلمة المرور</button>
                                                 <br>
                                                 <br>
-                                        <a href="{{ route('login') }}" class="btn btn-warning bn-block" style="width: 100%"><i
+                                        <a href="{{ route('login') }}" class="btn btn-success bn-block" style="width: 100%"><i
                                                 class="ft-arrow-left"></i>عوده الى صفحة تسجيل الدخول</a>
                                     </form>
                                 </div>
