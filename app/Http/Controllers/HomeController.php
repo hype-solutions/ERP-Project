@@ -31,28 +31,44 @@ class HomeController extends Controller
         $priceQuotations = InvoicesPriceQuotation::where('quotation_status', 'Pending Approval')
             ->orWhere('quotation_status', 'Approved')
             ->orderByDesc('id')
-            ->get();
-        $priceQuotationsCount = $priceQuotations->count();
+            ->paginate(5);
+
+        $priceQuotationsCount = InvoicesPriceQuotation::where('quotation_status', 'Pending Approval')
+            ->orWhere('quotation_status', 'Approved')
+            ->orderByDesc('id')
+            ->count();
 
         $purchasesOrders = PurchasesOrders::where('purchase_status', 'Created')
             ->orWhere('purchase_status', 'Paid')
             ->orderByDesc('id')
-            ->get();
-        $purchasesOrdersCount = $purchasesOrders->count();
+            ->paginate(5);
+
+        $purchasesOrdersCount = PurchasesOrders::where('purchase_status', 'Created')
+            ->orWhere('purchase_status', 'Paid')
+            ->orderByDesc('id')
+            ->count();
 
         $safesTransfers = SafesTransfers::where('authorized_by', 0)
             ->whereHas('safeTo')
             ->whereHas('safeFrom')
             ->orderByDesc('id')
-            ->get();
-        $safesTransfersCount = $safesTransfers->count();
+            ->paginate(5);
+
+        $safesTransfersCount = SafesTransfers::where('authorized_by', 0)
+            ->whereHas('safeTo')
+            ->whereHas('safeFrom')
+            ->orderByDesc('id')
+            ->count();
 
         $productTransfers = ProductsTransfers::where('status', 'Pending')
             ->orderByDesc('id')
-            ->get();
-        $productTransfersCount = $productTransfers->count();
+            ->paginate(5);
 
-        return view('home', compact('priceQuotationsCount','purchasesOrdersCount','safesTransfersCount','productTransfersCount','priceQuotations', 'purchasesOrders', 'safesTransfers', 'productTransfers'));
+        $productTransfersCount = ProductsTransfers::where('status', 'Pending')
+            ->orderByDesc('id')
+            ->count();
+
+        return view('home', compact('priceQuotationsCount', 'purchasesOrdersCount', 'safesTransfersCount', 'productTransfersCount', 'priceQuotations', 'purchasesOrders', 'safesTransfers', 'productTransfers'));
     }
 
     public function shit()

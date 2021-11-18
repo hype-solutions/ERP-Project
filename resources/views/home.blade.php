@@ -278,10 +278,10 @@
                             <div class="card-body">
                                 @canany(['Accept PQ', 'Convert PQ'])
                                     <span class="btn btn-block btn-outline-dark">عروض الأسعار (<span
-                                            class="text-danger">{{ $priceQuotations->count() }}</span>)</span>
+                                            class="text-danger">{{ $priceQuotationsCount }}</span>)</span>
                                     <div id="priceQuotations" role="tablist" aria-multiselectable="true">
                                         <div class="card accordion collapse-icon accordion-icon-rotate">
-                                            @if ($priceQuotations->count() == 0)
+                                            @if ($priceQuotationsCount == 0)
                                                 <span class="text-success">لا يوجد جديد</span>
                                             @endif
                                             @foreach ($priceQuotations as $key => $quotation)
@@ -340,10 +340,10 @@
                                 @endcanany
                                 @canany(['Accept PO', 'Import PO'])
                                     <span class="btn btn-block btn-outline-dark">أوامر الشراء (<span
-                                            class="text-danger">{{ $purchasesOrders->count() }}</span>)</span>
+                                            class="text-danger">{{ $purchasesOrdersCount }}</span>)</span>
                                     <div id="purchasesOrders" role="tablist" aria-multiselectable="true">
                                         <div class="card accordion collapse-icon accordion-icon-rotate">
-                                            @if ($purchasesOrders->count() == 0)
+                                            @if ($purchasesOrdersCount == 0)
                                                 <span class="text-success">لا يوجد جديد</span>
                                             @endif
                                             @foreach ($purchasesOrders as $key => $purchase)
@@ -402,10 +402,10 @@
                                 @endcanany
                                 @canany(['Accept Products Transfer', 'Decline Products Transfer'])
                                     <span class="btn btn-block btn-outline-dark">المخزن (<span
-                                            class="text-danger">{{ $productTransfers->count() }}</span>)</span>
+                                            class="text-danger">{{ $productTransfersCount }}</span>)</span>
                                     <div id="productTransfers" role="tablist" aria-multiselectable="true">
                                         <div class="card accordion collapse-icon accordion-icon-rotate">
-                                            @if ($productTransfers->count() == 0)
+                                            @if ($productTransfersCount == 0)
                                                 <span class="text-success">لا يوجد جديد</span>
                                             @endif
                                             @foreach ($productTransfers as $key => $transfer)
@@ -465,10 +465,10 @@
                                 @endcanany
                                 @canany(['Accept Safes Transfers', 'Accept Safes Deposit', 'Accept Safes Withdraw'])
                                     <span class="btn btn-block btn-outline-dark">الخزن (<span
-                                            class="text-danger">{{ $safesTransfers->count() }}</span>)</span>
+                                            class="text-danger">{{ $safesTransfersCount }}</span>)</span>
                                     <div id="safesTransfers" role="tablist" aria-multiselectable="true">
                                         <div class="card accordion collapse-icon accordion-icon-rotate">
-                                            @if ($safesTransfers->count() == 0)
+                                            @if ($safesTransfersCount == 0)
                                                 <span class="text-success">لا يوجد جديد</span>
                                             @endif
                                             @foreach ($safesTransfers as $key => $transfer)
