@@ -331,9 +331,9 @@
                                                     </div>
                                                 </div>
                                             @endforeach
-                                            @if ($priceQuotations->count() > 5)
+                                            @if ($priceQuotationsCount > 5)
                                                 <a href="{{ route('invoicespricequotations.list') }}"
-                                                    class="text-center btn btn-outline-warning btn-sm round">كل العروض</a>
+                                                    class="text-center btn btn-outline-warning btn-sm round">عرض المزيد</a>
                                             @endif
                                         </div>
                                     </div>
@@ -393,7 +393,7 @@
                                                     </div>
                                                 </div>
                                             @endforeach
-                                            @if ($purchasesOrders->count() > 5)
+                                            @if ($purchasesOrdersCount > 5)
                                                 <a href="{{ route('purchasesorders.list') }}"
                                                     class="text-center btn btn-outline-warning btn-sm round">كل العروض</a>
                                             @endif

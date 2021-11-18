@@ -31,20 +31,28 @@ class HomeController extends Controller
         $priceQuotations = InvoicesPriceQuotation::where('quotation_status', 'Pending Approval')
             ->orWhere('quotation_status', 'Approved')
             ->orderByDesc('id')
-            ->paginate(5);
+            ->get();
+        $priceQuotationsCount = $priceQuotations->count();
+
         $purchasesOrders = PurchasesOrders::where('purchase_status', 'Created')
             ->orWhere('purchase_status', 'Paid')
             ->orderByDesc('id')
-            ->paginate(5);
+            ->get();
+        $purchasesOrdersCount = $purchasesOrders->count();
+
         $safesTransfers = SafesTransfers::where('authorized_by', 0)
             ->whereHas('safeTo')
             ->whereHas('safeFrom')
             ->orderByDesc('id')
-            ->paginate(5);
+            ->get();
+        $safesTransfersCount = $safesTransfers->count();
+
         $productTransfers = ProductsTransfers::where('status', 'Pending')
             ->orderByDesc('id')
-            ->paginate(5);
-        return view('home', compact('priceQuotations', 'purchasesOrders', 'safesTransfers', 'productTransfers'));
+            ->get();
+        $productTransfersCount = $productTransfers->count();
+
+        return view('home', compact('priceQuotationsCount','purchasesOrdersCount','safesTransfersCount','productTransfersCount','priceQuotations', 'purchasesOrders', 'safesTransfers', 'productTransfers'));
     }
 
     public function shit()
