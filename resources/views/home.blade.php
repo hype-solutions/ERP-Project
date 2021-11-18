@@ -332,7 +332,8 @@
                                                 </div>
                                             @endforeach
                                             @if ($priceQuotations->count() > 5)
-                                                <a href="{{route('invoicespricequotations.list')}}" class="text-center btn btn-outline-warning btn-sm round">كل العروض</a>
+                                                <a href="{{ route('invoicespricequotations.list') }}"
+                                                    class="text-center btn btn-outline-warning btn-sm round">كل العروض</a>
                                             @endif
                                         </div>
                                     </div>
@@ -393,7 +394,8 @@
                                                 </div>
                                             @endforeach
                                             @if ($purchasesOrders->count() > 5)
-                                                <a href="{{route('purchasesorders.list')}}" class="text-center btn btn-outline-warning btn-sm round">كل العروض</a>
+                                                <a href="{{ route('purchasesorders.list') }}"
+                                                    class="text-center btn btn-outline-warning btn-sm round">كل العروض</a>
                                             @endif
                                         </div>
                                     </div>
@@ -470,55 +472,59 @@
                                                 <span class="text-success">لا يوجد جديد</span>
                                             @endif
                                             @foreach ($safesTransfers as $key => $transfer)
-                                            @if ($transfer->safe_to)
-                                            @if ($transfer->safe_from)
+                                                @if ($transfer->safe_to)
+                                                    @if ($transfer->safe_from)
 
-                                            @endif
-                                                <a id="headingc{{ $key }}" class="card-header info collapsed"
-                                                    data-toggle="collapse" href="#accordionc{{ $key }}"
-                                                    aria-expanded="false" aria-controls="accordionc{{ $key }}">
-                                                    <div class="card-title lead">عملية تحويل رقم #{{ $transfer->id }}</div>
-                                                </a>
-                                                <div id="accordionc{{ $key }}" role="tabpanel"
-                                                    data-parent="#safesTransfers" aria-labelledby="headingc{{ $key }}"
-                                                    class="collapse" style="">
-                                                    <div class="card-content">
-                                                        <div class="card-body">
-                                                            <table class="table">
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <th>من</th>
-                                                                        <td>{{ $transfer->safeFrom->safe_name }}</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th>الى</th>
-                                                                        <td>{{ $transfer->safeTo->safe_name }}</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th>المبلغ</th>
-                                                                        <td>{{ $transfer->transfer_amount }} ج.م</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th>قام بالتحويل</th>
-                                                                        <td>
-                                                                            <div
-                                                                                class="badge border-primary primary badge-border">
-                                                                                <i class="la la-user font-medium-2"></i>
-                                                                                <span>{{ $transfer->transferUser->username }}</span>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                            <a class="btn btn-success btn-sm"
-                                                                href="{{ route('safes.accepting', $transfer->id) }}"><i
-                                                                    class="la la-check"></i> تصديق</a>
-                                                            <a class="btn btn-danger btn-sm" href="#"><i
-                                                                    class="la la-close"></i> رفض</a>
+                                                        <a id="headingc{{ $key }}" class="card-header info collapsed"
+                                                            data-toggle="collapse" href="#accordionc{{ $key }}"
+                                                            aria-expanded="false"
+                                                            aria-controls="accordionc{{ $key }}">
+                                                            <div class="card-title lead">عملية تحويل رقم
+                                                                #{{ $transfer->id }}
+                                                            </div>
+                                                        </a>
+                                                        <div id="accordionc{{ $key }}" role="tabpanel"
+                                                            data-parent="#safesTransfers"
+                                                            aria-labelledby="headingc{{ $key }}"
+                                                            class="collapse" style="">
+                                                            <div class="card-content">
+                                                                <div class="card-body">
+                                                                    <table class="table">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <th>من</th>
+                                                                                <td>{{ $transfer->safeFrom->safe_name }}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>الى</th>
+                                                                                <td>{{ $transfer->safeTo->safe_name }}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>المبلغ</th>
+                                                                                <td>{{ $transfer->transfer_amount }} ج.م</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>قام بالتحويل</th>
+                                                                                <td>
+                                                                                    <div
+                                                                                        class="badge border-primary primary badge-border">
+                                                                                        <i
+                                                                                            class="la la-user font-medium-2"></i>
+                                                                                        <span>{{ $transfer->transferUser->username }}</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <a class="btn btn-success btn-sm"
+                                                                        href="{{ route('safes.accepting', $transfer->id) }}"><i
+                                                                            class="la la-check"></i> تصديق</a>
+                                                                    <a class="btn btn-danger btn-sm" href="#"><i
+                                                                            class="la la-close"></i> رفض</a>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                @endif
+                                                    @endif
                                                 @endif
                                             @endforeach
 
