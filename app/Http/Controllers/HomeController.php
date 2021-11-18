@@ -37,6 +37,8 @@ class HomeController extends Controller
             ->orderByDesc('id')
             ->paginate(5);
         $safesTransfers = SafesTransfers::where('authorized_by', 0)
+            ->whereHas('safeTo')
+            ->whereHas('safeFrom')
             ->orderByDesc('id')
             ->paginate(5);
         $productTransfers = ProductsTransfers::where('status', 'Pending')
