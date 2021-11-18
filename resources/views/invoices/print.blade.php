@@ -70,7 +70,7 @@
                     <p class="text-muted">بيانات الجهه</p>
                   <ul class="px-0 list-unstyled">
                     <li class="text-bold-800">{{$invoice->customer->customer_name}} @if($invoice->customer->parent)
-                        - {{$customer->parent->customer_name}}
+                        - {{$invoice->customer->parent->customer_name}}
                         @endif</li>
                     <li>موبايل: {{ $invoice->customer->customer_mobile }}</li>
                     <li>
