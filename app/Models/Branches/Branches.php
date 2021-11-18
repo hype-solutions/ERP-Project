@@ -158,7 +158,8 @@ class Branches extends Model
 
     public function deleteSafe($id)
     {
-        return Safes::destroy($this->getBranchSafeDetails()->where('branch_id', $id)->value('id'));
+        // return Safes::destroy($this->getBranchSafeDetails()->where('branch_id', $id)->value('id'));
+        return Safes::destroy($id);
     }
 
 
