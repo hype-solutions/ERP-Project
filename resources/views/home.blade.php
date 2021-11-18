@@ -470,6 +470,10 @@
                                                 <span class="text-success">لا يوجد جديد</span>
                                             @endif
                                             @foreach ($safesTransfers as $key => $transfer)
+                                            @if ($transfer->safe_to)
+                                            @if ($transfer->safe_from)
+
+                                            @endif
                                                 <a id="headingc{{ $key }}" class="card-header info collapsed"
                                                     data-toggle="collapse" href="#accordionc{{ $key }}"
                                                     aria-expanded="false" aria-controls="accordionc{{ $key }}">
@@ -514,6 +518,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                @endif
+                                                @endif
                                             @endforeach
 
                                         </div>
