@@ -472,8 +472,8 @@
                                                 <span class="text-success">لا يوجد جديد</span>
                                             @endif
                                             @foreach ($safesTransfers as $key => $transfer)
-                                                @if ($transfer->safe_to)
-                                                    @if ($transfer->safe_from)
+                                                @if ($transfer->safeTo)
+                                                    @if ($transfer->safeFrom)
 
                                                         <a id="headingc{{ $key }}" class="card-header info collapsed"
                                                             data-toggle="collapse" href="#accordionc{{ $key }}"
