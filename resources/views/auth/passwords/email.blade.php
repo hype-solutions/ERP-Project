@@ -56,18 +56,18 @@
 
                                     @endif
                                     @if (session('status'))
-                                            <div class="alert alert-icon-left alert-success alert-dismissible mb-2"
-                                                role="alert">
-                                                <span class="alert-icon"><i class="la la-thumbs-o-up"></i></span>
-                                                <button type="button" class="close" data-dismiss="alert"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">×</span>
-                                                </button>
-                                                <strong>{{ session('status') }}</strong>
+                                        <div class="alert alert-icon-left alert-success alert-dismissible mb-2"
+                                            role="alert">
+                                            <span class="alert-icon"><i class="la la-thumbs-o-up"></i></span>
+                                            <button type="button" class="close" data-dismiss="alert"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                            <strong>{{ session('status') }}</strong>
 
-                                            </div>
+                                        </div>
 
-                                        @endif
+                                    @endif
                                     <form method="POST" class="form-horizontal form-simple"
                                         action="{{ route('password.email') }}">
                                         @csrf
@@ -82,6 +82,10 @@
 
                                         <button type="submit" class="btn btn-success btn-block"><i
                                                 class="ft-unlock"></i> أرسل رابط تغيير كلمة المرور</button>
+                                                <br>
+                                                <br>
+                                        <a href="{{ route('login') }}" class="btn btn-warning bn-block" style="width: 100%"><i
+                                                class="ft-arrow-left"></i>عوده الى صفحة تسجيل الدخول</a>
                                     </form>
                                 </div>
                             </div>

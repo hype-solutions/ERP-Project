@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\BranchesController;
 use App\Http\Controllers\CalculatorController;
 use App\Http\Controllers\SafesController;
@@ -195,6 +196,7 @@ Route::post('/suppliers/checksupplier', [SuppliersController::class, 'checksuppl
  **************************/
 Route::group(['middleware' => ['permission:View Products']], function () {
     Route::get('/products', [ProductsController::class, 'productsList'])->name('products.list');
+    Route::get('/products/sortByCat/{cat}', [ProductsController::class, 'productsListByCat'])->name('products.productsListByCat');
     Route::get('/products/view/{product}', [ProductsController::class, 'view'])->name('products.view');
     Route::get('/products/barcode/{code}/{qty}', [ProductsController::class, 'barcode'])->name('products.barcode');
 });
@@ -226,6 +228,21 @@ Route::post('/products/qty/fetchotherbranches', [ProductsController::class, 'fet
 #Manual QTY adding, removed from current version#
 //Route::get('/products/qty/add/{product}', [ProductsController::class, 'addQty'])->name('products.addQty');
 //Route::post('/products/qty/adding', [ProductsController::class, 'addingQty'])->name('products.addingQty');
+
+
+
+
+Route::get('/categories', [CategoriesController::class, 'list'])->name('categories.list');
+Route::post('/categories/adding', [CategoriesController::class, 'adding'])->name('categories.adding');
+Route::post('/categories/editing/{cat}', [CategoriesController::class, 'editing'])->name('categories.editing');
+Route::get('/categories/view/{cat}', [CategoriesController::class, 'view'])->name('categories.view');
+Route::get('/categories/deleting/{cat}', [CategoriesController::class, 'deleting'])->name('categories.deleting');
+
+
+
+
+
+
 
 
 

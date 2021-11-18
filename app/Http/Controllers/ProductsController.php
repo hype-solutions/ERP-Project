@@ -155,7 +155,17 @@ class ProductsController extends Controller
     public function productsList()
     {
         $products = Products::all();
-        return view('products.list', compact('products'));
+        $catTitle = '';
+
+        return view('products.list', compact('products','catTitle'));
+    }
+
+    public function productsListByCat($cat)
+    {
+        $products = Products::where('product_category',$cat)->get();
+        $catTitle = ProductsCategories::where('id',$cat)->value('cat_name');
+
+        return view('products.list', compact('products','catTitle'));
     }
 
     public function edit(products $product)
@@ -351,4 +361,5 @@ class ProductsController extends Controller
             return redirect()->route('products.addQty', $request->product_id);
         }
     }
+
 }

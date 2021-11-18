@@ -22,7 +22,7 @@
 <div class="content-wrapper">
     <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2">
-          <h3 class="content-header-title mb-0">قائمة المنتجات</h3>
+          <h3 class="content-header-title mb-0">قائمة المنتجات - الفئة:  {{$catTitle}}</h3>
           <div class="row breadcrumbs-top">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
@@ -37,9 +37,11 @@
         <div class="content-header-right text-md-right col-md-6 col-12">
           <div class="btn-group">
           <a href="{{route('products.add')}}" class="btn btn-outline-success block btn-lg" >
-                إضافه منتج جديد
+                إضافه<br> منتج جديد
             </a>
-
+            <a href="{{route('categories.list')}}" class="btn btn-outline-primary block btn-lg" >
+                فئات المنتجات
+            </a>
           </div>
         </div>
       </div>
