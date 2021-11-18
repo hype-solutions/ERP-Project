@@ -126,6 +126,9 @@
                         </div>
                         <div class="col-sm-6 col-12 text-center text-sm-right">
                             <p><span class="text-muted">تاريخ الفاتورة: </span> {{ $invoice->invoice_date }}</p>
+                            @if($invoice->invoice_paper_num)
+                                <p><span class="text-muted">رقم الفاتورة الورقية: </span> {{ $invoice->invoice_paper_num }}</p>
+                            @endif
                             <p><span class="text-muted">الدفع:</span>
                                 @if ($invoice->already_paid)
                                     تم الدفع

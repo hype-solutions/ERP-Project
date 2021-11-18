@@ -94,7 +94,7 @@
                 <div class="card-body">
 
                         <div class="form-body">
-                            <h4 class="form-section"><i class="la la-flag"></i> تعديل فاتورة</h4>
+                            <h4 class="form-section"><i class="la la-flag"></i>تعديل فاتورة مبيعات رقم #{{$invoice->id}}</h4>
                             <div class="row">
                                 @if($invoice->was_price_quotation)
                                 <div class="col">
