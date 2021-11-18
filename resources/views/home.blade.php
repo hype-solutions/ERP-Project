@@ -333,7 +333,7 @@
                                             @endforeach
                                             @if ($priceQuotationsCount > 5)
                                                 <a href="{{ route('invoicespricequotations.list') }}"
-                                                    class="text-center btn btn-outline-success btn-sm round">عرض المزيد</a>
+                                                    class="text-center btn btn-success btn-sm round">عرض المزيد</a>
                                             @endif
                                         </div>
                                     </div>
