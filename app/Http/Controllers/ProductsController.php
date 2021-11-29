@@ -123,6 +123,8 @@ class ProductsController extends Controller
             ->with('branchFrom')
             ->with('branchTo')
             ->get();
+
+            dd($productransfers);
         $productManual = ProductsManualQuantities::where('product_id', $product->id)
             ->with('branch')
             ->get();
