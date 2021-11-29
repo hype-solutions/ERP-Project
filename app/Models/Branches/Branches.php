@@ -105,19 +105,18 @@ class Branches extends Model
         ]);
     }
 
-    public function updateMainBranchbeforeDeletingOther($id)
+    public function updateMainBranchbeforeDeletingOther($id,$amount)
     {
-        $currentAmountInToDeleteBranch =  $this->branchProductsinStock()->where('branch_id', $this->id)->where('product_id', $id)->first()->value('amount');
-        BranchesProducts::where('branch_id', $this->getMainBranchId())->where('product_id', $id)->increment('amount', $currentAmountInToDeleteBranch);
+        //$currentAmountInToDeleteBranch =  $this->branchProductsinStock()->where('branch_id', $this->id)->where('product_id', $id)->first()->value('amount');
+        BranchesProducts::where('branch_id', $this->getMainBranchId())->where('product_id', $id)->increment('amount', $amount);
     }
 
 
     public function beginBranchDeleteProccess()
     {
         foreach ($this->branchProductsinStock() as $product) {
-            // dd($product);
             if ($this->checkIfThisProductInMainBranch($product->product_id)) {
-                $this->updateMainBranchbeforeDeletingOther($product->product_id);
+                $this->updateMainBranchbeforeDeletingOther($product->product_id,$product->amount);
             } else {
                 $this->insertProdutcInMainBranch($product->product_id, $product->amount);
             }
@@ -127,8 +126,8 @@ class Branches extends Model
 
         $this->transferBalance($this->getBranchSafeDetails()->value('safe_balance'));
         $this->CreateMoneyTransferRecord(
-           $this->getBranchSafeDetails()->value('id'),
-           $this->getBranchSafeDetails()->value('safe_balance')
+            $this->getBranchSafeDetails()->value('id'),
+            $this->getBranchSafeDetails()->value('safe_balance')
         );
         $this->deleteBranch();
         $this->deleteSafe($this->getBranchSafeDetails()->value('id'));
