@@ -109,6 +109,7 @@ class Branches extends Model
     {
         //$currentAmountInToDeleteBranch =  $this->branchProductsinStock()->where('branch_id', $this->id)->where('product_id', $id)->first()->value('amount');
         BranchesProducts::where('branch_id', $this->getMainBranchId())->where('product_id', $id)->increment('amount', $amount);
+        return BranchesProducts::where('branch_id', $this->getMainBranchId())->where('product_id', $id)->first()->value('amount');
     }
 
 
@@ -116,11 +117,12 @@ class Branches extends Model
     {
         foreach ($this->branchProductsinStock() as $product) {
             if ($this->checkIfThisProductInMainBranch($product->product_id)) {
-                $this->updateMainBranchbeforeDeletingOther($product->product_id,$product->amount);
+                $total_amount = $this->updateMainBranchbeforeDeletingOther($product->product_id,$product->amount);
             } else {
                 $this->insertProdutcInMainBranch($product->product_id, $product->amount);
+                $total_amount = $product->amount;
             }
-            $this->CreateProductTransferRecord($product->product_id, $product->amount);
+            $this->CreateProductTransferRecord($product->product_id, $product->amount,$total_amount);
             $this->deleteBranchProductsRecords();
         }
 
@@ -181,7 +183,7 @@ class Branches extends Model
     }
 
     //Products Transfer
-    public function CreateProductTransferRecord($product_id, $amount)
+    public function CreateProductTransferRecord($product_id, $amount,$total_amount)
     {
         $transfer = new ProductsTransfers();
         $transfer->product_id = $product_id;
@@ -190,8 +192,10 @@ class Branches extends Model
         $transfer->qty_before_transfer_from = $amount;
         $transfer->qty_after_transfer_from = 0;
         $transfer->branch_to = $this->getMainBranchId();
-        $transfer->qty_before_transfer_to = $this->getProductAmountInBranch($product_id)->where('branch_id', $this->getMainBranchId())->value('amount');
-        $transfer->qty_after_transfer_to = $amount + $this->getProductAmountInBranch($product_id)->where('branch_id', $this->getMainBranchId())->value('amount');
+        // $transfer->qty_before_transfer_to = $this->getProductAmountInBranch($product_id)->where('branch_id', $this->getMainBranchId())->value('amount');
+        $transfer->qty_before_transfer_to = $total_amount - $amount;
+        // $transfer->qty_after_transfer_to = $amount + $this->getProductAmountInBranch($product_id)->where('branch_id', $this->getMainBranchId())->value('amount');
+        $transfer->qty_after_transfer_to = $total_amount;
         $transfer->transfer_datetime = Carbon::now();
         $transfer->status = 'Transfered';
         $transfer->transfer_notes = 'عملية تحويل كميات من فرع الى أخر بسبب حذف فرع, اسم الفرع قبل الحذف ' . $this->branch_name;
