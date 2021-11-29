@@ -463,7 +463,10 @@
                                                     </div>
                                                 </div>
                                             @endforeach
-
+                                            @if ($productTransfersCount > 5)
+                                            <a href="{{ route('products.transfers') }}"
+                                                class="text-center btn btn-success btn-sm round">عرض المزيد</a>
+                                        @endif
                                         </div>
                                     </div>
                                 @endcanany
