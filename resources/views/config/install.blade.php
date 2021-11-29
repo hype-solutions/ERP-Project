@@ -48,7 +48,7 @@
                                 <div class="card-body">
                                     <form class="form-horizontal" id="verificationForm">
                                         <fieldset class="form-group position-relative has-icon-left">
-                                            <input type="text" class="form-control" id="activation_code"
+                                            <input type="password" class="form-control" id="activation_code"
                                                 placeholder="كود تشغيل البرنامج الخاص بك" autocomplete="off" required>
                                             <div class="form-control-position">
                                                 <i class="la la-key"></i>
