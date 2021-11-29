@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Config\Config;
 use App\Models\Invoices\InvoicesPriceQuotationSignature;
+use App\Models\PurchasesOrders\PurchasesOrdersSignature;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -82,8 +83,12 @@ class ConfigController extends Controller
         $user->save();
         $user->assignRole('مدير');
 
-        $signature = new InvoicesPriceQuotationSignature();
-        $signature->save();
+        $PQsignature = new InvoicesPriceQuotationSignature();
+        $PQsignature->save();
+
+        $POsignature = new PurchasesOrdersSignature();
+        $POsignature->save();
+
 
         return view('config.step2');
     }

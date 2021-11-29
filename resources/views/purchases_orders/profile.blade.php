@@ -45,22 +45,31 @@
               <!-- Invoice Company Details -->
               <div id="invoice-company-details" class="row">
                 <div class="col-sm-6 col-12 text-center text-sm-left">
-                  <div class="media row">
-                    <div class="col-12 col-sm-3 col-xl-2">
-                      <img src="{{asset('theme/app-assets/images/custom/logo-placeholder.png')}}" alt="company logo" class="mb-1 mb-sm-0" style="width: 80px;height:80px;"/>
+                    <div class="media row">
+                        <div class="col-12 col-sm-12 col-xl-10">
+                            <div class="media-body">
+                                <ul class="ml-2 px-0 list-unstyled">
+                                    <li class="text-bold-800">{{ $company }}</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-12 col-sm-9 col-xl-10">
-                      <div class="media-body">
-                        <ul class="ml-2 px-0 list-unstyled">
-                          <li class="text-bold-800">اسم الشركة</li>
-                          <li>العنوان 1</li>
-                          <li>العنوان 2</li>
-                          <li>المدينة</li>
-                          <li>الدولة</li>
-                        </ul>
-                      </div>
+                    <div class="media row">
+                        <div class="col-12">
+                            <img src="{{ asset($logo) }}" alt="{{ $company }}" class="mb-1 mb-sm-0"
+                                style="width: 200px;height:80px;" />
+                        </div>
+                        <div class="col-12">
+                            <div class="media-body">
+                                <ul class="ml-2 px-0 list-unstyled">
+                                    <li>{{ $address_1 }}</li>
+                                    <li>{{ $address_2 }}</li>
+
+                                </ul>
+                            </div>
+                        </div>
+
                     </div>
-                  </div>
                 </div>
                 <div class="col-sm-6 col-12 text-center text-sm-right">
                   <h2>أمر شراء</h2>
@@ -270,6 +279,7 @@
                             <td class="text-right">{{$purchaseOrder->discount_amount}} ج.م</td>
                           </tr>
                           @endif
+                          @if($purchaseOrder->purchase_tax > 0)
                           <tr>
                             <td>الضريبة</td>
                             <td class="text-right">
@@ -278,10 +288,13 @@
                                 {{round(($purchaseOrder->purchase_tax / 100) * $subtotal)}} ج.م
                             </td>
                           </tr>
+                          @endif
+                          @if($purchaseOrder->shipping_fees > 0)
                           <tr>
                             <td>الشحن</td>
                             <td class="text-right">{{$purchaseOrder->shipping_fees}} ج.م</td>
                           </tr>
+                          @endif
                           <tr>
                             <td class="text-bold-800">الإجمالي</td>
                             <td class="text-bold-800 text-right"> {{$purchaseOrder->purchase_total}} ج.م</td>
@@ -291,10 +304,11 @@
                       </table>
                     </div>
                     <div class="text-center">
-                      <p class="mb-0 mt-1">التوقيع</p>
-                      <img src="{{asset('theme/app-assets/images/pages/signature-scan.png')}}" alt="signature" class="height-100" />
-                      <h6>إسم الشخص</h6>
-                      <p class="text-muted">مدير المشتريات</p>
+                        <p class="mb-0 mt-1">التوقيع</p>
+                        <img src="{{ asset($signature->user->signature) }}" alt="signature"
+                            class="height-100" style="height: 100px;" />
+                        <h6>{{ $signature->user->name }}</h6>
+                        <p class="text-muted">{{ $signature->title }}</p>
                     </div>
                   </div>
                 </div>
@@ -308,7 +322,7 @@
                     {{$purchaseOrder->purchase_note}}
                   </div>
                   <div class="col-sm-5 col-12 text-center">
-                    <button type="button" class="btn btn-info btn-print btn-lg my-1"><i class="la la-paper-plane-o mr-50"></i>
+                    <button type="button" class="btn btn-info btn-print btn-lg my-1" onclick="print()"><i class="la la-paper-plane-o mr-50"></i>
                       طباعة الفاتورة</button>
                   </div>
                 </div>

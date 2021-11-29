@@ -37,7 +37,78 @@
           <a href="{{route('purchasesorders.add')}}" class="btn btn-outline-success block btn-lg" >
                 إضافه أمر شراء جديد
             </a>
+            <button class="btn btn-outline-danger block btn-lg" data-toggle="modal"
+            data-target="#edit_quotation_signature">
+            تحديد التوقيع في أوامر الشراء
+        </button>
+        <div class="modal fade text-left" id="edit_quotation_signature" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel1"> تعديل
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="timesheetinput2">إبحث عن مستخدم لإستخدام بياناته</label>
+                                        <br />
+                                        <select class="select2-rtl form-control"
+                                            data-placeholder="إختر المستخدم..." name="user_id" id="signId"
+                                            required onchange="return getUserInfo(this)"  >
+                                            <option></option>
+                                            @foreach ($users as $user)
+                                                <option value="{{ $user->id }}">{{ $user->username }} - {{ $user->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <img src="" id="signatureImg" alt="" style="display:none;width:100%;">
+                                    <p id="noSignature" style="display:none;color:red">لا يوجد توقيع</p>
+                                    <span id="loading" style="display: none"><i
+                                            class="la la-spinner spinner"></i>
+                                        جاري إظهار البيانات</span>
+                                </div>
+                                <div class="col-6" >
+                                    <div   id="sigForm" style="display: none">
+                                        <div class="form-group">
+                                            <label for="">الإسم</label>
+                                            <input type="text" class="form-control" name="" readonly id="signName">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">المسمى الوظيفي تحت التوقيع</label>
+                                            <input type="text" class="form-control" name="" value="{{$signature->title}}" id="title">
+                                        </div>
+                                        <button type="button" class="btn grey btn-outline-secondary"
+                                            data-dismiss="modal"><i class="ft-x"></i>
+                                            الغاء</button>
+                                        <button type="button" onclick="return saveSignature()" class="btn btn-outline-primary"><i
+                                                class="la la-check-square-o"></i>
+                                            حفظ</button>
+                                            <br>
+                                            <span id="saving" style="display: none"><i
+                                                class="la la-spinner spinner"></i>
+                                            جاري الحفظ</span>
+                                    </div>
+                                </div>
+                            </div>
 
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
           </div>
         </div>
       </div>
@@ -269,6 +340,94 @@
             }
         ]
     });
+
+
+
+
+
+    function getUserInfo(id) {
+            $("#noSignature").hide();
+            $("#loading").hide();
+            $("#signatureImg").hide();
+            $("#sigForm").hide();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            var type = "POST";
+            var ajaxurl = "{{ route('users.ajax') }}";
+            $.ajax({
+                type: type,
+                url: ajaxurl,
+                data: {
+                    userId: id.value
+                },
+                dataType: 'json',
+                beforeSend: function() {
+                    $("#loading").show();
+                },
+                success: function(data) {
+                    $("#loading").hide();
+                    if (data.signature) {
+                        var signature = '/' + data.signature;
+                        $("#signatureImg").attr('src', signature);
+                        $("#signName").attr('value', data.name);
+                        $("#signatureImg").show();
+                        $("#sigForm").show();
+                    } else {
+                        $("#noSignature").show();
+                    }
+
+
+                },
+                error: function(data) {
+
+
+                }
+            });
+        }
+
+
+
+        function saveSignature() {
+
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            var signId = $('#signId').val();
+            var title = $('#title').val();
+            var type = "POST";
+            var ajaxurl = "{{ route('purchasesorders.signature') }}";
+            $.ajax({
+                type: type,
+                url: ajaxurl,
+                data: {
+                    userId: signId,
+                    title: title
+                },
+                dataType: 'json',
+                beforeSend: function() {
+                    $("#saving").show();
+                },
+                success: function(data) {
+                    $("#saving").hide();
+                    $("#signSuccess").show();
+                     $('#edit_quotation_signature').modal('hide');
+
+
+                },
+                error: function(data) {
+
+
+                }
+            });
+        }
         </script>
 <!-- BEGIN: Theme JS-->
 

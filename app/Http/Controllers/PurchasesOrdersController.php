@@ -8,9 +8,12 @@ use App\Models\Products\Products;
 use App\Models\PurchasesOrders\PurchasesOrders;
 use App\Models\PurchasesOrders\PurchasesOrdersPayments;
 use App\Models\PurchasesOrders\PurchasesOrdersProducts;
+use App\Models\PurchasesOrders\PurchasesOrdersSignature;
 use App\Models\Safes\Safes;
 use App\Models\Safes\SafesTransactions;
+use App\Models\Settings\Settings;
 use App\Models\Suppliers\Suppliers;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +38,14 @@ class PurchasesOrdersController extends Controller
             $safes = Safes::all();
         }
         $laterDates = PurchasesOrdersPayments::where('purchase_id', $order->id)->get();
-        return view('purchases_orders.profile', compact('purchaseOrder', 'user_id', 'currentProducts', 'safes', 'laterDates'));
+        $logo = Settings::where('key', 'logo')->value('value');
+        $company = Settings::where('key', 'company_name')->value('value');
+        $address_1 = Settings::where('key', 'address_1')->value('value');
+        $address_2 = Settings::where('key', 'address_2')->value('value');
+        $signature = PurchasesOrdersSignature::with('user')->first();
+
+
+        return view('purchases_orders.profile', compact('signature','company', 'logo','address_1','address_2','purchaseOrder', 'user_id', 'currentProducts', 'safes', 'laterDates'));
     }
 
     public function add()
@@ -53,7 +63,10 @@ class PurchasesOrdersController extends Controller
     public function purchasesordersList()
     {
         $purchases = PurchasesOrders::all();
-        return view('purchases_orders.list', compact('purchases'));
+        $users = User::where('id','!=','1')->get();
+        $signature = PurchasesOrdersSignature::with('user')->first();
+
+        return view('purchases_orders.list', compact('purchases','users','signature'));
     }
 
     public function store(Request $request)
@@ -364,5 +377,16 @@ class PurchasesOrdersController extends Controller
 
 
         return redirect()->route('purchasesorders.list');
+    }
+
+
+    public function signature(Request $request)
+    {
+        PurchasesOrdersSignature::where('id',1)->update([
+            'user_id' => $request->userId,
+            'title' => $request->title,
+        ]);
+
+        return true;
     }
 }

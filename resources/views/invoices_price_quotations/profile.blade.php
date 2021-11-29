@@ -251,13 +251,13 @@
                       <p class="text-muted">الوظيفة</p>
                     </div> --}}
 
-                    <div class="text-center">
-                        <p class="mb-0 mt-1">التوقيع</p>
-                        <img src="{{ asset($signature->user->signature) }}" alt="signature"
-                            class="height-100" style="height: 100px;" />
-                        <h6>{{ $signature->user->name }}</h6>
-                        <p class="text-muted">{{ $signature->title }}</p>
-                    </div>
+                                <div class="text-center">
+                                    <p class="mb-0 mt-1">التوقيع</p>
+                                    <img src="{{ asset($signature->user->signature) }}" alt="signature"
+                                        class="height-100" style="height: 100px;" />
+                                    <h6>{{ $signature->user->name }}</h6>
+                                    <p class="text-muted">{{ $signature->title }}</p>
+                                </div>
 
                                 {{-- @env('local', 'development')
                                 <div class="text-center">

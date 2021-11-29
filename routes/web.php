@@ -260,6 +260,8 @@ Route::group(['middleware' => ['permission:Add PO']], function () {
 Route::group(['middleware' => ['permission:Edit PO']], function () {
     Route::get('/purchase_orders/edit/{order}', [PurchasesOrdersController::class, 'edit'])->name('purchasesorders.edit');
     Route::patch('/purchase_orders/update/{order}', [PurchasesOrdersController::class, 'update'])->name('purchasesorders.update');
+    Route::post('/purchase_orders/signature', [PurchasesOrdersController::class, 'signature'])->name('purchasesorders.signature');
+
 });
 Route::group(['middleware' => ['permission:Accept PO']], function () {
     Route::get('/purchase_orders/status/{purchaseOrder}/{status}', [PurchasesOrdersController::class, 'status'])->name('purchasesorders.status');
