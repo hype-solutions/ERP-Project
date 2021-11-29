@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Config\ConfigLanguages;
 use App\Models\Invoices\InvoicesPayments;
+use App\Models\Products\Products;
 use App\Models\PurchasesOrders\PurchasesOrdersPayments;
 use App\Models\Safes\ExternalFund;
 use App\Models\User;
@@ -43,6 +45,15 @@ class AppServiceProvider extends ServiceProvider
 
             view()->composer('*', function ($view) {
                 if (Auth::check()) {
+                    $languages = ConfigLanguages::all();
+                    $language = ConfigLanguages::where('used',1)->first();
+                    $productsNotifications = Products::where('product_track_stock','1')
+                    ->whereRaw('product_total_in - product_total_out <= product_low_stock_thershold')
+                    ->get();
+
+
+
+
                     $roles = ['مدير','محاسب','Super Admin'];
                     $user = User::where("id", Auth::id())->first();
                     if ($user->hasAnyRole($roles)) {
@@ -89,12 +100,17 @@ class AppServiceProvider extends ServiceProvider
                             ->with('nextPurchasesDates', $nextPurchasesDates)
                             ->with('myPP', $user->profile_pic)
                             ->with('notificationCount', $notificationCount)
+                            ->with('languages', $languages)
+                            ->with('language', $language)
+                            ->with('productsNotifications', $productsNotifications)
                             ->with('upcomingFundPayments', $upcomingFundPayments);
                     }
                     else {
                         $view->with('notificationCount', 0)
-                             ->with('myPP', $user->profile_pic)
-                        ;
+                             ->with('languages', $languages)
+                             ->with('language', $language)
+                             ->with('productsNotifications', $productsNotifications)
+                             ->with('myPP', $user->profile_pic);
                     }
                 } else {
                     $view->with('notificationCount', 0);

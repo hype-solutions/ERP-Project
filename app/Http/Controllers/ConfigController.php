@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Config\Config;
+use App\Models\Config\ConfigLanguages;
 use App\Models\Invoices\InvoicesPriceQuotationSignature;
 use App\Models\PurchasesOrders\PurchasesOrdersSignature;
 use App\Models\User;
@@ -68,7 +69,8 @@ class ConfigController extends Controller
         $superUser->email = 'info@hype-solutions.com';
         $superUser->name = 'Super User';
         $superUser->username = 'hype';
-        $superUser->signature = 'theme/app-assets/images/custom/hype.png';
+        $superUser->profile_pic = 'theme/app-assets/images/custom/hype.png';
+        $superUser->signature = 'theme/app-assets/images/custom/no-signature.jpg';
         $superUser->save();
         $superUser->assignRole('Super Admin');
 
@@ -78,7 +80,7 @@ class ConfigController extends Controller
         $user->email = 'admin@mygesture.co';
         $user->name = 'Admin Admin';
         $user->username = 'admin';
-        $superUser->signature = 'theme/app-assets/images/custom/no-signature.jpg';
+        $user->signature = 'theme/app-assets/images/custom/no-signature.jpg';
         $user->role = 'مدير';
         $user->save();
         $user->assignRole('مدير');
@@ -89,6 +91,12 @@ class ConfigController extends Controller
         $POsignature = new PurchasesOrdersSignature();
         $POsignature->save();
 
+        $languages = new ConfigLanguages();
+        $languages->title = 'Arabic';
+        $languages->direction = 'RTL';
+        $languages->flag = '<i class="flag-icon flag-icon-eg"></i>';
+        $languages->used = 1;
+        $languages->save();
 
         return view('config.step2');
     }
