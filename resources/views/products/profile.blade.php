@@ -63,7 +63,7 @@
                             popupWindow = window.open(
                                 url, 'popUpWindow',
                                 'height=700,width=300,left=10,top=10,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no'
-                                )
+                            )
                         }
                     </script>
                     <div class="col-12 col-sm-5 px-0 d-flex justify-content-end align-items-center px-2 mb-2">
@@ -98,7 +98,8 @@
                                 style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
                                 {{-- <a class="dropdown-item" href="{{route('products.addQty',$product->id)}}">أضف كمية يدويا</a> --}}
                                 <a class="dropdown-item" href="{{ route('purchasesorders.add') }}">أمر شراء جديد</a>
-                                <a class="dropdown-item" href="{{ route('products.transfer', $product->id) }}">تحويل كميات
+                                <a class="dropdown-item" href="{{ route('products.transfer', $product->id) }}">تحويل
+                                    كميات
                                     بين الفروع</a>
 
                             </div>
@@ -430,7 +431,8 @@
                                                                         المخزون قبل:
                                                                         {{ $transfer->qty_before_transfer_to }}
                                                                         <br>
-                                                                        المخزون بعد: {{ $transfer->qty_after_transfer_to }}
+                                                                        المخزون بعد:
+                                                                        {{ $transfer->qty_after_transfer_to }}
                                                                     </td>
                                                                     <td>{{ $transfer->transfer_qty }}</td>
                                                                     <td>
@@ -456,10 +458,17 @@
                                                                     </td>
                                                                     <td>
                                                                         @if ($transfer->status == 'Pending')
-                                                                            <a href="{{ route('products.acceptingTransfer', $transfer->id) }}"
-                                                                                class="btn btn-success btn-block">تصديق على
-                                                                                التحويل</a>
-                                                                            {{-- <button class="btn btn-danger btn-block">رفض</button> --}}
+                                                                            @if ($transfer->branchFrom->getProductAmountInBranch($transfer->product_id)->amount >= $transfer->transfer_qty)
+                                                                                <a href="{{ route('products.acceptingTransfer', $transfer->id) }}"
+                                                                                    class="btn btn-success btn-block">تصديق
+                                                                                    على
+                                                                                    التحويل</a>
+                                                                            @else
+                                                                                <button class="btn btn-success btn-sm "
+                                                                                    disabled>لا توجد كمية تكفي
+                                                                                    للتحويل</button>
+                                                                            @endif
+                                                                            <a href="" class="btn btn-danger btn-sm">رفض</a>
                                                                         @endif
 
                                                                     </td>
