@@ -309,6 +309,12 @@
                                     <span data-i18n="Horizontal">تحويل كميات بين الفروع</span>
                                 </a>
                             </li>
+                            <li>
+                                <a class="menu-item" href="{{ route('products.transfers') }}" >
+                                    <i class="la la-arrows-h"></i>
+                                    <span data-i18n="Horizontal">جميع عمليات التحويل</span>
+                                </a>
+                            </li>
                             @endcan
                             {{-- <li><a class="menu-item" href="{{ route('products.select') }}"  ><i class="la la-arrows-h"></i><span data-i18n="Horizontal">إضافة كمية يدويا</span></a>
                             </li> --}}
