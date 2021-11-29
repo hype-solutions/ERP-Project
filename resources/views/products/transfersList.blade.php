@@ -231,6 +231,7 @@
                                                             {{ $transfer->transfer_notes }}
                                                         </td>
                                                         <td>
+                                                            {{-- {{$transfer->branchFrom->getProductAmountInBranch($transfer->product_id)}} --}}
                                                             @if ($transfer->status == 'Rejected')
                                                                 <p class="danger">تم رفض التحويل</p>
                                                             @elseif ($transfer->status == 'Transfered')

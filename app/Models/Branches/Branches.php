@@ -26,7 +26,8 @@ class Branches extends Model
     //General
     public function getMainBranchId()
     {
-        return Branches::first()->value('id');
+        return 1;
+        // return Branches::first()->value('id');
     }
 
     public function deleteBranch()
@@ -85,7 +86,7 @@ class Branches extends Model
 
     public function getProductAmountInBranch($id)
     {
-        return BranchesProducts::where('product_id', $id)->first();
+        return BranchesProducts::where('product_id', $id)->where('branch_id', $this->id)->first();
     }
 
 
