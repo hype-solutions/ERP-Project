@@ -146,7 +146,7 @@
                                 <label for="timesheetinput2">الموبايل</label>
                                 <span style="color:red">*</span>
                                 <div class="position-relative has-icon-left">
-                                    <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: 01123456789" name="mobile">
+                                    <input type="text" id="timesheetinput2" class="form-control" placeholder="مثال: 01123456789" name="mobile" required>
                                     <div class="form-control-position">
                                         <i class="la la-mobile"></i>
                                     </div>
@@ -158,7 +158,7 @@
                                 <label for="timesheetinput2">نوع المستخدم</label>
                                 <span style="color:red">*</span>
                                 <select name="role" id="" class="form-control" required>
-                                    <option>إختر...</option>
+                                    <option value="">إختر...</option>
                                     @foreach ($roles as $role)
                                         <option value="{{$role->name}}">{{$role->name}}</option>
                                     @endforeach

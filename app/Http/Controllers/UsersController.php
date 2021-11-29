@@ -30,13 +30,15 @@ class UsersController extends Controller
                 'name' => 'required|max:255',
                 'email' => 'required|unique:users',
                 'username' => 'required|unique:users',
-                'mobile' => 'required|unique:users',
+                'mobile' => 'numeric|required|unique:users',
                 'password' => 'required',
+                'role' => 'required',
 
             ],
             [
                 'email.email' => 'برجاء إدخال بريد الكتروني صحيح',
                 'email.unique' => 'برجاء إختيار بريد الكتروني اخر, هذا مستخدم بالفعل',
+                'mobile.numeric' => 'رقم التليفون يقبل أرقام فقط',
                 'mobile.required' => 'برجاء إدخال رقم موبايل المستخدم',
                 'mobile.unique' => 'هذا الرقم مستخدم بالفعل, برجاء اختيار رقم موبايل اخر',
                 'username.required' => 'برجاء إدخال رقم موبايل المستخدم',
@@ -62,15 +64,19 @@ class UsersController extends Controller
 
     public function store(Request $request)
     {
-        // User::create($this->validatePostRequest());
-        $user = new User();
-        $user->password = Hash::make($request->password);
-        $user->email = $request->email;
-        $user->name = $request->name;
-        $user->username = $request->username;
-        $user->mobile = $request->mobile;
-        $user->role = $request->role;
-        $user->save();
+        $user = User::create($this->validatePostRequest());
+
+        $user->fill([
+            'password' => Hash::make($request->password)
+        ])->save();
+        // $user = new User();
+        // $user->password = Hash::make($request->password);
+        // $user->email = $request->email;
+        // $user->name = $request->name;
+        // $user->username = $request->username;
+        // $user->mobile = $request->mobile;
+        // $user->role = $request->role;
+        // $user->save();
         $user->assignRole($request->role);
         return back()->with('success', 'User Added');
     }
