@@ -347,7 +347,7 @@ class ProductsController extends Controller
         $product_new_qty = $product_old_in + $request->qty;
         Products::where('id', $request->product_id)
             ->update(['product_total_in' => $product_new_qty]);
-        return redirect()->route('products.list');
+        return redirect()->route('products.transfers');
     }
 
 
@@ -365,6 +365,15 @@ class ProductsController extends Controller
         } else {
             return redirect()->route('products.addQty', $request->product_id);
         }
+    }
+
+
+    public function transfers()
+    {
+
+        $transfers = ProductsTransfers::all();
+
+        return view('products.transfersList', compact('transfers'));
     }
 
 }

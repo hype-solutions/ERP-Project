@@ -37,10 +37,13 @@
         <div class="content-header-right text-md-right col-md-6 col-12">
           <div class="btn-group">
           <a href="{{route('products.add')}}" class="btn btn-outline-success block btn-lg" >
-                إضافه<br> منتج جديد
+                إضافه منتج جديد
             </a>
             <a href="{{route('categories.list')}}" class="btn btn-outline-primary block btn-lg" >
                 فئات المنتجات
+            </a>
+            <a href="{{route('products.transfers')}}" class="btn btn-outline-danger block btn-lg" >
+                عمليات التحويل بين الفروع
             </a>
           </div>
         </div>

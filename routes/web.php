@@ -213,6 +213,7 @@ Route::group(['middleware' => ['permission:Delete Products']], function () {
     Route::delete('/products/delete/{product}', [ProductsController::class, 'delete'])->name('products.delete');
 });
 Route::group(['middleware' => ['permission:Transfer Products']], function () {
+    Route::get('/products/transfers', [ProductsController::class, 'transfers'])->name('products.transfers');
     Route::get('/products/qty/transfer/{product}', [ProductsController::class, 'transfer'])->name('products.transfer');
     Route::post('/products/qty/transfering', [ProductsController::class, 'transfering'])->name('products.transfering');
     Route::get('/products/select', [ProductsController::class, 'productSelect'])->name('products.select');
