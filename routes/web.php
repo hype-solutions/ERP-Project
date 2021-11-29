@@ -221,6 +221,7 @@ Route::group(['middleware' => ['permission:Transfer Products']], function () {
 });
 Route::group(['middleware' => ['permission:Accept Products Transfer|Decline Products Transfer']], function () {
     Route::get('/products/acceptingTransfer/{transfer}', [ProductsController::class, 'acceptingTransfer'])->name('products.acceptingTransfer');
+    Route::get('/products/rejectingTransfer/{transfer}', [ProductsController::class, 'rejectingTransfer'])->name('products.rejectingTransfer');
 });
 Route::post('/products/qty/fetch', [ProductsController::class, 'fetchQty'])->name('products.fetchQty');
 Route::post('/products/qty/fetchprice', [ProductsController::class, 'fetchPrice'])->name('products.fetchPrice');

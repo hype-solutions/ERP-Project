@@ -458,7 +458,7 @@
                                                                 @else
                                                                         <button class="btn btn-success btn-sm " disabled>لا توجد كمية تكفي للتحويل</button>
                                                                 @endif
-                                                            <a href="" class="btn btn-danger btn-sm">رفض</a>
+                                                            <a href="{{route('products.rejectingTransfer',$transfer->id)}}" class="btn btn-danger btn-sm">رفض</a>
                                                         </div>
                                                     </div>
                                                 </div>

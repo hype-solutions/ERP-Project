@@ -267,6 +267,15 @@ class ProductsController extends Controller
 
 
 
+    public function rejectingTransfer(ProductsTransfers $transfer){
+
+        $transfer->status = 'Rejected';
+        //$transfer->authorized_by = Auth::id();
+        $transfer->save();
+        return redirect()->route('products.list');
+    }
+
+
     public function acceptingTransfer(ProductsTransfers $transfer)
     {
 

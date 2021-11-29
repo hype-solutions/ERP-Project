@@ -150,7 +150,13 @@
                                         <tbody>
                                             @if (isset($transfers))
                                                 @foreach ($transfers as $key => $transfer)
-                                                    <tr>
+                                                @if ($transfer->status == 'Rejected')
+                                                    <tr style="background-color: #f5d2d2 !important;">
+                                                @elseif ($transfer->status == 'Transfered')
+                                                    <tr style="background-color: #cff1cf !important;">
+                                                @elseif ($transfer->status == 'Pending')
+                                                <tr style="background-color: #fff1ae !important;">
+                                                @endif
                                                         {{-- <td>{{++$key}}</td> --}}
                                                         <td>
                                                             <div class="badge border-info info badge-border">
@@ -225,7 +231,12 @@
                                                             {{ $transfer->transfer_notes }}
                                                         </td>
                                                         <td>
-                                                            @if ($transfer->status == 'Pending')
+                                                            @if ($transfer->status == 'Rejected')
+                                                                <p class="danger">تم رفض التحويل</p>
+                                                            @elseif ($transfer->status == 'Transfered')
+                                                            <p class="success">تم التحويل</p>
+
+                                                            @elseif ($transfer->status == 'Pending')
                                                                 @if ($transfer->branchFrom->getProductAmountInBranch($transfer->product_id)->amount >= $transfer->transfer_qty)
                                                                     <a href="{{ route('products.acceptingTransfer', $transfer->id) }}"
                                                                         class="btn btn-success btn-block">تصديق على
@@ -233,8 +244,8 @@
                                                                 @else
                                                                 <button class="btn btn-success btn-sm " disabled>لا توجد كمية تكفي للتحويل</button>
                                                                 @endif
-                                                                <a href="" class="btn btn-danger btn-sm">رفض</a>
-                                                            @endif
+                                                                <a href="{{route('products.rejectingTransfer',$transfer->id)}}" class="btn btn-danger btn-sm">رفض</a>
+                                                                @endif
 
                                                         </td>
                                                     </tr>
