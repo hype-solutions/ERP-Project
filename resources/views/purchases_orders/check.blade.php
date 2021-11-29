@@ -122,7 +122,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                            <label for="projectinput3">إختر الخزنة التي سيتم التوريد بها</label>
+                                            <label for="projectinput3">إختر الخزنة التي سيتم الدفع منها</label>
                                             <select class="select2-rtl form-control" data-placeholder="إختر الخزنة..." name="safe_id" id="safe_id">
                                                 <option></option>
                                                 @foreach ($safes as $safe)

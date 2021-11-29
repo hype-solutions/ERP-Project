@@ -452,8 +452,12 @@
                                                             </table>
                                                             <a href="" class="btn btn-info btn-sm"><i
                                                                     class="la la-folder-open"></i> استعراض</a>
-                                                            <a href="{{ route('products.acceptingTransfer', $transfer->id) }}"
+                                                                @if($transfer->branchFrom->getProductAmountInBranch($transfer->product_id)->amount >= $transfer->transfer_qty)
+                                                                    <a href="{{ route('products.acceptingTransfer', $transfer->id) }}"
                                                                 class="btn btn-success btn-sm">تصديق على التحويل</a>
+                                                                @else
+                                                                        <button class="btn btn-success btn-sm " disabled>لا توجد كمية تكفي للتحويل</button>
+                                                                @endif
                                                             <a href="" class="btn btn-danger btn-sm">رفض</a>
                                                         </div>
                                                     </div>

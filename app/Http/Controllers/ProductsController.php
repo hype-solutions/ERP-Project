@@ -269,6 +269,11 @@ class ProductsController extends Controller
 
     public function acceptingTransfer(ProductsTransfers $transfer)
     {
+
+        //make sure source branch have enough qty
+        if($transfer->branchFrom->getProductAmountInBranch($transfer->product_id)->amount >= $transfer->transfer_qty){
+
+
         BranchesProducts::where('product_id', $transfer->product_id)
             ->where('branch_id', $transfer->branch_from)
             ->update(['amount' => $transfer->qty_after_transfer_from]);
@@ -295,7 +300,7 @@ class ProductsController extends Controller
         $transfer->status = 'Transfered';
         $transfer->authorized_by = Auth::id();
         $transfer->save();
-
+    }
         return redirect()->route('products.list');
     }
 
