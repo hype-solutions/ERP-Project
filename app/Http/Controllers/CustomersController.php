@@ -93,6 +93,7 @@ class CustomersController extends Controller
         $linked->customer_name = $request->linked_name;
         $linked->customer_title = $request->linked_title;
         $linked->customer_mobile = $request->linked_mobile;
+        $customer->customer_type = 'linked';
         $linked->save();
 
         // $linked = new LinkedCustomers;

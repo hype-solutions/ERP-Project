@@ -23,6 +23,7 @@ class InvoicesPriceQuotation extends Model
         'invoice_id',
         'sold_by',
         'authorized_by',
+        'days_valid',
     ];
 
     public function customer()

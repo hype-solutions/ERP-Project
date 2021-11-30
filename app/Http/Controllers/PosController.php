@@ -40,6 +40,7 @@ class PosController extends Controller
             if ($type == 1) {
                 $customer = new Customers();
                 $customer->customer_name = $request->customer_name;
+                $customer->customer_type = 'solo';
                 $customer->customer_mobile = $request->customer_mobile;
                 $customer->save();
                 $customerId = $customer->id;

@@ -17,7 +17,7 @@ class UpdateSettingsTableAddBasicRecords extends Migration
         Schema::table('settings', function (Blueprint $table) {
             $data = [
                 ['key'=>'company_name', 'value'=> 'اسم الشركة'],
-                ['key'=>'logo', 'value'=> 'logo_placeholder.png'],
+                ['key'=>'logo', 'value'=> 'theme/app-assets/images/custom/logo_placeholder.png'],
                 ['key'=>'address_1', 'value'=> 'رقم المبنى, الشارع'],
                 ['key'=>'address_2', 'value'=> 'المدينة, الدوله'],
                 ['key'=>'currency', 'value'=> 'ج.م']

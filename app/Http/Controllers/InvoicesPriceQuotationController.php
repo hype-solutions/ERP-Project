@@ -98,6 +98,7 @@ class InvoicesPriceQuotationController extends Controller
         if ($request->new_customer_name != '') {
             $customer = new Customers();
             $customer->customer_name = $request->new_customer_name;
+            $customer->customer_type = 'solo';
             $customer->customer_mobile = $request->new_customer_mobile;
             $customer->save();
             $customerId = $customer->id;
@@ -116,6 +117,7 @@ class InvoicesPriceQuotationController extends Controller
         $quotation->shipping_fees = $request->shipping_fees;
         $quotation->sold_by = $request->sold_by;
         $quotation->quotation_status = 'Pending Approval';
+        $quotation->days_valid = $request->days_valid;
         $quotation->authorized_by = $request->sold_by;
         $quotation->save();
 
@@ -348,6 +350,7 @@ class InvoicesPriceQuotationController extends Controller
         $quotation->shipping_fees = $request->shipping_fees;
         $quotation->sold_by = $request->sold_by;
         $quotation->authorized_by = $request->sold_by;
+        $quotation->days_valid = $request->days_valid;
         $quotation->quotation_status = 'Pending Approval';
         $quotation->save();
 

@@ -184,13 +184,30 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-2">
                             <div class="card">
                                 <div class="card-content collapse show">
                                     <div class="card-body">
-
-
-
+                                        <div class="form-group">
+                                            <label for="projectinput3">تاريخ إصدار عرض السعر</label>
+                                            <input type="text" id="" class="form-control"
+                                                placeholder="" name="" value="{{ date('Y-m-d') }}"  readonly
+                                                >
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="projectinput3">صالح لمده كم يوم؟</label>
+                                            <input type="number" id="" class="form-control"
+                                                placeholder="عدد الأيام" name="days_valid" value="15" min="0"
+                                                >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-content collapse show">
+                                    <div class="card-body">
                                         <ul class="nav nav-tabs nav-top-border no-hover-bg">
                                             <li class="nav-item">
                                                 <a class="nav-link active" id="base-tab11" data-toggle="tab"

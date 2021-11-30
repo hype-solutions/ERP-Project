@@ -188,8 +188,7 @@
                                                                     @if ($customer->parent)
                                                                         - {{ $customer->parent->customer_company }}
                                                                     @endif
-                                                            @endif
-                                                            </option>
+                                                             </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -205,8 +204,27 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-md-6">
+                        <div class="col-md-2">
+                            <div class="card">
+                                <div class="card-content collapse show">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="projectinput3">تاريخ إصدار عرض السعر</label>
+                                            <input type="text" id="" class="form-control"
+                                                placeholder="" name="" value="{{ $invoice->quotation_date }}"  readonly
+                                                >
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="projectinput3">صالح لمده كم يوم؟</label>
+                                            <input type="number" id="" class="form-control"
+                                                placeholder="عدد الأيام" name="days_valid" value="{{ $invoice->days_valid }}" min="0"
+                                                >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <div class="card">
                                 <div class="card-content collapse show">
                                     <div class="card-body">

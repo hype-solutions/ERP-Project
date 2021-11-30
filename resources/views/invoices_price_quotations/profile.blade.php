@@ -138,6 +138,7 @@
                         </div>
                         <div class="col-sm-6 col-12 text-center text-sm-right">
                             <p><span class="text-muted">تاريخ عرض السعر: </span> {{ $invoice->quotation_date }}</p>
+                            <p><span class="text-muted">صالح لمده: </span> {{ $invoice->days_valid }} يوم</p>
 
 
 
