@@ -47,7 +47,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-3">
                     <div class="brand-wrap">
-                        <img class="logo" src="{{ asset('theme/pos/images/items/noImg.jpg') }}">
+                        <img class="logo" src="{{ asset('theme/app-assets/images/logo/logo_2.png') }}">
                         <h2 class="logo-text">بيع سريع</h2>
                     </div> <!-- brand-wrap.// -->
                 </div>
@@ -66,11 +66,16 @@
                         </div> <!-- widget .// -->
                         <div class="widget-header dropdown">
                             <a href="#" class="ml-3 icontext" data-toggle="dropdown" data-offset="20,10">
-                                <img src="{{ asset('theme/pos/images/items/noImg.jpg') }}" class="avatar"
+                                @if (!isset(Auth::user()->profile_pic))
+                                <img src="{{ asset('theme/app-assets/images/custom/no-profile.jpg') }}" class="avatar"
                                     alt="">
+                                @else
+                                <img src="{{ asset(Auth::user()->profile_pic) }}" class="avatar"
+                                alt="">
+                                @endif
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#"><i class="fa fa-sign-out-alt"></i> Logout</a>
+                                <a class="dropdown-item" href="#"><i class="fa fa-sign-out-alt"></i> تسجيل الخروج</a>
                             </div> <!--  dropdown-menu .// -->
                         </div> <!-- widget  dropdown.// -->
                     </div> <!-- widgets-wrap.// -->

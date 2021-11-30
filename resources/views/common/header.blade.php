@@ -83,7 +83,7 @@
                                 }
                             </script>
                             <li class="col-md-3">
-                                <h6 class="font-weight-bold font-medium-2">المذيد</h6>
+                                <h6 class="font-weight-bold font-medium-2">المزيد</h6>
                                 <ul class="row mt-1 mt-xl-2">
                                     <li class="col-12 col-xl-6 pl-0">
                                         <ul class="mega-component-list">
