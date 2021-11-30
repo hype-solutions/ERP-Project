@@ -144,8 +144,14 @@
                                                             @foreach ($invoice->allCustomers() as $customer)
                                                                 <option value="{{ $customer->id }}">
                                                                     {{ $customer->customer_name }}
+                                                                    @if($customer->customer_title)
+                                                                    [{{$customer->customer_title}}]
+                                                                    @endif
+                                                                    @if($customer->customer_company)
+                                                                    - {{$customer->customer_company}}
+                                                                    @endif
                                                                     @if ($customer->parent)
-                                                                        - {{ $customer->parent->customer_name }}
+                                                                        - {{ $customer->parent->customer_company }}
                                                                     @endif
                                                                 </option>
                                                             @endforeach

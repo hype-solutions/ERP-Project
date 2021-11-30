@@ -91,6 +91,7 @@ class CustomersController extends Controller
         $linked = new Customers();
         $linked->customer_parent = $customer->id;
         $linked->customer_name = $request->linked_name;
+        $linked->customer_title = $request->linked_title;
         $linked->customer_mobile = $request->linked_mobile;
         $linked->save();
 

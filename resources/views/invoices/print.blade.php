@@ -69,9 +69,20 @@
                 <div class="col-sm-6 col-12 text-center text-sm-left"  @if($template == 3) style="margin-top:100px;" @endif>
                     <p class="text-muted">بيانات الجهه</p>
                   <ul class="px-0 list-unstyled">
-                    <li class="text-bold-800">{{$invoice->customer->customer_name}} @if($invoice->customer->parent)
-                        - {{$invoice->customer->parent->customer_name}}
-                        @endif</li>
+                    <li class="text-bold-800">
+                        {{$invoice->customer->customer_name}}
+                        @if($invoice->customer->customer_title)
+                        <br>
+                        [{{$invoice->customer->customer_title}}]
+                        @endif
+                        @if($invoice->customer->customer_company)
+                        <br>
+                        {{$invoice->customer->customer_company}}
+                        @endif
+                        @if($invoice->customer->parent)
+                        <br> {{$invoice->customer->parent->customer_company}}
+                        @endif
+                    </li>
                     <li>موبايل: {{ $invoice->customer->customer_mobile }}</li>
                     <li>
                         @if(isset($invoice->customer->customer_phone))
