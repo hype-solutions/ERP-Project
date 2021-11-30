@@ -100,7 +100,9 @@ class PosController extends Controller
         } else {
             $customerVisits = 0;
         }
-        return view('pos.pos', compact('user_id', 'products', 'productsCategories', 'currentCart', 'sessionId', 'currentSession', 'customerVisits'));
+        $logo = Settings::where('key', 'logo')->value('value');
+
+        return view('pos.pos', compact('logo','user_id', 'products', 'productsCategories', 'currentCart', 'sessionId', 'currentSession', 'customerVisits'));
     }
 
     public function search(Request $request)

@@ -47,7 +47,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-3">
                     <div class="brand-wrap">
-                        <img class="logo" src="{{ asset('theme/app-assets/images/logo/logo_2.png') }}">
+                        <img class="logo" src="{{asset($logo)}}">
                         <h2 class="logo-text">بيع سريع</h2>
                     </div> <!-- brand-wrap.// -->
                 </div>
