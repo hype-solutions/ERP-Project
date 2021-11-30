@@ -284,8 +284,9 @@
                                         </div>
                                         <div class="media-body">
                                             <h6 class="media-heading">{{$productsNotification->product_name}}</h6>
-                                            <p class="notification-text font-small-3 text-muted">المخزون الحالي أقل من {{$productsNotification->product_low_stock_thershold}}</p><small>
-                                            {{-- <time class="media-meta text-muted" datetime="2015-06-11T18:29:20+08:00">Today</time></small> --}}
+                                            <p class="notification-text font-small-3 text-muted">المخزون الحالي أقل من {{$productsNotification->product_low_stock_thershold}}</p>
+                                            {{--<small>
+                                             <time class="media-meta text-muted" datetime="2015-06-11T18:29:20+08:00">Today</time></small> --}}
                                         </div>
                                     </div>
                                 </a>
