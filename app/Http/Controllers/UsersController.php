@@ -104,7 +104,12 @@ class UsersController extends Controller
     public function update(Request $request, $user)
     {
         $user = User::find($user);
-        $user->name = $request->name;
+
+        $check = User::where('email', $request->email)->where('id','!=',$user->id)->count();
+        if($check > 0){
+            return back()->with('error', 'xxx');
+        }else{
+            $user->name = $request->name;
         $user->email = $request->email;
         $user->username = $request->username;
         $user->mobile = $request->mobile;
@@ -123,6 +128,8 @@ class UsersController extends Controller
         }
         $user->save();
         return back()->with('success', 'User Updated');
+        }
+
     }
 
 

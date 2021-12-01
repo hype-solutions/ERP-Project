@@ -36,6 +36,18 @@
 
 @endif
 
+    @if(session()->has('error'))
+    <div class="alert alert-icon-left alert-danger alert-dismissible mb-2" role="alert">
+        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+        <strong>حدث خطأ, برجاء المحاولة مرة أخرى</strong>
+        <ul>
+            <li>هذا البريد الإلكتروني مستخدم بالفعل</li>
+        </ul>
+    </div>
+    @endif
     @if(session()->has('success'))
     @if(session()->get('success') == 'User Added' )
 <div class="alert alert-icon-left alert-success alert-dismissible mb-2" role="alert">
