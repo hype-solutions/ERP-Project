@@ -218,7 +218,7 @@
                                                     aria-controls="tab11x" href="#tab11x" aria-expanded="true">الصلاحية</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link active" id="base-tab11" data-toggle="tab"
+                                                <a class="nav-link" id="base-tab11" data-toggle="tab"
                                                     aria-controls="tab11" href="#tab11" aria-expanded="true">الخصم</a>
                                             </li>
                                             <li class="nav-item">
