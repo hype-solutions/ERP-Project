@@ -184,31 +184,18 @@
                             </div>
                         </div>
 
-                        <div class="col-md-2">
-                            <div class="card">
-                                <div class="card-content collapse show">
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <label for="projectinput3">تاريخ إصدار عرض السعر</label>
-                                            <input type="text" id="" class="form-control" placeholder="" name=""
-                                                value="{{ date('Y-m-d') }}" readonly>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="projectinput3">صالح لمده كم يوم؟</label>
-                                            <input type="number" id="" class="form-control" placeholder="عدد الأيام"
-                                                name="days_valid" value="15" min="0">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
+
+                        <div class="col-md-6">
                             <div class="card">
                                 <div class="card-content collapse show">
                                     <div class="card-body">
                                         <ul class="nav nav-tabs nav-top-border no-hover-bg">
                                             <li class="nav-item">
-                                                <a class="nav-link active" id="base-tab11" data-toggle="tab"
+                                                <a class="nav-link active" id="base-tab11x" data-toggle="tab"
+                                                    aria-controls="tab11x" href="#tab11x" aria-expanded="true">الصلاحية</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="base-tab11" data-toggle="tab"
                                                     aria-controls="tab11" href="#tab11" aria-expanded="true">الخصم</a>
                                             </li>
                                             <li class="nav-item">
@@ -221,7 +208,26 @@
                                             </li>
                                         </ul>
                                         <div class="tab-content px-1 pt-1">
-                                            <div role="tabpanel" class="tab-pane active" id="tab11" aria-expanded="true"
+                                            <div role="tabpanel" class="tab-pane active" id="tab11x" aria-expanded="true"
+                                                aria-labelledby="base-tab11x">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput3">تاريخ إصدار عرض السعر</label>
+                                                            <input type="text" id="" class="form-control" placeholder="" name=""
+                                                                value="{{ date('Y-m-d') }}" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="projectinput3">صالح لمده كم يوم؟</label>
+                                                            <input type="number" id="" class="form-control" placeholder="عدد الأيام"
+                                                                name="days_valid" value="15" min="0">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div role="tabpanel" class="tab-pane" id="tab11" aria-expanded="false"
                                                 aria-labelledby="base-tab11">
                                                 <div class="row">
                                                     <div class="col-md-4" id="dis_per">
