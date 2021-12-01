@@ -52,6 +52,7 @@ class OutsController extends Controller
     {
         $user = Auth::user();
         $user_id = $user->id;
+
         $in = new Out();
         $in->entity = $request->entity_id;
         $in->category = $request->cat_id;
@@ -61,25 +62,39 @@ class OutsController extends Controller
         $in->safe_transaction_id = 0;
         $in->transaction_datetime = Carbon::now();
         $in->done_by = $user_id;
-        $in->authorized_by = $user_id;
+        // $in->authorized_by = $user_id;
         $in->save();
-        $inId = $in->id;
+        //$inId = $in->id;
+
+
+
+        return redirect()->route('outs.list');
+    }
+
+
+    public function authorizeOut(Request $request, Out $out)
+    {
+        $user = Auth::user();
+        $user_id = $user->id;
 
         $payment = new SafesTransactions();
-        $payment->safe_id = $request->safe_id;
+        $payment->safe_id = $out->safe_id;
         $payment->transaction_type = 1;
         $payment->direct = 0;
-        $payment->transaction_amount = $request->amount;
+        $payment->transaction_amount = $out->amount;
         $payment->transaction_datetime = Carbon::now();
         $payment->done_by = $user_id;
         $payment->authorized_by = $user_id;
-        $payment->transaction_notes = $request->notes;
+        $payment->transaction_notes = $out->notes;
         $payment->save();
-        $paymentId = $payment->id;
 
-        Out::where('id', $inId)->update(['safe_transaction_id' => $paymentId]);
-        Safes::where('id', $request->safe_id)->increment('safe_balance', $request->amount);
-        return redirect()->route('outs.list');
+        $paymentId = $payment->id;
+        $out->safe_transaction_id = $paymentId;
+        $out->authorized_by = $user_id;
+        $out->save();
+
+        Safes::where('id', $out->safe_id)->increment('safe_balance', $out->amount);
+        return back();
     }
 
 

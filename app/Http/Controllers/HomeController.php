@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\In\In;
 use App\Models\Invoices\InvoicesPriceQuotation;
+use App\Models\Out\Out;
 use App\Models\Products\ProductsTransfers;
 use App\Models\PurchasesOrders\PurchasesOrders;
 use App\Models\Safes\SafesTransfers;
@@ -60,6 +62,20 @@ class HomeController extends Controller
             ->orderByDesc('id')
             ->count();
 
+        $outs = Out::where('authorized_by',NULL)
+            ->orderByDesc('id')
+            ->paginate(5);
+
+        $outsCount = Out::where('authorized_by',NULL)
+            ->count();
+
+        $ins = In::where('authorized_by',NULL)
+            ->orderByDesc('id')
+            ->paginate(5);
+
+        $insCount = In::where('authorized_by',NULL)
+            ->count();
+
         $productTransfers = ProductsTransfers::where('status', 'Pending')
             ->orderByDesc('id')
             ->paginate(5);
@@ -68,7 +84,7 @@ class HomeController extends Controller
             ->orderByDesc('id')
             ->count();
 
-        return view('home', compact('priceQuotationsCount', 'purchasesOrdersCount', 'safesTransfersCount', 'productTransfersCount', 'priceQuotations', 'purchasesOrders', 'safesTransfers', 'productTransfers'));
+        return view('home', compact('ins','insCount','outs','outsCount','priceQuotationsCount', 'purchasesOrdersCount', 'safesTransfersCount', 'productTransfersCount', 'priceQuotations', 'purchasesOrders', 'safesTransfers', 'productTransfers'));
     }
 
     public function shit()

@@ -146,9 +146,20 @@
                                 @endif
                             </td>
                             <td> {{ $in->safe->safe_name }}</td>
-                            <td class="text-center"> <b>{{ $in->safe_transaction_id }}</b>
+                            <td class="text-center">
+                                @if ($in->safe_transaction_id > 0)
+                                <b>{{ $in->safe_transaction_id }}</b>
                                 <br>
                                 <button onclick="return pay('{{route('safes.receipt',$in->safe_transaction_id)}}');" class="btn btn-warning">الإيصال</button>
+                                @else
+                                <span class="danger">لم يتم التصديق عليها بعد</span>
+                                <br>
+                                <form action="{{route('ins.authorizeIn',$in->id)}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success">تصديق</button>
+                                </form>
+                                @endif
+
                             </td>
                             <td> {{ $in->notes }}</td>
                             <td> {{ $in->amount }} ج.م</td>
@@ -159,13 +170,15 @@
                                         <span>{{$in->done_user->username}}</span>
                                     </div>
 
+                                    @if (isset($in->authorized_by))
+                                    <br>
+                                    صرح بالعملية
+                                    <div class="badge border-success success badge-square badge-border">
+                                        <i class="la la-user font-medium-2"></i>
+                                            <span>{{$in->auth_user->username}}</span>
+                                        </div>
+                                    @endif
 
-                                  <br>
-                                صرح بالعملية
-                                <div class="badge border-success success badge-square badge-border">
-                                    <i class="la la-user font-medium-2"></i>
-                                        <span>{{$in->auth_user->username}}</span>
-                                    </div>
                               </td>
 
 

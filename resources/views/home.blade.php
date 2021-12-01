@@ -471,11 +471,12 @@
                                     </div>
                                 @endcanany
                                 @canany(['Accept Safes Transfers', 'Accept Safes Deposit', 'Accept Safes Withdraw'])
+                                    {{-- add to can any [auth out, auth in] --}}
                                     <span class="btn btn-block btn-outline-dark">الخزن (<span
-                                            class="text-danger">{{ $safesTransfersCount }}</span>)</span>
+                                            class="text-danger">{{ $safesTransfersCount + $outsCount + $insCount }}</span>)</span>
                                     <div id="safesTransfers" role="tablist" aria-multiselectable="true">
                                         <div class="card accordion collapse-icon accordion-icon-rotate">
-                                            @if ($safesTransfersCount == 0)
+                                            @if ($safesTransfersCount + $outsCount + $insCount == 0)
                                                 <span class="text-success">لا يوجد جديد</span>
                                             @endif
                                             @foreach ($safesTransfers as $key => $transfer)
@@ -522,6 +523,112 @@
                                                             <a class="btn btn-success btn-sm"
                                                                 href="{{ route('safes.accepting', $transfer->id) }}"><i
                                                                     class="la la-check"></i> تصديق</a>
+                                                            <a class="btn btn-danger btn-sm" href="#"><i
+                                                                    class="la la-close"></i> رفض</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            @endforeach
+
+                                            @foreach ($outs as $key => $out)
+                                                <a id="headingc{{ $key }}" class="card-header info collapsed"
+                                                    data-toggle="collapse" href="#accordionc{{ $key }}"
+                                                    aria-expanded="false" aria-controls="accordionc{{ $key }}">
+                                                    <div class="card-title lead">سحب مصاريف
+                                                        #{{ $out->id }}
+                                                    </div>
+                                                </a>
+                                                <div id="accordionc{{ $key }}" role="tabpanel"
+                                                    data-parent="#safesTransfers" aria-labelledby="headingc{{ $key }}"
+                                                    class="collapse" style="">
+                                                    <div class="card-content">
+                                                        <div class="card-body">
+                                                            <table class="table">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <th>الخزنة</th>
+                                                                        <td>{{ $out->safe->safe_name }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>الملاحظات</th>
+                                                                        <td>{{ $out->notes }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>المبلغ</th>
+                                                                        <td>{{ $out->amount }} ج.م</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>قام بالطلب</th>
+                                                                        <td>
+                                                                            <div
+                                                                                class="badge border-primary primary badge-border">
+                                                                                <i class="la la-user font-medium-2"></i>
+                                                                                <span>{{ $out->done_user->username }}</span>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <form action="{{route('outs.authorizeOut',$out->id)}}" method="POST">
+                                                                @csrf
+                                                                <button type="submit" class="btn btn-success btn-sm"><i
+                                                                    class="la la-check"></i>تصديق</button>
+                                                            </form>
+
+                                                            <a class="btn btn-danger btn-sm" href="#"><i
+                                                                    class="la la-close"></i> رفض</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            @endforeach
+
+                                            @foreach ($ins as $key => $in)
+                                                <a id="headingc{{ $key }}" class="card-header info collapsed"
+                                                    data-toggle="collapse" href="#accordionc{{ $key }}"
+                                                    aria-expanded="false" aria-controls="accordionc{{ $key }}">
+                                                    <div class="card-title lead"> إضافة دواخل
+                                                        #{{ $in->id }}
+                                                    </div>
+                                                </a>
+                                                <div id="accordionc{{ $key }}" role="tabpanel"
+                                                    data-parent="#safesTransfers" aria-labelledby="headingc{{ $key }}"
+                                                    class="collapse" style="">
+                                                    <div class="card-content">
+                                                        <div class="card-body">
+                                                            <table class="table">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <th>الخزنة</th>
+                                                                        <td>{{ $in->safe->safe_name }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>الملاحظات</th>
+                                                                        <td>{{ $in->notes }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>المبلغ</th>
+                                                                        <td>{{ $in->amount }} ج.م</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>قام بالطلب</th>
+                                                                        <td>
+                                                                            <div
+                                                                                class="badge border-primary primary badge-border">
+                                                                                <i class="la la-user font-medium-2"></i>
+                                                                                <span>{{ $in->done_user->username }}</span>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <form action="{{route('ins.authorizeIn',$in->id)}}" method="POST">
+                                                                @csrf
+                                                                <button type="submit" class="btn btn-success btn-sm"><i
+                                                                    class="la la-check"></i>تصديق</button>
+                                                            </form>
+
                                                             <a class="btn btn-danger btn-sm" href="#"><i
                                                                     class="la la-close"></i> رفض</a>
                                                         </div>
