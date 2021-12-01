@@ -36,8 +36,9 @@ class InvoicesPriceQuotationController extends Controller
         $quotations = InvoicesPriceQuotation::all();
         $users = User::where('id','!=','1')->get();
         $signature = InvoicesPriceQuotationSignature::with('user')->first();
+        $logo = Settings::where('key', 'logo')->value('value');
 
-        return view('invoices_price_quotations.list', compact('quotations','users','signature'));
+        return view('invoices_price_quotations.list', compact('logo','quotations','users','signature'));
     }
 
     public function add()

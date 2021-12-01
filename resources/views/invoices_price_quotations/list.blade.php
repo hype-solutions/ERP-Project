@@ -352,6 +352,7 @@
                         columns: [4, 3, 2, 1, 0]
                     },
 
+
                 },
                 {
                     extend: 'print',
@@ -359,7 +360,19 @@
                     messageTop: 'قائمة عروض الأسعار',
                     exportOptions: {
                         columns: [0, 1, 2, 3, 4]
-                    }
+                    },
+                    customize: function(win) {
+                        // $(win.document.body).addClass('white-bg');
+                        $(win.document.body)
+                            // .css('font-size', '10px')
+                            .prepend(
+                                '<img src={{ asset($logo) }} style="opacity: 0.2;position:absolute; top:40%; left:40%;width:200px;height:80px" />'
+                            );
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    },
                 }
             ]
         });

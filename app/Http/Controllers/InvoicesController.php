@@ -44,7 +44,7 @@ class InvoicesController extends Controller
         $address_1 = Settings::where('key', 'address_1')->value('value');
         $address_2 = Settings::where('key', 'address_2')->value('value');
 
-        return view('invoices.profile', compact('company', 'logo', 'invoice','address_1','address_2'));
+        return view('invoices.profile', compact('company', 'logo', 'invoice', 'address_1', 'address_2'));
     }
 
 
@@ -79,7 +79,9 @@ class InvoicesController extends Controller
     {
         $invoices = $this->invoice->all();
         $this->addLogRecord('Invoices', 'View', '0');
-        return view('invoices.list', compact('invoices'));
+        $logo = Settings::where('key', 'logo')->value('value');
+
+        return view('invoices.list', compact('logo', 'invoices'));
     }
 
 

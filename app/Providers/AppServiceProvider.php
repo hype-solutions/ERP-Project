@@ -53,7 +53,6 @@ class AppServiceProvider extends ServiceProvider
 
 
 
-
                     $roles = ['مدير','محاسب','Super Admin'];
                     $user = User::where("id", Auth::id())->first();
                     if ($user->hasAnyRole($roles)) {
