@@ -123,7 +123,7 @@
                                             <div class="row">
 
                                                 <div class="col-md-6" style="border-left: 6px solid #28d094;
-                                    height: 140px;">
+                                        height: 140px;">
                                                     <div class="form-group">
                                                         <div class="text-bold-600 font-medium-2">
                                                             عميل حالي
@@ -190,15 +190,13 @@
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="projectinput3">تاريخ إصدار عرض السعر</label>
-                                            <input type="text" id="" class="form-control"
-                                                placeholder="" name="" value="{{ date('Y-m-d') }}"  readonly
-                                                >
+                                            <input type="text" id="" class="form-control" placeholder="" name=""
+                                                value="{{ date('Y-m-d') }}" readonly>
                                         </div>
                                         <div class="form-group">
                                             <label for="projectinput3">صالح لمده كم يوم؟</label>
-                                            <input type="number" id="" class="form-control"
-                                                placeholder="عدد الأيام" name="days_valid" value="15" min="0"
-                                                >
+                                            <input type="number" id="" class="form-control" placeholder="عدد الأيام"
+                                                name="days_valid" value="15" min="0">
                                         </div>
                                     </div>
                                 </div>
@@ -362,7 +360,8 @@
                                                             style="border-style: none !important;"><strong>الإجمالي</strong>
                                                         </td>
                                                         <td class="text-left" style="border-style: none !important;">
-                                                            <code><span id="total_after_all">0</span></code>&nbsp;ج.م</td>
+                                                            <code><span id="total_after_all">0</span></code>&nbsp;ج.م
+                                                        </td>
                                                         <td></td>
                                                     </tr>
                                                     <tr id="hidden-row-1" style="display: none">

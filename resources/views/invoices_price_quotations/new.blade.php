@@ -144,22 +144,23 @@
                                     <!-- Invoice Company Details -->
                                     <div id="invoice-customer-details" class="row pt-2" style="">
 
-                                        <div class="col-sm-6 col-12 text-center text-sm-left notFirst2" @if ($template == 3) style="margin-top:150px;" @endif>
+                                        <div class="col-sm-6 col-12 text-center text-sm-left notFirst2"
+                                            @if ($template == 3) style="margin-top:150px;" @endif>
                                             <p class="text-muted">بيانات الجهة</p>
                                             <ul class="px-0 list-unstyled">
                                                 <li class="text-bold-800">
-                                                    {{$invoice->customer->customer_name}}
-                        @if($invoice->customer->customer_title)
-                        <br>
-                        [{{$invoice->customer->customer_title}}]
-                        @endif
-                        @if($invoice->customer->customer_company)
-                        <br>
-                        {{$invoice->customer->customer_company}}
-                        @endif
-                        @if($invoice->customer->parent)
-                        <br> {{$invoice->customer->parent->customer_company}}
-                        @endif
+                                                    {{ $invoice->customer->customer_name }}
+                                                    @if ($invoice->customer->customer_title)
+                                                        <br>
+                                                        {{ $invoice->customer->customer_title }}
+                                                    @endif
+                                                    @if ($invoice->customer->customer_company)
+                                                        <br>
+                                                        {{ $invoice->customer->customer_company }}
+                                                    @endif
+                                                    @if ($invoice->customer->parent)
+                                                        <br> {{ $invoice->customer->parent->customer_company }}
+                                                    @endif
                                                 </li>
                                                 <li>موبايل: {{ $invoice->customer->customer_mobile }}</li>
                                                 <li>
@@ -176,14 +177,20 @@
                                             </ul>
                                         </div>
                                         @if ($template != 3)
-                                            <div class="col-sm-6 col-12 text-center text-sm-right" @if ($template == 4) style="    margin-top: 85px;" @else style="    margin-top: 65px;" @endif>
+                                            <div class="col-sm-6 col-12 text-center text-sm-right"
+                                                @if ($template == 4) style="    margin-top: 85px;" @else style="    margin-top: 65px;" @endif>
                                                 <h2>عرض سعر</h2>
                                                 <p class="pb-sm-3">رقم {{ $invoice->id }}</p>
                                                 <ul class="px-0 list-unstyled">
                                                     <li>إجمالي عرض السعر</li>
-                                                    <li class="lead text-bold-800">{{ $invoice->quotation_total }} ج.م
+                                                    <li class="lead text-bold-800">{{ $invoice->quotation_total }}
+                                                        ج.م
                                                     </li>
                                                 </ul>
+                                                <p><small class="text-muted">تاريخ عرض السعر:
+                                                    {{ $invoice->quotation_date }} <br>
+                                                صالح لمده:
+                                                    {{ $invoice->days_valid }} يوم</small></p>
                                             </div>
                                         @else
                                             <div class="col-sm-2 col-12 text-center text-sm-right">
@@ -191,13 +198,18 @@
                                                 <p class="pb-sm-3">رقم {{ $invoice->id }}</p>
                                                 <ul class="px-0 list-unstyled">
                                                     <li>إجمالي عرض السعر</li>
-                                                    <li class="lead text-bold-800">{{ $invoice->quotation_total }} ج.م
+                                                    <li class="lead text-bold-800">{{ $invoice->quotation_total }}
+                                                        ج.م
                                                     </li>
                                                 </ul>
+                                                <p><span class="text-muted">تاريخ عرض السعر: </span>
+                                                    {{ $invoice->quotation_date }}</p>
+                                                <p><span class="text-muted">صالح لمده: </span>
+                                                    {{ $invoice->days_valid }} يوم</p>
                                             </div>
-                                            <div class="col-sm-4 col-12 text-center text-sm-right">
-                                            </div>
+
                                         @endif
+
                                     </div>
                                     <!-- Invoice Company Details -->
 
@@ -232,9 +244,11 @@
                                                                         {{ $product->product_temp }}
                                                                     @endif
                                                                 </td>
-                                                                <td class="text-right">{{ $product->product_price }}
+                                                                <td class="text-right">
+                                                                    {{ $product->product_price }}
                                                                     ج.م</td>
-                                                                <td class="text-right">{{ $product->product_qty }}</td>
+                                                                <td class="text-right">
+                                                                    {{ $product->product_qty }}</td>
                                                                 <td class="text-right">
                                                                     {{ $product->product_price * $product->product_qty }}
                                                                     ج.م</td>
@@ -313,8 +327,8 @@
                                                 </div>
                                                 <div class="text-center">
                                                     <p class="mb-0 mt-1">التوقيع</p>
-                                                    <img src="{{ asset($signature->user->signature) }}" alt="signature"
-                                                        class="height-100" style="height: 100px;" />
+                                                    <img src="{{ asset($signature->user->signature) }}"
+                                                        alt="signature" class="height-100" style="height: 100px;" />
                                                     <h6>{{ $signature->user->name }}</h6>
                                                     <p class="text-muted">{{ $signature->title }}</p>
                                                 </div>
@@ -380,539 +394,566 @@
                     @if ($count <= 7)
                         @if ($alreadyShown != 1) <span style="display:
                         none">
-                        {{ $alreadyShown = 1 }}
-                        </span>
-                        <div class="row ">
+                                {{ $alreadyShown = 1 }}
+                            </span>
+                            <div class="row ">
+                                <div class="col-sm-7 col-12 text-center text-sm-left">
+                                    <h6>الشروط / الملاحظات</h6>
+                                    {!! $invoice->quotation_note !!}
+
+
+                                </div>
+                                <div class="col-sm-5 col-12">
+                                    <p class="lead">الحساب</p>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>المجموع</td>
+                                                    <td class="text-right">
+                                                        {{ $subtotal }} ج.م
+                                                    </td>
+                                                </tr>
+                                                @if ($invoice->discount_percentage > 0)
+                                                    <tr>
+                                                        <td>الخصم (النسبة)</td>
+                                                        <td class="text-right">
+                                                            [{{ $invoice->discount_percentage }} %]
+                                                            {{ round(($invoice->discount_percentage / 100) * $subtotal) }}
+                                                            ج.م
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                                @if ($invoice->discount_amount > 0)
+                                                    <tr>
+                                                        <td>الخصم (المبلغ)</td>
+                                                        <td class="text-right">{{ $invoice->discount_amount }}
+                                                            ج.م</td>
+                                                    </tr>
+                                                @endif
+                                                @if ($invoice->quotation_tax > 0)
+                                                    <tr>
+                                                        <td>الضريبة</td>
+                                                        <td class="text-right">
+                                                            [{{ $invoice->quotation_tax }} %]
+                                                            {{ round(($invoice->quotation_tax / 100) * $subtotal) }}
+                                                            ج.م</td>
+                                                    </tr>
+                                                @endif
+                                                @if ($invoice->shipping_fees > 0)
+                                                    <tr>
+                                                        <td>الشحن</td>
+                                                        <td class="text-right">{{ $invoice->shipping_fees }} ج.م
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                                <tr>
+                                                    <td class="text-bold-800">الإجمالي</td>
+                                                    <td class="text-bold-800 text-right">
+                                                        {{ $invoice->quotation_total }} ج.م</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="mb-0 mt-1">التوقيع</p>
+                                        <img src="{{ asset($signature->user->signature) }}" alt="signature"
+                                            class="height-100" style="height: 100px;" />
+                                        <h6>{{ $signature->user->name }}</h6>
+                                        <p class="text-muted">{{ $signature->title }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endif
+                </div>
+            </div>
+        @endif
+
+
+
+
+
+
+
+        @if ($count > 10)
+            <div class="page ">
+                <div class="subpage notFirst">
+                    <div id=" " class="pt-2">
+                        <div class="row">
+                            <div class="table-responsive col-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>البند و الوصف</th>
+                                            <th class="text-right">سعر الوحدة </th>
+                                            <th class="text-right">الكمية</th>
+                                            <th class="text-right">المجموع</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($currentProducts->slice(10, 5) as $key => $product)
+
+                                            <tr>
+                                                <th scope="row">{{ ++$key }}</th>
+                                                <td>
+                                                    @if ($product->product_id > 0)
+                                                        <p>{{ $product->product->product_name }}</p>
+                                                    @else
+                                                        {{ $product->product_temp }}
+                                                    @endif
+                                                </td>
+                                                <td class="text-right">{{ $product->product_price }} ج.م</td>
+                                                <td class="text-right">{{ $product->product_qty }}</td>
+                                                <td class="text-right">
+                                                    {{ $product->product_price * $product->product_qty }} ج.م</td>
+                                            </tr>
+                                            <span
+                                                style="display: none">{{ $subtotal += $product->product_price * $product->product_qty }}</span>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    @if ($count <= 12)
+                        @if ($alreadyShown != 1) <span style="display:
+                    none">
+                                {{ $alreadyShown = 1 }}
+                            </span>
+                            <div class="row ">
+                                <div class="col-sm-7 col-12 text-center text-sm-left">
+                                    <h6>الشروط / الملاحظات</h6>
+                                    {!! $invoice->quotation_note !!}
+
+
+                                </div>
+                                <div class="col-sm-5 col-12">
+                                    <p class="lead">الحساب</p>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>المجموع</td>
+                                                    <td class="text-right">
+                                                        {{ $subtotal }} ج.م
+                                                    </td>
+                                                </tr>
+                                                @if ($invoice->discount_percentage > 0)
+                                                    <tr>
+                                                        <td>الخصم (النسبة)</td>
+                                                        <td class="text-right">
+                                                            [{{ $invoice->discount_percentage }} %]
+                                                            {{ round(($invoice->discount_percentage / 100) * $subtotal) }}
+                                                            ج.م
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                                @if ($invoice->discount_amount > 0)
+                                                    <tr>
+                                                        <td>الخصم (المبلغ)</td>
+                                                        <td class="text-right">{{ $invoice->discount_amount }}
+                                                            ج.م</td>
+                                                    </tr>
+                                                @endif
+                                                @if ($invoice->quotation_tax > 0)
+                                                    <tr>
+                                                        <td>الضريبة</td>
+                                                        <td class="text-right">
+                                                            [{{ $invoice->quotation_tax }} %]
+                                                            {{ round(($invoice->quotation_tax / 100) * $subtotal) }}
+                                                            ج.م</td>
+                                                    </tr>
+                                                @endif
+                                                @if ($invoice->shipping_fees > 0)
+                                                    <tr>
+                                                        <td>الشحن</td>
+                                                        <td class="text-right">{{ $invoice->shipping_fees }} ج.م
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                                <tr>
+                                                    <td class="text-bold-800">الإجمالي</td>
+                                                    <td class="text-bold-800 text-right">
+                                                        {{ $invoice->quotation_total }} ج.م</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="mb-0 mt-1">التوقيع</p>
+                                        <img src="{{ asset($signature->user->signature) }}" alt="signature"
+                                            class="height-100" style="height: 100px;" />
+                                        <h6>{{ $signature->user->name }}</h6>
+                                        <p class="text-muted">{{ $signature->title }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endif
+                </div>
+            </div>
+        @endif
+
+
+
+
+        @if ($count > 15)
+            <div class="page ">
+                <div class="subpage notFirst">
+                    <div id=" " class="pt-2">
+                        <div class="row">
+                            <div class="table-responsive col-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>البند و الوصف</th>
+                                            <th class="text-right">سعر الوحدة </th>
+                                            <th class="text-right">الكمية</th>
+                                            <th class="text-right">المجموع</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($currentProducts->slice(15, 5) as $key => $product)
+
+                                            <tr>
+                                                <th scope="row">{{ ++$key }}</th>
+                                                <td>
+                                                    @if ($product->product_id > 0)
+                                                        <p>{{ $product->product->product_name }}</p>
+                                                    @else
+                                                        {{ $product->product_temp }}
+                                                    @endif
+                                                </td>
+                                                <td class="text-right">{{ $product->product_price }} ج.م</td>
+                                                <td class="text-right">{{ $product->product_qty }}</td>
+                                                <td class="text-right">
+                                                    {{ $product->product_price * $product->product_qty }} ج.م</td>
+                                            </tr>
+                                            <span
+                                                style="display: none">{{ $subtotal += $product->product_price * $product->product_qty }}</span>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    @if ($count <= 17)
+                        @if ($alreadyShown != 1) <span style="display:
+                    none">
+                                {{ $alreadyShown = 1 }}
+                            </span>
+                            <div class="row ">
+                                <div class="col-sm-7 col-12 text-center text-sm-left">
+                                    <h6>الشروط / الملاحظات</h6>
+                                    {!! $invoice->quotation_note !!}
+
+
+                                </div>
+                                <div class="col-sm-5 col-12">
+                                    <p class="lead">الحساب</p>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>المجموع</td>
+                                                    <td class="text-right">
+                                                        {{ $subtotal }} ج.م
+                                                    </td>
+                                                </tr>
+                                                @if ($invoice->discount_percentage > 0)
+                                                    <tr>
+                                                        <td>الخصم (النسبة)</td>
+                                                        <td class="text-right">
+                                                            [{{ $invoice->discount_percentage }} %]
+                                                            {{ round(($invoice->discount_percentage / 100) * $subtotal) }}
+                                                            ج.م
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                                @if ($invoice->discount_amount > 0)
+                                                    <tr>
+                                                        <td>الخصم (المبلغ)</td>
+                                                        <td class="text-right">{{ $invoice->discount_amount }}
+                                                            ج.م</td>
+                                                    </tr>
+                                                @endif
+                                                @if ($invoice->quotation_tax > 0)
+                                                    <tr>
+                                                        <td>الضريبة</td>
+                                                        <td class="text-right">
+                                                            [{{ $invoice->quotation_tax }} %]
+                                                            {{ round(($invoice->quotation_tax / 100) * $subtotal) }}
+                                                            ج.م</td>
+                                                    </tr>
+                                                @endif
+                                                @if ($invoice->shipping_fees > 0)
+                                                    <tr>
+                                                        <td>الشحن</td>
+                                                        <td class="text-right">{{ $invoice->shipping_fees }} ج.م
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                                <tr>
+                                                    <td class="text-bold-800">الإجمالي</td>
+                                                    <td class="text-bold-800 text-right">
+                                                        {{ $invoice->quotation_total }} ج.م</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="mb-0 mt-1">التوقيع</p>
+                                        <img src="{{ asset($signature->user->signature) }}" alt="signature"
+                                            class="height-100" style="height: 100px;" />
+                                        <h6>{{ $signature->user->name }}</h6>
+                                        <p class="text-muted">{{ $signature->title }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endif
+                </div>
+            </div>
+        @endif
+
+
+
+
+
+
+
+
+
+        @if ($count > 20)
+            <div class="page ">
+                <div class="subpage notFirst">
+                    <div id=" " class="pt-2">
+                        <div class="row">
+                            <div class="table-responsive col-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>البند و الوصف</th>
+                                            <th class="text-right">سعر الوحدة </th>
+                                            <th class="text-right">الكمية</th>
+                                            <th class="text-right">المجموع</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($currentProducts->slice(20, 5) as $key => $product)
+
+                                            <tr>
+                                                <th scope="row">{{ ++$key }}</th>
+                                                <td>
+                                                    @if ($product->product_id > 0)
+                                                        <p>{{ $product->product->product_name }}</p>
+                                                    @else
+                                                        {{ $product->product_temp }}
+                                                    @endif
+                                                </td>
+                                                <td class="text-right">{{ $product->product_price }} ج.م</td>
+                                                <td class="text-right">{{ $product->product_qty }}</td>
+                                                <td class="text-right">
+                                                    {{ $product->product_price * $product->product_qty }} ج.م</td>
+                                            </tr>
+                                            <span
+                                                style="display: none">{{ $subtotal += $product->product_price * $product->product_qty }}</span>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    @if ($count <= 22)
+                        @if ($alreadyShown != 1) <span style="display:
+                    none">
+                                {{ $alreadyShown = 1 }}
+                            </span>
+                            <div class="row ">
+                                <div class="col-sm-7 col-12 text-center text-sm-left">
+                                    <h6>الشروط / الملاحظات</h6>
+                                    {!! $invoice->quotation_note !!}
+
+
+                                </div>
+                                <div class="col-sm-5 col-12">
+                                    <p class="lead">الحساب</p>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>المجموع</td>
+                                                    <td class="text-right">
+                                                        {{ $subtotal }} ج.م
+                                                    </td>
+                                                </tr>
+                                                @if ($invoice->discount_percentage > 0)
+                                                    <tr>
+                                                        <td>الخصم (النسبة)</td>
+                                                        <td class="text-right">
+                                                            [{{ $invoice->discount_percentage }} %]
+                                                            {{ round(($invoice->discount_percentage / 100) * $subtotal) }}
+                                                            ج.م
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                                @if ($invoice->discount_amount > 0)
+                                                    <tr>
+                                                        <td>الخصم (المبلغ)</td>
+                                                        <td class="text-right">{{ $invoice->discount_amount }}
+                                                            ج.م</td>
+                                                    </tr>
+                                                @endif
+                                                @if ($invoice->quotation_tax > 0)
+                                                    <tr>
+                                                        <td>الضريبة</td>
+                                                        <td class="text-right">
+                                                            [{{ $invoice->quotation_tax }} %]
+                                                            {{ round(($invoice->quotation_tax / 100) * $subtotal) }}
+                                                            ج.م</td>
+                                                    </tr>
+                                                @endif
+                                                @if ($invoice->shipping_fees > 0)
+                                                    <tr>
+                                                        <td>الشحن</td>
+                                                        <td class="text-right">{{ $invoice->shipping_fees }}
+                                                            ج.م</td>
+                                                    </tr>
+                                                @endif
+                                                <tr>
+                                                    <td class="text-bold-800">الإجمالي</td>
+                                                    <td class="text-bold-800 text-right">
+                                                        {{ $invoice->quotation_total }} ج.م</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="mb-0 mt-1">التوقيع</p>
+                                        <img src="{{ asset($signature->user->signature) }}" alt="signature"
+                                            class="height-100" style="height: 100px;" />
+                                        <h6>{{ $signature->user->name }}</h6>
+                                        <p class="text-muted">{{ $signature->title }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endif
+                </div>
+            </div>
+        @endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        @if ($alreadyShown != 1)
+
+
+            <div class="page ">
+                <div class="subpage notFirst">
+                    <div class="row ">
                         <div class="col-sm-7 col-12 text-center text-sm-left">
-                        <h6>الشروط / الملاحظات</h6>
-                        {!! $invoice->quotation_note !!}
+                            <h6>الشروط / الملاحظات</h6>
+                            {!! $invoice->quotation_note !!}
 
 
                         </div>
                         <div class="col-sm-5 col-12">
-                        <p class="lead">الحساب</p>
-                        <div class="table-responsive">
-                        <table class="table">
-                        <tbody>
-                        <tr>
-                        <td>المجموع</td>
-                        <td class="text-right">
-                        {{ $subtotal }} ج.م
-                        </td>
-                        </tr>
-                        @if ($invoice->discount_percentage > 0)
-                            <tr>
-                            <td>الخصم (النسبة)</td>
-                            <td class="text-right">
-                            [{{ $invoice->discount_percentage }} %]
-                            {{ round(($invoice->discount_percentage / 100) * $subtotal) }} ج.م
-                            </td>
-                            </tr> @endif
-                            @if ($invoice->discount_amount > 0)
-                                <tr>
-                                    <td>الخصم (المبلغ)</td>
-                                    <td class="text-right">{{ $invoice->discount_amount }} ج.م</td>
-                                </tr>
-                            @endif
-                            @if ($invoice->quotation_tax > 0)
-                                <tr>
-                                    <td>الضريبة</td>
-                                    <td class="text-right">
-                                        [{{ $invoice->quotation_tax }} %]
-                                        {{ round(($invoice->quotation_tax / 100) * $subtotal) }} ج.م</td>
-                                </tr>
-                            @endif
-                            @if ($invoice->shipping_fees > 0)
-                                <tr>
-                                    <td>الشحن</td>
-                                    <td class="text-right">{{ $invoice->shipping_fees }} ج.م</td>
-                                </tr>
-                            @endif
-                            <tr>
-                                <td class="text-bold-800">الإجمالي</td>
-                                <td class="text-bold-800 text-right"> {{ $invoice->quotation_total }} ج.م</td>
-                            </tr>
-
-                            </tbody>
-                            </table>
-                </div>
-                <div class="text-center">
-                    <p class="mb-0 mt-1">التوقيع</p>
-                    <img src="{{ asset($signature->user->signature) }}" alt="signature"
-                        class="height-100" style="height: 100px;" />
-                    <h6>{{ $signature->user->name }}</h6>
-                    <p class="text-muted">{{ $signature->title }}</p>
-                </div>
-            </div>
-    </div>
-    @endif
-    @endif
-    </div>
-    </div>
-    @endif
-
-
-
-
-
-
-
-    @if ($count > 10)
-        <div class="page ">
-            <div class="subpage notFirst">
-                <div id=" " class="pt-2">
-                    <div class="row">
-                        <div class="table-responsive col-12">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>البند و الوصف</th>
-                                        <th class="text-right">سعر الوحدة </th>
-                                        <th class="text-right">الكمية</th>
-                                        <th class="text-right">المجموع</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($currentProducts->slice(10, 5) as $key => $product)
-
+                            <p class="lead">الحساب</p>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tbody>
                                         <tr>
-                                            <th scope="row">{{ ++$key }}</th>
-                                            <td>
-                                                @if ($product->product_id > 0)
-                                                    <p>{{ $product->product->product_name }}</p>
-                                                @else
-                                                    {{ $product->product_temp }}
-                                                @endif
-                                            </td>
-                                            <td class="text-right">{{ $product->product_price }} ج.م</td>
-                                            <td class="text-right">{{ $product->product_qty }}</td>
+                                            <td>المجموع</td>
                                             <td class="text-right">
-                                                {{ $product->product_price * $product->product_qty }} ج.م</td>
-                                        </tr>
-                                        <span
-                                            style="display: none">{{ $subtotal += $product->product_price * $product->product_qty }}</span>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                </div>
-                @if ($count <= 12)
-                    @if ($alreadyShown != 1) <span style="display:
-                    none">
-                    {{ $alreadyShown = 1 }}
-                    </span>
-                    <div class="row ">
-                    <div class="col-sm-7 col-12 text-center text-sm-left">
-                    <h6>الشروط / الملاحظات</h6>
-                    {!! $invoice->quotation_note !!}
-
-
-                    </div>
-                    <div class="col-sm-5 col-12">
-                    <p class="lead">الحساب</p>
-                    <div class="table-responsive">
-                    <table class="table">
-                    <tbody>
-                    <tr>
-                    <td>المجموع</td>
-                    <td class="text-right">
-                    {{ $subtotal }} ج.م
-                    </td>
-                    </tr>
-                    @if ($invoice->discount_percentage > 0)
-                        <tr>
-                        <td>الخصم (النسبة)</td>
-                        <td class="text-right">
-                        [{{ $invoice->discount_percentage }} %]
-                        {{ round(($invoice->discount_percentage / 100) * $subtotal) }} ج.م
-                        </td>
-                        </tr> @endif
-                        @if ($invoice->discount_amount > 0)
-                            <tr>
-                                <td>الخصم (المبلغ)</td>
-                                <td class="text-right">{{ $invoice->discount_amount }} ج.م</td>
-                            </tr>
-                        @endif
-                        @if ($invoice->quotation_tax > 0)
-                            <tr>
-                                <td>الضريبة</td>
-                                <td class="text-right">
-                                    [{{ $invoice->quotation_tax }} %]
-                                    {{ round(($invoice->quotation_tax / 100) * $subtotal) }} ج.م</td>
-                            </tr>
-                        @endif
-                        @if ($invoice->shipping_fees > 0)
-                            <tr>
-                                <td>الشحن</td>
-                                <td class="text-right">{{ $invoice->shipping_fees }} ج.م</td>
-                            </tr>
-                        @endif
-                        <tr>
-                            <td class="text-bold-800">الإجمالي</td>
-                            <td class="text-bold-800 text-right"> {{ $invoice->quotation_total }} ج.م</td>
-                        </tr>
-
-                        </tbody>
-                        </table>
-            </div>
-            <div class="text-center">
-                <p class="mb-0 mt-1">التوقيع</p>
-                <img src="{{ asset($signature->user->signature) }}" alt="signature"
-                    class="height-100" style="height: 100px;" />
-                <h6>{{ $signature->user->name }}</h6>
-                <p class="text-muted">{{ $signature->title }}</p>
-            </div>
-        </div>
-        </div>
-    @endif
-    @endif
-    </div>
-    </div>
-    @endif
-
-
-
-
-    @if ($count > 15)
-        <div class="page ">
-            <div class="subpage notFirst">
-                <div id=" " class="pt-2">
-                    <div class="row">
-                        <div class="table-responsive col-12">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>البند و الوصف</th>
-                                        <th class="text-right">سعر الوحدة </th>
-                                        <th class="text-right">الكمية</th>
-                                        <th class="text-right">المجموع</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($currentProducts->slice(15, 5) as $key => $product)
-
-                                        <tr>
-                                            <th scope="row">{{ ++$key }}</th>
-                                            <td>
-                                                @if ($product->product_id > 0)
-                                                    <p>{{ $product->product->product_name }}</p>
-                                                @else
-                                                    {{ $product->product_temp }}
-                                                @endif
-                                            </td>
-                                            <td class="text-right">{{ $product->product_price }} ج.م</td>
-                                            <td class="text-right">{{ $product->product_qty }}</td>
-                                            <td class="text-right">
-                                                {{ $product->product_price * $product->product_qty }} ج.م</td>
-                                        </tr>
-                                        <span
-                                            style="display: none">{{ $subtotal += $product->product_price * $product->product_qty }}</span>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                </div>
-                @if ($count <= 17)
-                    @if ($alreadyShown != 1) <span style="display:
-                    none">
-                    {{ $alreadyShown = 1 }}
-                    </span>
-                    <div class="row ">
-                    <div class="col-sm-7 col-12 text-center text-sm-left">
-                    <h6>الشروط / الملاحظات</h6>
-                    {!! $invoice->quotation_note !!}
-
-
-                    </div>
-                    <div class="col-sm-5 col-12">
-                    <p class="lead">الحساب</p>
-                    <div class="table-responsive">
-                    <table class="table">
-                    <tbody>
-                    <tr>
-                    <td>المجموع</td>
-                    <td class="text-right">
-                    {{ $subtotal }} ج.م
-                    </td>
-                    </tr>
-                    @if ($invoice->discount_percentage > 0)
-                        <tr>
-                        <td>الخصم (النسبة)</td>
-                        <td class="text-right">
-                        [{{ $invoice->discount_percentage }} %]
-                        {{ round(($invoice->discount_percentage / 100) * $subtotal) }} ج.م
-                        </td>
-                        </tr> @endif
-                        @if ($invoice->discount_amount > 0)
-                            <tr>
-                                <td>الخصم (المبلغ)</td>
-                                <td class="text-right">{{ $invoice->discount_amount }} ج.م</td>
-                            </tr>
-                        @endif
-                        @if ($invoice->quotation_tax > 0)
-                            <tr>
-                                <td>الضريبة</td>
-                                <td class="text-right">
-                                    [{{ $invoice->quotation_tax }} %]
-                                    {{ round(($invoice->quotation_tax / 100) * $subtotal) }} ج.م</td>
-                            </tr>
-                        @endif
-                        @if ($invoice->shipping_fees > 0)
-                            <tr>
-                                <td>الشحن</td>
-                                <td class="text-right">{{ $invoice->shipping_fees }} ج.م</td>
-                            </tr>
-                        @endif
-                        <tr>
-                            <td class="text-bold-800">الإجمالي</td>
-                            <td class="text-bold-800 text-right"> {{ $invoice->quotation_total }} ج.م</td>
-                        </tr>
-
-                        </tbody>
-                        </table>
-            </div>
-            <div class="text-center">
-                <p class="mb-0 mt-1">التوقيع</p>
-                <img src="{{ asset($signature->user->signature) }}" alt="signature"
-                    class="height-100" style="height: 100px;" />
-                <h6>{{ $signature->user->name }}</h6>
-                <p class="text-muted">{{ $signature->title }}</p>
-            </div>
-        </div>
-        </div>
-    @endif
-    @endif
-    </div>
-    </div>
-    @endif
-
-
-
-
-
-
-
-
-
-    @if ($count > 20)
-        <div class="page ">
-            <div class="subpage notFirst">
-                <div id=" " class="pt-2">
-                    <div class="row">
-                        <div class="table-responsive col-12">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>البند و الوصف</th>
-                                        <th class="text-right">سعر الوحدة </th>
-                                        <th class="text-right">الكمية</th>
-                                        <th class="text-right">المجموع</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($currentProducts->slice(20, 5) as $key => $product)
-
-                                        <tr>
-                                            <th scope="row">{{ ++$key }}</th>
-                                            <td>
-                                                @if ($product->product_id > 0)
-                                                    <p>{{ $product->product->product_name }}</p>
-                                                @else
-                                                    {{ $product->product_temp }}
-                                                @endif
-                                            </td>
-                                            <td class="text-right">{{ $product->product_price }} ج.م</td>
-                                            <td class="text-right">{{ $product->product_qty }}</td>
-                                            <td class="text-right">
-                                                {{ $product->product_price * $product->product_qty }} ج.م</td>
-                                        </tr>
-                                        <span
-                                            style="display: none">{{ $subtotal += $product->product_price * $product->product_qty }}</span>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                </div>
-                @if ($count <= 22)
-                    @if ($alreadyShown != 1) <span style="display:
-                    none">
-                    {{ $alreadyShown = 1 }}
-                    </span>
-                    <div class="row ">
-                    <div class="col-sm-7 col-12 text-center text-sm-left">
-                    <h6>الشروط / الملاحظات</h6>
-                    {!! $invoice->quotation_note !!}
-
-
-                    </div>
-                    <div class="col-sm-5 col-12">
-                    <p class="lead">الحساب</p>
-                    <div class="table-responsive">
-                    <table class="table">
-                    <tbody>
-                    <tr>
-                    <td>المجموع</td>
-                    <td class="text-right">
-                    {{ $subtotal }} ج.م
-                    </td>
-                    </tr>
-                    @if ($invoice->discount_percentage > 0)
-                        <tr>
-                        <td>الخصم (النسبة)</td>
-                        <td class="text-right">
-                        [{{ $invoice->discount_percentage }} %]
-                        {{ round(($invoice->discount_percentage / 100) * $subtotal) }} ج.م
-                        </td>
-                        </tr> @endif
-                        @if ($invoice->discount_amount > 0)
-                            <tr>
-                                <td>الخصم (المبلغ)</td>
-                                <td class="text-right">{{ $invoice->discount_amount }} ج.م</td>
-                            </tr>
-                        @endif
-                        @if ($invoice->quotation_tax > 0)
-                            <tr>
-                                <td>الضريبة</td>
-                                <td class="text-right">
-                                    [{{ $invoice->quotation_tax }} %]
-                                    {{ round(($invoice->quotation_tax / 100) * $subtotal) }} ج.م</td>
-                            </tr>
-                        @endif
-                        @if ($invoice->shipping_fees > 0)
-                            <tr>
-                                <td>الشحن</td>
-                                <td class="text-right">{{ $invoice->shipping_fees }} ج.م</td>
-                            </tr>
-                        @endif
-                        <tr>
-                            <td class="text-bold-800">الإجمالي</td>
-                            <td class="text-bold-800 text-right"> {{ $invoice->quotation_total }} ج.م</td>
-                        </tr>
-
-                        </tbody>
-                        </table>
-            </div>
-            <div class="text-center">
-                <p class="mb-0 mt-1">التوقيع</p>
-                <img src="{{ asset($signature->user->signature) }}" alt="signature"
-                    class="height-100" style="height: 100px;" />
-                <h6>{{ $signature->user->name }}</h6>
-                <p class="text-muted">{{ $signature->title }}</p>
-            </div>
-        </div>
-        </div>
-    @endif
-    @endif
-    </div>
-    </div>
-    @endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @if ($alreadyShown != 1)
-
-
-        <div class="page ">
-            <div class="subpage notFirst">
-                <div class="row ">
-                    <div class="col-sm-7 col-12 text-center text-sm-left">
-                        <h6>الشروط / الملاحظات</h6>
-                        {!! $invoice->quotation_note !!}
-
-
-                    </div>
-                    <div class="col-sm-5 col-12">
-                        <p class="lead">الحساب</p>
-                        <div class="table-responsive">
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td>المجموع</td>
-                                        <td class="text-right">
-                                            {{ $subtotal }} ج.م
-                                        </td>
-                                    </tr>
-                                    @if ($invoice->discount_percentage > 0)
-                                        <tr>
-                                            <td>الخصم (النسبة)</td>
-                                            <td class="text-right">
-                                                [{{ $invoice->discount_percentage }} %]
-                                                {{ round(($invoice->discount_percentage / 100) * $subtotal) }} ج.م
+                                                {{ $subtotal }} ج.م
                                             </td>
                                         </tr>
-                                    @endif
-                                    @if ($invoice->discount_amount > 0)
+                                        @if ($invoice->discount_percentage > 0)
+                                            <tr>
+                                                <td>الخصم (النسبة)</td>
+                                                <td class="text-right">
+                                                    [{{ $invoice->discount_percentage }} %]
+                                                    {{ round(($invoice->discount_percentage / 100) * $subtotal) }}
+                                                    ج.م
+                                                </td>
+                                            </tr>
+                                        @endif
+                                        @if ($invoice->discount_amount > 0)
+                                            <tr>
+                                                <td>الخصم (المبلغ)</td>
+                                                <td class="text-right">{{ $invoice->discount_amount }} ج.م</td>
+                                            </tr>
+                                        @endif
+                                        @if ($invoice->quotation_tax > 0)
+                                            <tr>
+                                                <td>الضريبة</td>
+                                                <td class="text-right">
+                                                    [{{ $invoice->quotation_tax }} %]
+                                                    {{ round(($invoice->quotation_tax / 100) * $subtotal) }} ج.م
+                                                </td>
+                                            </tr>
+                                        @endif
+                                        @if ($invoice->shipping_fees > 0)
+                                            <tr>
+                                                <td>الشحن</td>
+                                                <td class="text-right">{{ $invoice->shipping_fees }} ج.م</td>
+                                            </tr>
+                                        @endif
                                         <tr>
-                                            <td>الخصم (المبلغ)</td>
-                                            <td class="text-right">{{ $invoice->discount_amount }} ج.م</td>
+                                            <td class="text-bold-800">الإجمالي</td>
+                                            <td class="text-bold-800 text-right"> {{ $invoice->quotation_total }}
+                                                ج.م</td>
                                         </tr>
-                                    @endif
-                                    @if ($invoice->quotation_tax > 0)
-                                        <tr>
-                                            <td>الضريبة</td>
-                                            <td class="text-right">
-                                                [{{ $invoice->quotation_tax }} %]
-                                                {{ round(($invoice->quotation_tax / 100) * $subtotal) }} ج.م</td>
-                                        </tr>
-                                    @endif
-                                    @if ($invoice->shipping_fees > 0)
-                                        <tr>
-                                            <td>الشحن</td>
-                                            <td class="text-right">{{ $invoice->shipping_fees }} ج.م</td>
-                                        </tr>
-                                    @endif
-                                    <tr>
-                                        <td class="text-bold-800">الإجمالي</td>
-                                        <td class="text-bold-800 text-right"> {{ $invoice->quotation_total }} ج.م</td>
-                                    </tr>
 
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="text-center">
-                            <p class="mb-0 mt-1">التوقيع</p>
-                            <img src="{{ asset($signature->user->signature) }}" alt="signature"
-                                class="height-100" style="height: 100px;" />
-                            <h6>{{ $signature->user->name }}</h6>
-                            <p class="text-muted">{{ $signature->title }}</p>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-center">
+                                <p class="mb-0 mt-1">التوقيع</p>
+                                <img src="{{ asset($signature->user->signature) }}" alt="signature"
+                                    class="height-100" style="height: 100px;" />
+                                <h6>{{ $signature->user->name }}</h6>
+                                <p class="text-muted">{{ $signature->title }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-    @endif
+        @endif
     </div>
     <script>
         window.onload = function() {

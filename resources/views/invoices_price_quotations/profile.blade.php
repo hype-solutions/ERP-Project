@@ -117,7 +117,20 @@
                         </div>
                         <div class="col-sm-6 col-12 text-center text-sm-left">
                             <ul class="px-0 list-unstyled">
-                                <li class="text-bold-800">{{ $invoice->customer->customer_name }}</li>
+                                <li class="text-bold-800">
+                                    {{ $invoice->customer->customer_name }}
+                                    @if ($invoice->customer->customer_title)
+                                        <br>
+                                        {{ $invoice->customer->customer_title }}
+                                    @endif
+                                    @if ($invoice->customer->customer_company)
+                                        <br>
+                                        {{ $invoice->customer->customer_company }}
+                                    @endif
+                                    @if ($invoice->customer->parent)
+                                        <br> {{ $invoice->customer->parent->customer_company }}
+                                    @endif
+                                </li>
                                 <li>موبايل: {{ $invoice->customer->customer_mobile }}</li>
                                 <li>
                                     @if (isset($invoice->customer->customer_phone))
@@ -306,56 +319,65 @@
                     <!-- Invoice Footer -->
                     <div id="invoice-footer">
                         <div class="row">
-                            @if ($invoice->quotation_status != 'Pending Approval')
-                                <div class="col-sm-5 col-12 text-center">
-                                    {{-- <button type="button" class="btn btn-info btn-print btn-lg my-1"><i class="la la-paper-plane-o mr-50"></i>
+                            @if ($invoice->quotation_status != 'Declined')
+
+
+                                @if ($invoice->quotation_status != 'Pending Approval')
+                                    <div class="col-sm-5 col-12 text-center">
+                                        {{-- <button type="button" class="btn btn-info btn-print btn-lg my-1"><i class="la la-paper-plane-o mr-50"></i>
                       طباعة عرض السعر</button> --}}
-                                    <button class="btn btn-block btn-success btn-print" id="print1">طباعة على ورق
-                                        أبيض</button>
-                                    <div class="hidePrint">أو</div>
-                                    <a target="_blank" href="{{ route('invoicespricequotations.print2', $invoice->id) }}"
-                                        class="btn btn-block btn-info btn-print">طباعة على ورق ليتر هيد</a>
-                                    <div class="hidePrint">أو</div>
-                                    <form action="{{ route('invoicespricequotations.print3', $invoice->id) }}"
-                                        class="hidePrint" method="POST">
-                                        @csrf
+                                        <button class="btn btn-block btn-success btn-print" id="print1">طباعة على ورق
+                                            أبيض</button>
+                                        <div class="hidePrint">أو</div>
+                                        <a target="_blank"
+                                            href="{{ route('invoicespricequotations.print2', $invoice->id) }}"
+                                            class="btn btn-block btn-info btn-print">طباعة على ورق ليتر هيد</a>
+                                        <div class="hidePrint">أو</div>
+                                        <form action="{{ route('invoicespricequotations.print3', $invoice->id) }}"
+                                            class="hidePrint" method="POST">
+                                            @csrf
 
 
-                                        <div class="form-group">
-                                            @env('local', 'development')
-                                            <select class="form-control" name="template">
-                                                <option value="1">التصميم رقم #1</option>
-                                                <option value="2">التصميم رقم #2</option>
-                                                <option value="3">التصميم رقم #3</option>
-                                                <option value="4">التصميم رقم #4</option>
-                                            </select>
-                                            @endenv
-                                            @env('production')
-                                            @if (request()->getHttpHost() == 'e1.mygesture.co')
-                                                <select class="form-control" name="template">
-                                                    <option value="3">التصميم رقم #1</option>
-                                                </select>
-                                            @elseif(request()->getHttpHost() == 'e2.mygesture.co')
+                                            <div class="form-group">
+                                                @env('local', 'development')
                                                 <select class="form-control" name="template">
                                                     <option value="1">التصميم رقم #1</option>
                                                     <option value="2">التصميم رقم #2</option>
+                                                    <option value="3">التصميم رقم #3</option>
+                                                    <option value="4">التصميم رقم #4</option>
                                                 </select>
-                                            @elseif(request()->getHttpHost() == 'e3.mygesture.co')
-                                                <select class="form-control" name="template">
-                                                    <option value="4">التصميم رقم #1</option>
-                                                </select>
-                                            @endif
-                                            @endenv
-                                            <button type="submit" class="btn btn-block btn-dark btn-print">طباعة
-                                                بالتصميم</button>
+                                                @endenv
+                                                @env('production')
+                                                @if (request()->getHttpHost() == 'e1.mygesture.co')
+                                                    <select class="form-control" name="template">
+                                                        <option value="3">التصميم رقم #1</option>
+                                                    </select>
+                                                @elseif(request()->getHttpHost() == 'e2.mygesture.co')
+                                                    <select class="form-control" name="template">
+                                                        <option value="1">التصميم رقم #1</option>
+                                                        <option value="2">التصميم رقم #2</option>
+                                                    </select>
+                                                @elseif(request()->getHttpHost() == 'e3.mygesture.co')
+                                                    <select class="form-control" name="template">
+                                                        <option value="4">التصميم رقم #1</option>
+                                                    </select>
+                                                @endif
+                                                @endenv
+                                                <button type="submit" class="btn btn-block btn-dark btn-print">طباعة
+                                                    بالتصميم</button>
 
-                                        </div>
+                                            </div>
 
 
-                                    </form>
-                                </div>
+                                        </form>
+                                    </div>
+
+                                @else
+                                    <span style="color: red">في انتظار موافقة الإدارة كي يمكنك إرسالها للعميل أو
+                                        طباعتها</span>
+                                @endif
                             @else
-                                <span style="color: red">في انتظار موافقة الإدارة كي يمكنك إرسالها للعميل أو طباعتها</span>
+                            <span style="color: red">تم الرفض من الإدارة</span>
                             @endif
                         </div>
                     </div>

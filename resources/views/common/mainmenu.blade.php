@@ -13,11 +13,26 @@
                 <ul class="menu-content">
                     @can('View POS')
                     <li>
-                        <a class="menu-item" href="{{ route('pos.landing') }}">
+                        <a class="menu-item" href="#">
                             <i class="la la-arrows-v"></i>
                             <span data-i18n="Vertical">بيع سريع</span>
                         </a>
+                        <ul class="menu-content">
+                            <li>
+                                <a class="menu-item" href="{{ route('pos.landing') }}">
+                                    <i></i>
+                                    <span data-i18n="Classic Menu">الشاشة الرئيسية</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="menu-item" href="#">
+                                    <i></i>
+                                    <span data-i18n="Classic Menu">المرتجعات</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
+
                     @endcan
                     @can('View PQ')
                     <li>
@@ -68,6 +83,12 @@
                                 <a class="menu-item" href="{{route('installments.landing')}}">
                                     <i></i>
                                     <span data-i18n="Classic Menu">الأقساط</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="menu-item" href="#">
+                                    <i></i>
+                                    <span data-i18n="Classic Menu">المرتجعات</span>
                                 </a>
                             </li>
                         </ul>

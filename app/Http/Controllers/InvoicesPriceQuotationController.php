@@ -118,7 +118,7 @@ class InvoicesPriceQuotationController extends Controller
         $quotation->sold_by = $request->sold_by;
         $quotation->quotation_status = 'Pending Approval';
         $quotation->days_valid = $request->days_valid;
-        $quotation->authorized_by = $request->sold_by;
+        $quotation->authorized_by = 0;
         $quotation->save();
 
         $quotationId = $quotation->id;
@@ -315,6 +315,7 @@ class InvoicesPriceQuotationController extends Controller
         if ($status == 1) {
             $quotation = InvoicesPriceQuotation::find($invoice);
             $quotation->quotation_status = 'Approved';
+            $quotation->authorized_by = Auth::id();
             $quotation->save();
             ERPLog::create(['type' => 'Price Quotations', 'action' => 'Accept', 'custom_id' => $invoice, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
@@ -323,6 +324,7 @@ class InvoicesPriceQuotationController extends Controller
         } else if ($status == 2) {
             $quotation = InvoicesPriceQuotation::find($invoice);
             $quotation->quotation_status = 'Declined';
+            $quotation->authorized_by = Auth::id();
             $quotation->save();
             ERPLog::create(['type' => 'Price Quotations', 'action' => 'Decline', 'custom_id' => $invoice, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
@@ -349,7 +351,7 @@ class InvoicesPriceQuotationController extends Controller
         $quotation->quotation_total = $request->quotation_total;
         $quotation->shipping_fees = $request->shipping_fees;
         $quotation->sold_by = $request->sold_by;
-        $quotation->authorized_by = $request->sold_by;
+        $quotation->authorized_by = 0;
         $quotation->days_valid = $request->days_valid;
         $quotation->quotation_status = 'Pending Approval';
         $quotation->save();
