@@ -177,7 +177,7 @@
 
 
                                     <td>
-                                        <a href="#" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> دفع الان</a>
+                                        <a href="{{route('installments.pay',[1,$item->id])}}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> دفع الان</a>
                                      </td>
                                 </tr>
                                 @endforeach
@@ -217,7 +217,7 @@
 
 
                                     <td>
-                                        <a href="#" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> دفع الان</a>
+                                        <a href="{{route('installments.pay',[2,$item->id])}}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> دفع الان</a>
                                      </td>
                                 </tr>
                                 @endforeach
@@ -258,7 +258,7 @@
 
 
                                     <td>
-                                        <a href="#" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> دفع الان</a>
+                                        <a href="{{route('installments.pay',[3,$item->id])}}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> دفع الان</a>
                                      </td>
                                 </tr>
                                 @endforeach

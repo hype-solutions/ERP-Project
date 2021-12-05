@@ -74,10 +74,10 @@ class AppServiceProvider extends ServiceProvider
                             ->whereBetween('date', [$from, $to])
                             ->get();
                         $lateInvoiceDates = InvoicesPayments::where('paid', 'No')
-                            ->whereDate('date', '<=', $from)
+                            ->whereDate('date', '<', $from)
                             ->get();
                         $latePurchasesDates = PurchasesOrdersPayments::where('paid', 'No')
-                            ->whereDate('date', '<=', $from)
+                            ->whereDate('date', '<', $from)
                             ->get();
 
                             $upcomingFundPayments = ExternalFund::where('paid','No')

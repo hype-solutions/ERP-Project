@@ -316,23 +316,4 @@ class InvoicesController extends Controller
         return back();
     }
 
-    public function installment(Request $request)
-    {
-        $user = Auth::user();
-        $user_id = $user->id;
-        $payment = new SafesTransactions();
-        $payment->safe_id = $request->safe_id;
-        $payment->transaction_type = 2;
-        $payment->transaction_amount = $request->amount;
-        $payment->transaction_datetime = Carbon::now();
-        $payment->done_by = $user_id;
-        $payment->authorized_by = $user_id;
-        $payment->transaction_notes = $request->notes;
-        $payment->save();
-
-        InvoicesPayments::where('id', $request->installment_invoice)->update(['paid' => 'Yes']);
-        ERPLog::create(['type' => 'Installment', 'action' => 'Add', 'custom_id' => $payment->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
-
-        return back()->with('success', 'deposited');
-    }
 }

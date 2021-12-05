@@ -84,7 +84,6 @@ Route::group(['middleware' => ['permission:Print Invoices']], function () {
     Route::get('/invoices/print2/{invoice}', [InvoicesController::class, 'print2'])->name('invoices.print2');
     Route::post('/invoices/print3/{invoice}', [InvoicesController::class, 'print3'])->name('invoices.print3');
 });
-Route::post('/invoices/installment/pay', [InvoicesController::class, 'installment'])->name('invoices.installment');
 
 
 
@@ -138,9 +137,11 @@ Route::group(['middleware' => ['permission:Sell POS']], function () {
 
 
 /**************************
- ******** Customers *******
+ ******** Installments *******
  **************************/
 Route::get('/installments', [InstallmentsController::class, 'installments'])->name('installments.landing');
+Route::get('/installments/pay/{type}/{id}', [InstallmentsController::class, 'payment'])->name('installments.pay');
+Route::post('/invoices/paying/', [InstallmentsController::class, 'payNow'])->name('installments.paying');
 
 
 

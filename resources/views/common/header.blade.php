@@ -152,7 +152,7 @@
                                 <li class="scrollable-container media-list w-100">
                                     @if ($lateInvoiceDates->count() > 0)
                                         @foreach ($lateInvoiceDates as $noificationsThree)
-                                            <a href="{{ route('invoices.view', $noificationsThree->invoice_id) }}">
+                                            <a href="{{ route('installments.pay', [1,$noificationsThree->id]) }}">
                                                 <div class="media">
                                                     <div class="media-left align-self-center"><i
                                                             class="ft-alert-circle icon-bg-circle bg-red bg-darken-1 mr-0"></i>
@@ -172,14 +172,14 @@
                                     @if ($latePurchasesDates->count() > 0)
                                         @foreach ($latePurchasesDates as $noificationsFour)
                                             <a
-                                                href="{{ route('purchasesorders.view', $noificationsFour->purchase_id) }}">
+                                                href="{{ route('installments.pay', [2,$noificationsFour->id]) }}">
                                                 <div class="media">
                                                     <div class="media-left align-self-center"><i
                                                             class="ft-alert-circle icon-bg-circle bg-red bg-darken-1 mr-0"></i>
                                                     </div>
                                                     <div class="media-body">
                                                         <h6 class="media-heading red darken-1">دفعة متأخرة على أمر شراء
-                                                            رقم {{ $noificationsFour->invoice_id }}</h6>
+                                                            رقم {{ $noificationsFour->purchase_id }}</h6>
                                                         <p class="notification-text font-small-3 text-muted">بقيمة
                                                             {{ $noificationsFour->amount }} ج.م</p><small>
                                                             <time class="media-meta text-muted"
@@ -191,7 +191,7 @@
                                     @endif
                                     @if ($nextInvoiceDates->count() > 0)
                                         @foreach ($nextInvoiceDates as $noificationsOne)
-                                            <a href="{{ route('invoices.view', $noificationsOne->invoice_id) }}">
+                                            <a href="{{ route('installments.pay', [1,$noificationsOne->id]) }}">
                                                 <div class="media">
                                                     <div class="media-left align-self-center"><i
                                                             class="ft-alert-triangle icon-bg-circle bg-yellow bg-darken-3 mr-0"></i>
@@ -213,14 +213,14 @@
                                     @if ($nextPurchasesDates->count() > 0)
                                         @foreach ($nextPurchasesDates as $noificationsTwo)
                                             <a
-                                                href="{{ route('purchasesorders.view', $noificationsTwo->purchase_id) }}">
+                                                href="{{ route('installments.pay', [2,$noificationsTwo->id]) }}">
                                                 <div class="media">
                                                     <div class="media-left align-self-center"><i
                                                             class="ft-alert-triangle icon-bg-circle bg-yellow bg-darken-3 mr-0"></i>
                                                     </div>
                                                     <div class="media-body">
                                                         <h6 class="media-heading yellow darken-3">دفعة قادمة على أمر
-                                                            شراء رقم {{ $noificationsTwo->invoice_id }}</h6>
+                                                            شراء رقم {{ $noificationsTwo->purchase_id }}</h6>
                                                         <p class="notification-text font-small-3 text-muted">
                                                             بقيمة {{ $noificationsTwo->amount }} ج.م
                                                         </p><small>
@@ -234,7 +234,7 @@
                                     @endif
                                     @if ($upcomingFundPayments->count() > 0)
                                         @foreach ($upcomingFundPayments as $noificationsFive)
-                                            <a href="#">
+                                            <a href="{{ route('installments.pay', [3,$noificationsFive->id]) }}">
                                                 <div class="media">
                                                     <div class="media-left align-self-center"><i
                                                             class="ft-alert-triangle icon-bg-circle bg-info bg-darken-3 mr-0"></i>

@@ -79,12 +79,7 @@
                                     <span data-i18n="Classic Menu">عرض الفواتير</span>
                                 </a>
                             </li>
-                            <li>
-                                <a class="menu-item" href="{{route('installments.landing')}}">
-                                    <i></i>
-                                    <span data-i18n="Classic Menu">الأقساط</span>
-                                </a>
-                            </li>
+
                             <li>
                                 <a class="menu-item" href="#">
                                     <i></i>
@@ -92,6 +87,12 @@
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                    <li>
+                        <a class="menu-item" href="{{route('installments.landing')}}">
+                            <i class="la la-arrows-v"></i>
+                            <span data-i18n="Vertical">الأقساط</span>
+                        </a>
                     </li>
                     @endcan
                 </ul>

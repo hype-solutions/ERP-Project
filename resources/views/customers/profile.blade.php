@@ -455,10 +455,11 @@
                                                                                     <div class="modal-body">
                                                                                         <form class="form"
                                                                                             method="post"
-                                                                                            action="{{ route('invoices.installment') }}">
+                                                                                            action="{{ route('installments.paying') }}">
                                                                                             <input type="hidden"
                                                                                                 name="installment_invoice"
-                                                                                                value="{{ $item->id }}" />
+                                                                                                value="{{ $item->invoice_id }}" />
+                                                                                                <input type="hidden" name="installment_type" value="invoice">
                                                                                             @csrf
                                                                                             <div class="form-body">
                                                                                                 <h4 class="form-section">
@@ -478,7 +479,7 @@
                                                                                                             <select
                                                                                                                 class="select2-rtl form-control"
                                                                                                                 data-placeholder="إختر الخزنة..."
-                                                                                                                name="safe_id">
+                                                                                                                name="safe_id" required>
                                                                                                                 <option>
                                                                                                                 </option>
                                                                                                                 @foreach ($safes as $safe)

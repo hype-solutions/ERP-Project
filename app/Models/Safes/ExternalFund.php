@@ -11,10 +11,12 @@ class ExternalFund extends Model
     protected $table = 'external_funds';
     protected $fillable = [
         'safe_id',
+        'safe_payment_id',
         'investor',
         'amount',
         'funding_date',
         'refund_date',
+        'date_payed',
         'paid',
         'notes',
         'done_by',
