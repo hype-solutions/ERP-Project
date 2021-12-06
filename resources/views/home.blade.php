@@ -452,21 +452,23 @@
                                                             </table>
                                                             <a href="" class="btn btn-info btn-sm"><i
                                                                     class="la la-folder-open"></i> استعراض</a>
-                                                                @if($transfer->branchFrom->getProductAmountInBranch($transfer->product_id)->amount >= $transfer->transfer_qty)
-                                                                    <a href="{{ route('products.acceptingTransfer', $transfer->id) }}"
-                                                                class="btn btn-success btn-sm">تصديق على التحويل</a>
-                                                                @else
-                                                                        <button class="btn btn-success btn-sm " disabled>لا توجد كمية تكفي للتحويل</button>
-                                                                @endif
-                                                            <a href="{{route('products.rejectingTransfer',$transfer->id)}}" class="btn btn-danger btn-sm">رفض</a>
+                                                            @if ($transfer->branchFrom->getProductAmountInBranch($transfer->product_id)->amount >= $transfer->transfer_qty)
+                                                                <a href="{{ route('products.acceptingTransfer', $transfer->id) }}"
+                                                                    class="btn btn-success btn-sm">تصديق على التحويل</a>
+                                                            @else
+                                                                <button class="btn btn-success btn-sm " disabled>لا توجد كمية
+                                                                    تكفي للتحويل</button>
+                                                            @endif
+                                                            <a href="{{ route('products.rejectingTransfer', $transfer->id) }}"
+                                                                class="btn btn-danger btn-sm">رفض</a>
                                                         </div>
                                                     </div>
                                                 </div>
                                             @endforeach
                                             @if ($productTransfersCount > 5)
-                                            <a href="{{ route('products.transfers') }}"
-                                                class="text-center btn btn-success btn-sm round">عرض المزيد</a>
-                                        @endif
+                                                <a href="{{ route('products.transfers') }}"
+                                                    class="text-center btn btn-success btn-sm round">عرض المزيد</a>
+                                            @endif
                                         </div>
                                     </div>
                                 @endcanany
@@ -570,14 +572,18 @@
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
-                                                            <form action="{{route('outs.authorizeOut',$out->id)}}" method="POST">
+                                                            <form action="{{ route('outs.authorizeOut', [$out->id, 1]) }}"
+                                                                method="POST">
                                                                 @csrf
                                                                 <button type="submit" class="btn btn-success btn-sm"><i
-                                                                    class="la la-check"></i>تصديق</button>
+                                                                        class="la la-check"></i>تصديق</button>
                                                             </form>
-
-                                                            <a class="btn btn-danger btn-sm" href="#"><i
-                                                                    class="la la-close"></i> رفض</a>
+                                                            <form action="{{ route('outs.authorizeOut', [$out->id, 2]) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                <button class="btn btn-danger btn-sm" type="submit"><i
+                                                                        class="la la-close"></i> رفض</button>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -593,8 +599,9 @@
                                                     </div>
                                                 </a>
                                                 <div id="accordionc{{ $key }}" role="tabpanel"
-                                                    data-parent="#safesTransfers" aria-labelledby="headingc{{ $key }}"
-                                                    class="collapse" style="">
+                                                    data-parent="#safesTransfers"
+                                                    aria-labelledby="headingc{{ $key }}" class="collapse"
+                                                    style="">
                                                     <div class="card-content">
                                                         <div class="card-body">
                                                             <table class="table">
@@ -623,14 +630,18 @@
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
-                                                            <form action="{{route('ins.authorizeIn',$in->id)}}" method="POST">
+                                                            <form action="{{ route('ins.authorizeIn', [$in->id,1]) }}"
+                                                                method="POST">
                                                                 @csrf
                                                                 <button type="submit" class="btn btn-success btn-sm"><i
-                                                                    class="la la-check"></i>تصديق</button>
+                                                                        class="la la-check"></i>تصديق</button>
                                                             </form>
-
-                                                            <a class="btn btn-danger btn-sm" href="#"><i
-                                                                    class="la la-close"></i> رفض</a>
+                                                            <form action="{{ route('ins.authorizeIn', [$in->id,2]) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                            <button class="btn btn-danger btn-sm" type="submit"><i
+                                                                    class="la la-close"></i> رفض</button>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -19,6 +19,7 @@ class Out extends Model
         'transaction_datetime',
         'done_by',
         'authorized_by',
+        'rejected_by',
     ];
     public function done_user()
     {
@@ -27,6 +28,10 @@ class Out extends Model
     public function auth_user()
     {
         return $this->hasOne('App\Models\User', 'id', 'authorized_by');
+    }
+    public function reject_user()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'rejected_by');
     }
     public function safe()
     {

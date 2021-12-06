@@ -72,28 +72,32 @@ class OutsController extends Controller
     }
 
 
-    public function authorizeOut(Request $request, Out $out)
+    public function authorizeOut(Request $request, Out $out, $code)
     {
         $user = Auth::user();
         $user_id = $user->id;
+        if ($code == 1) {
+            $payment = new SafesTransactions();
+            $payment->safe_id = $out->safe_id;
+            $payment->transaction_type = 1;
+            $payment->direct = 0;
+            $payment->transaction_amount = $out->amount;
+            $payment->transaction_datetime = Carbon::now();
+            $payment->done_by = $user_id;
+            $payment->authorized_by = $user_id;
+            $payment->transaction_notes = $out->notes;
+            $payment->save();
 
-        $payment = new SafesTransactions();
-        $payment->safe_id = $out->safe_id;
-        $payment->transaction_type = 1;
-        $payment->direct = 0;
-        $payment->transaction_amount = $out->amount;
-        $payment->transaction_datetime = Carbon::now();
-        $payment->done_by = $user_id;
-        $payment->authorized_by = $user_id;
-        $payment->transaction_notes = $out->notes;
-        $payment->save();
+            $paymentId = $payment->id;
+            $out->safe_transaction_id = $paymentId;
+            $out->authorized_by = $user_id;
+            $out->save();
 
-        $paymentId = $payment->id;
-        $out->safe_transaction_id = $paymentId;
-        $out->authorized_by = $user_id;
-        $out->save();
-
-        Safes::where('id', $out->safe_id)->increment('safe_balance', $out->amount);
+            Safes::where('id', $out->safe_id)->increment('safe_balance', $out->amount);
+        } else {
+            $out->rejected_by = $user_id;
+            $out->save();
+        }
         return back();
     }
 

@@ -147,7 +147,7 @@ class PurchasesOrdersController extends Controller
     {
 
         $purchaseOrder->autherized_by = Auth::id();
-            $purchaseOrder->save();
+        $purchaseOrder->save();
 
         $currentUser = Auth::id();
 

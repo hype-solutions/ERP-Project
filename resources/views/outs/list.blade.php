@@ -160,15 +160,27 @@
                                 <br>
                                 <button onclick="return pay('{{route('safes.receipt',$out->safe_transaction_id)}}');" class="btn btn-warning">الإيصال</button>
                                 @else
+                                @if($out->rejected_by == 0)
                                 <span class="danger">لم يتم التصديق عليها بعد</span>
                                 <br>
-                                <form action="{{route('outs.authorizeOut',$out->id)}}" method="POST">
+                                <form action="{{route('outs.authorizeOut',[$out->id,1])}}" method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-success">تصديق</button>
                                 </form>
+                                <form action="{{ route('outs.authorizeOut', [$out->id, 2]) }}"
+                                    method="POST">
+                                    @csrf
+                                    <button class="btn btn-danger btn-sm" type="submit"><i
+                                            class="la la-close"></i> رفض</button>
+                                </form>
+                                @endif
                                 @endif
                             </td>
-                            <td> {{ $out->notes }}</td>
+                            <td> {{ $out->notes }}
+                                @if($out->rejected_by > 0)
+                                <span class="danger">عملية مرفوضة</span>
+                                @endif
+                            </td>
                             <td> {{ $out->amount }} ج.م</td>
                             <td>
                                 قام بالعملية
@@ -185,7 +197,14 @@
                                             <span>{{$out->auth_user->username}}</span>
                                         </div>
                                     @endif
-
+                                    @if($out->rejected_by > 0)
+                                    <br>
+                                        رفض العملية
+                                    <div class="badge border-success danger badge-square badge-border">
+                                        <i class="la la-user font-medium-2"></i>
+                                            <span>{{$out->reject_user->username}}</span>
+                                        </div>
+                                    @endif
                               </td>
 
                         </tr>
