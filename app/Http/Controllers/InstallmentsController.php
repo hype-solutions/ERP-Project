@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ERPLog;
 use App\Models\Invoices\Invoices;
 use App\Models\Invoices\InvoicesPayments;
+use App\Models\PurchasesOrders\PurchasesOrders;
 use App\Models\PurchasesOrders\PurchasesOrdersPayments;
 use App\Models\Safes\ExternalFund;
 use App\Models\Safes\Safes;
@@ -91,6 +92,14 @@ class InstallmentsController extends Controller
                 'safe_payment_id' => $payment->id,
                 'date_collected' => Carbon::now(),
             ]);
+            $purchase = PurchasesOrders::find($request->purchase_id);
+            $installmentsCount = PurchasesOrdersPayments::where('purchase_id', $purchase->id)->where('paid', 'No')->count();
+            if ($installmentsCount <= 0) {
+                PurchasesOrders::where('id', $purchase->id)->update([
+                    'already_paid' => 1,
+                    'purchase_status' => 'Paid'
+                ]);
+            }
             Safes::where('id', $request->safe_id,)->decrement('safe_balance', $request->amount);
             ERPLog::create(['type' => 'Installment', 'action' => 'Add', 'custom_id' => $payment->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
         } else if ($request->installment_type == 'external') {
