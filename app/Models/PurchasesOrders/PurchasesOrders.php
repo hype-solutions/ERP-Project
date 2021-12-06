@@ -52,4 +52,13 @@ class PurchasesOrders extends Model
     {
         return $this->hasMany('App\Models\PurchasesOrders\PurchasesOrdersProducts', 'purchase_id', 'id');
     }
+
+    public function addedBy()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'added_by');
+    }
+    public function auth_user()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'autherized_by');
+    }
 }

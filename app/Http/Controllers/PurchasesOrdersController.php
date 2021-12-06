@@ -45,7 +45,7 @@ class PurchasesOrdersController extends Controller
         $signature = PurchasesOrdersSignature::with('user')->first();
 
 
-        return view('purchases_orders.profile', compact('signature','company', 'logo','address_1','address_2','purchaseOrder', 'user_id', 'currentProducts', 'safes', 'laterDates'));
+        return view('purchases_orders.profile', compact('signature', 'company', 'logo', 'address_1', 'address_2', 'purchaseOrder', 'user_id', 'currentProducts', 'safes', 'laterDates'));
     }
 
     public function add()
@@ -63,10 +63,10 @@ class PurchasesOrdersController extends Controller
     public function purchasesordersList()
     {
         $purchases = PurchasesOrders::all();
-        $users = User::where('id','!=','1')->get();
+        $users = User::where('id', '!=', '1')->get();
         $signature = PurchasesOrdersSignature::with('user')->first();
 
-        return view('purchases_orders.list', compact('purchases','users','signature'));
+        return view('purchases_orders.list', compact('purchases', 'users', 'signature'));
     }
 
     public function store(Request $request)
@@ -98,7 +98,7 @@ class PurchasesOrdersController extends Controller
         $purchase->purchase_total = $request->purchase_total;
         $purchase->shipping_fees = $request->shipping_fees;
         $purchase->added_by = $request->added_by;
-        $purchase->autherized_by = $request->added_by;
+        $purchase->autherized_by = 0;
         $purchase->save();
 
         $purchaseId = $purchase->id;
@@ -136,6 +136,7 @@ class PurchasesOrdersController extends Controller
         } else if ($status == 2) {
             $purchase = PurchasesOrders::find($purchaseOrder);
             $purchase->purchase_status = 'Declined';
+            $purchase->autherized_by = Auth::id();
             $purchase->save();
             PurchasesOrdersProducts::where('purchase_id', $purchaseOrder)
                 ->update(['status' => 'Declined']);
@@ -157,8 +158,8 @@ class PurchasesOrdersController extends Controller
             $payment->transaction_type = 1;
             $payment->transaction_amount = $purchaseOrder->purchase_total;
             $payment->transaction_datetime = Carbon::now();
-            $payment->done_by = $currentUser;
-            $payment->authorized_by = $currentUser;
+            // $payment->done_by = $currentUser;
+            $payment->autherized_by = $currentUser;
             $payment->transaction_notes = 'أمر شراء رقم   ' . $purchaseOrder->id;
             $payment->save();
 
@@ -192,7 +193,7 @@ class PurchasesOrdersController extends Controller
                 // $payment->transaction_amount = $item['amount'];
                 // $payment->transaction_datetime = Carbon::now();
                 // $payment->done_by = $request->added_by;
-                // $payment->authorized_by = $request->added_by;
+                // $payment->autherized_by = $request->added_by;
                 // $payment->transaction_notes = 'قسط على أمر شراء رقم' . $purchaseOrder->id;
                 // $payment->save();
                 // $payment_id = $payment->id;
@@ -344,7 +345,7 @@ class PurchasesOrdersController extends Controller
         //                 $payment->transaction_amount = $item['amount'];
         //                 $payment->transaction_datetime = Carbon::now();
         //                 $payment->done_by = $request->added_by;
-        //                 $payment->authorized_by = $request->added_by;
+        //                 $payment->autherized_by = $request->added_by;
         //                 $payment->transaction_notes = 'قسط على أمر شراء رقم' . $purchaseId;
         //                 $payment->save();
         //                 $payment_id = $payment->id;
@@ -379,7 +380,7 @@ class PurchasesOrdersController extends Controller
 
     public function signature(Request $request)
     {
-        PurchasesOrdersSignature::where('id',1)->update([
+        PurchasesOrdersSignature::where('id', 1)->update([
             'user_id' => $request->userId,
             'title' => $request->title,
         ]);

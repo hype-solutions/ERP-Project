@@ -209,8 +209,9 @@
                                                 <th>المبلغ</th>
                                                 <th>التاريخ</th>
                                                 <th>الحالة</th>
-                                                <th>اللإستلام</th>
-                                                <th>الدفع</th>
+                                                {{-- <th>اللإستلام</th> --}}
+                                                {{-- <th>الدفع</th> --}}
+                                                <th>الصلاحيات</th>
                                                 <th>التحكم</th>
                                             </tr>
                                         </thead>
@@ -226,7 +227,7 @@
                                                             @if ($purchase->payment_method == 'later')
                                                                 <div class="badge badge-warning">
                                                                     <i class="la la-truck font-medium-2"></i>
-                                                                    <span>تمت الموافقة و في انتظار اتمام الدفعات</span>
+                                                                    <span> تمت الموافقة و في انتظار اتمام الدفعات و التوريد</span>
                                                                 </div>
                                                             @else
                                                                 <div class="badge badge-warning">
@@ -252,6 +253,23 @@
                                                         @endif
                                                     </td>
                                                     <td>
+                                                        قام بالعملية
+                                                        <div class="badge border-primary primary badge-border">
+                                                            <i class="la la-user font-medium-2"></i>
+                                                                <span>{{$purchase->addedBy->username}}</span>
+                                                            </div>
+
+                                                            @if ($purchase->autherized_by > 0)
+                                                            <br>
+                                                            صرح بالعملية
+                                                            <div class="badge border-success success badge-square badge-border">
+                                                                <i class="la la-user font-medium-2"></i>
+                                                                    <span>{{$purchase->auth_user->username}}</span>
+                                                                </div>
+                                                            @endif
+
+                                                      </td>
+                                                    {{-- <td>
                                                         @if ($purchase->already_delivered > 0)
                                                             <div class="badge badge-success">
                                                                 <i class="la la-truck font-medium-2"></i>
@@ -263,8 +281,8 @@
                                                                 <span>لم يستلم</span>
                                                             </div>
                                                         @endif
-                                                    </td>
-                                                    <td>
+                                                    </td> --}}
+                                                    {{-- <td>
                                                         @if ($purchase->already_paid > 0)
                                                             <div class="badge badge-success">
                                                                 <i class="la la-money font-medium-2"></i>
@@ -276,7 +294,7 @@
                                                                 <span>لم يدفع</span>
                                                             </div>
                                                         @endif
-                                                    </td>
+                                                    </td> --}}
                                                     <td>
                                                         <a href="{{ route('purchasesorders.view', $purchase->id) }}"
                                                             class="btn btn-info btn-sm"><i class="la la-folder-open"></i>
@@ -291,6 +309,9 @@
                                                             <a href="{{ route('installments.landing') }}"
                                                                 class="btn btn-primary btn-sm"><i
                                                                     class="la la-pencil-square-o"></i> إستعراض أقساط الدفع</a>
+                                                                    <a href="{{ route('purchasesorders.toinventory', $purchase->id) }}"
+                                                                        class="btn btn-dark btn-sm"><i class="la la-file"></i>
+                                                                        توريد الى المخزن</a>
                                                             @else
                                                                 <br />
                                                                 <a class="btn btn-success btn-sm"
