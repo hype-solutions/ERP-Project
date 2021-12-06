@@ -50,7 +50,7 @@
                         </div>
                         <div class="card-content collapse show">
                             <div class="card-body">
-                                <h5>إجمالي تكلفة أمر الشراء: <span style="color: green">{{$purchase->purchase_total}} </span>ج.م</h5>
+                                <h5>إجمالي تكلفة أمر الشراء: <span style="color: green" id="total_after_all2">{{$purchase->purchase_total}} </span>ج.م</h5>
                                 <p>مراجعة على  <code class="highlighter-rouge">الأصناف</code> الموجودة في أمر الشراء و  <code class="highlighter-rouge">الكميات</code>
                                     </p>
                             </div>
@@ -150,7 +150,8 @@
                             <div class="col-md-12" id="later_box" style="display: none">
                                 <div class="card">
                                     <div class="card-body">
-
+                                        <span class="text-danger" style="display: none" id="dof3aError">إجمالي
+                                            الدفعات لا تساوي إجمالي المبلغ</span>
                                 <div >
                                     <h4 class="form-section"><i class="la la-flag"></i> الدفعات <button onclick="addDofaa()" type="button" class="btn btn-success btn-sm"><i class="la la-plus"></i></button></h4>
                                     <div class="table-responsive">
@@ -165,7 +166,7 @@
                                             <tr>
                                                 <th scope="row">
                                                     <div class="form-group">
-                                                        <input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later[1][amount]" value="0">
+                                                        <input type="number" id="" class="form-control dof3aSum" placeholder="أدخل المبلغ" name="later[1][amount]" value="0">
                                                     </div>
                                                 </th>
                                                 <td>
@@ -195,7 +196,7 @@
 
                             <br>
                             @if($checkError == 0)
-                            <button type="submit" class="btn btn-block btn-primary">تصديق على أمر الشراء و الدفع</button>
+                            <button type="submit" class="btn btn-block btn-primary" id="saveBtn">تصديق على أمر الشراء و الدفع</button>
                             @else
                             <button class="btn btn-block btn-primary" title="برجاء مراجعة الأصناف" disabled>تصديق على أمر الشراء و الدفع</button>
                             @endif
@@ -241,7 +242,7 @@ var currentRow = dofaaTable.insertRow(-1);
 
 
 var currentCell = currentRow.insertCell(-1);
-currentCell.innerHTML = '<div class="form-group"><input type="number" id="" class="form-control" placeholder="أدخل المبلغ" name="later['+currentIndex+'][amount]" value="0" required></div>';
+currentCell.innerHTML = '<div class="form-group"><input type="number" id="" class="form-control dof3aSum" placeholder="أدخل المبلغ" name="later['+currentIndex+'][amount]" value="0" required></div>';
 
 var currentCell = currentRow.insertCell(-1);
 currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="form-control" name="later['+currentIndex+'][date]" required></fieldset><fieldset class="form-group"><textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later['+currentIndex+'][notes]"></textarea></fieldset>';
@@ -258,6 +259,8 @@ if (this.value == 'later') {
   $('#hasPaid').prop( "checked", false );
   $('#laterDate').prop( "required", true );
   $('#safe_id').prop( "required", false );
+  $('#saveBtn').attr('disabled', true);
+
 
 } else if (this.value == 'cash' || this.value == 'visa' || this.value == 'bankTransfer') {
   //$('#init_box').hide();
@@ -266,14 +269,38 @@ if (this.value == 'later') {
   $('#hasPaid').prop( "checked", true );
   $('#laterDate').prop( "required", false );
   $('#safe_id').prop( "required", true );
+  $('#saveBtn').attr('disabled', false);
+
 } else {
   $('#later_box').hide();
   $('#other_box').hide();
   $('#init_box').show();
   $('#hasPaid').prop( "checked", false );
+  $('#saveBtn').attr('disabled', false);
+
 }
 });
 });
+
+
+
+$(document).on("keyup", ".dof3aSum", function() {
+        var sum = 0;
+        var total = $('#total_after_all2').text();
+        total = parseInt(total);
+        $(".dof3aSum").each(function() {
+            sum += +$(this).val();
+        });
+        if (total != sum) {
+            $('#dof3aError').css('display', 'block');
+            $('#saveBtn').attr('disabled', true);
+        } else {
+            $('#dof3aError').css('display', 'none');
+            $('#saveBtn').attr('disabled', false);
+
+
+        }
+    });
 
         </script>
 

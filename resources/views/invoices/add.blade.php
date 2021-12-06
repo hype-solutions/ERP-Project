@@ -132,7 +132,7 @@
                                                 </div>
 
                                                 <div class="col-md-4" style="border-left: 6px solid #28d094;
-                                    height: 170px;">
+                                        height: 170px;">
                                                     <div class="form-group">
                                                         <div class="text-bold-600 font-medium-2">
                                                             عميل حالي
@@ -144,11 +144,11 @@
                                                             @foreach ($invoice->allCustomers() as $customer)
                                                                 <option value="{{ $customer->id }}">
                                                                     {{ $customer->customer_name }}
-                                                                    @if($customer->customer_title)
-                                                                    [{{$customer->customer_title}}]
+                                                                    @if ($customer->customer_title)
+                                                                        [{{ $customer->customer_title }}]
                                                                     @endif
-                                                                    @if($customer->customer_company)
-                                                                    - {{$customer->customer_company}}
+                                                                    @if ($customer->customer_company)
+                                                                        - {{ $customer->customer_company }}
                                                                     @endif
                                                                     @if ($customer->parent)
                                                                         - {{ $customer->parent->customer_company }}
@@ -285,7 +285,8 @@
                                                         style="border-style: none !important;"><strong>الإجمالي</strong>
                                                     </td>
                                                     <td class="text-left" style="border-style: none !important;">
-                                                        <code><span id="total_after_all">0</span></code>&nbsp;ج.م</td>
+                                                        <code><span id="total_after_all">0</span></code>&nbsp;ج.م
+                                                    </td>
                                                     <td></td>
                                                 </tr>
                                                 <tr id="hidden-row-1" style="display: none">
@@ -596,9 +597,6 @@
                                                 </table>
                                             </div>
                                         </div>
-
-
-
                                     </div>
                                 </div>
                             </div>
@@ -645,14 +643,11 @@
 @endsection
 
 @section('pageJs')
-
 <script src="{{ asset('theme/app-assets/vendors/js/forms/select/select2.full.min.js') }}"></script>
 <script src="{{ asset('theme/app-assets/vendors/js/forms/toggle/bootstrap-switch.min.js') }}"></script>
 <script src="{{ asset('theme/app-assets/vendors/js/forms/toggle/switchery.min.js') }}"></script>
 <script src="{{ asset('theme/app-assets/vendors/js/forms/toggle/bootstrap-checkbox.min.js') }}"></script>
 <script src="{{ asset('theme/app-assets/vendors/js/editors/ckeditor/ckeditor-super-build.js') }}"></script>
-
-
 
 <script src="{{ asset('theme/app-assets/js/scripts/forms/select/form-select2.min.js') }}"></script>
 <script src="{{ asset('theme/app-assets/js/scripts/forms/switch.min.js') }}"></script>
