@@ -145,6 +145,10 @@ class PurchasesOrdersController extends Controller
     }
     public function accepting(Request $request, PurchasesOrders $purchaseOrder)
     {
+
+        $purchaseOrder->autherized_by = Auth::id();
+            $purchaseOrder->save();
+
         $currentUser = Auth::id();
 
         $safe_id = $request->safe_id;
