@@ -458,8 +458,9 @@
                                                                                             action="{{ route('installments.paying') }}">
                                                                                             <input type="hidden"
                                                                                                 name="installment_invoice"
-                                                                                                value="{{ $item->invoice_id }}" />
+                                                                                                value="{{ $item->id }}" />
                                                                                                 <input type="hidden" name="installment_type" value="invoice">
+                                                                                                <input type="hidden" name="invoice_id" value="{{ $item->invoice_id }}" />
                                                                                             @csrf
                                                                                             <div class="form-body">
                                                                                                 <h4 class="form-section">

@@ -71,15 +71,19 @@ class InstallmentsController extends Controller
         $payment->save();
 
         if ($request->installment_type == 'invoice') {
-
             InvoicesPayments::where('id', $request->installment_invoice)->update([
                 'paid' => 'Yes',
                 'safe_id' => $request->safe_id,
                 'safe_payment_id' => $payment->id,
                 'date_collected' => Carbon::now(),
             ]);
+            $invoice = Invoices::find($request->invoice_id);
             Safes::where('id', $request->safe_id,)->increment('safe_balance', $request->amount);
             ERPLog::create(['type' => 'Installment', 'action' => 'Add', 'custom_id' => $payment->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
+            $installmentsCount = InvoicesPayments::where('invoice_id', $invoice->id)->where('paid', 'No')->count();
+            if ($installmentsCount <= 0) {
+                Invoices::where('id', $invoice->id)->update(['already_paid' => 1]);
+            }
         } else if ($request->installment_type == 'po') {
             PurchasesOrdersPayments::where('id', $request->installment_invoice)->update([
                 'paid' => 'Yes',
@@ -89,7 +93,6 @@ class InstallmentsController extends Controller
             ]);
             Safes::where('id', $request->safe_id,)->decrement('safe_balance', $request->amount);
             ERPLog::create(['type' => 'Installment', 'action' => 'Add', 'custom_id' => $payment->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
-
         } else if ($request->installment_type == 'external') {
             ExternalFund::where('id', $request->installment_invoice)->update([
                 'paid' => 'Yes',

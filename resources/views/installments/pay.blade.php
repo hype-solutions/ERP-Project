@@ -83,6 +83,7 @@
                             @if ($type == 1)
                                 <form class="form" method="post" action="{{ route('installments.paying') }}">
                                     <input type="hidden" name="installment_invoice" value="{{ $ins->id }}" />
+                                    <input type="hidden" name="invoice_id" value="{{ $ins->invoice_id }}" />
                                     @csrf
                                     <input type="hidden" name="installment_type" value="invoice">
                                     <div class="form-body">
