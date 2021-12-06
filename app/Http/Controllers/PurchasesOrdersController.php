@@ -159,7 +159,7 @@ class PurchasesOrdersController extends Controller
             $payment->transaction_amount = $purchaseOrder->purchase_total;
             $payment->transaction_datetime = Carbon::now();
             // $payment->done_by = $currentUser;
-            $payment->autherized_by = $currentUser;
+            $payment->authorized_by = $currentUser;
             $payment->transaction_notes = 'أمر شراء رقم   ' . $purchaseOrder->id;
             $payment->save();
 
