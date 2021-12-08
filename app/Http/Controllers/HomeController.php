@@ -62,18 +62,21 @@ class HomeController extends Controller
             ->orderByDesc('id')
             ->count();
 
-        $outs = Out::where('authorized_by',NULL)
+        $outs = Out::where('authorized_by', NULL)
+            ->where('rejected_by', '>', 0)
             ->orderByDesc('id')
             ->paginate(5);
 
-        $outsCount = Out::where('authorized_by',NULL)
+        $outsCount = Out::where('authorized_by', NULL)
+            ->where('rejected_by', '>', 0)
             ->count();
 
-        $ins = In::where('authorized_by',NULL)
+        $ins = In::where('authorized_by', NULL)
+            ->where('rejected_by', '>', 0)
             ->orderByDesc('id')
             ->paginate(5);
 
-        $insCount = In::where('authorized_by',NULL)
+        $insCount = In::where('authorized_by', NULL)
             ->count();
 
         $productTransfers = ProductsTransfers::where('status', 'Pending')
@@ -84,7 +87,7 @@ class HomeController extends Controller
             ->orderByDesc('id')
             ->count();
 
-        return view('home', compact('ins','insCount','outs','outsCount','priceQuotationsCount', 'purchasesOrdersCount', 'safesTransfersCount', 'productTransfersCount', 'priceQuotations', 'purchasesOrders', 'safesTransfers', 'productTransfers'));
+        return view('home', compact('ins', 'insCount', 'outs', 'outsCount', 'priceQuotationsCount', 'purchasesOrdersCount', 'safesTransfersCount', 'productTransfersCount', 'priceQuotations', 'purchasesOrders', 'safesTransfers', 'productTransfers'));
     }
 
     public function shit()
