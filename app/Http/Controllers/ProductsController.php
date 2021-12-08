@@ -145,7 +145,7 @@ class ProductsController extends Controller
 
         $product_id = $product->id;
 
-        $productPurchasesOrders = PurchasesOrdersProducts::where('product_id', $product_id)->where('status', 'Delivered')->with('purchase')->get();
+        $productPurchasesOrders = PurchasesOrdersProducts::where('product_id', $product_id)->where('status', 'Delivered')->with('purchase')->groupBy('purchase_id')->get();
 
         $productInvoices = InvoicesProducts::where('product_id', $product_id)->with('invoice')->GroupBy('invoice_id')->get();
 

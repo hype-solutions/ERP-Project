@@ -34,4 +34,9 @@ class PurchasesOrdersProducts extends Model
     {
         return $this->belongsTo('App\Models\PurchasesOrders\PurchasesOrders', 'purchase_id', 'id');
     }
+
+
+    public function productSumInPurchase(){
+        return $this->where('purchase_id', $this->purchase_id)->sum('product_qty');
+    }
 }

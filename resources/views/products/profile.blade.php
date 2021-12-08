@@ -560,6 +560,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th>رقم الأمر</th>
+                                                            <th>الكمية الموردة</th>
                                                             <th>التاريخ</th>
                                                             <th>تم الدفع؟</th>
                                                             <th>تم الإستلام؟</th>
@@ -576,6 +577,8 @@
                                                                             style="color: #ff9149"><span>{{ $purchase->purchase->id }}</span></a>
                                                                         <i class="la la-barcode font-medium-2"></i>
                                                                     </div>
+                                                                </td>
+                                                                <td>{{$purchase->productSumInPurchase()}}
                                                                 </td>
                                                                 <td>{{ $purchase->purchase->purchase_date }}</td>
                                                                 <td>

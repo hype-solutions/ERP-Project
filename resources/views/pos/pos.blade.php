@@ -103,8 +103,9 @@
                                 </tr>
                                 <tr>
                                     <th>رصيد المخزون:</th>
-                                    <td><input type="text" id="max_of_{{ $item->id }}"
-                                            value="{{ $item->product_total_in - $item->product_total_out }}"
+                                    <td>
+                                        <input type="text" id="max_of_{{ $item->id }}"
+                                            value="{{ $item->amountInBranch($currentSession->branch_id) }}"
                                             readonly /></td>
                                 </tr>
                                 <tr>
@@ -180,7 +181,7 @@
                                     @foreach ($products as $item)
                                         <div class="col-md-3">
                                             <figure class="card card-product">
-                                                @if ($item->product_total_in - $item->product_total_out > 0)
+                                                @if ($item->amountInBranch($currentSession->branch_id) > 0)
                                                     <span class="badge-avl"> متوفر </span>
                                                 @else
                                                     <span class="badge-new"> غير متوفر </span>
@@ -200,10 +201,10 @@
                                                 <figcaption class="info-wrap">
                                                     <a href="#" class="title">{{ $item->product_name }}</a>
                                                     <div class="action-wrap">
-                                                        @if ($item->product_total_in - $item->product_total_out > 0)
+                                                        @if ($item->amountInBranch($currentSession->branch_id) > 0)
                                                             <button type="button"
                                                                 class="btn btn-primary btn-sm float-right"
-                                                                onclick="return addToCart({{ $item->id }},'{{ $item->product_name }}',{{ $item->product_price }}, {{ $item->product_total_in - $item->product_total_out }})">
+                                                                onclick="return addToCart({{ $item->id }},'{{ $item->product_name }}',{{ $item->product_price }}, {{ $item->amountInBranch($currentSession->branch_id) }})">
                                                                 <i class="fa fa-cart-plus"></i> إضافة </button>
                                                         @else
                                                             <button type="button"
@@ -243,7 +244,7 @@
                                             @if ($item->product_category == $cat->id)
                                                 <div class="col-md-3">
                                                     <figure class="card card-product">
-                                                        @if ($item->product_total_in - $item->product_total_out > 0)
+                                                        @if ($item->amountInBranch($currentSession->branch_id) > 0)
                                                             <span class="badge-avl"> متوفر </span>
                                                         @else
                                                             <span class="badge-new"> غير متوفر </span>
@@ -264,10 +265,10 @@
                                                             <a href="#"
                                                                 class="title">{{ $item->product_name }}</a>
                                                             <div class="action-wrap">
-                                                                @if ($item->product_total_in - $item->product_total_out > 0)
+                                                                @if ($item->amountInBranch($currentSession->branch_id) > 0)
                                                                     <button type="button"
                                                                         class="btn btn-primary btn-sm float-right"
-                                                                        onclick="return addToCart({{ $item->id }},'{{ $item->product_name }}',{{ $item->product_price }}, {{ $item->product_total_in - $item->product_total_out }})">
+                                                                        onclick="return addToCart({{ $item->id }},'{{ $item->product_name }}',{{ $item->product_price }}, {{ $item->amountInBranch($currentSession->branch_id) }})">
                                                                         <i class="fa fa-cart-plus"></i> إضافة </button>
                                                                 @else
                                                                     <button type="button"
@@ -1033,13 +1034,13 @@
                                 // $('#searchInput').prop('readonly', true);
                             },
                             success: function(data) {
-                                // console.log(data.data.length);
+                                console.log(data.data);
                                 // $('#searchInput').prop('readonly', false);
-
+                                // $item->amountInBranch($currentSession->branch_id)
                                 for (var i = 0; i < data.data.length; i++) {
                                     var addBtn, productStatus;
-                                    if (data.data[i].product_total_in - data.data[i].product_total_out >
-                                        0) {
+                                    // if (data.data[i].product_total_in - data.data[i].product_total_out > 0) {
+                                    if (data.data[i].availability > 0) {
                                         addBtn =
                                             '<button type="button" class="btn btn-primary btn-sm float-right" onclick="return addToCart(' +
                                             data.data[i].id + ',\'' + data.data[i].product_name +
