@@ -148,11 +148,12 @@
                             <td> {{ $in->safe->safe_name }}</td>
                             <td class="text-center">
                                 @if ($in->safe_transaction_id > 0)
-                                @if($in->rejected_by == 0)
+
                                 <b>{{ $in->safe_transaction_id }}</b>
                                 <br>
                                 <button onclick="return pay('{{route('safes.receipt',$in->safe_transaction_id)}}');" class="btn btn-warning">الإيصال</button>
                                 @else
+                                @if($in->rejected_by == 0)
                                 <span class="danger">لم يتم التصديق عليها بعد</span>
                                 <br>
                                 <form action="{{route('ins.authorizeIn',[$in->id,1])}}" method="POST">

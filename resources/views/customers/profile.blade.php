@@ -271,7 +271,11 @@
                                     <ul class="nav nav-tabs nav-top-border no-hover-bg mb-3">
                                         <li class="nav-item">
                                             <a class="nav-link active" id="active-tab32" data-toggle="tab" href="#active32"
-                                                aria-controls="active32" aria-expanded="true">الفواتير</a>
+                                                aria-controls="active32" aria-expanded="true">فواتير البيع السريع</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="active-tab32" data-toggle="tab" href="#active32"
+                                                aria-controls="active32" aria-expanded="true">فواتير المبيعات</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" id="link-tab32" data-toggle="tab" href="#link32"
