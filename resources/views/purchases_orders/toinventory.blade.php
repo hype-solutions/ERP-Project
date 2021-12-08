@@ -180,6 +180,8 @@ currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="
 
 
 $(document).ready(function () {
+    // $('#delDate').val(new Date().toDateInputValue());
+    document.getElementById('delDate').valueAsDate = new Date();
 $('#payment_method').on('change', function() {
 if (this.value == 'later') {
   //$('#init_box').hide();
