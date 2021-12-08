@@ -35,16 +35,19 @@ class InstallmentsController extends Controller
     {
         if ($type == 1) {
             $ins = InvoicesPayments::find($id);
+            $safes = Safes::all();
         } else if ($type == 2) {
             $ins = PurchasesOrdersPayments::find($id);
+            $safes = Safes::where('safe_balance', '>=', $ins->purchase->purchase_total)->get();
         } else if ($type == 3) {
             $ins = ExternalFund::find($id);
+            $safes = Safes::where('safe_balance', '>=', $ins->amount)->get();
         }
 
         if ($ins->paid == 'Yes') {
             return back();
         }
-        $safes = Safes::all();
+
         return view('installments.pay', compact('ins', 'safes', 'type'));
     }
 

@@ -30,4 +30,9 @@ class PurchasesOrdersPayments extends Model
     {
         return $this->hasOne('App\Models\Suppliers\Suppliers', 'id', 'supplier_id');
     }
+
+    public function purchase()
+    {
+        return $this->belongsTo('App\Models\PurchasesOrders\PurchasesOrders', 'purchase_id', 'id');
+    }
 }
