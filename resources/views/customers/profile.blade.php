@@ -242,8 +242,11 @@
                                         <!-- Floating Outline button with text -->
                                         <button type="button" class="btn btn-float btn-outline-cyan"
                                             style="cursor: context-menu"><i
-                                                class="">{{ $customerInvoicesCount }}</i><span>عدد فواتير
-                                                الشراء</span></button>
+                                                class="">{{ $customerInvoicesCount + $customerPosSalesCount }}</i><span>عدد فواتير
+                                                الشراء</span>
+                                            <br>
+                                            <small>{{$customerPosSalesCount}} بيع سريع - {{$customerInvoicesCount}} فواتير مبيعات</small>
+                                            </button>
                                         <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"
                                             style="cursor: context-menu"><i
                                                 class="">{{ $customerInvoicesSum }} ج,م</i><span>إجمالي
@@ -270,12 +273,12 @@
                                 <div class="card-body">
                                     <ul class="nav nav-tabs nav-top-border no-hover-bg mb-3">
                                         <li class="nav-item">
-                                            <a class="nav-link active" id="active-tab32" data-toggle="tab" href="#active32"
-                                                aria-controls="active32" aria-expanded="true">فواتير البيع السريع</a>
+                                            <a class="nav-link active" id="link-link" data-toggle="tab" href="#link"
+                                                aria-controls="link" aria-expanded="true">فواتير البيع السريع</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link active" id="active-tab32" data-toggle="tab" href="#active32"
-                                                aria-controls="active32" aria-expanded="true">فواتير المبيعات</a>
+                                            <a class="nav-link" id="active-tab32" data-toggle="tab" href="#active32"
+                                                aria-controls="active32" aria-expanded="false">فواتير المبيعات</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" id="link-tab32" data-toggle="tab" href="#link32"
@@ -300,8 +303,45 @@
                                         @endif
                                     </ul>
                                     <div class="tab-content px-1 pt-1">
-                                        <div role="tabpanel" class="tab-pane active" id="active32"
-                                            aria-labelledby="active-tab32" aria-expanded="true">
+                                        <div role="tabpanel" class="tab-pane active" id="link"
+                                            aria-labelledby="link-link" aria-expanded="true">
+                                            <div class="table-responsive">
+                                                <table class="table mb-0" id="pos">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>رقم الفاتورة</th>
+                                                            <th>إجمالي الفاتورة</th>
+                                                            <th>التاريخ و الوقت</th>
+                                                            <th>التحكم</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($customerPosSales as $item)
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="badge border-info info badge-border">
+                                                                        <a href="#" target="_blank"
+                                                                            style="color: #1e9ff2"><span>{{ $item->id }}</span></a>
+                                                                        <i class="la la-barcode font-medium-2"></i>
+                                                                    </div>
+                                                                </td>
+                                                                <td>{{ $item->total }} ج.م</td>
+                                                                <td>{{ $item->sold_when }}</td>
+
+                                                                <td>
+                                                                    <a class="btn btn-success"
+                                                                        href="{{ route('pos.receipt', $item->id) }}"
+                                                                        target="_blank">استعراض الفاتورة</a>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <div role="tabpanel" class="tab-pane" id="active32"
+                                            aria-labelledby="active-tab32" aria-expanded="false">
                                             <div class="table-responsive">
                                                 <table class="table mb-0" id="reciepts">
                                                     <thead>
@@ -795,6 +835,43 @@
             ]
         });
 
+        $("#pos").DataTable({
+            dom: 'Bfrtip',
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+            },
+            buttons: [{
+                    extend: 'excelHtml5',
+                    text: 'حفظ كملف EXCEL',
+                    messageTop: 'فواتير البيع السريع للعميل {{ $customer->customer_name }}',
+                    exportOptions: {
+                        columns: [2, 1, 0]
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    // customize: function(doc) {
+                    //    console.dir(doc)
+                    //    doc.content[2].margin = [ 100, 0, 100, 0 ] //left, top, right, bottom
+                    //    doc.content[2].margin = [ 0, 0, 0, 0 ] //left, top, right, bottom
+                    // },
+                    text: 'حفظ كملف PDF',
+                    messageTop: 'فواتير البيع السريع للعميل \n {{ $customer->customer_name }}',
+                    exportOptions: {
+                        columns: [2, 1, 0],
+                    },
+
+                },
+                {
+                    extend: 'print',
+                    text: 'طباعة',
+                    messageTop: 'فواتير البيع السريع للعميل {{ $customer->customer_name }}',
+                    exportOptions: {
+                        columns: [0, 1, 2]
+                    }
+                }
+            ]
+        });
         $("#reciepts").DataTable({
             dom: 'Bfrtip',
             "language": {

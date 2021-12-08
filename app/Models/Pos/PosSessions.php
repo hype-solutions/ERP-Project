@@ -41,4 +41,9 @@ class PosSessions extends Model
     {
         return $this->hasOne('App\Models\Customers\Customers', 'id', 'customer_id');
     }
+
+    public function cart()
+    {
+        return $this->hasMany('App\Models\Pos\Cart', 'pos_session_id', 'id');
+    }
 }

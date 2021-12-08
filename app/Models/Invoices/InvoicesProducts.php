@@ -25,6 +25,9 @@ class InvoicesProducts extends Model
         return $this->hasOne('App\Models\Products\Products', 'id', 'product_id');
     }
 
+    public function productSumInInvoice(){
+        return $this->where('invoice_id', $this->invoice_id)->sum('product_qty');
+    }
 
     public function invoice()
     {

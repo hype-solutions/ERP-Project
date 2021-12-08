@@ -9,6 +9,7 @@ use App\Models\Products\Products;
 use App\Models\Branches\BranchesProducts;
 use App\Models\Branches\BranchesProductsSelling;
 use App\Models\Invoices\InvoicesProducts;
+use App\Models\Pos\PosSessions;
 use App\Models\Products\ProductsCategories;
 use App\Models\Products\ProductsTransfers;
 use App\Models\Products\ProductsManualQuantities;
@@ -109,6 +110,14 @@ class ProductsController extends Controller
     public function view(products $product)
     {
 
+        // $productPosSales = PosSessions::where('product_id', $product->id)->get();
+        $productPosSales = PosSessions::where('status',1)->whereHas('cart', function($q) use($product){
+            $q->where('product_id', $product->id);
+         })->with('cart')->get();
+
+
+
+        //  dd($productPosSales);
         $allowedBranches = BranchesProductsSelling::where('product_id', $product->id)->where('selling', 1)->with('branch')->get();
         $branches = BranchesProducts::where('product_id', $product->id)
             // ->where('amount', '!=', 0)
@@ -138,13 +147,13 @@ class ProductsController extends Controller
 
         $productPurchasesOrders = PurchasesOrdersProducts::where('product_id', $product_id)->where('status', 'Delivered')->with('purchase')->get();
 
-        $productInvoices = InvoicesProducts::where('product_id', $product_id)->with('invoice')->get();
+        $productInvoices = InvoicesProducts::where('product_id', $product_id)->with('invoice')->GroupBy('invoice_id')->get();
 
 
         $productCost = PurchasesOrdersProducts::where('product_id', $product_id)->where('status', 'Delivered')->avg('product_price');
 
 
-        return view('products.profile', compact('allowedBranches', 'productCost', 'productInvoices', 'supplierProducts', 'product', 'branches', 'productransfers', 'productManual', 'productSuppliers', 'productPurchasesOrders'));
+        return view('products.profile', compact('productPosSales','allowedBranches', 'productCost', 'productInvoices', 'supplierProducts', 'product', 'branches', 'productransfers', 'productManual', 'productSuppliers', 'productPurchasesOrders'));
     }
 
     // public function test(){

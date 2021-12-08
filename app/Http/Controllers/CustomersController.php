@@ -10,6 +10,7 @@ use App\Models\Invoices\Invoices;
 use App\Models\Invoices\InvoicesPayments;
 use App\Models\Invoices\InvoicesPriceQuotation;
 use App\Models\Invoices\InvoicesProducts;
+use App\Models\Pos\PosSessions;
 use App\Models\Safes\Safes;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -113,6 +114,8 @@ class CustomersController extends Controller
         //$customer_id = $customer[0]->id;
         $customerInvoices = Invoices::where('customer_id', $customer->id)->get();
         $customerInvoicesCount = Invoices::where('customer_id', $customer->id)->count();
+        $customerPosSales = PosSessions::where('status',1)->where('customer_id', $customer->id)->get();
+        $customerPosSalesCount = PosSessions::where('status',1)->where('customer_id', $customer->id)->count();
         $customerInvoicesSum = Invoices::where('customer_id', $customer->id)->sum('invoice_total');
         $customerPriceQuotation = InvoicesPriceQuotation::where('customer_id', $customer->id)->get();
         $customerPriceQuotationCount = InvoicesPriceQuotation::where('customer_id', $customer->id)->count();
@@ -130,7 +133,7 @@ class CustomersController extends Controller
         ERPLog::create(['type' => 'Customers', 'action' => 'View', 'custom_id' => $customer->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
 
-        return view('customers.profile', compact('safes', 'linkedCustomers', 'customerPriceQuotationCount', 'customerInvoicesCount', 'customerInvoicesSum', 'customer', 'customerInvoices', 'customerPriceQuotation', 'customerInvoicesPayments', 'mostOrdered'));
+        return view('customers.profile', compact('customerPosSalesCount','customerPosSales','safes', 'linkedCustomers', 'customerPriceQuotationCount', 'customerInvoicesCount', 'customerInvoicesSum', 'customer', 'customerInvoices', 'customerPriceQuotation', 'customerInvoicesPayments', 'mostOrdered'));
     }
     public function edit(Customers $customer)
     {

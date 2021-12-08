@@ -287,6 +287,10 @@
                                             <a class="nav-link" id="link-tab36" data-toggle="tab" href="#link36"
                                                 aria-controls="link36" aria-expanded="false">فواتير البيع</a>
                                         </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="link-tab37" data-toggle="tab" href="#link37"
+                                                aria-controls="link37" aria-expanded="false">فواتير البيع السريع</a>
+                                        </li>
                                     </ul>
                                     <div class="tab-content px-1 pt-1">
                                         <div role="tabpanel" class="tab-pane active" id="active32"
@@ -618,8 +622,9 @@
                                                     <thead>
                                                         <tr>
                                                             <th>رقم الفاتورة</th>
-                                                            <th>التاريخ</th>
+                                                            <th>الكمية المباعة</th>
                                                             <th>الإجمالي</th>
+                                                            <th>التاريخ</th>
                                                             <th>التحكم</th>
                                                         </tr>
                                                     </thead>
@@ -633,11 +638,53 @@
                                                                         <i class="la la-barcode font-medium-2"></i>
                                                                     </div>
                                                                 </td>
-                                                                <td>{{ $item->invoice->invoice_date }}</td>
+                                                                <td>{{$item->productSumInInvoice()}}</td>
                                                                 <td>{{ $item->invoice->invoice_total }} ج.م</td>
+                                                                <td>{{ $item->invoice->invoice_date }}</td>
                                                                 <td>
                                                                     <a href="{{ route('invoices.view', $item->invoice_id) }}"
                                                                         class="btn btn-success">استعراض الفاتورة</a>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="link37" role="tabpanel"
+                                            aria-labelledby="link-tab37" aria-expanded="false">
+                                            <div class="table-responsive">
+                                                <table class="table mb-0" id="pos">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>رقم الفاتورة</th>
+                                                            <th>الكمية المباعة</th>
+                                                            <th>إجمالي الفاتورة</th>
+                                                            <th>التاريخ و الوقت</th>
+                                                            <th>التحكم</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($productPosSales as $item)
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="badge border-info info badge-border">
+                                                                        <a href="#" target="_blank"
+                                                                            style="color: #1e9ff2"><span>{{ $item->id }}</span></a>
+                                                                        <i class="la la-barcode font-medium-2"></i>
+                                                                    </div>
+                                                                </td>
+                                                                @foreach ($item->cart as $cart)
+                                                                    @if($cart->product_id == $product->id)
+                                                                        <td>{{ $cart->product_qty }}</td>
+                                                                    @endif
+                                                                @endforeach
+                                                                <td>{{ $item->total }} ج.م</td>
+                                                                <td>{{ $item->sold_when }}</td>
+                                                                <td>
+                                                                    <a class="btn btn-success"
+                                                                        href="{{ route('pos.receipt', $item->id) }}"
+                                                                        target="_blank">استعراض الفاتورة</a>
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -876,6 +923,39 @@
             ]
         });
 
+
+        $("#pos").DataTable({
+            dom: 'Bfrtip',
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+            },
+            buttons: [{
+                    extend: 'excelHtml5',
+                    text: 'حفظ كملف EXCEL',
+                    messageTop: 'فواتير البيع السريع للصنف: {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [2, 1, 0]
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'حفظ كملف PDF',
+                    messageTop: 'فواتير البيع السريع للصنف: \n {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [2, 1, 0],
+                    },
+
+                },
+                {
+                    extend: 'print',
+                    text: 'طباعة',
+                    messageTop: 'فواتير البيع السريع للصنف: {{ $product->product_name }}',
+                    exportOptions: {
+                        columns: [0, 1, 2]
+                    }
+                }
+            ]
+        });
         function printBarcodeNot() {
             alert('لا يوجد باركود مسجل');
         }
