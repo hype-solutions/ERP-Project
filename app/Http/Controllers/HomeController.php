@@ -63,21 +63,21 @@ class HomeController extends Controller
             ->count();
 
         $outs = Out::where('authorized_by', NULL)
-            ->where('rejected_by', '!=', 0)
+            ->where('rejected_by', 0)
             ->orderByDesc('id')
             ->paginate(5);
 
         $outsCount = Out::where('authorized_by', NULL)
-            ->where('rejected_by', '!=', 0)
+            ->where('rejected_by', 0)
             ->count();
 
         $ins = In::where('authorized_by', NULL)
-            ->where('rejected_by', '!=', 0)
+            ->where('rejected_by', 0)
             ->orderByDesc('id')
             ->paginate(5);
 
         $insCount = In::where('authorized_by', NULL)
-            ->where('rejected_by', '!=', 0)
+            ->where('rejected_by', 0)
             ->count();
 
         $productTransfers = ProductsTransfers::where('status', 'Pending')
