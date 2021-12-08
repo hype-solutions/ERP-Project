@@ -47,7 +47,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-3">
                     <div class="brand-wrap">
-                        <img class="logo" src="{{asset($logo)}}">
+                        <img class="logo" src="{{ asset($logo) }}">
                         <h2 class="logo-text">بيع سريع</h2>
                     </div> <!-- brand-wrap.// -->
                 </div>
@@ -67,11 +67,10 @@
                         <div class="widget-header dropdown">
                             <a href="#" class="ml-3 icontext" data-toggle="dropdown" data-offset="20,10">
                                 @if (!isset(Auth::user()->profile_pic))
-                                <img src="{{ asset('theme/app-assets/images/custom/no-profile.jpg') }}" class="avatar"
-                                    alt="">
+                                    <img src="{{ asset('theme/app-assets/images/custom/no-profile.jpg') }}"
+                                        class="avatar" alt="">
                                 @else
-                                <img src="{{ asset(Auth::user()->profile_pic) }}" class="avatar"
-                                alt="">
+                                    <img src="{{ asset(Auth::user()->profile_pic) }}" class="avatar" alt="">
                                 @endif
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
@@ -134,7 +133,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="إبحث عن منتج" id="searchInput">
+                                <input type="text" class="form-control" placeholder="إبحث عن منتج" id="searchInput" autocomplete="off">
                                 <div class="input-group-prepend">
                                     <button class="btn btn-primary" type="submit">
                                         <i class="fa fa-search"></i>
@@ -429,14 +428,16 @@
                                                         <tr>
                                                             <th>إسم العميل</th>
                                                             <td>{{ $currentSession->customer->customer_name }}
-                                                                @if($currentSession->customer->customer_title)
-                                                                [{{$currentSession->customer->customer_title}}]
+                                                                @if ($currentSession->customer->customer_title)
+                                                                    [{{ $currentSession->customer->customer_title }}]
                                                                 @endif
-                                                                @if($currentSession->customer->customer_company)
-                                                                - {{$currentSession->customer->customer_company}}
+                                                                @if ($currentSession->customer->customer_company)
+                                                                    -
+                                                                    {{ $currentSession->customer->customer_company }}
                                                                 @endif
                                                                 @if ($currentSession->customer->parent)
-                                                                    - {{ $currentSession->customer->parent->customer_company }}
+                                                                    -
+                                                                    {{ $currentSession->customer->parent->customer_company }}
                                                                 @endif
                                                             </td>
                                                         </tr>
@@ -989,92 +990,105 @@
         //         reCalculate(productId,oldTotalPrice,newTotalPrice);
         // }
 
-
+        var searching = 0;
         $("#searchInput").keyup(function() {
-            if (!this.value) {
-                $('#show_search').empty();
-                $('#cat_search').removeClass('show');
-                $('#cat_search').removeClass('active');
-                $('#all').addClass('show');
-                $('#all').addClass('active');
-
-                $('#search').css('display', 'none');
-                $('#barcode').css('display', 'none');
-                $('#search_tab').css('display', 'none');
-                $('#barcode_tab').css('display', 'none');
-                // $('#categories').css('display','block');
-                $('#all_tab a').eq(0).addClass('show');
-                $('#all_tab a').eq(0).addClass('active');
-                $('#search_tab a').eq(0).removeClass('show');
-                $('#search_tab a').eq(0).removeClass('active');
-            } else {
-                if ($(this).val().length > 2) {
+            if (searching == 0) {
+                if (!this.value) {
                     $('#show_search').empty();
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                    var formData = {
-                        search: $('#searchInput').val(),
-                        session: {{ $sessionId }},
-                    };
-                    var type = "POST";
-                    var ajaxurl = "{{ route('pos.search') }}";
-                    $.ajax({
-                        type: type,
-                        url: ajaxurl,
-                        data: formData,
-                        dataType: 'json',
-                        success: function(data) {
-                            // console.log(data.data.length);
-                            for (var i = 0; i < data.data.length; i++) {
-                                var addBtn, productStatus;
-                                if (data.data[i].product_total_in - data.data[i].product_total_out >
-                                    0) {
-                                    addBtn =
-                                        '<button type="button" class="btn btn-primary btn-sm float-right" onclick="return addToCart(' +
-                                        data.data[i].id + ',\'' + data.data[i].product_name + '\',' +
-                                        data.data[i].product_price + ',' + (data.data[i].product_in -
-                                            data.data[i].product_out) +
-                                        ')"> <i class="fa fa-cart-plus"></i> إضافة </button>';
-                                    productStatus = '<span class="badge-avl">متوفر </span>';
-                                } else {
-                                    addBtn =
-                                        '<button type="button" class="btn btn-primary btn-sm float-right" disabled> <i class="fa fa-cart-plus"></i> إضافة </button>';
-                                    productStatus = '<span class="badge-new"> غير متوفر </span>';
-                                }
-                                var noImg = "{{ asset('theme/pos/images/items/noImg.jpg') }}";
-                                $('#show_search').append(
-                                    '<div class="col-md-3"><figure class="card card-product">' +
-                                    productStatus + '<div class="img-wrap"><img src="' + noImg +
-                                    '"><a class="btn-overlay" href="#" data-toggle="modal" data-target="#product_' +
-                                    data.data[i].id +
-                                    '"><i class="fa fa-search-plus" ></i> نظرة سريعة</a></div><figcaption class="info-wrap"><a href="#" class="title">' +
-                                    data.data[i].product_name + '</a><div class="action-wrap">' +
-                                    addBtn + '<div class="price-wrap h5"><span class="price-new">' +
-                                    data.data[i].product_price +
-                                    ' ج.م</span></div></div></figcaption></figure></div>');
-                            }
-                        },
-                        error: function(data) {
-                            console.log(data);
-                        }
-                    });
-                    $('#cat_search').addClass('show');
-                    $('#cat_search').addClass('active');
-                    $('#all').removeClass('show');
-                    $('#all').removeClass('active');
+                    $('#cat_search').removeClass('show');
+                    $('#cat_search').removeClass('active');
+                    $('#all').addClass('show');
+                    $('#all').addClass('active');
 
-                    $('#search').css('display', 'block');
+                    $('#search').css('display', 'none');
                     $('#barcode').css('display', 'none');
-                    $('#search_tab').css('display', 'block');
+                    $('#search_tab').css('display', 'none');
                     $('#barcode_tab').css('display', 'none');
-                    // $('#categories').css('display','none');
-                    $('#search_tab a').eq(0).addClass('show');
-                    $('#search_tab a').eq(0).addClass('active');
-                    $('#all_tab a').eq(0).removeClass('show');
-                    $('#all_tab a').eq(0).removeClass('active');
+                    // $('#categories').css('display','block');
+                    $('#all_tab a').eq(0).addClass('show');
+                    $('#all_tab a').eq(0).addClass('active');
+                    $('#search_tab a').eq(0).removeClass('show');
+                    $('#search_tab a').eq(0).removeClass('active');
+                } else {
+                    if ($(this).val().length > 2) {
+                        searching = 1;
+                        $('#show_search').empty();
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        var formData = {
+                            search: $('#searchInput').val(),
+                            session: {{ $sessionId }},
+                        };
+                        var type = "POST";
+                        var ajaxurl = "{{ route('pos.search') }}";
+                        $.ajax({
+                            type: type,
+                            url: ajaxurl,
+                            data: formData,
+                            dataType: 'json',
+                            beforeSend: function() {
+                                // $('#searchInput').prop('readonly', true);
+                            },
+                            success: function(data) {
+                                // console.log(data.data.length);
+                                // $('#searchInput').prop('readonly', false);
+
+                                for (var i = 0; i < data.data.length; i++) {
+                                    var addBtn, productStatus;
+                                    if (data.data[i].product_total_in - data.data[i].product_total_out >
+                                        0) {
+                                        addBtn =
+                                            '<button type="button" class="btn btn-primary btn-sm float-right" onclick="return addToCart(' +
+                                            data.data[i].id + ',\'' + data.data[i].product_name +
+                                            '\',' +
+                                            data.data[i].product_price + ',' + (data.data[i]
+                                                .product_in -
+                                                data.data[i].product_out) +
+                                            ')"> <i class="fa fa-cart-plus"></i> إضافة </button>';
+                                        productStatus = '<span class="badge-avl">متوفر </span>';
+                                    } else {
+                                        addBtn =
+                                            '<button type="button" class="btn btn-primary btn-sm float-right" disabled> <i class="fa fa-cart-plus"></i> إضافة </button>';
+                                        productStatus = '<span class="badge-new"> غير متوفر </span>';
+                                    }
+                                    var noImg = "{{ asset('theme/pos/images/items/noImg.jpg') }}";
+                                    $('#show_search').append(
+                                        '<div class="col-md-3"><figure class="card card-product">' +
+                                        productStatus + '<div class="img-wrap"><img src="' + noImg +
+                                        '"><a class="btn-overlay" href="#" data-toggle="modal" data-target="#product_' +
+                                        data.data[i].id +
+                                        '"><i class="fa fa-search-plus" ></i> نظرة سريعة</a></div><figcaption class="info-wrap"><a href="#" class="title">' +
+                                        data.data[i].product_name +
+                                        '</a><div class="action-wrap">' +
+                                        addBtn +
+                                        '<div class="price-wrap h5"><span class="price-new">' +
+                                        data.data[i].product_price +
+                                        ' ج.م</span></div></div></figcaption></figure></div>');
+                                }
+                                searching = 0;
+                            },
+                            error: function(data) {
+                                console.log(data);
+                            }
+                        });
+                        $('#cat_search').addClass('show');
+                        $('#cat_search').addClass('active');
+                        $('#all').removeClass('show');
+                        $('#all').removeClass('active');
+
+                        $('#search').css('display', 'block');
+                        $('#barcode').css('display', 'none');
+                        $('#search_tab').css('display', 'block');
+                        $('#barcode_tab').css('display', 'none');
+                        // $('#categories').css('display','none');
+                        $('#search_tab a').eq(0).addClass('show');
+                        $('#search_tab a').eq(0).addClass('active');
+                        $('#all_tab a').eq(0).removeClass('show');
+                        $('#all_tab a').eq(0).removeClass('active');
+                    }
                 }
             }
         });
