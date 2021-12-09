@@ -22,7 +22,11 @@
 <div class="content-wrapper">
     <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2">
-          <h3 class="content-header-title mb-0">قائمة المنتجات - الفئة:  {{$catTitle}}</h3>
+            @if($catTitle)
+            <h3 class="content-header-title mb-0">قائمة المنتجات - الفئة:  {{$catTitle}}</h3>
+            @else
+            <h3 class="content-header-title mb-0">قائمة المنتجات</h3>
+            @endif
           <div class="row breadcrumbs-top">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
