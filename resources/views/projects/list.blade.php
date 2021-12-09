@@ -34,7 +34,7 @@
         <div class="content-header-right text-md-right col-md-6 col-12">
           <div class="btn-group">
           <a href="{{route('projects.add')}}" class="btn btn-outline-success block btn-lg" >
-                إضافه مشروع جديدة
+                إضافه مشروع جديد
             </a>
 
           </div>

@@ -1,5 +1,5 @@
 @extends('layouts.erp')
-@section('title', 'تعديل مشروع رقم #'.$project->project_id)
+@section('title', 'تعديل مشروع رقم #'.$project->id)
 
 @section('pageCss')
     <!-- BEGIN: Page CSS-->
@@ -159,8 +159,7 @@
                                                                     @if ($customer->parent)
                                                                         - {{ $customer->parent->customer_company }}
                                                                     @endif
-                                                                    @endif
-                                                                    </option>
+                                                                     </option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
