@@ -140,6 +140,7 @@ Route::group(['middleware' => ['permission:Sell POS']], function () {
  ******** Installments *******
  **************************/
 Route::get('/installments', [InstallmentsController::class, 'installments'])->name('installments.landing');
+Route::get('/installments/po/{po}', [InstallmentsController::class, 'purchasesInstallments'])->name('installments.purchases');
 Route::get('/installments/pay/{type}/{id}', [InstallmentsController::class, 'payment'])->name('installments.pay');
 Route::post('/invoices/paying/', [InstallmentsController::class, 'payNow'])->name('installments.paying');
 

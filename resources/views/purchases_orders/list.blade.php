@@ -306,7 +306,7 @@
                                                         @endif
                                                         @if ($purchase->purchase_status == 'Created')
                                                             @if ($purchase->payment_method == 'later')
-                                                            <a href="{{ route('installments.landing') }}"
+                                                            <a href="{{ route('installments.purchases',$purchase->id) }}"
                                                                 class="btn btn-primary btn-sm"><i
                                                                     class="la la-pencil-square-o"></i> إستعراض أقساط الدفع</a>
                                                                     <a href="{{ route('purchasesorders.toinventory', $purchase->id) }}"

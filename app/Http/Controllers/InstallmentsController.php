@@ -22,6 +22,13 @@ class InstallmentsController extends Controller
         $this->middleware('auth');
     }
 
+    public function purchasesInstallments($po)
+    {
+        $purchasesOrdersPayments = PurchasesOrdersPayments::where('purchase_id',$po)->get();
+        return view('installments.purchase', compact('purchasesOrdersPayments','po'));
+    }
+
+
     public function installments()
     {
         $invoicePayments = InvoicesPayments::where('paid', 'No')->get();

@@ -138,6 +138,7 @@
                                         <thead>
                                             <tr>
                                                 <th>رقم العملية</th>
+                                                <th>الصنف</th>
                                                 <th>التاريخ</th>
                                                 <th>من</th>
                                                 <th>الى</th>
@@ -163,6 +164,14 @@
                                                                 <a href="#" target="_blank"
                                                                     style="color: #1e9ff2"><span>{{ $transfer->id }}</span></a>
                                                             </div>
+                                                        </td>
+                                                        <td>
+                                                            @if ($transfer->product)
+                                                            {{ $transfer->product->product_name }}
+                                                            @else
+                                                            <span class="danger">صنف محذوف</span>
+                                                            @endif
+
                                                         </td>
                                                         <td>{{ $transfer->transfer_datetime }}
                                                         </td>
