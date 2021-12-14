@@ -51,8 +51,12 @@ class UsersController extends Controller
     }
     public function usersList()
     {
+        if (request()->ajax()) {
+            $users = User::where('id', '!=', 1)->with('roles')->get();
+            return datatables()->of($users)->make(true);
+        }
+
         $users = User::where('id', '!=', 1)->with('roles')->get();
-        // return($users);
         return view('users.list', compact('users'));
     }
 

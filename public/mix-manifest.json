@@ -1,4 +1,18 @@
 {
+    "/assets/js/app-menu.js": "/assets/js/app-menu.js",
+    "/assets/js/app-min.js": "/assets/js/app-min.js",
+    "/assets/js/custom.js": "/assets/js/custom.js",
+    "/assets/js/footer.js": "/assets/js/footer.js",
+    "/assets/js/users.js": "/assets/js/users.js",
+    "/assets/js/vendors.js": "/assets/js/vendors.js",
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/assets/css/vendors-rtl.css": "/assets/css/vendors-rtl.css",
+    "/assets/css/bootstrap-extended.css": "/assets/css/bootstrap-extended.css",
+    "/assets/css/colors.css": "/assets/css/colors.css",
+    "/assets/css/components.css": "/assets/css/components.css",
+    "/assets/css/custom-rtl.css": "/assets/css/custom-rtl.css",
+    "/assets/css/vertical-compact-menu.css": "/assets/css/vertical-compact-menu.css",
+    "/assets/css/palette-gradient.css": "/assets/css/palette-gradient.css",
+    "/assets/css/users.css": "/assets/css/users.css"
 }
