@@ -21,7 +21,7 @@
                     <li class="nav-item d-none d-md-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs"
                             href="#"><i class="ft-menu"></i></a></li>
                     <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand" href="#"><i
-                                class="ficon ft-maximize"></i></a></li>
+                                class="ficon ft-maximize" data-feather="maximize"></i></a></li>
                     <li class="dropdown nav-item mega-dropdown d-none d-lg-block" style="display: none"><a
                             class="dropdown-toggle nav-link" href="#" data-toggle="dropdown">أدوات</a>
                         <ul class="mega-dropdown-menu dropdown-menu row p-1">
@@ -141,7 +141,7 @@
                     </li>
                     @if ($notificationCount > 0)
                         <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#"
-                                data-toggle="dropdown"><i class="ficon ft-bell"></i><span
+                                data-toggle="dropdown"><i class="ficon ft-bell"  data-feather="bell"></i><span
                                     class="badge badge-pill badge-danger badge-up badge-glow">{{ $notificationCount }}</span></a>
                             <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
                                 <li class="dropdown-menu-header">

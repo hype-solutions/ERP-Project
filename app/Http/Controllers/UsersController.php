@@ -57,7 +57,9 @@ class UsersController extends Controller
         }
 
         $users = User::where('id', '!=', 1)->with('roles')->get();
-        return view('users.list', compact('users'));
+        $roles = Role::where('name', '!=', 'Super Admin')->get()->pluck('name');
+
+        return view('users.list', compact('users','roles'));
     }
 
     public function add()

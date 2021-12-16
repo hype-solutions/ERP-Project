@@ -11,9 +11,9 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
-    require('datatables.net-bs4');
-    require('datatables.net-buttons-bs4');
-} catch (e) {}
+} catch (e) {
+    console.log(e);
+}
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -41,3 +41,6 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+
+

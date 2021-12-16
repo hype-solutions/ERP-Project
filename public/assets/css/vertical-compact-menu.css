@@ -89,13 +89,14 @@
 
 .vertical-compact-menu .main-menu .main-menu-content > ul.menu-content li.has-sub > a:not(.mm-next):after {
   content: "\F112";
-  font-family: LineAwesome;
+  font-family: "Line Awesome Free";
   font-size: 1rem;
   display: inline-block;
   position: absolute;
   left: 20px;
   top: 13px;
   transform: rotate(0);
+  font-weight: 900;
 }
 
 .vertical-compact-menu .main-menu .main-menu-content > ul.menu-content li.has-sub .has-sub > a:not(.mm-next):after {
@@ -407,7 +408,8 @@
 
 .vertical-overlay-menu .main-menu .navigation li.has-sub > a:not(.mm-next):after {
   content: "\F112";
-  font-family: LineAwesome;
+  font-family: "Line Awesome Free";
+  font-weight: 900;
   font-size: 1rem;
   display: inline-block;
   position: absolute;
