@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
 
 *{
-    text-align: right !important;
+    // text-align: right !important;
 }
 
 body {
@@ -760,7 +760,8 @@ select.form-control {
 
 .dropdown .dropdown-menu .dropdown-item {
     padding: 10px 17px;
-    width: 100%
+    width: 100%;
+    text-align: right !important;
 }
 
 .dropdown .dropdown-menu .dropdown-item.active a,

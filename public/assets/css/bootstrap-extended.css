@@ -1,8 +1,4 @@
-@import url(https://fonts.googleapis.com/css2?family=Cairo&display=swap);* {
-  text-align: right !important;
-}
-
-body {
+@import url(https://fonts.googleapis.com/css2?family=Cairo&display=swap);body {
   margin: 0 !important;
   font-family: "Cairo", sans-serif !important;
   font-size: 1rem !important;
@@ -740,6 +736,7 @@ select.form-control {
 .dropdown .dropdown-menu .dropdown-item {
   padding: 10px 17px;
   width: 100%;
+  text-align: right !important;
 }
 
 .dropdown .dropdown-menu .dropdown-item.active a,
