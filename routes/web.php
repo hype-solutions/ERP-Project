@@ -85,7 +85,9 @@ Route::group(['middleware' => ['permission:Print Invoices']], function () {
     Route::post('/invoices/print3/{invoice}', [InvoicesController::class, 'print3'])->name('invoices.print3');
 });
 
-
+//checks here
+Route::get('/invoices/refunds', [InvoicesController::class, 'refunds'])->name('invoices.refunds');
+Route::post('/invoices/refunds/search', [InvoicesController::class, 'refundsSearch'])->name('invoices.refunds.search');
 
 /**************************
  **** Price Quotations ****
@@ -124,6 +126,10 @@ Route::group(['middleware' => ['permission:Convert PQ']], function () {
 Route::group(['middleware' => ['permission:View POS']], function () {
     Route::get('/pos/landing', [PosController::class, 'landing'])->name('pos.landing');
 });
+//checks here
+Route::get('/pos/refunds', [PosController::class, 'refunds'])->name('pos.refunds');
+Route::post('/pos/refunds/search', [PosController::class, 'refundsSearch'])->name('pos.refunds.search');
+
 Route::group(['middleware' => ['permission:Sell POS']], function () {
     Route::get('/pos/{sessionId}', [PosController::class, 'index'])->name('pos.index');
     Route::post('/pos/search', [PosController::class, 'search'])->name('pos.search');
@@ -133,6 +139,7 @@ Route::group(['middleware' => ['permission:Sell POS']], function () {
     Route::get('/pos/receipt/{sessionId}', [PosController::class, 'receipt'])->name('pos.receipt');
     Route::get('/pos/cancel/{sessionId}', [PosController::class, 'cancel'])->name('pos.cancel');
 });
+
 
 
 

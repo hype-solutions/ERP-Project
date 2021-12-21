@@ -316,4 +316,43 @@ class InvoicesController extends Controller
         return back();
     }
 
+    public function refunds()
+    {
+        $sessions = Invoices::where('already_paid', 1)->get();
+        Carbon::setlocale("ar");
+
+        return view('invoices.refunds', compact('sessions'));
+    }
+
+    public function refundsSearch(Request $request)
+    {
+        if ($request->ajax()) {
+            $output = "";
+            $invoices = Invoices::where("id", "LIKE", "%{$request->search}%")
+                ->where('already_paid', 1)
+                ->get();
+            if ($invoices) {
+                foreach ($invoices as $key => $invoice) {
+                    $output .= '<tr>' .
+                        '<td><h3><b>' . $invoice->id . '</b></h3></td>' .
+                        '<td>' . $invoice->sell_user->username . '</td>' .
+                        '<td>' . $invoice->branch->branch_name . '</td>';
+                    if($invoice->customer){
+                        $output .=
+                        '<td>' . $invoice->customer->customer_name . '</td>';
+                    }else{
+                        $output .=
+                        '<td><span class="info">زائر</span></td>';
+                    }
+                        $output .=
+                        '<td>' . $invoice->invoice_date . '</td>' .
+                        '<td>' . $invoice->invoice_total . '</td>' .
+                        '<td><button class="btn btn-success btn-sm">إختر</button></td>' .
+                        '</tr>';
+                }
+                return Response($output);
+            }
+        }
+    }
+
 }

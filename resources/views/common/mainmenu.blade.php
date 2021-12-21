@@ -25,7 +25,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="menu-item" href="#">
+                                <a class="menu-item" href="{{ route('pos.refunds') }}">
                                     <i></i>
                                     <span data-i18n="Classic Menu">المرتجعات</span>
                                 </a>
@@ -81,7 +81,7 @@
                             </li>
 
                             <li>
-                                <a class="menu-item" href="#">
+                                <a class="menu-item" href="{{ route('invoices.refunds') }}">
                                     <i></i>
                                     <span data-i18n="Classic Menu">المرتجعات</span>
                                 </a>

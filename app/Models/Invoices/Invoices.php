@@ -62,6 +62,11 @@ class Invoices extends Model
         return $this->hasOne('App\Models\Branches\Branches', 'id', 'branch_id');
     }
 
+    public function sell_user()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'sold_by');
+    }
+
     #Invoice products list
     public function productsInInvoice()
     {

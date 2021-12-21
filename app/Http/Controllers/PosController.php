@@ -331,4 +331,43 @@ class PosController extends Controller
 
         return redirect()->route('pos.landing');
     }
+
+    public function refunds()
+    {
+        $sessions = PosSessions::where('sold_by', 1)->get();
+        Carbon::setlocale("ar");
+
+        return view('pos.refunds', compact('sessions'));
+    }
+
+    public function refundsSearch(Request $request)
+    {
+        if ($request->ajax()) {
+            $output = "";
+            $sessions = PosSessions::where("id", "LIKE", "%{$request->search}%")
+                ->where('sold_by', 1)
+                ->get();
+            if ($sessions) {
+                foreach ($sessions as $key => $session) {
+                    $output .= '<tr>' .
+                        '<td><h3><b>' . $session->id . '</b></h3></td>' .
+                        '<td>' . $session->sell_user->username . '</td>' .
+                        '<td>' . $session->branch->branch_name . '</td>';
+                    if($session->customer){
+                        $output .=
+                        '<td>' . $session->customer->customer_name . '</td>';
+                    }else{
+                        $output .=
+                        '<td><span class="info">زائر</span></td>';
+                    }
+                        $output .=
+                        '<td>' . $session->sold_when . '</td>' .
+                        '<td>' . $session->total . '</td>' .
+                        '<td><button class="btn btn-success btn-sm">إختر</button></td>' .
+                        '</tr>';
+                }
+                return Response($output);
+            }
+        }
+    }
 }
