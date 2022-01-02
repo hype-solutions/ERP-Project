@@ -111,11 +111,9 @@ class ProductsController extends Controller
     {
 
         // $productPosSales = PosSessions::where('product_id', $product->id)->get();
-        $productPosSales = PosSessions::where('status',1)->whereHas('cart', function($q) use($product){
+        $productPosSales = PosSessions::where('status', '!=', 0)->whereHas('cart', function ($q) use ($product) {
             $q->where('product_id', $product->id);
-         })->with('cart')->get();
-
-
+        })->with('cart')->get();
 
         //  dd($productPosSales);
         $allowedBranches = BranchesProductsSelling::where('product_id', $product->id)->where('selling', 1)->with('branch')->get();
@@ -133,7 +131,7 @@ class ProductsController extends Controller
             ->with('branchTo')
             ->get();
 
-            // dd($productransfers);
+        // dd($productransfers);
         $productManual = ProductsManualQuantities::where('product_id', $product->id)
             ->with('branch')
             ->get();
@@ -153,7 +151,7 @@ class ProductsController extends Controller
         $productCost = PurchasesOrdersProducts::where('product_id', $product_id)->where('status', 'Delivered')->avg('product_price');
 
 
-        return view('products.profile', compact('productPosSales','allowedBranches', 'productCost', 'productInvoices', 'supplierProducts', 'product', 'branches', 'productransfers', 'productManual', 'productSuppliers', 'productPurchasesOrders'));
+        return view('products.profile', compact('productPosSales', 'allowedBranches', 'productCost', 'productInvoices', 'supplierProducts', 'product', 'branches', 'productransfers', 'productManual', 'productSuppliers', 'productPurchasesOrders'));
     }
 
     // public function test(){
@@ -168,15 +166,15 @@ class ProductsController extends Controller
         $products = Products::all();
         $catTitle = '';
 
-        return view('products.list', compact('products','catTitle'));
+        return view('products.list', compact('products', 'catTitle'));
     }
 
     public function productsListByCat($cat)
     {
-        $products = Products::where('product_category',$cat)->get();
-        $catTitle = ProductsCategories::where('id',$cat)->value('cat_name');
+        $products = Products::where('product_category', $cat)->get();
+        $catTitle = ProductsCategories::where('id', $cat)->value('cat_name');
 
-        return view('products.list', compact('products','catTitle'));
+        return view('products.list', compact('products', 'catTitle'));
     }
 
     public function edit(products $product)
@@ -278,7 +276,8 @@ class ProductsController extends Controller
 
 
 
-    public function rejectingTransfer(ProductsTransfers $transfer){
+    public function rejectingTransfer(ProductsTransfers $transfer)
+    {
 
         $transfer->status = 'Rejected';
         //$transfer->authorized_by = Auth::id();
@@ -291,36 +290,36 @@ class ProductsController extends Controller
     {
 
         //make sure source branch have enough qty
-        if($transfer->branchFrom->getProductAmountInBranch($transfer->product_id)->amount >= $transfer->transfer_qty){
+        if ($transfer->branchFrom->getProductAmountInBranch($transfer->product_id)->amount >= $transfer->transfer_qty) {
 
-
-        BranchesProducts::where('product_id', $transfer->product_id)
-            ->where('branch_id', $transfer->branch_from)
-            ->update(['amount' => $transfer->qty_after_transfer_from]);
-
-        $checkIfRecordExsists = BranchesProducts::where('branch_id', $transfer->branch_to)
-            ->where('product_id', $transfer->product_id)
-            ->first();
-        //if product exsists on main branch, update its qty
-        if (isset($checkIfRecordExsists)) {
 
             BranchesProducts::where('product_id', $transfer->product_id)
-                ->where('branch_id', $transfer->branch_to)
-                ->update(['amount' => $transfer->qty_after_transfer_to]);
-        }
-        //else add a new record
-        else {
-            $addToMain = new BranchesProducts;
-            $addToMain->branch_id = $transfer->branch_to;
-            $addToMain->product_id = $transfer->product_id;
-            $addToMain->amount = $transfer->qty_after_transfer_to;
-            $addToMain->save();
-        }
+                ->where('branch_id', $transfer->branch_from)
+                ->update(['amount' => $transfer->qty_after_transfer_from]);
 
-        $transfer->status = 'Transfered';
-        $transfer->authorized_by = Auth::id();
-        $transfer->save();
-    }
+            $checkIfRecordExsists = BranchesProducts::where('branch_id', $transfer->branch_to)
+                ->where('product_id', $transfer->product_id)
+                ->first();
+            //if product exsists on main branch, update its qty
+            if (isset($checkIfRecordExsists)) {
+
+                BranchesProducts::where('product_id', $transfer->product_id)
+                    ->where('branch_id', $transfer->branch_to)
+                    ->update(['amount' => $transfer->qty_after_transfer_to]);
+            }
+            //else add a new record
+            else {
+                $addToMain = new BranchesProducts;
+                $addToMain->branch_id = $transfer->branch_to;
+                $addToMain->product_id = $transfer->product_id;
+                $addToMain->amount = $transfer->qty_after_transfer_to;
+                $addToMain->save();
+            }
+
+            $transfer->status = 'Transfered';
+            $transfer->authorized_by = Auth::id();
+            $transfer->save();
+        }
         return redirect()->route('products.list');
     }
 
@@ -395,5 +394,4 @@ class ProductsController extends Controller
 
         return view('products.transfersList', compact('transfers'));
     }
-
 }

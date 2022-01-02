@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class InvoicesPriceQuotationsProducts extends Model
 {
     use HasFactory;
-    protected $table = 'invoices_price_quotations_products';
+    protected $table = 'invoices_price_quotation_products';
     protected $fillable = [
         'quotation_id',
         'customer_id',

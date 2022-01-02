@@ -334,8 +334,8 @@ class PosController extends Controller
 
     public function refunds()
     {
-        $sessions = PosSessions::where('sold_by', 1)->get();
         Carbon::setlocale("ar");
+        $sessions = $this->refundable();
 
         return view('pos.refunds', compact('sessions'));
     }
@@ -345,7 +345,8 @@ class PosController extends Controller
         if ($request->ajax()) {
             $output = "";
             $sessions = PosSessions::where("id", "LIKE", "%{$request->search}%")
-                ->where('sold_by', 1)
+                // ->where('status', 1)
+                ->whereIn('id', $this->refundable())
                 ->get();
             if ($sessions) {
                 foreach ($sessions as $key => $session) {
@@ -353,21 +354,161 @@ class PosController extends Controller
                         '<td><h3><b>' . $session->id . '</b></h3></td>' .
                         '<td>' . $session->sell_user->username . '</td>' .
                         '<td>' . $session->branch->branch_name . '</td>';
-                    if($session->customer){
+                    if ($session->customer) {
                         $output .=
-                        '<td>' . $session->customer->customer_name . '</td>';
-                    }else{
+                            '<td>' . $session->customer->customer_name . '</td>';
+                    } else {
                         $output .=
-                        '<td><span class="info">زائر</span></td>';
+                            '<td><span class="info">زائر</span></td>';
                     }
-                        $output .=
+                    $output .=
                         '<td>' . $session->sold_when . '</td>' .
                         '<td>' . $session->total . '</td>' .
-                        '<td><button class="btn btn-success btn-sm">إختر</button></td>' .
+                        '<td><a href="/pos/refunds/' . $session->id . '" class="btn btn-success btn-sm">إختر</a></td>' .
                         '</tr>';
                 }
                 return Response($output);
             }
         }
+    }
+
+    public function refundView($session)
+    {
+        $currentSession = PosSessions::with('customer')->find($session);
+        $currentCart = Cart::where('pos_session_id', $session)->where('status', '!=', 2)->get();
+        // $subtotal = 0;
+        $cart = new Cart();
+        $subtotal = $cart->subTotal($session);
+
+        return view('pos.refundView', compact('session', 'currentCart', 'currentSession', 'subtotal'));
+    }
+
+
+    public function refundSome(Request $request)
+    {
+
+        $totalCost = 0;
+        $user = Auth::user();
+        $user_id = $user->id;
+        $posSession = PosSessions::find($request->sessionId);
+        $posSession->status = 2; //refunded
+        $posSession->total = $request->total; //refunded
+        $posSession->refunded_by = $user_id;
+        $posSession->refunded_when = Carbon::now();
+        // $posSession->save();
+
+        $updatedItems = $request->item;
+        if ($updatedItems) {
+            $items = Cart::where('pos_session_id', $request->sessionId)->get();
+            foreach ($items as $item) {
+                $currentItemId = $item->product_id;
+                foreach ($updatedItems as $updatedItem) {
+                    if ($currentItemId == $updatedItem['id']) {
+                        if ($updatedItem['qty'] == 0) {
+                            Products::where('id', $item->product_id)->decrement('product_total_out', $item->product_qty);
+                            BranchesProducts::where('product_id', $item->product_id)
+                                ->where('branch_id', $posSession->branch_id)
+                                ->increment('amount', $item->product_qty);
+                            Cart::where('pos_session_id', $request->sessionId)->where('product_id', $item->product_id)
+                                ->update([
+                                    'status' => 2
+                                ]);
+                        } else if ($item->product_qty - $updatedItem['qty'] == 0) {
+                            //nothing returned
+                        } else {
+                            Products::where('id', $item->product_id)->decrement('product_total_out', $item->product_qty - $updatedItem['qty']);
+                            BranchesProducts::where('product_id', $item->product_id)
+                                ->where('branch_id', $posSession->branch_id)
+                                ->increment('amount', $item->product_qty - $updatedItem['qty']);
+                            Cart::where('pos_session_id', $request->sessionId)->where('product_id', $item->product_id)->where('status', '!=', 2)
+                                ->update([
+                                    'product_qty' => $updatedItem['qty']
+                                ]);
+                            $pro = new Cart();
+                            $pro->pos_session_id = $request->sessionId;
+                            $pro->product_id = $updatedItem['id'];
+                            $pro->product_name = $updatedItem['name'];
+                            $pro->product_qty = $item->product_qty - $updatedItem['qty'];
+                            $pro->product_price = $updatedItem['price'];
+                            $pro->status = 2;
+                            $pro->save();
+                            $listOfItems[] = $pro;
+
+                            $product = Products::find($updatedItem['id']);
+                            $avg = $product->purchasesOrders();
+                            $totalCost += $avg * $item['qty'];
+                            $posSession->cost = $totalCost;
+                            $posSession->save();
+                        }
+                        // echo 'was ' . $item->product_qty . ' and now ' . $updatedItem['qty'] . '<br/>';
+                    }
+                }
+            }
+        }
+
+
+
+        // dd($items);
+
+
+        return redirect()->route('pos.refunds')->with('refunded', $request->sessionId)->with('session', $request->sessionId);
+    }
+
+    public function refundAll($sessionId)
+    {
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        $posSession = PosSessions::find($sessionId);
+        $posSession->status = 2; //refunded
+        $posSession->full_refund = 1;
+        $posSession->refunded_by = $user_id;
+        $posSession->refunded_when = Carbon::now();
+        $posSession->save();
+
+        $safe_id = Safes::where('branch_id', $posSession->branch_id)->value('id');
+        $payment = new SafesTransactions();
+        $payment->safe_id = $safe_id;
+        $payment->transaction_type = 1;
+        $payment->transaction_amount = $posSession->total;
+        $payment->transaction_datetime = Carbon::now();
+        $payment->done_by = $posSession->sold_by;
+        $payment->transaction_notes = 'مرتجع فاتورة بيع سريع رقم' . $sessionId;
+        $payment->authorized_by = $posSession->sold_by;
+        $payment->save();
+
+        Safes::where('id', $safe_id)->decrement('safe_balance', $posSession->total);
+
+        $items = Cart::where('pos_session_id', $sessionId)->get();
+        foreach ($items as $item) {
+            Products::where('id', $item->product_id)->decrement('product_total_out', $item->product_qty);
+            BranchesProducts::where('product_id', $item->product_id)
+                ->where('branch_id', $posSession->branch_id)
+                ->increment('amount', $item->product_qty);
+        }
+
+        Cart::where('pos_session_id', $sessionId)->update([
+            'status' => 2
+        ]);
+
+        return redirect()->route('pos.refunds')->with('refunded', $sessionId)->with('session', $sessionId);
+    }
+
+    public function refundReceipt($sessionId)
+    {
+        $currentCart = Cart::where('pos_session_id', $sessionId)->where('status','!=',2)->get();
+        $refundedCart = Cart::where('pos_session_id', $sessionId)->where('status',2)->get();
+        $currentSession = PosSessions::find($sessionId);
+        $logo = Settings::where('key', 'logo')->value('value');
+        $company = Settings::where('key', 'company_name')->value('value');
+        return view('pos.refunded', compact('refundedCart','company', 'logo', 'currentCart', 'sessionId', 'currentSession'));
+    }
+
+    private function refundable()
+    {
+        $endedSession = PosSessions::where('status', 1)->get();
+        $halfEndedSess = PosSessions::where('status', 2)->where('full_refund', 0)->get();
+        $sessions = $endedSession->merge($halfEndedSess);
+        return $sessions;
     }
 }

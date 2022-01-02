@@ -676,6 +676,13 @@
                                                                             style="color: #1e9ff2"><span>{{ $item->id }}</span></a>
                                                                         <i class="la la-barcode font-medium-2"></i>
                                                                     </div>
+                                                                    @if($item->status == 2)
+                                                                    <div class="badge border-danger danger badge-border">
+                                                                        <a href="#" target="_blank"
+                                                                            style="color: #dd1111"><span>مرتجعه</span></a>
+                                                                     </div>
+                                                                     @endif
+
                                                                 </td>
                                                                 @foreach ($item->cart as $cart)
                                                                     @if($cart->product_id == $product->id)
@@ -685,9 +692,15 @@
                                                                 <td>{{ $item->total }} ج.م</td>
                                                                 <td>{{ $item->sold_when }}</td>
                                                                 <td>
+                                                                    @if($item->status == 1)
                                                                     <a class="btn btn-success"
                                                                         href="{{ route('pos.receipt', $item->id) }}"
                                                                         target="_blank">استعراض الفاتورة</a>
+                                                                    @else
+                                                                    <a class="btn btn-warning"
+                                                                        href="{{ route('pos.refund.receipt', $item->id) }}"
+                                                                        target="_blank">استعراض فاتورة المرتجع</a>
+                                                                    @endif
                                                                 </td>
                                                             </tr>
                                                         @endforeach

@@ -114,8 +114,8 @@ class CustomersController extends Controller
         //$customer_id = $customer[0]->id;
         $customerInvoices = Invoices::where('customer_id', $customer->id)->get();
         $customerInvoicesCount = Invoices::where('customer_id', $customer->id)->count();
-        $customerPosSales = PosSessions::where('status',1)->where('customer_id', $customer->id)->get();
-        $customerPosSalesCount = PosSessions::where('status',1)->where('customer_id', $customer->id)->count();
+        $customerPosSales = PosSessions::where('status','!=',0)->where('customer_id', $customer->id)->get();
+        $customerPosSalesCount = PosSessions::where('status','!=',0)->where('customer_id', $customer->id)->count();
         $customerInvoicesSum = Invoices::where('customer_id', $customer->id)->sum('invoice_total');
         $customerPriceQuotation = InvoicesPriceQuotation::where('customer_id', $customer->id)->get();
         $customerPriceQuotationCount = InvoicesPriceQuotation::where('customer_id', $customer->id)->count();

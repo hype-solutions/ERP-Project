@@ -106,7 +106,8 @@
                                     <td>
                                         <input type="text" id="max_of_{{ $item->id }}"
                                             value="{{ $item->amountInBranch($currentSession->branch_id) }}"
-                                            readonly /></td>
+                                            readonly />
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>سعر البيع:</th>
@@ -134,7 +135,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="إبحث عن منتج" id="searchInput" autocomplete="off">
+                                <input type="text" class="form-control" placeholder="إبحث عن منتج" id="searchInput"
+                                    autocomplete="off">
                                 <div class="input-group-prepend">
                                     <button class="btn btn-primary" type="submit">
                                         <i class="fa fa-search"></i>

@@ -132,108 +132,108 @@
                                     <table class="table table-borderless">
                                         <tbody>
                                             <tr>
-                                                    <td>نوع العميل:</td>
+                                                <td>نوع العميل:</td>
+                                                <td>
+                                                    @if ($customer->customer_type == 'company')
+                                                        تجاري
+                                                    @elseif ($customer->customer_type == 'solo')
+                                                        فردي
+                                                    @elseif ($customer->customer_type == 'agent')
+                                                        وسيط
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                            @if ($customer->customer_type == 'company')
+                                                <tr>
+                                                    <td>اسم الشركة:</td>
                                                     <td>
-                                                        @if ($customer->customer_type == 'company')
-                                                            تجاري
-                                                        @elseif ($customer->customer_type == 'solo')
-                                                            فردي
-                                                        @elseif ($customer->customer_type == 'agent')
-                                                            وسيط
+                                                        @if (isset($customer->customer_company))
+                                                            {{ $customer->customer_company }}
+                                                        @else
+                                                            <small style="font-style: italic;color:red;">غير مسجل</small>
                                                         @endif
                                                     </td>
                                                 </tr>
-                                                @if ($customer->customer_type == 'company')
                                                 <tr>
-                                                        <td>اسم الشركة:</td>
-                                                        <td>
-                                                            @if (isset($customer->customer_company))
-                                                                {{ $customer->customer_company }}
-                                                            @else
-                                                                <small style="font-style: italic;color:red;">غير مسجل</small>
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
                                                     <td> ممثل الشركة:</td>
                                                     <td>{{ $customer->customer_name }}</td>
                                                 </tr>
                                                 <tr>
-                                                        <td>المسمى الوظيفي:</td>
-                                                        <td>
-                                                            @if (isset($customer->customer_title))
-                                                                {{ $customer->customer_title }}
-                                                            @else
-                                                                <small style="font-style: italic;color:red;">غير مسجل</small>
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>السجل التجاري:</td>
-                                                        <td>
-                                                            @if (isset($customer->customer_commercial_registry))
-                                                                {{ $customer->customer_commercial_registry }}
-                                                            @else
-                                                                <small style="font-style: italic;color:red;">غير مسجل</small>
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>البطاقة الضريبية:</td>
-                                                        <td>
-                                                            @if (isset($customer->customer_tax_card))
-                                                                {{ $customer->customer_tax_card }}
-                                                            @else
-                                                                <small style="font-style: italic;color:red;">غير مسجل</small>
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                @elseif ($customer->customer_type == 'solo')
-                                            <tr>
+                                                    <td>المسمى الوظيفي:</td>
+                                                    <td>
+                                                        @if (isset($customer->customer_title))
+                                                            {{ $customer->customer_title }}
+                                                        @else
+                                                            <small style="font-style: italic;color:red;">غير مسجل</small>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>السجل التجاري:</td>
+                                                    <td>
+                                                        @if (isset($customer->customer_commercial_registry))
+                                                            {{ $customer->customer_commercial_registry }}
+                                                        @else
+                                                            <small style="font-style: italic;color:red;">غير مسجل</small>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>البطاقة الضريبية:</td>
+                                                    <td>
+                                                        @if (isset($customer->customer_tax_card))
+                                                            {{ $customer->customer_tax_card }}
+                                                        @else
+                                                            <small style="font-style: italic;color:red;">غير مسجل</small>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @elseif ($customer->customer_type == 'solo')
+                                                <tr>
                                                     <td>اسم العميل:</td>
                                                     <td>{{ $customer->customer_name }}</td>
                                                 </tr>
-                                                @elseif ($customer->customer_type == 'agent')
-                                            <tr>
+                                            @elseif ($customer->customer_type == 'agent')
+                                                <tr>
                                                     <td>اسم الوسيط:</td>
                                                     <td>{{ $customer->customer_name }}</td>
                                                 </tr>
-                                                @endif
-                                                <tr>
-                                                    <td>الموبايل:</td>
-                                                    <td>{{ $customer->customer_mobile }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>التليفون:</td>
-                                                    <td>
-                                                        @if (isset($customer->customer_phone))
-                                                            {{ $customer->customer_phone }}
-                                                        @else
-                                                            <small style="font-style: italic;color:red;">غير مسجل</small>
-                                                        @endif
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>الايميل:</td>
-                                                    <td>
-                                                        @if (isset($customer->customer_email))
-                                                            {{ $customer->customer_email }}
-                                                        @else
-                                                            <small style="font-style: italic;color:red;">غير مسجل</small>
-                                                        @endif
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>العنوان:</td>
-                                                    <td>
-                                                        @if (isset($customer->customer_address))
-                                                            {{ $customer->customer_address }}
-                                                        @else
-                                                            <small style="font-style: italic;color:red;">غير مسجل </small>
-                                                        @endif
-                                                    </td>
-                                                </tr>
-                                            </tbody>
+                                            @endif
+                                            <tr>
+                                                <td>الموبايل:</td>
+                                                <td>{{ $customer->customer_mobile }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>التليفون:</td>
+                                                <td>
+                                                    @if (isset($customer->customer_phone))
+                                                        {{ $customer->customer_phone }}
+                                                    @else
+                                                        <small style="font-style: italic;color:red;">غير مسجل</small>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>الايميل:</td>
+                                                <td>
+                                                    @if (isset($customer->customer_email))
+                                                        {{ $customer->customer_email }}
+                                                    @else
+                                                        <small style="font-style: italic;color:red;">غير مسجل</small>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>العنوان:</td>
+                                                <td>
+                                                    @if (isset($customer->customer_address))
+                                                        {{ $customer->customer_address }}
+                                                    @else
+                                                        <small style="font-style: italic;color:red;">غير مسجل </small>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        </tbody>
 
                                     </table>
                                 </div>
@@ -242,18 +242,21 @@
                                         <!-- Floating Outline button with text -->
                                         <button type="button" class="btn btn-float btn-outline-cyan"
                                             style="cursor: context-menu"><i
-                                                class="">{{ $customerInvoicesCount + $customerPosSalesCount }}</i><span>عدد فواتير
+                                                class="">{{ $customerInvoicesCount + $customerPosSalesCount }}</i><span>عدد
+                                                فواتير
                                                 الشراء</span>
                                             <br>
-                                            <small>{{$customerPosSalesCount}} بيع سريع - {{$customerInvoicesCount}} فواتير مبيعات</small>
-                                            </button>
+                                            <small>{{ $customerPosSalesCount }} بيع سريع - {{ $customerInvoicesCount }}
+                                                فواتير مبيعات</small>
+                                        </button>
                                         <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"
                                             style="cursor: context-menu"><i
                                                 class="">{{ $customerInvoicesSum }} ج,م</i><span>إجمالي
                                                 المبالغ من الفواتير</span></button>
                                         <button type="button" class="btn btn-float btn-outline-cyan"
                                             style="cursor: context-menu"><i
-                                                class="">{{ $customerPriceQuotationCount }}</i><span>عدد عروض
+                                                class="">{{ $customerPriceQuotationCount }}</i><span>عدد
+                                                عروض
                                                 الأسعار</span></button>
                                     </div>
                                 </div>
@@ -295,16 +298,16 @@
                                             </a>
                                         </li>
                                         @if ($customer->customer_type == 'company')
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="linkOpt-tab2xx" data-toggle="tab"
-                                                href="#linkOpt2xx" aria-controls="linkOpt2xx">ممثلين / موظفين الشركة
-                                            </a>
-                                        </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="linkOpt-tab2xx" data-toggle="tab"
+                                                    href="#linkOpt2xx" aria-controls="linkOpt2xx">ممثلين / موظفين الشركة
+                                                </a>
+                                            </li>
                                         @endif
                                     </ul>
                                     <div class="tab-content px-1 pt-1">
-                                        <div role="tabpanel" class="tab-pane active" id="link"
-                                            aria-labelledby="link-link" aria-expanded="true">
+                                        <div role="tabpanel" class="tab-pane active" id="link" aria-labelledby="link-link"
+                                            aria-expanded="true">
                                             <div class="table-responsive">
                                                 <table class="table mb-0" id="pos">
                                                     <thead>
@@ -324,14 +327,27 @@
                                                                             style="color: #1e9ff2"><span>{{ $item->id }}</span></a>
                                                                         <i class="la la-barcode font-medium-2"></i>
                                                                     </div>
+                                                                    @if ($item->status == 2)
+                                                                        <div
+                                                                            class="badge border-danger danger badge-border">
+                                                                            <a href="#" target="_blank"
+                                                                                style="color: #dd1111"><span>مرتجعه</span></a>
+                                                                        </div>
+                                                                    @endif
                                                                 </td>
                                                                 <td>{{ $item->total }} ج.م</td>
                                                                 <td>{{ $item->sold_when }}</td>
 
                                                                 <td>
-                                                                    <a class="btn btn-success"
-                                                                        href="{{ route('pos.receipt', $item->id) }}"
-                                                                        target="_blank">استعراض الفاتورة</a>
+                                                                    @if ($item->status == 1)
+                                                                        <a class="btn btn-success"
+                                                                            href="{{ route('pos.receipt', $item->id) }}"
+                                                                            target="_blank">استعراض الفاتورة</a>
+                                                                    @else
+                                                                        <a class="btn btn-warning"
+                                                                            href="{{ route('pos.refund.receipt', $item->id) }}"
+                                                                            target="_blank">استعراض فاتورة المرتجع</a>
+                                                                    @endif
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -430,8 +446,8 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <div class="tab-pane" id="link35" role="tabpanel" aria-labelledby="link-tab35"
-                                            aria-expanded="false">
+                                        <div class="tab-pane" id="link35" role="tabpanel"
+                                            aria-labelledby="link-tab35" aria-expanded="false">
                                             <div class="table-responsive">
                                                 <table class="table mb-0" id="due">
                                                     <thead>
@@ -466,7 +482,8 @@
                                                                     @if ($item->paid == 'Yes')
                                                                         <a target="_blank"
                                                                             href="{{ route('invoices.view', $item->id) }}"
-                                                                            class="btn btn-primary">استعراض فاتورة البيع</a>
+                                                                            class="btn btn-primary">استعراض فاتورة
+                                                                            البيع</a>
                                                                         <button class="btn btn-info">استعراض فاتورة
                                                                             التسديد</button>
                                                                     @else
@@ -503,14 +520,19 @@
                                                                                             <input type="hidden"
                                                                                                 name="installment_invoice"
                                                                                                 value="{{ $item->id }}" />
-                                                                                                <input type="hidden" name="installment_type" value="invoice">
-                                                                                                <input type="hidden" name="invoice_id" value="{{ $item->invoice_id }}" />
+                                                                                            <input type="hidden"
+                                                                                                name="installment_type"
+                                                                                                value="invoice">
+                                                                                            <input type="hidden"
+                                                                                                name="invoice_id"
+                                                                                                value="{{ $item->invoice_id }}" />
                                                                                             @csrf
                                                                                             <div class="form-body">
                                                                                                 <h4 class="form-section">
                                                                                                     <i
                                                                                                         class="ft-user"></i>
-                                                                                                    عملية إيداع</h4>
+                                                                                                    عملية إيداع
+                                                                                                </h4>
                                                                                                 <div
                                                                                                     class="row">
 
@@ -524,7 +546,8 @@
                                                                                                             <select
                                                                                                                 class="select2-rtl form-control"
                                                                                                                 data-placeholder="إختر الخزنة..."
-                                                                                                                name="safe_id" required>
+                                                                                                                name="safe_id"
+                                                                                                                required>
                                                                                                                 <option>
                                                                                                                 </option>
                                                                                                                 @foreach ($safes as $safe)
@@ -532,7 +555,8 @@
                                                                                                                         value="{{ $safe->id }}">
                                                                                                                         {{ $safe->safe_name }}
                                                                                                                     </option>
-                                                                                                                @endforeach
+                                                                                                                @endfor
+                                                                                                                each
                                                                                                                 each
                                                                                                             </select>
                                                                                                         </div>
@@ -651,24 +675,27 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <form action="{{ route('customers.addLinked', $customer->id) }}"
+                                                                <form
+                                                                    action="{{ route('customers.addLinked', $customer->id) }}"
                                                                     method="POST">
                                                                     @csrf
                                                                     <div class="form-group">
-                                                                             <input class="form-control" type="text"
-                                                                                name="linked_name" placeholder="إسم الموظف">
-                                                                            </div>
-                                                                                <div class="form-group">
-                                                                            <input class="form-control" type="text"
-                                                                                name="linked_title" placeholder="المسمى الوظيفي">
-                                                                            </div>
-                                                                                <div class="form-group">
-                                                                                <input class="form-control" type="text"
-                                                                                name="linked_mobile" placeholder="رقم التليفون">
-                                                                     </div>
+                                                                        <input class="form-control" type="text"
+                                                                            name="linked_name" placeholder="إسم الموظف">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <input class="form-control" type="text"
+                                                                            name="linked_title"
+                                                                            placeholder="المسمى الوظيفي">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <input class="form-control" type="text"
+                                                                            name="linked_mobile" placeholder="رقم التليفون">
+                                                                    </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn grey btn-outline-secondary"
+                                                                <button type="button"
+                                                                    class="btn grey btn-outline-secondary"
                                                                     data-dismiss="modal">إلغاء</button>
                                                                 <button type="submit"
                                                                     class="btn btn-outline-primary">حفظ</button>
@@ -688,9 +715,9 @@
                                                         </thead>
                                                         <tbody>
                                                             <tr>
-                                                                <td>{{$customer->customer_name}}</td>
-                                                                <td>{{$customer->customer_title}}</td>
-                                                                <td>{{$customer->customer_mobile}}</td>
+                                                                <td>{{ $customer->customer_name }}</td>
+                                                                <td>{{ $customer->customer_title }}</td>
+                                                                <td>{{ $customer->customer_mobile }}</td>
                                                             </tr>
                                                             @foreach ($linkedCustomers as $link)
                                                                 <tr>

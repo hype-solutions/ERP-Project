@@ -41,9 +41,9 @@ class Products extends Model
     {
         $branch = Branches::find($branchId);
         if ($branch) {
-            $product = BranchesProducts::where('product_id', $this->id)->where('branch_id', $branch->branchId)->count();
+            $product = BranchesProducts::where('product_id', $this->id)->where('branch_id', $branchId)->count();
             if ($product > 0) {
-                return BranchesProducts::where('product_id', $this->id)->where('branch_id', $branch->branchId)->value('amount');
+                return BranchesProducts::where('product_id', $this->id)->where('branch_id', $branchId)->value('amount');
             } else {
                 return 0;
             }

@@ -57,10 +57,14 @@
             </script>
             @if (session()->has('popup'))
                 <script>
-                    pay('{{ route('pos.receipt', session()->get('session')) }}');
+                    pay("{{ route('pos.receipt', session()->get('session')) }}");
                 </script>
             @endif
-
+            @if (session()->has('refunded'))
+            <script>
+                pay("{{ route('pos.refund.receipt', session()->get('session')) }}");
+            </script>
+        @endif
 
 
             <section class="users-list-wrapper">
@@ -166,7 +170,7 @@
 
 
                                                             <td>
-                                                                <a href="{{ route('pos.index', $session->id) }}"
+                                                                <a href="{{ route('pos.refunds.view', $session->id) }}"
                                                                     class="btn btn-info btn-sm"><i
                                                                         class="la la-folder-open"></i> إختر</a>
 
@@ -222,7 +226,7 @@
                     var _token = $('input[name="_token"]').val();
                     $.ajax({
                         type: 'post',
-                        url: '{{ route('pos.refunds.search') }}',
+                        url: '{{ route("pos.refunds.search") }}',
                         data: {
                             'search': $value,
                             _token: _token
@@ -234,6 +238,7 @@
                                 $('#resultsBody').html(data);
                             } else {
                                 $('#noResults').show();
+                                $('#resultsTable').hide();
                             }
                         }
                     });

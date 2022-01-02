@@ -104,7 +104,6 @@ Route::group(['middleware' => ['permission:Edit PQ']], function () {
     Route::get('/invoices/price_quotations/edit/{invoice}', [InvoicesPriceQuotationController::class, 'edit'])->name('invoicespricequotations.edit');
     Route::patch('/invoices/price_quotations/update/{invoice}', [InvoicesPriceQuotationController::class, 'update'])->name('invoicespricequotations.update');
     Route::post('/invoices/price_quotations/signature', [InvoicesPriceQuotationController::class, 'signature'])->name('invoicespricequotations.signature');
-
 });
 Route::group(['middleware' => ['permission:Print PQ']], function () {
     Route::get('/price_quotations/print2/{invoice}', [InvoicesPriceQuotationController::class, 'print2'])->name('invoicespricequotations.print2');
@@ -129,6 +128,10 @@ Route::group(['middleware' => ['permission:View POS']], function () {
 //checks here
 Route::get('/pos/refunds', [PosController::class, 'refunds'])->name('pos.refunds');
 Route::post('/pos/refunds/search', [PosController::class, 'refundsSearch'])->name('pos.refunds.search');
+Route::get('/pos/refunds/{session}', [PosController::class, 'refundView'])->name('pos.refunds.view');
+Route::get('/pos/refunding/all/{sessionId}', [PosController::class, 'refundAll'])->name('pos.refunds.all');
+Route::post('/pos/refunding/some', [PosController::class, 'refundSome'])->name('pos.refunds.some');
+Route::get('/pos/refund/{sessionId}', [PosController::class, 'refundReceipt'])->name('pos.refund.receipt');
 
 Route::group(['middleware' => ['permission:Sell POS']], function () {
     Route::get('/pos/{sessionId}', [PosController::class, 'index'])->name('pos.index');
@@ -272,7 +275,6 @@ Route::group(['middleware' => ['permission:Edit PO']], function () {
     Route::get('/purchase_orders/edit/{order}', [PurchasesOrdersController::class, 'edit'])->name('purchasesorders.edit');
     Route::patch('/purchase_orders/update/{order}', [PurchasesOrdersController::class, 'update'])->name('purchasesorders.update');
     Route::post('/purchase_orders/signature', [PurchasesOrdersController::class, 'signature'])->name('purchasesorders.signature');
-
 });
 Route::group(['middleware' => ['permission:Accept PO']], function () {
     Route::get('/purchase_orders/status/{purchaseOrder}/{status}', [PurchasesOrdersController::class, 'status'])->name('purchasesorders.status');
@@ -381,7 +383,7 @@ Route::post('/ins/categories/editing/{cat}', [InsController::class, 'updateCat']
 Route::get('/ins/categories/deleting/{cat}', [InsController::class, 'deleteCat'])->name('ins.categories.deleting');
 
 // Route::group(['middleware' => ['permission:Auth ins']], function () {
-    Route::post('/ins/auth/{in}/{code}', [InsController::class, 'authorizeIn'])->name('ins.authorizeIn');
+Route::post('/ins/auth/{in}/{code}', [InsController::class, 'authorizeIn'])->name('ins.authorizeIn');
 // });
 // Route::get('/ins/view/{in}', [InsController::class, 'view'])->name('ins.view');
 // Route::get('/ins/edit/{in}', [InsController::class, 'edit'])->name('ins.edit');
@@ -414,7 +416,7 @@ Route::group(['middleware' => ['permission:Add Expenses Ent']], function () {
 });
 
 // Route::group(['middleware' => ['permission:Auth Expenses']], function () {
-    Route::post('/outs/auth/{out}/{code}', [OutsController::class, 'authorizeOut'])->name('outs.authorizeOut');
+Route::post('/outs/auth/{out}/{code}', [OutsController::class, 'authorizeOut'])->name('outs.authorizeOut');
 // });
 
 Route::post('/outs/categories/editing/{cat}', [OutsController::class, 'updateCat'])->name('outs.categories.editing');

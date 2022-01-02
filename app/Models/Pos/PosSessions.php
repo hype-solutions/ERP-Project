@@ -21,7 +21,10 @@ class PosSessions extends Model
         'delivery',
         'open_by',
         'sold_by',
+        'refunded_by',
+        'full_refund',
         'sold_when',
+        'refunded_when',
     ];
 
     public function open_user()
@@ -31,6 +34,10 @@ class PosSessions extends Model
     public function sell_user()
     {
         return $this->hasOne('App\Models\User', 'id', 'sold_by');
+    }
+    public function refund_user()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'refunded_by');
     }
 
     public function branch()
@@ -46,4 +53,6 @@ class PosSessions extends Model
     {
         return $this->hasMany('App\Models\Pos\Cart', 'pos_session_id', 'id');
     }
+
+
 }
