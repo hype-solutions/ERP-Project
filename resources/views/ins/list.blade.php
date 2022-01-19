@@ -180,10 +180,14 @@
                                 قام بالعملية
                                 <div class="badge border-primary primary badge-border">
                                     <i class="la la-user font-medium-2"></i>
-                                        <span>{{$in->done_user->username}}</span>
+                                    @if ($in->done_user)
+                                    <span>{{$in->done_user->username}}</span>
+                                    @else
+                                    مستخدم محذوف
+                                    @endif
                                     </div>
 
-                                    @if (isset($in->authorized_by))
+                                    @if (isset($in->authorized_by) && isset($in->auth_user))
                                     <br>
                                     صرح بالعملية
                                     <div class="badge border-success success badge-square badge-border">

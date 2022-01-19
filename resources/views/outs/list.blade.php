@@ -197,10 +197,16 @@
                                                         قام بالعملية
                                                         <div class="badge border-primary primary badge-border">
                                                             <i class="la la-user font-medium-2"></i>
+                                                            @if ($out->done_user)
                                                             <span>{{ $out->done_user->username }}</span>
+                                                            @else
+                                                            مستخدم محذوف
+                                                            @endif
+
                                                         </div>
 
-                                                        @if (isset($out->authorized_by))
+                                                        @if (isset($out->authorized_by) && isset($out->auth_user))
+
                                                             <br>
                                                             صرح بالعملية
                                                             <div

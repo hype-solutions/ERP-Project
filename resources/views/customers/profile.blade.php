@@ -555,9 +555,9 @@
                                                                                                                         value="{{ $safe->id }}">
                                                                                                                         {{ $safe->safe_name }}
                                                                                                                     </option>
-                                                                                                                @endfor
-                                                                                                                each
-                                                                                                                each
+                                                                                                                @endforeach
+
+
                                                                                                             </select>
                                                                                                         </div>
                                                                                                     </div>
