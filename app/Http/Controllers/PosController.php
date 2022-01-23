@@ -93,6 +93,7 @@ class PosController extends Controller
             }
         }
         $products = Products::whereIn('id', $allowedProducts)->paginate(8);
+        $allProducts = Products::whereIn('id', $allowedProducts)->get();
         $user = Auth::user();
         $user_id = $user->id;
         $productsCategories = ProductsCategories::all();
@@ -105,7 +106,7 @@ class PosController extends Controller
         }
         $logo = Settings::where('key', 'logo')->value('value');
 
-        return view('pos.pos', compact('logo', 'user_id', 'products', 'productsCategories', 'currentCart', 'sessionId', 'currentSession', 'customerVisits'));
+        return view('pos.pos', compact('allProducts','logo', 'user_id', 'products', 'productsCategories', 'currentCart', 'sessionId', 'currentSession', 'customerVisits'));
     }
 
     public function search(Request $request)

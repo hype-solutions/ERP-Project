@@ -242,7 +242,7 @@
                                 aria-labelledby="link-pill" aria-expanded="false">
                                 <span id=" ">
                                     <div class="row">
-                                        @foreach ($products as $key => $item)
+                                        @foreach ($allProducts as $key => $item)
                                             @if ($item->product_category == $cat->id)
                                                 <div class="col-md-3">
                                                     <figure class="card card-product">
