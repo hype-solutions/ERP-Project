@@ -54,8 +54,8 @@ class ProductsImport implements ToModel
                     $finalName .= ' - ' . $getDetails;
                 }
 
-                $getSupplier = Suppliers::where('supplier_name','مورد وهمي')->get();
-                if (!$getSupplier->isEmpty()) {
+                $getSupplier = Suppliers::where('supplier_name','مورد وهمي')->first();
+                if ($getSupplier) {
                     $supplierId = $getSupplier->id;
                 }else{
                     $newSupplier = new Suppliers();
