@@ -25,8 +25,13 @@ class ProductsImport implements ToModel
 
         if ($row[3]) {
 
-            $searchProducts = Products::where('product_name', $getProduct)->get();
-            foreach ($searchProducts as $key => $product) {
+            $finalName = $getCode . ' - ' . $getProduct;
+                if ($getDetails) {
+                    $finalName .= ' - ' . $getDetails;
+                }
+
+            $searchProducts = Products::where('product_name', $finalName)->get();
+            foreach ($searchProducts as $product) {
                 if ($product->product_code ==  $getCode) {
                     $dontAdd = 1;
                 }
@@ -49,22 +54,19 @@ class ProductsImport implements ToModel
                     $catId = '';
                 }
 
-                $finalName = $getCode . ' - ' . $getProduct;
-                if ($getDetails) {
-                    $finalName .= ' - ' . $getDetails;
-                }
 
-                $getSupplier = Suppliers::where('supplier_name','مورد وهمي')->first();
-                if ($getSupplier) {
-                    $supplierId = $getSupplier->id;
-                }else{
-                    $newSupplier = new Suppliers();
-                    $newSupplier->supplier_name = "مورد وهمي";
-                    $newSupplier->supplier_mobile = "01";
-                    $newSupplier->supplier_notes = "مورد وهمي لرفع ملفات عن طريق ملفات Excel";
-                    $newSupplier->save();
-                    $supplierId = $newSupplier->id;
-                }
+
+                // $getSupplier = Suppliers::where('supplier_name', 'مورد وهمي')->first();
+                // if ($getSupplier) {
+                //     $supplierId = $getSupplier->id;
+                // } else {
+                //     $newSupplier = new Suppliers();
+                //     $newSupplier->supplier_name = "مورد وهمي";
+                //     $newSupplier->supplier_mobile = "01";
+                //     $newSupplier->supplier_notes = "مورد وهمي لرفع ملفات عن طريق ملفات Excel";
+                //     $newSupplier->save();
+                //     $supplierId = $newSupplier->id;
+                // }
 
 
                 return new Products([
