@@ -49,6 +49,9 @@
             <a href="{{route('products.transfers')}}" class="btn btn-outline-danger block btn-lg" >
                 عمليات التحويل بين الفروع
             </a>
+            <a href="{{route('products.import')}}" class="btn btn-outline-warning block btn-lg" >
+                إستيراد من Excel
+            </a>
           </div>
         </div>
       </div>

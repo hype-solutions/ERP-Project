@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\ProductsImport;
 use App\Models\Branches\Branches;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,7 @@ use App\Models\Products\ProductsTransfers;
 use App\Models\Products\ProductsManualQuantities;
 use App\Models\PurchasesOrders\PurchasesOrdersProducts;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductsController extends Controller
 {
@@ -369,8 +371,6 @@ class ProductsController extends Controller
         return redirect()->route('products.transfers');
     }
 
-
-
     public function productSelect()
     {
         $products = Products::all();
@@ -386,12 +386,22 @@ class ProductsController extends Controller
         }
     }
 
-
     public function transfers()
     {
 
         $transfers = ProductsTransfers::all();
 
         return view('products.transfersList', compact('transfers'));
+    }
+
+    public function import()
+    {
+        return view('products.import');
+    }
+
+    public function importing(Request $request)
+    {
+        // Excel::import(new ProductsImport, $request->importer);
+        Excel::import(new ProductsImport, request()->file('importer'));
     }
 }
