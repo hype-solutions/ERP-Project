@@ -403,5 +403,6 @@ class ProductsController extends Controller
     {
         // Excel::import(new ProductsImport, $request->importer);
         Excel::import(new ProductsImport, request()->file('importer'));
+        return redirect()->route('products.list');
     }
 }

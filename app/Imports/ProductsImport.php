@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Products\Products;
 use App\Models\Products\ProductsCategories;
+use App\Models\Suppliers\Suppliers;
 use Maatwebsite\Excel\Concerns\ToModel;
 
 class ProductsImport implements ToModel
@@ -48,10 +49,28 @@ class ProductsImport implements ToModel
                     $catId = '';
                 }
 
+                $finalName = $getCode . ' - ' . $getProduct;
+                if ($getDetails) {
+                    $finalName .= ' - ' . $getDetails;
+                }
+
+                $getSupplier = Suppliers::where('supplier_name','مورد وهمي')->get();
+                if($getSupplier){
+                    $supplierId = $getSupplier->id;
+                }else{
+                    $newSupplier = new Suppliers();
+                    $newSupplier->supplier_name = "مورد وهمي";
+                    $newSupplier->supplier_mobile = "01";
+                    $newSupplier->supplier_notes = "مورد وهمي لرفع ملفات عن طريق ملفات Excel";
+                    $newSupplier->save();
+                    $supplierId = $newSupplier->id;
+                }
+
+
                 return new Products([
                     'product_brand'     => $getBrand,
                     'product_code'    => $getCode,
-                    'product_name'    => $getProduct,
+                    'product_name'    => $finalName,
                     'product_desc'    => $getDetails,
                     'product_category'    => $catId,
                 ]);
