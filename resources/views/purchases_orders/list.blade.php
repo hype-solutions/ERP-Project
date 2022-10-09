@@ -332,7 +332,10 @@
                                                 </tr>
                                             @endforeach
                                         </tbody>
+
                                     </table>
+                                    {{ $purchases->links() }}
+
                                 </div>
                                 <!-- datatable ends -->
                             </div>
