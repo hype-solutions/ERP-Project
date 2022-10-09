@@ -24,7 +24,7 @@ class AddPurchaseOrder extends FormRequest
     public function rules()
     {
         return [
-            'supplier_id' => 'required|exists:suppliers,id',
+            'supplier_id' => 'required_if:new_supplier_name,=,null',
             'product.*.id' => 'nullable|required',
             'product.*.desc' => 'nullable',
             'product.*.price' => 'nullable|required|min:0|numeric',
@@ -44,10 +44,11 @@ class AddPurchaseOrder extends FormRequest
     {
         return [
             'product.*.id.required' => 'يجب ادخال منتج واحد على الأقل',
-            'supplier_id.required' => 'يجب ادخال مورد',
+            'supplier_id.required_if' => 'يجب ادخال مورد',
             'product.*.price.required' => 'يجب ادخال سعر المنتج',
             'product.*.qty.required' => 'يجب ادخال كمية المنتج',
             'discount_percentage.min' => 'يجب أن يكون الخصم أكبر من الصفر',
+            'discount_amount.min' => 'يجب أن يكون الخصم أكبر من الصفر',
             'shipping_fees.min' => 'يجب أن يكون الشحن أكبر من الصفر',
         ];
     }
