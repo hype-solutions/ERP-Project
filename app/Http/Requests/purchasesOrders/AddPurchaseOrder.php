@@ -24,30 +24,31 @@ class AddPurchaseOrder extends FormRequest
     public function rules()
     {
         return [
-            'branch_id' => 'nullable',
-            'customer_id' => 'nullable',
-            'sold_by' => 'nullable',
-            'invoice_total' => 'nullable',
-            'invoice_paper_num' => 'nullable',
-            'new_customer_name' => 'nullable',
-            'new_customer_mobile' => 'nullable',
-            'product.*.id' => 'nullable',
+            'supplier_id' => 'required|exists:suppliers,id',
+            'product.*.id' => 'nullable|required',
             'product.*.desc' => 'nullable',
             'product.*.price' => 'nullable|required|min:0|numeric',
-            'product.*.cost' => 'nullable',
-            'product.*.qty' => 'nullable',
+            'product.*.qty' => 'nullable|required|min:0|numeric',
             'discount_percentage' => 'nullable|min:0|numeric',
-            'discount_amount' => 'nullable',
+            'discount_amount' => 'nullable|min:0|numeric',
             'shipping_fees' => 'nullable|min:0|numeric',
             'tax' => 'nullable|min:0|numeric',
             'payment_method' => 'nullable',
             'safe_id_not_paid' => 'nullable',
             'invoice_note' => 'nullable',
-            'later.*.amount' => 'nullable',
-            'later.*.date' => 'nullable',
-            'later.*.notes' => 'nullable',
-            'later.*.paynow' => 'nullable',
 
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'product.*.id.required' => 'يجب ادخال منتج واحد على الأقل',
+            'supplier_id.required' => 'يجب ادخال مورد',
+            'product.*.price.required' => 'يجب ادخال سعر المنتج',
+            'product.*.qty.required' => 'يجب ادخال كمية المنتج',
+            'discount_percentage.min' => 'يجب أن يكون الخصم أكبر من الصفر',
+            'shipping_fees.min' => 'يجب أن يكون الشحن أكبر من الصفر',
         ];
     }
 }
