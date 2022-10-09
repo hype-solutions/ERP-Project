@@ -30,11 +30,11 @@ class ProductsController extends Controller
     {
         return request()->validate(
             [
-                'product_code' => '',
+                'product_code' => 'required|unique:products,product_code,',
                 'product_category' => '',
                 'product_sub_category' => '',
                 'product_name' => 'required|max:255',
-                'product_price' => 'required',
+                'product_price' => 'required|min:0|numeric',
                 'product_total_in' => '',
                 'product_total_out' => '',
                 'product_desc' => '',
@@ -51,11 +51,11 @@ class ProductsController extends Controller
     protected function validateUpdateRequest()
     {
         return request()->validate([
-            'product_code' => '',
+            'product_code' => 'required|unique:products,product_code,',
             'product_category' => '',
             'product_sub_category' => '',
             'product_name' => 'required|max:255',
-            'product_price' => 'required',
+            'product_price' => 'required|min:0|numeric',
             'product_total_in' => '',
             'product_total_out' => '',
             'product_desc' => '',
@@ -77,7 +77,7 @@ class ProductsController extends Controller
 
     public function store(Request $request)
     {
-        //Products::create($this->validatePostRequest());
+        $this->validatePostRequest();
         $product = new Products();
         $product->product_code = $request->product_code;
         $product->product_category = $request->product_category;
