@@ -485,7 +485,9 @@
             }
 
             var currentInvoiceTotal = $("#total_after_all").text();
-            currentInvoiceTotal = parseInt(currentInvoiceTotal);
+            var descountAmount = $("#discount_amount").text();
+            currentInvoiceTotal = parseInt(currentInvoiceTotal) - parseInt(descountAmount);
+            
             var newInvoiceTotal = currentInvoiceTotal - (currentInvoiceTotal * (newTax / 100));
             var taxAmount = currentInvoiceTotal - newInvoiceTotal;
             taxAmount = Math.round(taxAmount);
