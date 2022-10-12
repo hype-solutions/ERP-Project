@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Imports\ProductsImport;
 use App\Models\Branches\Branches;
 use Illuminate\Http\Request;
-
+use App\Http\Requests\Product\UpdateProduct;
+use App\Http\Requests\Product\CreateProduct;
 use App\Models\Products\Products;
 use App\Models\Branches\BranchesProducts;
 use App\Models\Branches\BranchesProductsSelling;
@@ -26,45 +27,49 @@ class ProductsController extends Controller
         $this->middleware('auth');
     }
 
-    protected function validatePostRequest()
-    {
-        return request()->validate(
-            [
-                'product_code' => 'required|unique:products,product_code,',
-                'product_category' => '',
-                'product_sub_category' => '',
-                'product_name' => 'required|max:255',
-                'product_price' => 'required|min:0|numeric',
-                'product_total_in' => '',
-                'product_total_out' => '',
-                'product_desc' => '',
-                'product_brand' => '',
-                'product_track_stock' => '',
-                'product_low_stock_thershold' => '',
-                'product_notes' => '',
-            ],
-            [
-                // 'product_code.unique' => 'برجاء إختيار كود اخر, هذا الكود مستخدم بالفعل',
-            ]
-        );
-    }
-    protected function validateUpdateRequest()
-    {
-        return request()->validate([
-            'product_code' => 'required|unique:products,product_code,',
-            'product_category' => '',
-            'product_sub_category' => '',
-            'product_name' => 'required|max:255',
-            'product_price' => 'required|min:0|numeric',
-            'product_total_in' => '',
-            'product_total_out' => '',
-            'product_desc' => '',
-            'product_brand' => '',
-            'product_track_stock' => '',
-            'product_low_stock_thershold' => '',
-            'product_notes' => '',
-        ]);
-    }
+    // protected function validatePostRequest()
+    // {
+    //     return request()->validate(
+    //         [
+    //             'product_code' => 'required|unique:products,product_code,',
+    //             'product_category' => '',
+    //             'product_sub_category' => '',
+    //             'product_name' => 'required|max:255',
+    //             'product_price' => 'required|min:0|numeric',
+    //             'product_total_in' => '',
+    //             'product_total_out' => '',
+    //             'product_desc' => '',
+    //             'product_brand' => '',
+    //             'product_track_stock' => '',
+    //             'product_low_stock_thershold' => '',
+    //             'product_notes' => '',
+    //         ],
+    //         [
+    //             'product_code.required' => 'كود المنتج مطلوب',
+    //             'product_code.unique' => 'برجاء إختيار كود اخر, هذا الكود مستخدم بالفعل',
+    //             'product_name.required' => 'برجاء ادخال اسم المنتج',
+    //             'product_price.required' => 'برجاء ادخال سعر المنتج',
+
+    //         ]
+    //     );
+    // }
+    // protected function validateUpdateRequest()
+    // {
+    //     return request()->validate([
+    //         'product_code' => 'required|unique:products,product_code,',
+    //         'product_category' => '',
+    //         'product_sub_category' => '',
+    //         'product_name' => 'required|max:255',
+    //         'product_price' => 'required|min:0|numeric',
+    //         'product_total_in' => '',
+    //         'product_total_out' => '',
+    //         'product_desc' => '',
+    //         'product_brand' => '',
+    //         'product_track_stock' => '',
+    //         'product_low_stock_thershold' => '',
+    //         'product_notes' => '',
+    //     ]);
+    // }
 
 
 
@@ -75,9 +80,8 @@ class ProductsController extends Controller
         return view('products.add', compact('categories', 'branches'));
     }
 
-    public function store(Request $request)
+    public function store(CreateProduct $request)
     {
-        $this->validatePostRequest();
         $product = new Products();
         $product->product_code = $request->product_code;
         $product->product_category = $request->product_category;
@@ -191,9 +195,9 @@ class ProductsController extends Controller
         return view('products.edit', compact('branches', 'product', 'otherCategories'));
     }
 
-    public function update(products $product, Request $request)
+    public function update(products $product, UpdateProduct $request)
     {
-        $product->update($this->validateUpdateRequest());
+        $product->update($request->except('_token'));
         $branchx = $request->branch;
         foreach ($branchx as $item) {
             $pro = BranchesProductsSelling::where('branch_id', $item['id'])->where('product_id', $product->id)->first();
@@ -204,7 +208,7 @@ class ProductsController extends Controller
             }
             $pro->save();
         }
-        return back()->with('success', 'product updated');
+        return redirect()->route('products.view', $product)->with('success', 'product updated');
     }
 
     public function delete(products $product)
