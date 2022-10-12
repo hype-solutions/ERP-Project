@@ -284,7 +284,7 @@ class PurchasesOrdersController extends Controller
         return view('purchases_orders.edit', compact('purchaseOrder', 'user_id', 'suppliers', 'currentProducts', 'products', 'safes', 'safes2', 'laterDates', 'branches'));
     }
 
-    public function update(Request $request, $order)
+    public function update(AddPurchaseOrder $request, $order)
     {
         $purchase = PurchasesOrders::find($order);
         $purchase->supplier_id = $request->supplier_id;
