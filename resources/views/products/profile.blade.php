@@ -144,8 +144,8 @@
                                             <tr>
                                                 <td> الوصف:</td>
                                                 <td>
-                                                    @if (isset($product->product_code))
-                                                        {{ $product->product_code }}
+                                                    @if (isset($product->product_desc))
+                                                        {{ $product->product_desc }}
                                                     @else
                                                         <small style="font-style: italic;color:red;">غير مسجل</small>
                                                     @endif
