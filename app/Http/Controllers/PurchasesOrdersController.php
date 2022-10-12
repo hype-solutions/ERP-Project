@@ -15,7 +15,9 @@ use App\Models\Settings\Settings;
 use App\Models\Suppliers\Suppliers;
 use App\Models\User;
 use Carbon\Carbon;
+use App\Http\Requests\purchasesOrders\AddPurchaseOrder;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 
 class PurchasesOrdersController extends Controller
@@ -69,7 +71,7 @@ class PurchasesOrdersController extends Controller
         return view('purchases_orders.list', compact('purchases', 'users', 'signature'));
     }
 
-    public function store(Request $request)
+    public function store(AddPurchaseOrder $request)
     {
         $purchase = new PurchasesOrders;
         // Get Branch Safe ID
