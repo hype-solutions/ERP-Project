@@ -689,12 +689,6 @@
 
 
 
-
-
-
-
-
-
             $('#tax').html(newTax);
             updateTotal();
         }
