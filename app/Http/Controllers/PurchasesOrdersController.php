@@ -64,8 +64,8 @@ class PurchasesOrdersController extends Controller
 
     public function purchasesordersList()
     {
-        $purchases = PurchasesOrders::all();
-        $users = User::where('id', '!=', '1')->get();
+        $purchases = PurchasesOrders::paginate(5);
+        $users = User::where('id', '!=', '1')->paginate(5);
         $signature = PurchasesOrdersSignature::with('user')->first();
 
         return view('purchases_orders.list', compact('purchases', 'users', 'signature'));
