@@ -340,11 +340,11 @@
 
                                                                 <td>
                                                                     @if ($item->status == 1)
-                                                                        <a class="btn btn-success"
+                                                                        <a class="btn btn-success" style="width: max-content;"
                                                                             href="{{ route('pos.receipt', $item->id) }}"
                                                                             target="_blank">استعراض الفاتورة</a>
                                                                     @else
-                                                                        <a class="btn btn-warning"
+                                                                        <a class="btn btn-warning" style="width: max-content;"
                                                                             href="{{ route('pos.refund.receipt', $item->id) }}"
                                                                             target="_blank">استعراض فاتورة المرتجع</a>
                                                                     @endif
@@ -381,7 +381,7 @@
                                                                 <td>{{ $item->invoice_date }}</td>
                                                                 <td>{{ $item->invoice_total }} ج.م</td>
                                                                 <td>
-                                                                    <a class="btn btn-success"
+                                                                    <a class="btn btn-success" style="width: max-content;"
                                                                         href="{{ route('invoices.view', $item->id) }}"
                                                                         target="_blank">استعراض الفاتورة</a>
                                                                 </td>
@@ -436,7 +436,7 @@
                                                                     @endif
                                                                 </td>
                                                                 <td>
-                                                                    <a class="btn btn-success"
+                                                                    <a class="btn btn-success" style="width: max-content;"
                                                                         href="{{ route('invoicespricequotations.view', $item->id) }}"
                                                                         target="_blank">استعراض عرض السعر</a>
                                                                 </td>
@@ -480,18 +480,18 @@
                                                                 <td>{{ $item->amount }} ج.م</td>
                                                                 <td>
                                                                     @if ($item->paid == 'Yes')
-                                                                        <a target="_blank"
+                                                                        <a target="_blank" style="width: max-content;"
                                                                             href="{{ route('invoices.view', $item->id) }}"
                                                                             class="btn btn-primary">استعراض فاتورة
                                                                             البيع</a>
                                                                         <button class="btn btn-info">استعراض فاتورة
                                                                             التسديد</button>
                                                                     @else
-                                                                        <a target="_blank"
+                                                                        <a target="_blank" style="width: max-content;"
                                                                             href="{{ route('invoices.view', $item->id) }}"
                                                                             class="btn btn-primary">استعراض فاتورة
                                                                             البيع</a>
-                                                                        <button class="btn btn-success" data-toggle="modal"
+                                                                        <button class="btn btn-success" style="width: max-content;" data-toggle="modal"
                                                                             data-target="#pay">تحصيل الان</button>
                                                                         <button class="btn btn-warning">ارسال تذكير
                                                                             للعميل</button>
