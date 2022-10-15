@@ -37,7 +37,6 @@
         .btn-error {
             color: #ef5f5f;
         }
-
     </style>
 </head>
 
@@ -74,7 +73,8 @@
                                 @endif
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#"><i class="fa fa-sign-out-alt"></i> تسجيل الخروج</a>
+                                <a class="dropdown-item" href="#"><i class="fa fa-sign-out-alt"></i> تسجيل
+                                    الخروج</a>
                             </div> <!--  dropdown-menu .// -->
                         </div> <!-- widget  dropdown.// -->
                     </div> <!-- widgets-wrap.// -->
@@ -105,8 +105,7 @@
                                     <th>رصيد المخزون:</th>
                                     <td>
                                         <input type="text" id="max_of_{{ $item->id }}"
-                                            value="{{ $item->amountInBranch($currentSession->branch_id) }}"
-                                            readonly />
+                                            value="{{ $item->amountInBranch($currentSession->branch_id) }}" readonly />
                                     </td>
                                 </tr>
                                 <tr>
@@ -279,8 +278,7 @@
                                                                     </button>
                                                                 @endif
                                                                 <div class="price-wrap h5">
-                                                                    <span
-                                                                        class="price-new">{{ $item->product_price }}
+                                                                    <span class="price-new">{{ $item->product_price }}
                                                                         ج.م</span>
                                                                 </div>
                                                                 <!-- price-wrap.// -->
@@ -329,7 +327,8 @@
                         <input type="hidden" name="branch_id" value="{{ $currentSession->branch_id }}" />
                         <input type="hidden" id="end_or_save" name="end_or_save" value="1" />
 
-                        <input type="hidden" name="total" id="totalToSave" value="{{ $currentSession->total }}" />
+                        <input type="hidden" name="total" id="totalToSave"
+                            value="{{ $currentSession->total }}" />
 
                         <div class="card">
                             <span id="cart">
@@ -366,11 +365,12 @@
                                                     <td class="text-center">
                                                         <div class="m-btn-group m-btn-group--pill btn-group mr-2"
                                                             role="group" aria-label="...">
-                                                            <button type="button" class="m-btn btn btn-default btn-xs"
+                                                            <button type="button"
+                                                                class="m-btn btn btn-default btn-xs"
                                                                 onclick="return decrementProduct({{ $item->product_id }},'{{ $item->product_name }}',{{ $item->product_price }})"><i
                                                                     class="fa fa-minus"></i></button>
-                                                            <button type="button" class="m-btn btn btn-default btn-xs"
-                                                                disabled
+                                                            <button type="button"
+                                                                class="m-btn btn btn-default btn-xs" disabled
                                                                 id="item_qty_{{ $item->product_id }}">{{ $item->product_qty }}</button>
                                                             <button type="button" class="m-btn btn btn-default"
                                                                 onclick="return incrementProduct({{ $item->product_id }},'{{ $item->product_name }}',{{ $item->product_price }})"><i
@@ -408,16 +408,17 @@
                                         data-target="#profile"><i class="far fa-id-card"></i> ملف العميل</button>
                                 </div>
                                 <div class="col-md-6 pr-0">
-                                    <button type="button" class="btn btn-block btn-warning btn-lg" data-toggle="modal"
-                                        data-target="#discounts"><i class="fas fa-percent"></i> إضافة خصم</button>
+                                    <button type="button" class="btn btn-block btn-warning btn-lg"
+                                        data-toggle="modal" data-target="#discounts"><i class="fas fa-percent"></i>
+                                        إضافة خصم</button>
                                 </div>
 
                             </div>
                         </div>
                         <div class="box">
-                            <div class="modal fade" id="profile" tabindex="-1" role="dialog" style="display: none;"
-                                aria-hidden="true">
-                                <div class="modal-dialog" role="document">
+                            <div class="modal fade" id="profile" tabindex="-1" role="dialog"
+                                style="display: none;" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
                                     <div class="modal-content modal-info">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal"
@@ -488,32 +489,60 @@
                                                                 @if ($customerVisits == 1)
                                                                     <span style="color:green">أول زيارة للعميل</span>
                                                                 @else
-                                                                    {{ $customerVisits - 1 }}
+                                                                    {{ $customerVisits - 1 }} <br>
+                                                                   <small> أخر تعامل كان في تاريخ ({{$lastVisitDate->format('m-d-Y')}})</small>
                                                                 @endif
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <th>الأكثر طلبا للعميل:</th>
-                                                            <td></td>
+                                                            <td>
+                                                                @if ($mostOrdered)
+                                                                    <table
+                                                                        class="table table-sm thead-light table-bordered">
+                                                                        <tr>
+                                                                            <th
+                                                                                class="font-italic text-info text-center">
+                                                                                الصنف
+                                                                            </th>
+                                                                            <th
+                                                                                class="font-italic text-info text-center">
+                                                                                عدد مرات الشراء</th>
+                                                                            <th
+                                                                                class="font-italic text-info text-center">
+                                                                                إجمالي
+                                                                                الكمية المشتراه</th>
+                                                                        </tr>
+                                                                        @foreach ($mostOrdered as $item)
+                                                                            <tr>
+                                                                                <td>{{ $item->product_name }}</td>
+                                                                                <td class="text-center">{{ $item->howManyTiems }}</td>
+                                                                                <td
+                                                                                    class="text-center font-weight-bold">
+                                                                                    {{ $item->total }}</td>
+                                                                            </tr>
+                                                                        @endforeach
+                                                                    </table>
+                                                                @endif
+
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             @else
-                                                <div class="div" style="text-align: center"
-                                                    id="new_customer_1">
+                                                <div class="div" style="text-align: center" id="new_customer_1">
                                                     <h2>عميل زائر</h2>
                                                     <hr />
                                                     <p>تسجيل عميل جديد؟</p>
                                                     <hr />
                                                 </div>
-                                                <div class="div" style="text-align: right"
-                                                    id="new_customer_2">
+                                                <div class="div" style="text-align: right" id="new_customer_2">
                                                     <div class="alert alert-icon-left alert-danger alert-dismissible mb-2"
                                                         role="alert" style="display: none" id="new_customer_error">
                                                         <span class="alert-icon"><i
                                                                 class="la la-thumbs-o-down"></i></span>
-                                                        <button type="button" class="close"
-                                                            data-dismiss="alert" aria-label="Close">
+                                                        <button type="button" class="close" data-dismiss="alert"
+                                                            aria-label="Close">
                                                             <span aria-hidden="true">×</span>
                                                         </button>
                                                         <strong>خطأ!</strong> هذا الرقم مستخدم بالفعل, برجاء اختيار رقم
@@ -526,8 +555,9 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label>موبايل العميل</label>
-                                                        <input type="text" name="new_customer_mobile" placeholder=""
-                                                            class="form-control" id="new_customer_mobile" />
+                                                        <input type="text" name="new_customer_mobile"
+                                                            placeholder="" class="form-control"
+                                                            id="new_customer_mobile" />
                                                     </div>
                                                     <div class="form-group">
                                                         <button type="button" id="addCustomerBtn"
@@ -621,9 +651,9 @@
                                                         onclick="applyPercentage(100)">100%</button>
                                                     <br />
                                                     <br />
-                                                    <input id="curr_per" type="number" readonly="true" max="100" min="0"
-                                                        style="width: 100%" placeholder="النسبة"
-                                                        name="discount_percentage"
+                                                    <input id="curr_per" type="number" readonly="true"
+                                                        max="100" min="0" style="width: 100%"
+                                                        placeholder="النسبة" name="discount_percentage"
                                                         value="{{ $currentSession->discount_percentage }}" />
 
                                                 </div>
@@ -632,9 +662,9 @@
                                                     <hr />
                                                     <h2 style="text-align: center"> اضافة خصم (مبلغ)</h2>
 
-                                                    <input id="curr_amount" type="number" readonly="true" min="0"
-                                                        onclick="show_easy_numpad(this);" name="discount_amount"
-                                                        style="width: 100%"
+                                                    <input id="curr_amount" type="number" readonly="true"
+                                                        min="0" onclick="show_easy_numpad(this);"
+                                                        name="discount_amount" style="width: 100%"
                                                         value="{{ $currentSession->discount_amount }}"
                                                         placeholder="المبلغ" onblur="return calculateDiscount(2)" />
                                                 </div>
@@ -657,7 +687,7 @@
                                             id="discount_percentage_amount">{{ $subtotal - $currentSession->total }}</span>
                                         ج.م</td>
                                 </tr>
-                                <tr id="hidden-row-2" @if ($currentSession->discount_amount <= 0)  style="display:none" @endif>
+                                <tr id="hidden-row-2" @if ($currentSession->discount_amount <= 0) style="display:none" @endif>
                                     <th>الخصم (المبلغ)</th>
                                     <td><span id="discount_amount">{{ $currentSession->discount_amount }}</span> ج.م
                                     </td>
