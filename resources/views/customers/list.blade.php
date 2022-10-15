@@ -165,9 +165,12 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('customers.view', $customer->id) }}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
-                                <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-primary btn-sm"><i class="la la-pencil-square-o"></i> تعديل</a>
-                             </td>
+                                <div class="mycontrol" style="width: max-content;">
+                                    <a href="{{ route('customers.view', $customer->id) }}" class="btn btn-info btn-sm"><i class="la la-folder-open"></i> استعراض</a>
+                                    <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-primary btn-sm"><i class="la la-pencil-square-o"></i> تعديل</a>
+                                </div>
+                                
+                            </td>
                         </tr>
                         @endforeach
                      </tbody>
