@@ -31,8 +31,6 @@ class PosController extends Controller
         if ($checkMobile) {
             return back()->with('error', 'phone not unique');
         } else {
-
-
             $customerId = 0;
             $user = Auth::user();
             $user_id = $user->id;
@@ -44,7 +42,7 @@ class PosController extends Controller
                 $customer->customer_mobile = $request->customer_mobile;
                 $customer->save();
                 $customerId = $customer->id;
-            } else if ($type == 2) {
+            } elseif ($type == 2) {
                 $customerId = $request->customer_id;
             }
 
@@ -77,6 +75,7 @@ class PosController extends Controller
         $company = Settings::where('key', 'company_name')->value('value');
         return view('pos.receipt', compact('company', 'logo', 'currentCart', 'sessionId', 'currentSession'));
     }
+
     public function index($sessionId)
     {
         $currentSession = PosSessions::with('customer')->find($sessionId);
@@ -101,12 +100,17 @@ class PosController extends Controller
 
         if ($currentSession->customer_id > 0) {
             $customerVisits = PosSessions::where('customer_id', $currentSession->customer_id)->count();
+            // $mostOrdered = PosSessions::mostOrdered()->where('customer_id', $currentSession->customer_id);
+            $mostOrdered = $currentSession->mostOrdered();
+            $lastVisitDate = $currentSession->lastVisitDate();
         } else {
             $customerVisits = 0;
+            $mostOrdered = '';
+            $lastVisitDate = '';
         }
         $logo = Settings::where('key', 'logo')->value('value');
 
-        return view('pos.pos', compact('allProducts','logo', 'user_id', 'products', 'productsCategories', 'currentCart', 'sessionId', 'currentSession', 'customerVisits'));
+        return view('pos.pos', compact('allProducts', 'logo', 'user_id', 'products', 'productsCategories', 'currentCart', 'sessionId', 'currentSession', 'customerVisits', 'mostOrdered', 'lastVisitDate'));
     }
 
     public function search(Request $request)
@@ -384,10 +388,8 @@ class PosController extends Controller
         return view('pos.refundView', compact('session', 'currentCart', 'currentSession', 'subtotal'));
     }
 
-
     public function refundSome(Request $request)
     {
-
         $totalCost = 0;
         $user = Auth::user();
         $user_id = $user->id;
@@ -414,7 +416,7 @@ class PosController extends Controller
                                 ->update([
                                     'status' => 2
                                 ]);
-                        } else if ($item->product_qty - $updatedItem['qty'] == 0) {
+                        } elseif ($item->product_qty - $updatedItem['qty'] == 0) {
                             //nothing returned
                         } else {
                             Products::where('id', $item->product_id)->decrement('product_total_out', $item->product_qty - $updatedItem['qty']);
@@ -497,12 +499,12 @@ class PosController extends Controller
 
     public function refundReceipt($sessionId)
     {
-        $currentCart = Cart::where('pos_session_id', $sessionId)->where('status','!=',2)->get();
-        $refundedCart = Cart::where('pos_session_id', $sessionId)->where('status',2)->get();
+        $currentCart = Cart::where('pos_session_id', $sessionId)->where('status', '!=', 2)->get();
+        $refundedCart = Cart::where('pos_session_id', $sessionId)->where('status', 2)->get();
         $currentSession = PosSessions::find($sessionId);
         $logo = Settings::where('key', 'logo')->value('value');
         $company = Settings::where('key', 'company_name')->value('value');
-        return view('pos.refunded', compact('refundedCart','company', 'logo', 'currentCart', 'sessionId', 'currentSession'));
+        return view('pos.refunded', compact('refundedCart', 'company', 'logo', 'currentCart', 'sessionId', 'currentSession'));
     }
 
     private function refundable()
