@@ -240,7 +240,7 @@
                                 <div class="col-xl-6 col-lg-12 mb-1">
                                     <div class="form-group text-center">
                                         <!-- Floating Outline button with text -->
-                                        <button type="button" class="btn btn-float btn-outline-cyan"
+                                        <a type="button" class="btn btn-float btn-outline-cyan" id="invoiceNav" href="#active32"
                                             style="cursor: context-menu"><i
                                                 class="">{{ $customerInvoicesCount + $customerPosSalesCount }}</i><span>عدد
                                                 فواتير
@@ -248,7 +248,7 @@
                                             <br>
                                             <small>{{ $customerPosSalesCount }} بيع سريع - {{ $customerInvoicesCount }}
                                                 فواتير مبيعات</small>
-                                        </button>
+                                            </a>
                                         <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"
                                             style="cursor: context-menu"><i
                                                 class="">{{ $customerInvoicesSum }} ج,م</i><span>إجمالي
@@ -822,6 +822,7 @@
     <script src="{{ asset('theme/app-assets/vendors/js/tables/pdfmake.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/vendors/js/tables/vfs_fonts.js') }}"></script>
     <script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.html5.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- END: Page Vendor JS-->
     <script>
         $("#linked").DataTable({
@@ -1028,6 +1029,14 @@
                     }
                 }
             ]
+        });
+    </script>
+    <script>
+        $("#invoiceNav").on('click',function(){
+            $('.nav-link').removeClass('active');
+            $("#active-tab32").addClass('active');
+            
+            
         });
     </script>
 
