@@ -150,9 +150,12 @@
                             <div class="col-md-12" id="later_box" style="display: none">
                                 <div class="card">
                                     <div class="card-body">
-                                        <span class="text-danger" style="display: none" id="dof3aError">إجمالي
-                                            الدفعات لا تساوي إجمالي المبلغ</span>
-                                <div >
+                                        <span class="text-danger" style="display: none" id="dof3aErrorB">إجمالي
+                                            الدفعات اكبر من إجمالي المبلغ</span>
+
+                                        <span class="text-danger" style="display: none" id="dof3aErrorS">إجمالي
+                                            الدفعات أصغر إجمالي المبلغ</span>    
+                                <div>
                                     <h4 class="form-section"><i class="la la-flag"></i> الدفعات <button onclick="addDofaa()" type="button" class="btn btn-success btn-sm"><i class="la la-plus"></i></button></h4>
                                     <div class="table-responsive">
                                     <table class="table table-bordered table-striped" id="dofaaTable">
@@ -291,13 +294,20 @@ $(document).on("keyup", ".dof3aSum", function() {
         $(".dof3aSum").each(function() {
             sum += +$(this).val();
         });
-        if (total != sum) {
-            $('#dof3aError').css('display', 'block');
+        if (total < sum) {
+            $('#dof3aErrorB').css('display', 'block');
+            $('#dof3aErrorS').css('display', 'none');
             $('#saveBtn').attr('disabled', true);
-        } else {
-            $('#dof3aError').css('display', 'none');
-            $('#saveBtn').attr('disabled', false);
 
+        } else if(total > sum){
+            $('#dof3aErrorB').css('display', 'none');
+            $('#dof3aErrorS').css('display', 'block');
+            $('#saveBtn').attr('disabled', true);
+
+        }else{
+            $('#dof3aErrorB').css('display', 'none');
+            $('#dof3aErrorS').css('display', 'none');
+            $('#saveBtn').attr('disabled', false);
 
         }
     });
