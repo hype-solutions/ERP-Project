@@ -314,7 +314,10 @@
             $("#btnTwo").click(function(e) {
                 e.preventDefault();
 
+      
+ 
                 if ($("#current_customer_id").val() === "") {
+ 
 
                     alert('إختر عميل من القائمة');
                     return;
