@@ -322,11 +322,12 @@
 
                                                     <tr id="hidden-row-4" style="display: none">
                                                         <td colspan="4" class="text-right"><strong> الضريبة[<span id="tax"
-                                                                    style="color: goldenrod">0</span>%]</strong></td>
+                                                            style="color: goldenrod">0</span>%]</strong></td>
                                                         <td class="text-left"><code><span
-                                                                    id="tax_amount">0</span></code>&nbsp;ج.م</td>
+                                                            id="tax_amount">0</span></code>&nbsp;ج.م</td>
                                                         <td></td>
                                                     </tr>
+
                                                     <tr id="hidden-row-1" style="display: none">
                                                         <td colspan="4" class="text-right"><strong> الخصم (النسبة)[<span
                                                             id="discount_percentage"
@@ -790,7 +791,7 @@
         function addField(argument) {
             var myTable = document.getElementById("myTable");
             var currentIndex = myTable.rows.length;
-            var currentRow = myTable.insertRow(myTable.rows.length - 5);
+            var currentRow = myTable.insertRow(myTable.rows.length - 7);
 
             var product_id = document.createElement("input");
             // product_id.setAttribute("name", "product_id[" + currentIndex + "]");
