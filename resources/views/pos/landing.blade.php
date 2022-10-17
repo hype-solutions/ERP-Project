@@ -84,7 +84,7 @@
                     <select name="branch" id="branch"  class="select2-rtl form-control" data-placeholder="الفرع" required>
                          <option></option>
                          @foreach($branches as $branch)
-                        <option value="{{$branch->id}}">{{$branch->branch_name}}</option>
+                        <option value="{{$branch->id}}" @if($branches->count() == 1) selected @endif>{{$branch->branch_name}}</option>
                         @endforeach
                     </select>
                 </div>
