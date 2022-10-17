@@ -305,6 +305,10 @@
             });
             $("#btnTwo").click(function(e) {
                 e.preventDefault();
+                if ($("#customer_id").val() === "") {
+                    alert('إختر عميل من القائمة');
+                    return;
+                }
                 $('#type').val(2);
                 if ($("#branch").val() === "") {
                     alert('إختر الفرع');
