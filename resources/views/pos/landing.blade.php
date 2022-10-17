@@ -143,9 +143,9 @@
                                                 <h3 class="card-title text-white">عميل حالي</h3>
                                                 <div class="form-group">
                                                     <select class="select2-rtl form-control"
- 
-                                                        data-placeholder="إختر العميل..." name="customer_id" id="current_customer_id" required>
- 
+
+                                                        data-placeholder="إبحث عن عميل..." name="customer_id" id="current_customer_id" required>
+
                                                         <option></option>
                                                         @foreach ($customers as $customer)
                                                             <option value="{{ $customer->id }}">
@@ -159,6 +159,12 @@
                                                                 @endif
                                                                 @if ($customer->parent)
                                                                     - {{ $customer->parent->customer_company }}
+                                                                @endif
+                                                                @if ($customer->customer_mobile)
+                                                                    - {{ $customer->customer_mobile }}
+                                                                @endif
+                                                                @if ($customer->customer_phone)
+                                                                    - {{ $customer->customer_phone }}
                                                                 @endif
                                                             </option>
                                                         @endforeach
@@ -307,9 +313,12 @@
             });
             $("#btnTwo").click(function(e) {
                 e.preventDefault();
+
+      
  
                 if ($("#current_customer_id").val() === "") {
  
+
                     alert('إختر عميل من القائمة');
                     return;
                 }
