@@ -64,7 +64,7 @@ class PosSessions extends Model
             WHERE pos_sessions.customer_id = ' . $this->customer_id . '
             group by product_id
             order by sum(product_qty) DESC
-            LIMIT 3'));
+            LIMIT 5'));
     }
 
     public function lastVisitDate()
