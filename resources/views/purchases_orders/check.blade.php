@@ -297,17 +297,17 @@ $(document).on("keyup", ".dof3aSum", function() {
         if (total < sum) {
             $('#dof3aErrorB').css('display', 'block');
             $('#dof3aErrorS').css('display', 'none');
-            $('#saveBtn').attr('disabled', false);
+            $('#saveBtn').attr('disabled', true);
 
         } else if(total > sum){
             $('#dof3aErrorB').css('display', 'none');
             $('#dof3aErrorS').css('display', 'block');
-            $('#saveBtn').attr('disabled', false);
+            $('#saveBtn').attr('disabled', true);
 
         }else{
             $('#dof3aErrorB').css('display', 'none');
             $('#dof3aErrorS').css('display', 'none');
-            $('#saveBtn').attr('disabled', true);
+            $('#saveBtn').attr('disabled', false);
 
         }
     });
