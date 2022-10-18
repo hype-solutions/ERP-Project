@@ -301,7 +301,7 @@
                                                                 </select>
                                                             </div>
                                                         </td>
-                                                        <td><input type="text" class="product_input"
+                                                        <td><input type="text" class="product_input" placeholder=""
                                                                 name="product[1][desc]" /></td>
                                                         <td><input type="number" class="product_input" id="p_p_1"
                                                                 name="product[1][price]" onblur="return reCalculate(1)"
@@ -319,7 +319,23 @@
 
 
 
-
+                                                    <tr>
+                                                        <td colspan="2" style="border-style: none !important;">
+                                                            <div>
+                                                                <button type="button" onclick="addField()"
+                                                                    class="add-row btn m-b-xs btn-sm btn-success btn-addon btn-blue">
+                                                                    <i class="la la-plus"></i>
+                                                                    إضافة بند
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                        <td colspan="2" class="text-right"
+                                                            style="border-style: none !important;"><strong>المبلغ</strong>
+                                                        </td>
+                                                        <td class="text-left" style="border-style: none !important;">
+                                                            <code><span id="total_after_all">0</span></code>&nbsp;ج.م</td>
+                                                        <td></td>
+                                                    </tr>
                                                     
 
                                                     <tr id="hidden-row-1" style="display: none">
@@ -339,7 +355,7 @@
                                                             id="discount_amount">0</span></code>&nbsp;ج.م</td>
                                                         <td></td>
                                                     </tr>
-                                                    
+
                                                     <tr id="hidden-row-3" style="display: none">
                                                         <td colspan="4" class="text-right"><strong>الشحن</strong></td>
                                                         <td id="TotalValue" class="text-left"><code><span
@@ -355,23 +371,6 @@
                                                         <td></td>
                                                     </tr>
 
-                                                    <tr>
-                                                        <td colspan="2" style="border-style: none !important;">
-                                                            <div>
-                                                                <button type="button" onclick="addField()"
-                                                                    class="add-row btn m-b-xs btn-sm btn-success btn-addon btn-blue">
-                                                                    <i class="la la-plus"></i>
-                                                                    إضافة بند
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                        <td colspan="2" class="text-right"
-                                                            style="border-style: none !important;"><strong>المبلغ</strong>
-                                                        </td>
-                                                        <td class="text-left" style="border-style: none !important;">
-                                                            <code><span id="total_after_all">0</span></code>&nbsp;ج.م</td>
-                                                        <td></td>
-                                                    </tr>
                                                     <tr>
                                                         <td colspan="4" class="text-right"><strong>المبلغ الإجمالي</strong></td>
                                                         <td id="TotalValue" class="text-left"><code><span
