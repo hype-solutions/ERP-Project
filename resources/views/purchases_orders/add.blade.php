@@ -301,7 +301,7 @@
                                                                 </select>
                                                             </div>
                                                         </td>
-                                                        <td><input type="text" class="product_input"
+                                                        <td><input type="text" class="product_input" placeholder=""
                                                                 name="product[1][desc]" /></td>
                                                         <td><input type="number" class="product_input" id="p_p_1"
                                                                 name="product[1][price]" onblur="return reCalculate(1)"
@@ -319,38 +319,6 @@
 
 
 
-
-                                                    <tr id="hidden-row-4" style="display: none">
-                                                        <td colspan="4" class="text-right"><strong> الضريبة[<span id="tax"
-                                                            style="color: goldenrod">0</span>%]</strong></td>
-                                                        <td class="text-left"><code><span
-                                                            id="tax_amount">0</span></code>&nbsp;ج.م</td>
-                                                        <td></td>
-                                                    </tr>
-
-                                                    <tr id="hidden-row-1" style="display: none">
-                                                        <td colspan="4" class="text-right"><strong> الخصم (النسبة)[<span
-                                                            id="discount_percentage"
-                                                            style="color: goldenrod">0</span>%]</strong></td>
-                                                        <td id="TotalValue" class="text-left"><code><span
-                                                            id="discount_percentage_amount">0</span></code>&nbsp;ج.م
-                                                        </td>
-                                                        <td></td>
-                                                    </tr>
-                                                        <tr id="hidden-row-3" style="display: none">
-                                                        <td colspan="4" class="text-right"><strong>الشحن</strong></td>
-                                                        <td id="TotalValue" class="text-left"><code><span
-                                                        id="shipping">0</span></code>&nbsp;ج.م</td>
-                                                        <td></td>
-                                                    </tr>
-                                                        <tr id="hidden-row-2" style="display: none">
-                                                        <td colspan="4" class="text-right"><strong>الخصم (المبلغ)</strong>
-                                                        </td>
-                                                        <td id="TotalValue" class="text-left"><code><span
-                                                            id="discount_amount">0</span></code>&nbsp;ج.م</td>
-                                                        <td></td>
-                                                    </tr>
-                                                    
                                                     <tr>
                                                         <td colspan="2" style="border-style: none !important;">
                                                             <div>
@@ -368,6 +336,41 @@
                                                             <code><span id="total_after_all">0</span></code>&nbsp;ج.م</td>
                                                         <td></td>
                                                     </tr>
+                                                    
+
+                                                    <tr id="hidden-row-1" style="display: none">
+                                                        <td colspan="4" class="text-right"><strong> الخصم (النسبة)[<span
+                                                            id="discount_percentage"
+                                                            style="color: goldenrod">0</span>%]</strong></td>
+                                                        <td id="TotalValue" class="text-left"><code><span
+                                                            id="discount_percentage_amount">0</span></code>&nbsp;ج.م
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+
+                                                    <tr id="hidden-row-2" style="display: none">
+                                                        <td colspan="4" class="text-right"><strong>الخصم (المبلغ)</strong>
+                                                        </td>
+                                                        <td id="TotalValue" class="text-left"><code><span
+                                                            id="discount_amount">0</span></code>&nbsp;ج.م</td>
+                                                        <td></td>
+                                                    </tr>
+
+                                                    <tr id="hidden-row-3" style="display: none">
+                                                        <td colspan="4" class="text-right"><strong>الشحن</strong></td>
+                                                        <td id="TotalValue" class="text-left"><code><span
+                                                        id="shipping">0</span></code>&nbsp;ج.م</td>
+                                                        <td></td>
+                                                    </tr>
+
+                                                    <tr id="hidden-row-4" style="display: none">
+                                                        <td colspan="4" class="text-right"><strong> الضريبة[<span id="tax"
+                                                            style="color: goldenrod">0</span>%]</strong></td>
+                                                        <td class="text-left"><code><span
+                                                            id="tax_amount">0</span></code>&nbsp;ج.م</td>
+                                                        <td></td>
+                                                    </tr>
+
                                                     <tr>
                                                         <td colspan="4" class="text-right"><strong>المبلغ الإجمالي</strong></td>
                                                         <td id="TotalValue" class="text-left"><code><span
@@ -488,13 +491,19 @@
             } else {
                 $('#hidden-row-4').hide();
             }
+            
+            var getDiscountAmount_1 = $('#discount_percentage_amount').text();
+            var getDiscountAmount_2 = $('#discount_amount').text();
+            getDiscountAmount_1 = parseInt(getDiscountAmount_1);
+            getDiscountAmount_2 = parseInt(getDiscountAmount_2);
+
+            // the tax is applyed after the discount
 
             var currentInvoiceTotal = $("#total_after_all").text();
-            var descountAmount = $("#discount_amount").text();
-            currentInvoiceTotal = parseInt(currentInvoiceTotal) - parseInt(descountAmount);
+            currentInvoiceTotal = parseInt(currentInvoiceTotal) - getDiscountAmount_1 - getDiscountAmount_2;
             
-            var newInvoiceTotal = currentInvoiceTotal - (currentInvoiceTotal * (newTax / 100));
-            var taxAmount = currentInvoiceTotal - newInvoiceTotal;
+            var newInvoiceTotal = currentInvoiceTotal + (currentInvoiceTotal * (newTax / 100));
+            var taxAmount = newInvoiceTotal - currentInvoiceTotal  ;
             taxAmount = Math.round(taxAmount);
             $('#tax_amount').text(taxAmount);
 
@@ -791,7 +800,7 @@
         function addField(argument) {
             var myTable = document.getElementById("myTable");
             var currentIndex = myTable.rows.length;
-            var currentRow = myTable.insertRow(myTable.rows.length - 7);
+            var currentRow = myTable.insertRow(myTable.rows.length - 6);
 
             var product_id = document.createElement("input");
             // product_id.setAttribute("name", "product_id[" + currentIndex + "]");
