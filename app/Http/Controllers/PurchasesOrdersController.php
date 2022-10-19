@@ -62,6 +62,25 @@ class PurchasesOrdersController extends Controller
         return view('purchases_orders.add', compact('safe_payment_id', 'user_id', 'suppliers', 'products', 'safes', 'branches'));
     }
 
+    
+    // get product orice while adding purchase order
+
+    public function getPrice(Request $request){
+
+        $prod_id = $request->input('product_id');
+        $product = Products::find($prod_id);
+        $priceval = $product->product_price;
+
+        if($product){
+
+            return response()->json([
+                'status' => true ,
+                'product_price' => $priceval ,
+                'status' => true ,
+            ]);
+        }
+    }
+
     public function purchasesordersList()
     {
         $purchases = PurchasesOrders::paginate(5);

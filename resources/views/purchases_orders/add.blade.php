@@ -22,6 +22,8 @@
     <link rel="stylesheet" type="text/css"
         href="{{ asset('theme/app-assets/css-rtl/core/colors/palette-switch.min.css') }}">
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <style>
         .ck-editor__editable {
             min-height: 150px;
@@ -290,7 +292,7 @@
                                                     <tr id="row_1">
                                                         <td>
                                                             <div class="form-group product_sel">
-                                                                <select class="select2-rtl form-control"
+                                                                <select id="sel_x" class="select2-rtl form-control"
                                                                     data-placeholder="إختر المنتج" name="product[1][id]"
                                                                     required>
                                                                     <option></option>
@@ -302,9 +304,11 @@
                                                             </div>
                                                         </td>
                                                         <td><input type="text" class="product_input"
-                                                                name="product[1][desc]" /></td>
+                                                                name="product[1][desc]" />
+                                                        </td>
+
                                                         <td><input type="number" class="product_input" id="p_p_1"
-                                                                name="product[1][price]" onblur="return reCalculate(1)"
+                                                                name="product[1][price]" placeholder="" onblur="return reCalculate(1)"
                                                                 oninput="return numbersOnly(this)" required /></td>
                                                         <td><input type="number" class="product_input" id="p_q_1"
                                                                 name="product[1][qty]" onblur="return reCalculate(1)"
@@ -786,6 +790,36 @@
         }
 
 
+        
+
+        $('#sel_x').change(function (e) {
+            e.preventDefault();
+
+            var product_id =  $("#sel_x option:selected").val();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+
+            $.ajax({
+                url: "{{Route('purchasesorders.getPrice')}}",
+                method: 'POST',
+                data: {
+                    'product_id': product_id,
+                },
+                success: function (data) {
+                    if(data.status){
+                        $("#p_p_1").attr("placeholder", data.product_price);
+
+                    }
+
+                },
+            });
+        });
+
 
 
         function addField(argument) {
@@ -843,6 +877,35 @@
             var currentCell = currentRow.insertCell(-1);
             currentCell.innerHTML = '<center><button type="button" class="btn btn-danger btn-sm" onclick="return delRow(' +
                 currentIndex + ')" style="vertical-align:center">X</button></center>';
+
+
+            $('#sel_x_'+ currentIndex).change(function (e) {
+
+
+                var product_id =  $("#sel_x_" +currentIndex +  "option:selected").val();
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+
+                $.ajax({
+                    url: "{{Route('purchasesorders.getPrice')}}",
+                    method: 'POST',
+                    data: {
+                        'product_id': product_id,
+                    },
+                    success: function (data) {
+                        if(data.status){
+                            $("#p_p_" + currentIndex).attr("placeholder", data.product_price);
+
+                        }
+
+                    },
+                });
+            });
         }
 
         $(document).ready(function() {
