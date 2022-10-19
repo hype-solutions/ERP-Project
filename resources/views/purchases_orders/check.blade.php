@@ -179,8 +179,9 @@
                                             الدفعات اكبر من إجمالي المبلغ</span>
 
                                         <span class="text-danger" style="display: none" id="dof3aErrorS">إجمالي
-                                            الدفعات اصغر إجمالي المبلغ</span>   
-                                <div >
+
+                                            الدفعات أصغر من إجمالي المبلغ</span>    
+                                <div>
                                     <h4 class="form-section"><i class="la la-flag"></i> الدفعات <button onclick="addDofaa()" type="button" class="btn btn-success btn-sm"><i class="la la-plus"></i></button></h4>
                                     <div class="table-responsive">
                                     <table class="table table-bordered table-striped" id="dofaaTable">
@@ -322,17 +323,17 @@ $(document).on("keyup", ".dof3aSum", function() {
         if (total < sum) {
             $('#dof3aErrorB').css('display', 'block');
             $('#dof3aErrorS').css('display', 'none');
-            $('#saveBtn').attr('disabled', false);
+            $('#saveBtn').attr('disabled', true);
 
         } else if(total > sum){
             $('#dof3aErrorB').css('display', 'none');
             $('#dof3aErrorS').css('display', 'block');
-            $('#saveBtn').attr('disabled', false);
+            $('#saveBtn').attr('disabled', true);
 
         }else{
             $('#dof3aErrorB').css('display', 'none');
             $('#dof3aErrorS').css('display', 'none');
-            $('#saveBtn').attr('disabled', true);
+            $('#saveBtn').attr('disabled', false);
 
         }
     });
