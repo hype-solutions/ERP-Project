@@ -354,7 +354,7 @@
                                                             id="discount_amount">0</span></code>&nbsp;ج.م</td>
                                                         <td></td>
                                                     </tr>
-                                                    
+
                                                     <tr>
                                                         <td colspan="2" style="border-style: none !important;">
                                                             <div>
@@ -496,7 +496,7 @@
             var currentInvoiceTotal = $("#total_after_all").text();
             var descountAmount = $("#discount_amount").text();
             currentInvoiceTotal = parseInt(currentInvoiceTotal) - parseInt(descountAmount);
-            
+
             var newInvoiceTotal = currentInvoiceTotal - (currentInvoiceTotal * (newTax / 100));
             var taxAmount = currentInvoiceTotal - newInvoiceTotal;
             taxAmount = Math.round(taxAmount);
@@ -790,8 +790,8 @@
         }
 
 
-        
 
+// showing a product price of the selected oreder
         $('#sel_x').change(function (e) {
             e.preventDefault();
 
@@ -825,7 +825,7 @@
         function addField(argument) {
             var myTable = document.getElementById("myTable");
             var currentIndex = myTable.rows.length;
-            var currentRow = myTable.insertRow(myTable.rows.length - 7);
+            var currentRow = myTable.insertRow(myTable.rows.length - 6);
 
             var product_id = document.createElement("input");
             // product_id.setAttribute("name", "product_id[" + currentIndex + "]");
@@ -879,10 +879,11 @@
                 currentIndex + ')" style="vertical-align:center">X</button></center>';
 
 
-            $('#sel_x_'+ currentIndex).change(function (e) {
+            $('#sel_x_'+currentIndex).change(function (e) {
 
 
-                var product_id =  $("#sel_x_" +currentIndex +  "option:selected").val();
+                 var product_id = $("#sel_x_" + currentIndex ).val();
+                 console.log(product_id);
 
                 $.ajaxSetup({
                     headers: {
@@ -895,14 +896,13 @@
                     url: "{{Route('purchasesorders.getPrice')}}",
                     method: 'POST',
                     data: {
-                        'product_id': product_id,
+                        'product_id': product_id ,
                     },
                     success: function (data) {
                         if(data.status){
                             $("#p_p_" + currentIndex).attr("placeholder", data.product_price);
 
                         }
-
                     },
                 });
             });
