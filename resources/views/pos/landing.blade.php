@@ -50,7 +50,7 @@
                     popupWindow = window.open(
                         url, 'popUpWindow',
                         'height=700,width=300,left=10,top=10,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no'
-                        )
+                    )
                 }
             </script>
             @if (session()->has('popup'))
@@ -109,7 +109,7 @@
                         </div>
                     </section>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="row match-height">
                                 <div class="col-md-6 col-sm-12">
                                     <div class="card text-white bg-primary text-center" style="height: 217px;">
@@ -143,8 +143,8 @@
                                                 <h3 class="card-title text-white">عميل حالي</h3>
                                                 <div class="form-group">
                                                     <select class="select2-rtl form-control"
-
-                                                        data-placeholder="إبحث عن عميل..." name="customer_id" id="current_customer_id" required>
+                                                        data-placeholder="إبحث عن عميل..." name="customer_id"
+                                                        id="current_customer_id" required>
 
                                                         <option></option>
                                                         @foreach ($customers as $customer)
@@ -208,7 +208,7 @@
 
                         </div>
                 </form>
-                <div class="col-md-6">
+                <div class="col-md-7">
                     <div class="users-list-table">
                         <div class="card">
                             <div class="card-content">
@@ -217,13 +217,14 @@
                                 </div>
                                 <div class="card-body">
                                     <!-- datatable start -->
-                                    <div class="table-responsive">
+                                    <div class="table-responsive table-bordered">
                                         <table id="list" class="table">
                                             <thead>
                                                 <tr>
                                                     <th>رقم الفاتورة</th>
                                                     <th>مفتوحة منذ</th>
-                                                    <th>فتحت بواسطة</th>
+                                                    <th>العميل</th>
+                                                    <th>الكاشير</th>
                                                     <th>الفرع</th>
                                                     <th>التحكم</th>
                                                 </tr>
@@ -231,11 +232,27 @@
                                             <tbody>
                                                 @foreach ($sessions as $key => $session)
                                                     <tr>
-                                                        <td>{{ $session->id }}</td>
+                                                        <td><a href="{{ route('pos.index', $session->id) }}">
+                                                            <h2 style="text-align: center">{{ $session->id }}#</h2></a>
+                                                        </td>
                                                         <td>{{ $session->created_at->diffForHumans() }}</td>
                                                         <td>
+                                                            @if ($session->customer)
+                                                                <br />
+                                                                <button type="button"
+                                                                    class="btn btn-success btn-block"><i class="la la-user font-medium-2"></i>
+                                                                    {{ $session->customer->customer_name }}</button>
+                                                            @else
+                                                                <br />
+                                                                <button type="button"
+                                                                    class="btn btn-warning btn-block">
+                                                                    <i class="la la-user font-medium-2"></i>
+                                                                    زائر</button>
+                                                            @endif
+                                                        </td>
+                                                        <td>
                                                             <div class="badge border-primary primary badge-border">
-                                                                <i class="la la-user font-medium-2"></i>
+
                                                                 <span>{{ $session->open_user->username }}</span>
                                                             </div>
                                                         </td>
@@ -244,11 +261,11 @@
 
                                                         <td>
                                                             <a href="{{ route('pos.index', $session->id) }}"
-                                                                class="btn btn-info btn-sm"><i
-                                                                    class="la la-folder-open"></i> استعراض</a>
+                                                                class="btn btn-info btn-block"><i
+                                                                    class="la la-folder-open"></i> فتح</a>
                                                             <a href="{{ route('pos.cancel', $session->id) }}"
                                                                 onclick="return confirm('سيتم الغاء العملية و إرجاع الكميات الى المخزن')"
-                                                                class="btn btn-danger btn-sm"><i class="la la-trash"></i>
+                                                                class="btn btn-danger btn-block"><i class="la la-trash"></i>
                                                                 حذف</a>
                                                         </td>
                                                     </tr>
@@ -314,10 +331,10 @@
             $("#btnTwo").click(function(e) {
                 e.preventDefault();
 
-      
- 
+
+
                 if ($("#current_customer_id").val() === "") {
- 
+
 
                     alert('إختر عميل من القائمة');
                     return;
@@ -348,31 +365,13 @@
                 "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
             },
             buttons: [{
-                    extend: 'excelHtml5',
-                    text: 'حفظ كملف EXCEL',
-                    messageTop: 'سجل عمليات الخزن',
-                    exportOptions: {
-                        columns: [4, 3, 2, 1, 0]
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    text: 'حفظ كملف PDF',
-                    messageTop: 'سجل عمليات الخزن',
-                    exportOptions: {
-                        columns: [4, 3, 2, 1, 0]
-                    },
-
-                },
-                {
-                    extend: 'print',
-                    text: 'طباعة',
-                    messageTop: 'سجل عمليات الخزن',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4]
-                    }
+                extend: 'print',
+                text: 'طباعة',
+                messageTop: 'سجل عمليات الخزن',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4]
                 }
-            ]
+            }]
         });
     </script><!-- END: Page Vendor JS-->
     <!-- BEGIN: Page JS-->
