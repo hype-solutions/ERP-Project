@@ -2,6 +2,7 @@
 
 namespace App\Models\Pos;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -30,15 +31,15 @@ class PosSessions extends Model
 
     public function open_user()
     {
-        return $this->hasOne('App\Models\User', 'id', 'open_by');
+        return $this->hasOne(User::class, 'id', 'open_by');
     }
     public function sell_user()
     {
-        return $this->hasOne('App\Models\User', 'id', 'sold_by');
+        return $this->hasOne(User::class, 'id', 'sold_by');
     }
     public function refund_user()
     {
-        return $this->hasOne('App\Models\User', 'id', 'refunded_by');
+        return $this->hasOne(User::class, 'id', 'refunded_by');
     }
 
     public function branch()
@@ -70,14 +71,5 @@ class PosSessions extends Model
     public function lastVisitDate()
     {
         return $this->where('customer_id', $this->customer_id)->pluck('created_at')->first();
-
-
-
-
-        // return DB::select(DB::raw('SELECT created_at from pos_sessions
-        //     WHERE pos_sessions.customer_id = ' . $this->customer_id . '
-        //     ORDER by created_at DESC
-        //     LIMIT 1
-        // '));
     }
 }
