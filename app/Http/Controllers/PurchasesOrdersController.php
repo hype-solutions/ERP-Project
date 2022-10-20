@@ -62,7 +62,7 @@ class PurchasesOrdersController extends Controller
         return view('purchases_orders.add', compact('safe_payment_id', 'user_id', 'suppliers', 'products', 'safes', 'branches'));
     }
 
-    
+
     // get product orice while adding purchase order
 
     public function getPrice(Request $request){
