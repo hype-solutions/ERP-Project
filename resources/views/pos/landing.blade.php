@@ -143,8 +143,10 @@
                                                 <h3 class="card-title text-white">عميل حالي</h3>
                                                 <div class="form-group">
                                                     <select class="select2-rtl form-control"
+
                                                         data-placeholder="إبحث عن عميل..." name="customer_id"
                                                         id="current_customer_id" required>
+
 
                                                         <option></option>
                                                         @foreach ($customers as $customer)
@@ -330,7 +332,6 @@
             });
             $("#btnTwo").click(function(e) {
                 e.preventDefault();
-
 
 
                 if ($("#current_customer_id").val() === "") {
