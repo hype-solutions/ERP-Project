@@ -1,5 +1,5 @@
 @extends('layouts.erp')
-@section('title', 'بنوج الدواخل')
+@section('title', 'بنود الدواخل')
 
 @section('pageCss')
     <link rel="stylesheet" type="text/css"
