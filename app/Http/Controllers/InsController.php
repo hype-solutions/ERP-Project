@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Ins\CreateIns;
 use App\Models\In\In;
 use App\Models\In\InCategories;
 use App\Models\Safes\Safes;
@@ -39,7 +40,7 @@ class InsController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(CreateIns $request)
     {
         $user = Auth::user();
         $userId = $user->id;
