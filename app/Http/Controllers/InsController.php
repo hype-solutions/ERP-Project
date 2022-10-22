@@ -42,7 +42,7 @@ class InsController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        $user_id = $user->id;
+        $userId = $user->id;
 
         $in = new In();
         $in->category = $request->cat_id;
@@ -51,25 +51,9 @@ class InsController extends Controller
         $in->safe_id = $request->safe_id;
         $in->safe_transaction_id = 0;
         $in->transaction_datetime = Carbon::now();
-        $in->done_by = $user_id;
-        // $in->authorized_by = $user_id;
+        $in->done_by = $userId;
         $in->save();
-        // $inId = $in->id;
 
-        // $payment = new SafesTransactions();
-        // $payment->safe_id = $request->safe_id;
-        // $payment->transaction_type = 2;
-        // $payment->direct = 0;
-        // $payment->transaction_amount = $request->amount;
-        // $payment->transaction_datetime = Carbon::now();
-        // $payment->done_by = $user_id;
-        // $payment->authorized_by = $user_id;
-        // $payment->transaction_notes = $request->notes;
-        // $payment->save();
-        // $paymentId = $payment->id;
-
-        // In::where('id', $inId)->update(['safe_transaction_id' => $paymentId]);
-        // Safes::where('id', $request->safe_id)->increment('safe_balance', $request->amount);
         return redirect()->route('ins.list');
     }
 
@@ -77,7 +61,7 @@ class InsController extends Controller
     public function authorizeIn(Request $request, In $in, $code)
     {
         $user = Auth::user();
-        $user_id = $user->id;
+        $userId = $user->id;
         if ($code == 1) {
             $payment = new SafesTransactions();
             $payment->safe_id = $in->safe_id;
@@ -85,19 +69,19 @@ class InsController extends Controller
             $payment->direct = 0;
             $payment->transaction_amount = $in->amount;
             $payment->transaction_datetime = Carbon::now();
-            $payment->done_by = $user_id;
-            $payment->authorized_by = $user_id;
+            $payment->done_by = $userId;
+            $payment->authorized_by = $userId;
             $payment->transaction_notes = $in->notes;
             $payment->save();
 
             $paymentId = $payment->id;
             $in->safe_transaction_id = $paymentId;
-            $in->authorized_by = $user_id;
+            $in->authorized_by = $userId;
             $in->save();
 
             Safes::where('id', $in->safe_id)->increment('safe_balance', $in->amount);
         } else {
-            $in->rejected_by = $user_id;
+            $in->rejected_by = $userId;
             $in->save();
         }
         return back();

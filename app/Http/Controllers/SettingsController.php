@@ -11,7 +11,7 @@ class SettingsController extends Controller
 {
     public function __construct()
     {
-        // $this->middleware('installed');
+        $this->middleware('installed');
         $this->middleware('auth');
     }
 
@@ -25,8 +25,6 @@ class SettingsController extends Controller
         if ($setting->key != 'logo') {
             $setting->value = $request->setting;
         } else {
-
-
             $request->validate([
                 'setting' => 'required|mimes:png,jpg,svg,gif|max:2048',
             ]);

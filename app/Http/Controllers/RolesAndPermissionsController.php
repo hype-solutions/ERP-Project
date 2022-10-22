@@ -22,13 +22,14 @@ class RolesAndPermissionsController extends Controller
         return back();
     }
 
-    public function permissions($role_name)
+    public function permissions($roleName)
     {
         $allPermissions = Permission::all();
-        $role = Role::findByName($role_name);
+        $role = Role::findByName($roleName);
         $permissions = $role->permissions()->get();
         App::setLocale('ar');
-        return view('settings.permissions', compact('allPermissions', 'role', 'permissions', 'role_name'));
+
+        return view('settings.permissions', compact('allPermissions', 'role', 'permissions', 'roleName'));
     }
 
     public function addingPermissions(Request $request)

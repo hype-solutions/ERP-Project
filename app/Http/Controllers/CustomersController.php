@@ -87,8 +87,6 @@ class CustomersController extends Controller
 
     public function addLinked(Customers $customer, Request $request)
     {
-
-
         $linked = new Customers();
         $linked->customer_parent = $customer->id;
         $linked->customer_name = $request->linked_name;
@@ -97,12 +95,6 @@ class CustomersController extends Controller
         $customer->customer_type = 'linked';
         $linked->save();
 
-        // $linked = new LinkedCustomers;
-        // $linked->parent_customer_id = $customer->id;
-        // $linked->customer_name = $request->linked_name;
-        // $linked->customer_mobile = $request->linked_mobile;
-        // $linked->save();
-
         ERPLog::create(['type' => 'Linked Customers', 'action' => 'Add', 'custom_id' => $customer->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
         return back()->with('success', 'Customer Added');
@@ -110,12 +102,10 @@ class CustomersController extends Controller
 
     public function view(Customers $customer)
     {
-        //$customer = Customers::find($customer);
-        //$customer_id = $customer[0]->id;
         $customerInvoices = Invoices::where('customer_id', $customer->id)->get();
         $customerInvoicesCount = Invoices::where('customer_id', $customer->id)->count();
-        $customerPosSales = PosSessions::where('status','!=',0)->where('customer_id', $customer->id)->get();
-        $customerPosSalesCount = PosSessions::where('status','!=',0)->where('customer_id', $customer->id)->count();
+        $customerPosSales = PosSessions::where('status', '!=', 0)->where('customer_id', $customer->id)->get();
+        $customerPosSalesCount = PosSessions::where('status', '!=', 0)->where('customer_id', $customer->id)->count();
         $customerInvoicesSum = Invoices::where('customer_id', $customer->id)->sum('invoice_total');
         $customerPriceQuotation = InvoicesPriceQuotation::where('customer_id', $customer->id)->get();
         $customerPriceQuotationCount = InvoicesPriceQuotation::where('customer_id', $customer->id)->count();
@@ -128,16 +118,14 @@ class CustomersController extends Controller
             ->orderBy('count', 'desc')
             ->get();
 
-        // $linkedCustomers = LinkedCustomers::where('parent_customer_id', $customer->id)->get();
         $linkedCustomers = Customers::where('customer_parent', $customer->id)->get();
         ERPLog::create(['type' => 'Customers', 'action' => 'View', 'custom_id' => $customer->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
 
-        return view('customers.profile', compact('customerPosSalesCount','customerPosSales','safes', 'linkedCustomers', 'customerPriceQuotationCount', 'customerInvoicesCount', 'customerInvoicesSum', 'customer', 'customerInvoices', 'customerPriceQuotation', 'customerInvoicesPayments', 'mostOrdered'));
+        return view('customers.profile', compact('customerPosSalesCount', 'customerPosSales', 'safes', 'linkedCustomers', 'customerPriceQuotationCount', 'customerInvoicesCount', 'customerInvoicesSum', 'customer', 'customerInvoices', 'customerPriceQuotation', 'customerInvoicesPayments', 'mostOrdered'));
     }
     public function edit(Customers $customer)
     {
-        //$customer = Customers::find($customer);
         return view('customers.edit', compact('customer'));
     }
 
@@ -170,7 +158,7 @@ class CustomersController extends Controller
 
     public function customersList()
     {
-        $customers = Customers::where('customer_parent', NULL)->get();
+        $customers = Customers::where('customer_parent', null)->get();
         return view('customers.list', compact('customers'));
     }
 }

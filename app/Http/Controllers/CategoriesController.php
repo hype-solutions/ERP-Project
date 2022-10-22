@@ -12,7 +12,7 @@ class CategoriesController extends Controller
     {
         $categories = ProductsCategories::with('product')->get();
 
-        return view('categories.list',compact('categories'));
+        return view('categories.list', compact('categories'));
     }
 
     public function adding(Request $request)
@@ -34,13 +34,11 @@ class CategoriesController extends Controller
 
     public function deleting(ProductsCategories $cat)
     {
-        Products::where('product_category',$cat->id)->update([
-            'product_category' => NULL
+        Products::where('product_category', $cat->id)->update([
+            'product_category' => null
         ]);
         $cat->delete();
 
         return back()->with('success', 'product category editied');
     }
-
-
 }

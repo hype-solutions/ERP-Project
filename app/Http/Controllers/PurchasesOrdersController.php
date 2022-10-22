@@ -66,14 +66,13 @@ class PurchasesOrdersController extends Controller
 
     // get product orice while adding purchase order
 
-    public function getPrice(Request $request){
-
+    public function getPrice(Request $request)
+    {
         $prod_id = $request->input('product_id');
         $product = Products::find($prod_id);
         $priceval = $product->product_price;
 
-        if($product){
-
+        if ($product) {
             return response()->json([
                 'status' => true ,
                 'product_price' => $priceval ,
@@ -112,11 +111,11 @@ class PurchasesOrdersController extends Controller
         $purchase->purchase_tax = $request->tax;
         $purchase->payment_method = 'none';
         $purchase->purchase_date = Carbon::now();
-        $purchase->safe_payment_id = NULL;
+        $purchase->safe_payment_id = null;
         $purchase->already_paid = 0;
         $purchase->already_delivered = 0;
-        $purchase->delivery_date = NULL;
-        $purchase->branch_id = NULL;
+        $purchase->delivery_date = null;
+        $purchase->branch_id = null;
         $purchase->purchase_total = $request->purchase_total;
         $purchase->shipping_fees = $request->shipping_fees;
         $purchase->added_by = $request->added_by;
@@ -140,22 +139,19 @@ class PurchasesOrdersController extends Controller
             $listOfProducts[] = $pro;
         }
 
-
         return redirect()->route('purchasesorders.list')->with('success', 'purchase added');
-        //return redirect('/purchase_orders')->with('success', 'purchase added');
     }
 
 
     public function status($purchaseOrder, $status)
     {
-
         if ($status == 1) {
             $currentProducts = PurchasesOrdersProducts::where('purchase_id', $purchaseOrder)->get();
             $purchase = PurchasesOrders::find($purchaseOrder);
 
             $safes = Safes::where('safe_balance', '>=', $purchase->purchase_total)->get();
             return view('purchases_orders.check', compact('purchase', 'currentProducts', 'safes'));
-        } else if ($status == 2) {
+        } elseif ($status == 2) {
             $purchase = PurchasesOrders::find($purchaseOrder);
             $purchase->purchase_status = 'Declined';
             $purchase->autherized_by = Auth::id();
@@ -167,7 +163,6 @@ class PurchasesOrdersController extends Controller
     }
     public function accepting(Request $request, PurchasesOrders $purchaseOrder)
     {
-
         $purchaseOrder->autherized_by = Auth::id();
         $purchaseOrder->save();
 
@@ -238,7 +233,6 @@ class PurchasesOrdersController extends Controller
 
     public function toinventory(PurchasesOrders $purchaseOrder)
     {
-
         $currentProducts = PurchasesOrdersProducts::where('purchase_id', $purchaseOrder->id)
             // ->with('check')
             ->get();
@@ -248,7 +242,6 @@ class PurchasesOrdersController extends Controller
 
     public function importing(Request $request, PurchasesOrders $purchaseOrder)
     {
-
         $purchaseOrder->purchase_status = 'Delivered';
         $purchaseOrder->already_delivered = 1;
         $purchaseOrder->branch_id = $request->branch_id;
