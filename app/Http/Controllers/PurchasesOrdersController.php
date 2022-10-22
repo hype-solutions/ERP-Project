@@ -16,6 +16,7 @@ use App\Models\Suppliers\Suppliers;
 use App\Models\User;
 use Carbon\Carbon;
 use App\Http\Requests\purchasesOrders\AddPurchaseOrder;
+use App\Http\Requests\purchasesOrders\EditPurchaseOrder;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -303,7 +304,7 @@ class PurchasesOrdersController extends Controller
         return view('purchases_orders.edit', compact('purchaseOrder', 'user_id', 'suppliers', 'currentProducts', 'products', 'safes', 'safes2', 'laterDates', 'branches'));
     }
 
-    public function update(AddPurchaseOrder $request, $order)
+    public function update(EditPurchaseOrder $request, $order)
     {
         $purchase = PurchasesOrders::find($order);
         $purchase->supplier_id = $request->supplier_id;
