@@ -49,7 +49,7 @@ class ProjectsController extends Controller
     public function edit(Projects $project)
     {
         $user = Auth::user();
-        $user_id = $user->id;
+        $userId = $user->id;
         $customers = Customers::where('id', '!=', $project->customer_id);
         $previewFiles = ProjectsPreviewFiles::where('project_id', $project->id)->get();
         $contractFiles = ProjectsContractFiles::where('project_id', $project->id)->get();
@@ -60,12 +60,12 @@ class ProjectsController extends Controller
         $products = Products::all();
         $suppliers = Suppliers::all();
 
-        return view('projects.edit', compact('purchasesOrders', 'suppliers', 'products', 'key', 'project', 'customers', 'previewFiles', 'contractFiles', 'attachmentFiles', 'priceQuotation', 'user_id'));
+        return view('projects.edit', compact('purchasesOrders', 'suppliers', 'products', 'key', 'project', 'customers', 'previewFiles', 'contractFiles', 'attachmentFiles', 'priceQuotation', 'userId'));
     }
 
     public function update(Request $request, $project)
     {
-        $safe_id = Safes::where('branch_id', 1)->value('id');
+        $safeId = Safes::where('branch_id', 1)->value('id');
         //Data
         $eproject = Projects::find($project);
         $eproject->project_name = $request->project_name;
@@ -87,7 +87,6 @@ class ProjectsController extends Controller
             $files = $request->file('mo3ayna');
 
             foreach ($files as $file) {
-
                 $filename = $file->getClientOriginalName();
                 $extension = $file->getClientOriginalExtension();
                 $check = in_array($extension, $allowedfileExtension);
@@ -142,7 +141,6 @@ class ProjectsController extends Controller
             $files = $request->file('bnood');
 
             foreach ($files as $file) {
-
                 $filename = $file->getClientOriginalName();
                 $extension = $file->getClientOriginalExtension();
                 $check = in_array($extension, $allowedfileExtension);
@@ -181,11 +179,11 @@ class ProjectsController extends Controller
                         $da->paid = 'Yes';
                         $da->safe_payment_id = $item['safe_payment_id'];
                         $da->date = Carbon::now();
-                        $da->safe_id = $safe_id;
+                        $da->safe_id = $safeId;
                     } else {
                         $da->paid = 'Yes';
                         $payment = new SafesTransactions();
-                        $payment->safe_id = $safe_id;
+                        $payment->safe_id = $safeId;
                         $payment->transaction_type = 2;
                         $payment->transaction_amount = $item['amount'];
                         $payment->transaction_datetime = Carbon::now();
@@ -193,10 +191,10 @@ class ProjectsController extends Controller
                         $payment->authorized_by = Auth::user()->id;
                         $payment->transaction_notes = 'قسط على مشروع رقم' . $eproject->id;
                         $payment->save();
-                        $payment_id = $payment->id;
-                        $da->safe_id = $safe_id;
-                        $da->safe_payment_id = $payment_id;
-                        Safes::where('id', $safe_id)->decrement('safe_balance', $item['amount']);
+                        $paymentId = $payment->id;
+                        $da->safe_id = $safeId;
+                        $da->safe_payment_id = $paymentId;
+                        Safes::where('id', $safeId)->decrement('safe_balance', $item['amount']);
                     }
                 } else {
                     $da->paid = 'No';
@@ -217,8 +215,8 @@ class ProjectsController extends Controller
             $supplierId = $request->supplier_id;
         }
 
-        $xxx_product = $request->xxx_product;
-        if ($xxx_product) {
+        $xxxProduct = $request->xxx_product;
+        if ($xxxProduct) {
             ProjectsPurchasesOrders::create([
                 'project_id' => $eproject->id,
                 'supplier_id' => $supplierId,
@@ -255,7 +253,6 @@ class ProjectsController extends Controller
             $files = $request->file('mol7kat');
 
             foreach ($files as $file) {
-
                 $filename = $file->getClientOriginalName();
                 $extension = $file->getClientOriginalExtension();
                 $check = in_array($extension, $allowedfileExtension);
