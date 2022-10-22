@@ -16,6 +16,7 @@ use App\Models\Suppliers\Suppliers;
 use App\Models\User;
 use Carbon\Carbon;
 use App\Http\Requests\purchasesOrders\AddPurchaseOrder;
+use App\Http\Requests\purchasesOrders\EditPurchaseOrder;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -60,6 +61,25 @@ class PurchasesOrdersController extends Controller
         $branches = Branches::all();
         $safe_payment_id = SafesTransactions::where('transaction_type', 1)->get();
         return view('purchases_orders.add', compact('safe_payment_id', 'user_id', 'suppliers', 'products', 'safes', 'branches'));
+    }
+
+
+    // get product orice while adding purchase order
+
+    public function getPrice(Request $request){
+
+        $prod_id = $request->input('product_id');
+        $product = Products::find($prod_id);
+        $priceval = $product->product_price;
+
+        if($product){
+
+            return response()->json([
+                'status' => true ,
+                'product_price' => $priceval ,
+                'status' => true ,
+            ]);
+        }
     }
 
     public function purchasesordersList()
@@ -284,7 +304,7 @@ class PurchasesOrdersController extends Controller
         return view('purchases_orders.edit', compact('purchaseOrder', 'user_id', 'suppliers', 'currentProducts', 'products', 'safes', 'safes2', 'laterDates', 'branches'));
     }
 
-    public function update(AddPurchaseOrder $request, $order)
+    public function update(EditPurchaseOrder $request, $order)
     {
         $purchase = PurchasesOrders::find($order);
         $purchase->supplier_id = $request->supplier_id;

@@ -118,41 +118,70 @@
                                 <div class="card">
                                     <div class="card-body">
 
-                                <div class="div">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                            <label for="projectinput3">إختر الخزنة التي سيتم الدفع منها</label>
-                                            <select class="select2-rtl form-control" data-placeholder="إختر الخزنة..." name="safe_id" id="safe_id">
-                                                <option></option>
-                                                @foreach ($safes as $safe)
-                                                <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="projectinput3">الملاحظات</label>
-                                                <textarea placeholder="مثال: رقم الحوالة" class="form-control"></textarea>
+                                        <div class="div">
+                                            @if($safes->count()>0)
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                    <label for="projectinput3">إختر الخزنة التي سيتم الدفع منها</label>
+                                                    <select class="select2-rtl form-control" data-placeholder="إختر الخزنة..." name="safe_id" id="safe_id">
+                                                        <option></option>
+                                                        @foreach ($safes as $safe)
+                                                        <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="projectinput3">الملاحظات</label>
+                                                        <textarea placeholder="مثال: رقم الحوالة" class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+
                                             </div>
+                                            @else
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                    <label for="projectinput3">إختر الخزنة التي سيتم الدفع منها</label>
+                                                    <select class="select2-rtl form-control" data-placeholder="إختر الخزنة..." name="safe_id" id="safe_id">
+                                                        <option></option>
+                                                        @foreach ($safes as $safe)
+                                                        <option value="{{$safe->id}}">{{$safe->safe_name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="projectinput3">الملاحظات</label>
+                                                        <textarea placeholder="مثال: رقم الحوالة" class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <span class="text-danger"  id="">هذا المبلغ غير متوفر
+                                                         </span>
+                                                </div>
+
+                                            </div>
+                                            @endif
                                         </div>
-                                    </div>
-
-                                </div>
-
-
-
-
                                     </div>
                                 </div>
                             </div>
+
+
                             <div class="col-md-12" id="later_box" style="display: none">
                                 <div class="card">
                                     <div class="card-body">
-                                        <span class="text-danger" style="display: none" id="dof3aError">إجمالي
-                                            الدفعات لا تساوي إجمالي المبلغ</span>
-                                <div >
+                                        <span class="text-danger" style="display: none" id="dof3aErrorB">إجمالي
+                                            الدفعات اكبر من إجمالي المبلغ</span>
+
+                                        <span class="text-danger" style="display: none" id="dof3aErrorS">إجمالي
+
+                                            الدفعات أصغر من إجمالي المبلغ</span>    
+                                <div>
                                     <h4 class="form-section"><i class="la la-flag"></i> الدفعات <button onclick="addDofaa()" type="button" class="btn btn-success btn-sm"><i class="la la-plus"></i></button></h4>
                                     <div class="table-responsive">
                                     <table class="table table-bordered table-striped" id="dofaaTable">
@@ -291,13 +320,20 @@ $(document).on("keyup", ".dof3aSum", function() {
         $(".dof3aSum").each(function() {
             sum += +$(this).val();
         });
-        if (total != sum) {
-            $('#dof3aError').css('display', 'block');
+        if (total < sum) {
+            $('#dof3aErrorB').css('display', 'block');
+            $('#dof3aErrorS').css('display', 'none');
             $('#saveBtn').attr('disabled', true);
-        } else {
-            $('#dof3aError').css('display', 'none');
-            $('#saveBtn').attr('disabled', false);
 
+        } else if(total > sum){
+            $('#dof3aErrorB').css('display', 'none');
+            $('#dof3aErrorS').css('display', 'block');
+            $('#saveBtn').attr('disabled', true);
+
+        }else{
+            $('#dof3aErrorB').css('display', 'none');
+            $('#dof3aErrorS').css('display', 'none');
+            $('#saveBtn').attr('disabled', false);
 
         }
     });
