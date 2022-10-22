@@ -142,7 +142,7 @@
                                 @if(isset($in->theCategory->category_name))
                                 {{ $in->theCategory->category_name }}
                                 @else
-                                بدون جهه
+                                بدون بند
                                 @endif
                             </td>
                             <td> {{ $in->safe->safe_name }}</td>
