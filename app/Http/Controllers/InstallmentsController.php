@@ -47,6 +47,7 @@ class InstallmentsController extends Controller
             $ins = PurchasesOrdersPayments::find($id);
             $safes = Safes::where('safe_balance', '>=', $ins->amount)->get();
         } elseif ($type == 3) {
+
             $ins = ExternalFund::find($id);
             $safes = Safes::where('safe_balance', '>=', $ins->amount)->get();
         }
