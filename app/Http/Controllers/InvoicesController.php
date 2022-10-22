@@ -41,14 +41,14 @@ class InvoicesController extends Controller
         $this->addLogRecord('Invoices', 'View', $invoiceId);
         $logo = Settings::where('key', 'logo')->value('value');
         $company = Settings::where('key', 'company_name')->value('value');
-        $address_1 = Settings::where('key', 'address_1')->value('value');
-        $address_2 = Settings::where('key', 'address_2')->value('value');
+        $addressLineOne = Settings::where('key', 'address_1')->value('value');
+        $addressLineTwo = Settings::where('key', 'address_2')->value('value');
 
-        return view('invoices.profile', compact('company', 'logo', 'invoice', 'address_1', 'address_2'));
+        return view('invoices.profile', compact('company', 'logo', 'invoice', 'addressLineOne', 'addressLineTwo'));
     }
 
 
-    function print2($invoiceId)
+    public function print2($invoiceId)
     {
         $invoice = $this->invoice->find($invoiceId);
         $p = 2;
@@ -58,7 +58,7 @@ class InvoicesController extends Controller
     }
 
 
-    function print3($invoiceId, Request $request)
+    public function print3($invoiceId, Request $request)
     {
         $invoice = $this->invoice->find($invoiceId);
         $p = 3;
@@ -88,20 +88,17 @@ class InvoicesController extends Controller
     public function store(AddInvoice $request)
     {
         $data = $request->validated();
-        $safe_id = $this->invoice->getBranchLinkedSafeId($data['branch_id']);
+        $safeId = $this->invoice->getBranchLinkedSafeId($data['branch_id']);
         $customerId = $this->invoice->checkIfCustomerIsNewAndAdd($data['new_customer_name'], $data['new_customer_mobile'], $data['customer_id']);
         if ($data['payment_method'] != 'later') {
             $alreadyPaid = 1;
-            $paymentId = $this->invoice->safeTransactionIn($safe_id, $data['invoice_total'], '');
-            $safeId = $safe_id;
-            $this->invoice->safeIncrement($safe_id, $data['invoice_total']);
+            $paymentId = $this->invoice->safeTransactionIn($safeId, $data['invoice_total'], '');
+            $this->invoice->safeIncrement($safeId, $data['invoice_total']);
         } else {
             $alreadyPaid = 0;
             $paymentId = 0;
             $safeId = 0;
         }
-
-        // dd($data);
 
         $invoice = new Invoices();
         $invoice->customer_id = $customerId;
@@ -121,31 +118,14 @@ class InvoicesController extends Controller
         $invoice->sold_by = $data['sold_by'];
         $invoice->authorized_by = $data['sold_by'];
         $invoice->save();
-        // $invoice = $this->invoice->create([
-        //     'customer_id' >= $customerId,
-        //     'invoice_paper_num' >= $data['invoice_paper_num'],
-        //     'branch_id' >= $data['branch_id'],
-        //     'invoice_note' >= $data['invoice_note'],
-        //     'discount_percentage' >= $data['discount_percentage'],
-        //     'discount_amount' >= $data['discount_amount'],
-        //     'invoice_tax' >= $data['tax'],
-        //     'payment_method' >= $data['payment_method'],
-        //     'invoice_date' >= Carbon::now(),
-        //     'invoice_total' >= $data['invoice_total'],
-        //     'shipping_fees' >= $data['shipping_fees'],
-        //     'already_paid' >= $alreadyPaid,
-        //     'safe_id' >= $safeId,
-        //     'safe_transaction_id' >= $paymentId,
-        //     'sold_by' >= $data['sold_by'],
-        //     'authorized_by' >= $data['sold_by'],
-        // ]);
+
         $invoiceId = $invoice->id;
         if ($data['payment_method'] != 'later') {
             $this->invoice->updateSafeTransactionAddDesc($paymentId);
         } else {
             foreach ($data['later'] as $item) {
                 $this->invoice->addInvoiceInstallment(
-                    $safe_id,
+                    $safeId,
                     $invoiceId,
                     $customerId,
                     $item['amount'],
@@ -176,7 +156,7 @@ class InvoicesController extends Controller
     public function update(Request $request, $invoice)
     {
         // Get Branch Safe ID
-        $safe_id = Safes::where('branch_id', $request->branch_id)->value('id');
+        $safeId = Safes::where('branch_id', $request->branch_id)->value('id');
         //Get invoice data and update it
         $invoice = Invoices::find($invoice);
         $invoice->customer_id = $request->customer_id;
@@ -210,14 +190,14 @@ class InvoicesController extends Controller
                 $payment->done_by = 1;
                 $payment->authorized_by    = 1;
                 $payment->save();
-                $payment_id = $payment->id;
-                $invoice->safe_transaction_id = $payment_id;
+                $paymentId = $payment->id;
+                $invoice->safe_transaction_id = $paymentId;
                 $invoice->already_paid = 1;
-                Safes::where('id', $safe_id)->increment('safe_balance', $request->invoice_total);
+                Safes::where('id', $safeId)->increment('safe_balance', $request->invoice_total);
             }
         } else {
-            $invoice->safe_transaction_id = NULL;
-            $invoice->safe_id = NULL;
+            $invoice->safe_transaction_id = null;
+            $invoice->safe_id = null;
             $invoice->already_paid = 0;
         }
         $invoice->save();
@@ -274,11 +254,11 @@ class InvoicesController extends Controller
                     if (!empty($item['safe_payment_id'])) {
                         $da->paid = 'Yes';
                         $da->safe_payment_id = $item['safe_payment_id'];
-                        $da->safe_id = $safe_id;
+                        $da->safe_id = $safeId;
                     } else {
                         $da->paid = 'Yes';
                         $payment = new SafesTransactions();
-                        $payment->safe_id = $safe_id;
+                        $payment->safe_id = $safeId;
                         $payment->transaction_type = 1;
                         $payment->transaction_amount = $item['amount'];
                         $payment->transaction_datetime = Carbon::now();
@@ -286,10 +266,10 @@ class InvoicesController extends Controller
                         $payment->authorized_by = $request->sold_by;
                         $payment->transaction_notes = 'قسط على فاتورة رقم' . $invoiceId;
                         $payment->save();
-                        $payment_id = $payment->id;
-                        $da->safe_id = $safe_id;
-                        $da->safe_payment_id = $payment_id;
-                        Safes::where('id', $safe_id)->decrement('safe_balance', $item['amount']);
+                        $paymentId = $payment->id;
+                        $da->safe_id = $safeId;
+                        $da->safe_payment_id = $paymentId;
+                        Safes::where('id', $safeId)->decrement('safe_balance', $item['amount']);
                         Invoices::where('id', $invoiceId)->increment('amount_collected', $item['amount']);
                     }
                 } else {
@@ -332,19 +312,19 @@ class InvoicesController extends Controller
                 ->where('already_paid', 1)
                 ->get();
             if ($invoices) {
-                foreach ($invoices as $key => $invoice) {
+                foreach ($invoices as $invoice) {
                     $output .= '<tr>' .
                         '<td><h3><b>' . $invoice->id . '</b></h3></td>' .
                         '<td>' . $invoice->sell_user->username . '</td>' .
                         '<td>' . $invoice->branch->branch_name . '</td>';
-                    if($invoice->customer){
+                    if ($invoice->customer) {
                         $output .=
                         '<td>' . $invoice->customer->customer_name . '</td>';
-                    }else{
+                    } else {
                         $output .=
                         '<td><span class="info">زائر</span></td>';
                     }
-                        $output .=
+                    $output .=
                         '<td>' . $invoice->invoice_date . '</td>' .
                         '<td>' . $invoice->invoice_total . '</td>' .
                         '<td><button class="btn btn-success btn-sm">إختر</button></td>' .
@@ -354,5 +334,4 @@ class InvoicesController extends Controller
             }
         }
     }
-
 }

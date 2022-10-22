@@ -62,21 +62,21 @@ class HomeController extends Controller
             ->orderByDesc('id')
             ->count();
 
-        $outs = Out::where('authorized_by', NULL)
+        $outs = Out::where('authorized_by', null)
             ->where('rejected_by', 0)
             ->orderByDesc('id')
             ->paginate(5);
 
-        $outsCount = Out::where('authorized_by', NULL)
+        $outsCount = Out::where('authorized_by', null)
             ->where('rejected_by', 0)
             ->count();
 
-        $ins = In::where('authorized_by', NULL)
+        $ins = In::where('authorized_by', null)
             ->where('rejected_by', 0)
             ->orderByDesc('id')
             ->paginate(5);
 
-        $insCount = In::where('authorized_by', NULL)
+        $insCount = In::where('authorized_by', null)
             ->where('rejected_by', 0)
             ->count();
 
@@ -94,6 +94,5 @@ class HomeController extends Controller
     public function shit()
     {
         return storage_path('/app/public');
-        // return __DIR__;
     }
 }

@@ -27,52 +27,6 @@ class ProductsController extends Controller
         $this->middleware('auth');
     }
 
-    // protected function validatePostRequest()
-    // {
-    //     return request()->validate(
-    //         [
-    //             'product_code' => 'required|unique:products,product_code,',
-    //             'product_category' => '',
-    //             'product_sub_category' => '',
-    //             'product_name' => 'required|max:255',
-    //             'product_price' => 'required|min:0|numeric',
-    //             'product_total_in' => '',
-    //             'product_total_out' => '',
-    //             'product_desc' => '',
-    //             'product_brand' => '',
-    //             'product_track_stock' => '',
-    //             'product_low_stock_thershold' => '',
-    //             'product_notes' => '',
-    //         ],
-    //         [
-    //             'product_code.required' => 'كود المنتج مطلوب',
-    //             'product_code.unique' => 'برجاء إختيار كود اخر, هذا الكود مستخدم بالفعل',
-    //             'product_name.required' => 'برجاء ادخال اسم المنتج',
-    //             'product_price.required' => 'برجاء ادخال سعر المنتج',
-
-    //         ]
-    //     );
-    // }
-    // protected function validateUpdateRequest()
-    // {
-    //     return request()->validate([
-    //         'product_code' => 'required|unique:products,product_code,',
-    //         'product_category' => '',
-    //         'product_sub_category' => '',
-    //         'product_name' => 'required|max:255',
-    //         'product_price' => 'required|min:0|numeric',
-    //         'product_total_in' => '',
-    //         'product_total_out' => '',
-    //         'product_desc' => '',
-    //         'product_brand' => '',
-    //         'product_track_stock' => '',
-    //         'product_low_stock_thershold' => '',
-    //         'product_notes' => '',
-    //     ]);
-    // }
-
-
-
     public function add()
     {
         $categories = ProductsCategories::all();
@@ -115,16 +69,12 @@ class ProductsController extends Controller
 
     public function view(products $product)
     {
-
-        // $productPosSales = PosSessions::where('product_id', $product->id)->get();
         $productPosSales = PosSessions::where('status', '!=', 0)->whereHas('cart', function ($q) use ($product) {
             $q->where('product_id', $product->id);
         })->with('cart')->get();
 
-        //  dd($productPosSales);
         $allowedBranches = BranchesProductsSelling::where('product_id', $product->id)->where('selling', 1)->with('branch')->get();
         $branches = BranchesProducts::where('product_id', $product->id)
-            // ->where('amount', '!=', 0)
             ->with('branch')->get();
         $supplierProducts = PurchasesOrdersProducts::groupBy('supplier_id')
             ->where('status', 'Delivered')
@@ -137,7 +87,6 @@ class ProductsController extends Controller
             ->with('branchTo')
             ->get();
 
-        // dd($productransfers);
         $productManual = ProductsManualQuantities::where('product_id', $product->id)
             ->with('branch')
             ->get();
@@ -146,26 +95,13 @@ class ProductsController extends Controller
             ->where('status', 'Delivered')
             ->get();
 
-
-        $product_id = $product->id;
-
-        $productPurchasesOrders = PurchasesOrdersProducts::where('product_id', $product_id)->where('status', 'Delivered')->with('purchase')->groupBy('purchase_id')->get();
-
-        $productInvoices = InvoicesProducts::where('product_id', $product_id)->with('invoice')->GroupBy('invoice_id')->get();
-
-
-        $productCost = PurchasesOrdersProducts::where('product_id', $product_id)->where('status', 'Delivered')->avg('product_price');
-
+        $productId = $product->id;
+        $productPurchasesOrders = PurchasesOrdersProducts::where('product_id', $productId)->where('status', 'Delivered')->with('purchase')->groupBy('purchase_id')->get();
+        $productInvoices = InvoicesProducts::where('product_id', $productId)->with('invoice')->GroupBy('invoice_id')->get();
+        $productCost = PurchasesOrdersProducts::where('product_id', $productId)->where('status', 'Delivered')->avg('product_price');
 
         return view('products.profile', compact('productPosSales', 'allowedBranches', 'productCost', 'productInvoices', 'supplierProducts', 'product', 'branches', 'productransfers', 'productManual', 'productSuppliers', 'productPurchasesOrders'));
     }
-
-    // public function test(){
-    //     $product = Products::find(1);
-    //     $product->avg = $product->purchasesOrders();
-
-    //     return $product->avg;
-    // }
 
     public function productsList()
     {
@@ -220,21 +156,22 @@ class ProductsController extends Controller
 
     public function transfer(Products $product)
     {
-        //$product = Products::find($product);
-        $product_id = $product->id;
-        $productBranches = BranchesProducts::where('product_id', $product_id)->with('branch')->get();
+        $productId = $product->id;
+        $productBranches = BranchesProducts::where('product_id', $productId)->with('branch')->get();
         $otherBranches = Branches::get();
         $user = Auth::user();
-        $user_id = $user->id;
-        return view('products.transfer', compact('product', 'productBranches', 'otherBranches', 'user_id'));
+        $userId = $user->id;
+
+        return view('products.transfer', compact('product', 'productBranches', 'otherBranches', 'userId'));
     }
+
     public function fetchQty(Request $request)
     {
-        $product_id = $request->product;
-        $branch_id = $request->branch;
+        $productId = $request->product;
+        $branchId = $request->branch;
 
-        $productBranches = BranchesProducts::where('product_id', $product_id)
-            ->where('branch_id', $branch_id)
+        $productBranches = BranchesProducts::where('product_id', $productId)
+            ->where('branch_id', $branchId)
             ->first();
         if ($productBranches) {
             $amount = $productBranches->amount;
@@ -243,19 +180,21 @@ class ProductsController extends Controller
         }
         return response()->json(array('amount' => $amount), 200);
     }
+
     public function fetchPrice(Request $request)
     {
-        $product_id = $request->product;
-        $product = Products::where('id', $product_id)
+        $productId = $request->product;
+        $product = Products::where('id', $productId)
             ->first();
         $price = $product->product_price;
+
         return response()->json(array('price' => $price), 200);
     }
 
     public function fetchCost(Request $request)
     {
-        $product_id = $request->product;
-        $product = Products::where('id', $product_id)
+        $productId = $request->product;
+        $product = Products::where('id', $productId)
             ->first();
         $cost = $product->purchasesOrders();
         return response()->json(array('cost' => $cost), 200);
@@ -264,18 +203,14 @@ class ProductsController extends Controller
 
     public function fetchOtherBranches(Request $request)
     {
-        $other_id = $request->other_id;
+        $otherId = $request->other_id;
 
-        $otherBranches = Branches::where('id', '!=', $other_id)->get();
-        return $otherBranches;
+        return Branches::where('id', '!=', $otherId)->get();
     }
 
     public function transfering(Request $request)
     {
-
         ProductsTransfers::create($request->all());
-
-
 
         return redirect()->route('products.list');
     }
@@ -284,10 +219,9 @@ class ProductsController extends Controller
 
     public function rejectingTransfer(ProductsTransfers $transfer)
     {
-
         $transfer->status = 'Rejected';
-        //$transfer->authorized_by = Auth::id();
         $transfer->save();
+
         return redirect()->route('products.list');
     }
 
@@ -297,8 +231,6 @@ class ProductsController extends Controller
 
         //make sure source branch have enough qty
         if ($transfer->branchFrom->getProductAmountInBranch($transfer->product_id)->amount >= $transfer->transfer_qty) {
-
-
             BranchesProducts::where('product_id', $transfer->product_id)
                 ->where('branch_id', $transfer->branch_from)
                 ->update(['amount' => $transfer->qty_after_transfer_from]);
@@ -308,13 +240,10 @@ class ProductsController extends Controller
                 ->first();
             //if product exsists on main branch, update its qty
             if (isset($checkIfRecordExsists)) {
-
                 BranchesProducts::where('product_id', $transfer->product_id)
                     ->where('branch_id', $transfer->branch_to)
                     ->update(['amount' => $transfer->qty_after_transfer_to]);
-            }
-            //else add a new record
-            else {
+            } else { //else add a new record
                 $addToMain = new BranchesProducts;
                 $addToMain->branch_id = $transfer->branch_to;
                 $addToMain->product_id = $transfer->product_id;
@@ -337,17 +266,14 @@ class ProductsController extends Controller
 
     public function addQty(Products $product)
     {
-        //$product = Products::find($product);
-        $product_id = $product->id;
-        // $branches = Branches::where('product_id', $product_id)->with('branch')->get();
         $branches = Branches::get();
         $user = Auth::user();
-        $user_id = $user->id;
-        return view('products.addqty', compact('product', 'branches', 'user_id'));
+        $userId = $user->id;
+
+        return view('products.addqty', compact('product', 'branches', 'userId'));
     }
     public function addingQty(Request $request)
     {
-
         ProductsManualQuantities::create($request->all());
 
         $checkQtyInBranch = BranchesProducts::where('product_id', $request->product_id)
@@ -355,7 +281,6 @@ class ProductsController extends Controller
             ->count();
 
         if ($checkQtyInBranch == 0) {
-
             $createRecord = new BranchesProducts;
             $createRecord->product_id = $request->product_id;
             $createRecord->branch_id = $request->branch_id;
@@ -368,10 +293,10 @@ class ProductsController extends Controller
         }
 
         $getProduct = Products::where('id', $request->product_id)->get();
-        $product_old_in = $getProduct[0]->product_total_in;
-        $product_new_qty = $product_old_in + $request->qty;
+        $productOldIn = $getProduct[0]->product_total_in;
+        $productNewQty = $productOldIn + $request->qty;
         Products::where('id', $request->product_id)
-            ->update(['product_total_in' => $product_new_qty]);
+            ->update(['product_total_in' => $productNewQty]);
         return redirect()->route('products.transfers');
     }
 
@@ -392,7 +317,6 @@ class ProductsController extends Controller
 
     public function transfers()
     {
-
         $transfers = ProductsTransfers::all();
 
         return view('products.transfersList', compact('transfers'));
@@ -405,7 +329,6 @@ class ProductsController extends Controller
 
     public function importing(Request $request)
     {
-        // Excel::import(new ProductsImport, $request->importer);
         Excel::import(new ProductsImport, request()->file('importer'));
         return redirect()->route('products.list');
     }

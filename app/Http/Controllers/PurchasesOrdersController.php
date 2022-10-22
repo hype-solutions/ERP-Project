@@ -33,7 +33,7 @@ class PurchasesOrdersController extends Controller
     {
         $purchaseOrder = PurchasesOrders::find($order->id);
         $user = Auth::user();
-        $user_id = $user->id;
+        $userId = $user->id;
         $currentProducts = PurchasesOrdersProducts::where('purchase_id', $purchaseOrder->id)->get();
         if ($purchaseOrder->safe_id > 0) {
             $safes = Safes::where('id', '!=', $purchaseOrder->safe_id)->get();
@@ -43,24 +43,42 @@ class PurchasesOrdersController extends Controller
         $laterDates = PurchasesOrdersPayments::where('purchase_id', $order->id)->get();
         $logo = Settings::where('key', 'logo')->value('value');
         $company = Settings::where('key', 'company_name')->value('value');
-        $address_1 = Settings::where('key', 'address_1')->value('value');
-        $address_2 = Settings::where('key', 'address_2')->value('value');
+        $addressLineOne = Settings::where('key', 'address_1')->value('value');
+        $addressLineTwo = Settings::where('key', 'address_2')->value('value');
         $signature = PurchasesOrdersSignature::with('user')->first();
 
 
-        return view('purchases_orders.profile', compact('signature', 'company', 'logo', 'address_1', 'address_2', 'purchaseOrder', 'user_id', 'currentProducts', 'safes', 'laterDates'));
+        return view('purchases_orders.profile', compact('signature', 'company', 'logo', 'addressLineOne', 'addressLineTwo', 'purchaseOrder', 'userId', 'currentProducts', 'safes', 'laterDates'));
     }
 
     public function add()
     {
         $user = Auth::user();
-        $user_id = $user->id;
+        $userId = $user->id;
         $suppliers = Suppliers::all();
         $products = Products::all();
         $safes = Safes::all();
         $branches = Branches::all();
-        $safe_payment_id = SafesTransactions::where('transaction_type', 1)->get();
-        return view('purchases_orders.add', compact('safe_payment_id', 'user_id', 'suppliers', 'products', 'safes', 'branches'));
+        $safePaymentId = SafesTransactions::where('transaction_type', 1)->get();
+        return view('purchases_orders.add', compact('safePaymentId', 'userId', 'suppliers', 'products', 'safes', 'branches'));
+    }
+
+
+    // get product orice while adding purchase order
+
+    public function getPrice(Request $request)
+    {
+        $productId = $request->input('product_id');
+        $product = Products::find($productId);
+        $priceval = $product->product_price;
+
+        if ($product) {
+            return response()->json([
+                'status' => true ,
+                'product_price' => $priceval ,
+                'status' => true ,
+            ]);
+        }
     }
 
 
@@ -112,11 +130,11 @@ class PurchasesOrdersController extends Controller
         $purchase->purchase_tax = $request->tax;
         $purchase->payment_method = 'none';
         $purchase->purchase_date = Carbon::now();
-        $purchase->safe_payment_id = NULL;
+        $purchase->safe_payment_id = null;
         $purchase->already_paid = 0;
         $purchase->already_delivered = 0;
-        $purchase->delivery_date = NULL;
-        $purchase->branch_id = NULL;
+        $purchase->delivery_date = null;
+        $purchase->branch_id = null;
         $purchase->purchase_total = $request->purchase_total;
         $purchase->shipping_fees = $request->shipping_fees;
         $purchase->added_by = $request->added_by;
@@ -140,22 +158,19 @@ class PurchasesOrdersController extends Controller
             $listOfProducts[] = $pro;
         }
 
-
         return redirect()->route('purchasesorders.list')->with('success', 'purchase added');
-        //return redirect('/purchase_orders')->with('success', 'purchase added');
     }
 
 
     public function status($purchaseOrder, $status)
     {
-
         if ($status == 1) {
             $currentProducts = PurchasesOrdersProducts::where('purchase_id', $purchaseOrder)->get();
             $purchase = PurchasesOrders::find($purchaseOrder);
 
             $safes = Safes::where('safe_balance', '>=', $purchase->purchase_total)->get();
             return view('purchases_orders.check', compact('purchase', 'currentProducts', 'safes'));
-        } else if ($status == 2) {
+        } elseif ($status == 2) {
             $purchase = PurchasesOrders::find($purchaseOrder);
             $purchase->purchase_status = 'Declined';
             $purchase->autherized_by = Auth::id();
@@ -167,20 +182,19 @@ class PurchasesOrdersController extends Controller
     }
     public function accepting(Request $request, PurchasesOrders $purchaseOrder)
     {
-
         $purchaseOrder->autherized_by = Auth::id();
         $purchaseOrder->save();
 
         $currentUser = Auth::id();
 
-        $safe_id = $request->safe_id;
+        $safeId = $request->safe_id;
 
         $purchaseOrder->payment_method = $request->payment_method;
         if ($request->payment_method != 'later') {
             $purchaseOrder->already_paid = 1;
             $purchaseOrder->purchase_status = 'Paid';
             $payment = new SafesTransactions();
-            $payment->safe_id = $safe_id;
+            $payment->safe_id = $safeId;
             $payment->transaction_type = 1;
             $payment->transaction_amount = $purchaseOrder->purchase_total;
             $payment->transaction_datetime = Carbon::now();
@@ -189,9 +203,9 @@ class PurchasesOrdersController extends Controller
             $payment->transaction_notes = 'أمر شراء رقم   ' . $purchaseOrder->id;
             $payment->save();
 
-            $purchaseOrder->safe_id = $safe_id;
+            $purchaseOrder->safe_id = $safeId;
             $purchaseOrder->safe_payment_id = $payment->id;
-            Safes::where('id', $safe_id)->decrement('safe_balance', $purchaseOrder->purchase_total);
+            Safes::where('id', $safeId)->decrement('safe_balance', $purchaseOrder->purchase_total);
         } else {
             $purchaseOrder->safe_payment_id = 0;
             $purchaseOrder->safe_id = 0;
@@ -210,25 +224,7 @@ class PurchasesOrdersController extends Controller
                 $da->amount = $item['amount'];
                 $da->date = $item['date'];
                 $da->notes = $item['notes'];
-                // if (!empty($item['paynow'])) {
-                // $da->paid = 'Yes';
-                //pay here
-                // $payment = new SafesTransactions();
-                // $payment->safe_id = $item['safe_id'];
-                // $payment->transaction_type = 1;
-                // $payment->transaction_amount = $item['amount'];
-                // $payment->transaction_datetime = Carbon::now();
-                // $payment->done_by = $request->added_by;
-                // $payment->autherized_by = $request->added_by;
-                // $payment->transaction_notes = 'قسط على أمر شراء رقم' . $purchaseOrder->id;
-                // $payment->save();
-                // $payment_id = $payment->id;
-                // $da->safe_id = $item['safe_id'];
-                // $da->safe_payment_id = $payment_id;
-                // Safes::where('id', $item['safe_id'])->decrement('safe_balance', $item['amount']);
-                // } else {
                 $da->paid = 'No';
-                // }
                 $da->save();
                 $listOfDates[] = $da;
             }
@@ -238,7 +234,6 @@ class PurchasesOrdersController extends Controller
 
     public function toinventory(PurchasesOrders $purchaseOrder)
     {
-
         $currentProducts = PurchasesOrdersProducts::where('purchase_id', $purchaseOrder->id)
             // ->with('check')
             ->get();
@@ -248,7 +243,6 @@ class PurchasesOrdersController extends Controller
 
     public function importing(Request $request, PurchasesOrders $purchaseOrder)
     {
-
         $purchaseOrder->purchase_status = 'Delivered';
         $purchaseOrder->already_delivered = 1;
         $purchaseOrder->branch_id = $request->branch_id;
@@ -289,7 +283,7 @@ class PurchasesOrdersController extends Controller
     {
         $purchaseOrder = PurchasesOrders::find($order->id);
         $user = Auth::user();
-        $user_id = $user->id;
+        $userId = $user->id;
         $suppliers = Suppliers::where('id', '!=', $purchaseOrder->supplier_id)->get();
         $currentProducts = PurchasesOrdersProducts::where('purchase_id', $purchaseOrder->id)->get();
         $products = Products::all();
@@ -301,7 +295,7 @@ class PurchasesOrdersController extends Controller
         $safes2 = Safes::all();
         $laterDates = PurchasesOrdersPayments::where('purchase_id', $order->id)->get();
         $branches = Branches::all();
-        return view('purchases_orders.edit', compact('purchaseOrder', 'user_id', 'suppliers', 'currentProducts', 'products', 'safes', 'safes2', 'laterDates', 'branches'));
+        return view('purchases_orders.edit', compact('purchaseOrder', 'userId', 'suppliers', 'currentProducts', 'products', 'safes', 'safes2', 'laterDates', 'branches'));
     }
 
     public function update(EditPurchaseOrder $request, $order)
@@ -321,7 +315,6 @@ class PurchasesOrdersController extends Controller
 
         $purchaseId = $purchase->id;
         $product = $request->product;
-        $date = $request->later;
         $supplierId = $purchase->supplier_id;
 
         //DELETE OLD RECORES

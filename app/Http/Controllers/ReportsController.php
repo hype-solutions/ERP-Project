@@ -179,6 +179,7 @@ class ReportsController extends Controller
         //Suppliers
         $suppliersCount = Suppliers::count();
         //Safes
+        //WTF is this?
         $safeSumx = Safes::where('branch_id', $branch)->sum('safe_balance');
         $safeSumx = Safes::where('branch_id', $branch)->first();
         $safesSum = $safeSumx->safeBalance($safeSumx->id);
@@ -192,8 +193,6 @@ class ReportsController extends Controller
         $invoicesPriceQuotationsCount = InvoicesPriceQuotation::count();
         $invoicesPriceQuotationsSum = InvoicesPriceQuotation::sum('quotation_total');
         //Projects
-
-        // return $invoicesSumLater;
 
         return view('reports.landing', compact(
             'invoicesNetLater',
@@ -275,7 +274,7 @@ class ReportsController extends Controller
             $from = $from;
             $to = $to;
             $branch = $branch;
-        } else if ($request->$from) {
+        } elseif ($request->$from) {
             $from = $request->from;
             $to = $request->to;
             $branch = $request->branch;
@@ -317,7 +316,7 @@ class ReportsController extends Controller
             $from = $from;
             $to = $to;
             $branch = $branch;
-        } else if ($request->$from) {
+        } elseif ($request->$from) {
             $from = $request->from;
             $to = $request->to;
             $branch = $request->branch;
@@ -358,7 +357,7 @@ class ReportsController extends Controller
             $from = $from;
             $to = $to;
             $branch = $branch;
-        } else if ($request->$from) {
+        } elseif ($request->$from) {
             $from = $request->from;
             $to = $request->to;
             $branch = $request->branch;
@@ -402,7 +401,7 @@ class ReportsController extends Controller
             $from = $from;
             $to = $to;
             $branch = $branch;
-        } else if ($request->$from) {
+        } elseif ($request->$from) {
             $from = $request->from;
             $to = $request->to;
             $branch = $request->branch;
@@ -506,7 +505,7 @@ class ReportsController extends Controller
             $from = $from;
             $to = $to;
             $branch = $branch;
-        } else if ($request->$from) {
+        } elseif ($request->$from) {
             $from = $request->from;
             $to = $request->to;
             $branch = $request->branch;
@@ -576,7 +575,7 @@ class ReportsController extends Controller
             $from = $from;
             $to = $to;
             $branch = $branch;
-        } else if ($request->$from) {
+        } elseif ($request->$from) {
             $from = $request->from;
             $to = $request->to;
             $branch = $request->branch;
@@ -647,7 +646,7 @@ class ReportsController extends Controller
             $from = $from;
             $to = $to;
             $branch = $branch;
-        } else if ($request->$from) {
+        } elseif ($request->$from) {
             $from = $request->from;
             $to = $request->to;
             $branch = $request->branch;
@@ -699,7 +698,7 @@ class ReportsController extends Controller
             $from = $from;
             $to = $to;
             $branch = $branch;
-        } else if ($request->$from) {
+        } elseif ($request->$from) {
             $from = $request->from;
             $to = $request->to;
             $branch = $request->branch;
@@ -726,29 +725,9 @@ class ReportsController extends Controller
             ->where('user_id', '!=', 1)
             ->orderBy('action_date', 'DESC')->get();
         $branches = Branches::all();
-
-        // setLocale(LC_TIME, 'Arbaic');
         $period = CarbonPeriod::create($from, $to);
-
-        // // Iterate over the period
-        // foreach ($period as $date) {
-        //     // echo $date->format('F');
-        //     echo $date->formatLocalized('%d %B %Y');
-        // }
-
-        // die();
-
         // Convert the period to an array of dates
         $dates = $period->toArray();
-
-
-
-
-
-
-
-
-
 
         return view('reports.log', compact('dates', 'branches', 'branch', 'logs', 'fromX', 'toX'));
     }

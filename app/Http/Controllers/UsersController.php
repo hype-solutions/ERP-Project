@@ -52,7 +52,7 @@ class UsersController extends Controller
     public function usersList()
     {
         $users = User::where('id', '!=', 1)->with('roles')->get();
-        // return($users);
+
         return view('users.list', compact('users'));
     }
 
@@ -69,15 +69,8 @@ class UsersController extends Controller
         $user->fill([
             'password' => Hash::make($request->password)
         ])->save();
-        // $user = new User();
-        // $user->password = Hash::make($request->password);
-        // $user->email = $request->email;
-        // $user->name = $request->name;
-        // $user->username = $request->username;
-        // $user->mobile = $request->mobile;
-        // $user->role = $request->role;
-        // $user->save();
         $user->assignRole($request->role);
+
         return back()->with('success', 'User Added');
     }
 
@@ -105,31 +98,30 @@ class UsersController extends Controller
     {
         $user = User::find($user);
 
-        $check = User::where('email', $request->email)->where('id','!=',$user->id)->count();
-        if($check > 0){
+        $check = User::where('email', $request->email)->where('id', '!=', $user->id)->count();
+        if ($check > 0) {
             return back()->with('error', 'xxx');
-        }else{
-            $user->name = $request->name;
-        $user->email = $request->email;
-        $user->username = $request->username;
-        $user->mobile = $request->mobile;
-        if ($request->role != 'change') {
-            $user->role = $request->role;
-            $user->syncRoles($request->role);
-        }
-
-
-        if (Hash::check($request->password, $user->password)) {
-            //NO PASS CHANGE
         } else {
-            if ($request->password == $request->password2 && strlen($request->password) > 3) {
-                $user->password = Hash::make($request->password);
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->username = $request->username;
+            $user->mobile = $request->mobile;
+            if ($request->role != 'change') {
+                $user->role = $request->role;
+                $user->syncRoles($request->role);
             }
-        }
-        $user->save();
-        return back()->with('success', 'User Updated');
-        }
 
+
+            if (Hash::check($request->password, $user->password)) {
+                //NO PASS CHANGE
+            } else {
+                if ($request->password == $request->password2 && strlen($request->password) > 3) {
+                    $user->password = Hash::make($request->password);
+                }
+            }
+            $user->save();
+            return back()->with('success', 'User Updated');
+        }
     }
 
 
@@ -208,31 +200,31 @@ class UsersController extends Controller
 
     public function ajax(Request $request)
     {
-        $user = User::find($request->userId);
-        return $user;
+        return User::find($request->userId);
     }
 
-    // function sendResetPassword(User $user){
-    //     $status = Password::sendResetLink(
-    //         $user->email
-    //     );
+    public function sendResetPassword(User $user)
+    {
+        $status = Password::sendResetLink(
+            $user->email
+        );
 
-    //     return $status === Password::RESET_LINK_SENT
-    //                 ? back()->with(['status' => __($status)])
-    //                 : back()->withErrors(['email' => __($status)]);
-    // }
+        return $status === Password::RESET_LINK_SENT
+                    ? back()->with(['status' => __($status)])
+                    : back()->withErrors(['email' => __($status)]);
+    }
 
     public function sendResetLinkEmail(Request $request)
-{
-    $this->validateEmail($request);
+    {
+        $this->validateEmail($request);
 
-    // We will send the password reset link to this user. Once we have attempted
-    // to send the link, we will examine the response then see the message we
-    // need to show to the user. Finally, we'll send out a proper response.
-    $response = $this->broker()->sendResetLink(
-        $request->only('email')
-    );
+        // We will send the password reset link to this user. Once we have attempted
+        // to send the link, we will examine the response then see the message we
+        // need to show to the user. Finally, we'll send out a proper response.
+        $this->broker()->sendResetLink(
+            $request->only('email')
+        );
 
-    return back()->with('success', "Reset Sent");
-}
+        return back()->with('success', "Reset Sent");
+    }
 }
