@@ -246,10 +246,17 @@
                                                                 <span>تم الرفض من الإدارة</span>
                                                             </div>
                                                         @elseif($purchase->purchase_status == 'Delivered')
+                                                            @if ($purchase->payment_method == 'later')
+                                                                <div class="badge badge-success">
+                                                                    <i class="la la-truck font-medium-2"></i>
+                                                                    <span>تم التوريد |  جاري التسديد</span>
+                                                                </div>
+                                                            @else
                                                             <div class="badge badge-success">
                                                                 <i class="la la-truck font-medium-2"></i>
                                                                 <span>تم الدفع و التوريد</span>
                                                             </div>
+                                                            @endif
                                                         @endif
                                                     </td>
                                                     <td>

@@ -339,7 +339,7 @@
                                                             <code><span id="total_after_all">0</span></code>&nbsp;ج.م</td>
                                                         <td></td>
                                                     </tr>
-                                                    
+
 
                                                     <tr id="hidden-row-1" style="display: none">
                                                         <td colspan="4" class="text-right"><strong> الخصم (النسبة)[<span
@@ -497,7 +497,7 @@
             } else {
                 $('#hidden-row-4').hide();
             }
-            
+
             var getDiscountAmount_1 = $('#discount_percentage_amount').text();
             var getDiscountAmount_2 = $('#discount_amount').text();
             getDiscountAmount_1 = parseInt(getDiscountAmount_1);
@@ -508,7 +508,7 @@
             var currentInvoiceTotal = $("#total_after_all").text();
 
             currentInvoiceTotal = parseInt(currentInvoiceTotal) - getDiscountAmount_1 - getDiscountAmount_2;
-            
+
             var newInvoiceTotal = currentInvoiceTotal + (currentInvoiceTotal * (newTax / 100));
             var taxAmount = newInvoiceTotal - currentInvoiceTotal  ;
 
@@ -805,7 +805,6 @@
 
 
 // showing a product price of the selected oreder
-
         $('#sel_x').change(function (e) {
             e.preventDefault();
 
