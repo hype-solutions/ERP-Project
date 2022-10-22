@@ -204,6 +204,7 @@
                                     <td><center><button type="button" class="btn btn-danger btn-sm" onclick="return delRow({{$key+1}})" style="vertical-align:center">X</button></center></td>
                                 </tr>
                                 @endforeach
+
                                 <tr>
                                     <td colspan="2" style="border-style: none !important;">
                                         <div>
@@ -217,6 +218,7 @@
                                     <td class="text-left"  style="border-style: none !important;"><code><span id="total_after_all">0</span></code>&nbsp;ج.م</td>
                                     <td></td>
                                 </tr>
+
                                 <tr id="hidden-row-1" style="display: none">
                                     <td colspan="4" class="text-right"><strong> الخصم (النسبة)[<span id="discount_percentage" style="color: goldenrod">0</span>%]</strong></td>
                                     <td id="TotalValue" class="text-left"><code><span id="discount_percentage_amount">0</span></code>&nbsp;ج.م</td>
@@ -238,7 +240,8 @@
                                     <td></td>
                                  </tr>
                                 <tr>
-                                    <td colspan="4" class="text-right"><strong>الإجمالي</strong></td>
+
+                                    <td colspan="4" class="text-right"><strong>المبلغ الإجمالي</strong></td>
                                     <td id="TotalValue" class="text-left"><code><span id="total_after_all2">0</span></code>&nbsp;ج.م</td>
                                     <td></td>
                                  </tr>
@@ -614,37 +617,41 @@ $('#sel_xx_' + currentIndex).select2();
 }
 
 
-function updateTax() {
-newTax = $('#tax_fees').val();
-if ($('#tax_fees').val().length === 0) {
-    newTax = 0;
-}
-if (newTax > 0) {
-  $('#hidden-row-4').show();
-} else {
-  $('#hidden-row-4').hide();
-}
+    function updateTax() {
+        newTax = $('#tax_fees').val();
+        if ($('#tax_fees').val().length === 0) {
+            newTax = 0;
+        }
+        if (newTax > 0) {
+            $('#hidden-row-4').show();
+        } else {
+            $('#hidden-row-4').hide();
+        }
 
+        var getDiscountAmount_1 = $('#discount_percentage_amount').text();
+        var getDiscountAmount_2 = $('#discount_amount').text();
+        getDiscountAmount_1 = parseInt(getDiscountAmount_1);
+        getDiscountAmount_2 = parseInt(getDiscountAmount_2);
 
-var currentInvoiceTotal = $("#total_after_all").text();
-var descountAmount = $("#discount_amount").text();
-currentInvoiceTotal = parseInt(currentInvoiceTotal) - parseInt(descountAmount);
+        // the tax is applyed after the discount
 
+        var currentInvoiceTotal = $("#total_after_all").text();
+        currentInvoiceTotal = parseInt(currentInvoiceTotal) - getDiscountAmount_1 - getDiscountAmount_2;
 
-  var newInvoiceTotal = currentInvoiceTotal - (currentInvoiceTotal * (newTax / 100));
-  var taxAmount = currentInvoiceTotal - newInvoiceTotal;
-  taxAmount = Math.round(taxAmount);
-  $('#tax_amount').text(taxAmount);
+        var newInvoiceTotal = currentInvoiceTotal + (currentInvoiceTotal * (newTax / 100));
+        var taxAmount = newInvoiceTotal - currentInvoiceTotal  ;
+        taxAmount = Math.round(taxAmount);
+        $('#tax_amount').text(taxAmount);
 
-$('#tax').html(newTax);
-updateTotal();
-}
+        $('#tax').html(newTax);
+        updateTotal();
+    }
 
 
 function addField(argument) {
 var myTable = document.getElementById("myTable");
 var currentIndex = myTable.rows.length;
-var currentRow = myTable.insertRow(myTable.rows.length - 5);
+var currentRow = myTable.insertRow(myTable.rows.length - 6);
 
 var product_id = document.createElement("input");
 // product_id.setAttribute("name", "product_id[" + currentIndex + "]");
