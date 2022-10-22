@@ -34,37 +34,37 @@ class InvoicesPriceQuotationController extends Controller
     public function invoicesPriceQuotationsList()
     {
         $quotations = InvoicesPriceQuotation::all();
-        $users = User::where('id','!=','1')->get();
+        $users = User::where('id', '!=', '1')->get();
         $signature = InvoicesPriceQuotationSignature::with('user')->first();
         $logo = Settings::where('key', 'logo')->value('value');
 
-        return view('invoices_price_quotations.list', compact('logo','quotations','users','signature'));
+        return view('invoices_price_quotations.list', compact('logo', 'quotations', 'users', 'signature'));
     }
 
     public function add()
     {
         $user = Auth::user();
-        $user_id = $user->id;
+        $userId = $user->id;
         $customers = Customers::all();
         $products = Products::all();
 
-        return view('invoices_price_quotations.add', compact('user_id', 'customers', 'products'));
+        return view('invoices_price_quotations.add', compact('userId', 'customers', 'products'));
     }
 
 
     public function view(InvoicesPriceQuotation $invoice)
     {
         $user = Auth::user();
-        $user_id = $user->id;
+        $userId = $user->id;
         $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
         $currentProducts = InvoicesPriceQuotationsProducts::where('quotation_id', $invoice->id)->get();
         $products = Products::all();
         ERPLog::create(['type' => 'Price Quotations', 'action' => 'View', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
         if (request()->getHttpHost() == 'e1.mygesture.co') {
             $modeer = 4;
-        } else if (request()->getHttpHost() == 'e2.mygesture.co') {
+        } elseif (request()->getHttpHost() == 'e2.mygesture.co') {
             $modeer = 3;
-        } else if (request()->getHttpHost() == 'e3.mygesture.co') {
+        } elseif (request()->getHttpHost() == 'e3.mygesture.co') {
             $modeer = 2;
         } else {
             $modeer = 2;
@@ -73,22 +73,21 @@ class InvoicesPriceQuotationController extends Controller
         $logo = Settings::where('key', 'logo')->value('value');
         $company = Settings::where('key', 'company_name')->value('value');
         $signature = InvoicesPriceQuotationSignature::with('user')->first();
-        $address_1 = Settings::where('key', 'address_1')->value('value');
-        $address_2 = Settings::where('key', 'address_2')->value('value');
-        // return($signature);
+        $addressLineOne = Settings::where('key', 'address_1')->value('value');
+        $addressLineTwo = Settings::where('key', 'address_2')->value('value');
 
-        return view('invoices_price_quotations.profile', compact('address_1','address_2','signature','company', 'logo', 'userSig', 'currentProducts', 'invoice', 'user_id', 'customers', 'products'));
+        return view('invoices_price_quotations.profile', compact('addressLineOne', 'addressLineTwo', 'signature', 'company', 'logo', 'userSig', 'currentProducts', 'invoice', 'userId', 'customers', 'products'));
     }
 
     public function edit(InvoicesPriceQuotation $invoice)
     {
-
         $user = Auth::user();
-        $user_id = $user->id;
+        $userId = $user->id;
         $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
         $currentProducts = InvoicesPriceQuotationsProducts::where('quotation_id', $invoice->id)->get();
         $products = Products::all();
-        return view('invoices_price_quotations.edit', compact('currentProducts', 'invoice', 'user_id', 'customers', 'products'));
+
+        return view('invoices_price_quotations.edit', compact('currentProducts', 'invoice', 'userId', 'customers', 'products'));
     }
 
     public function store(Request $request)
@@ -180,21 +179,19 @@ class InvoicesPriceQuotationController extends Controller
             ->with('check')
             ->get();
         $safes = Safes::all();
-        // return $currentProducts;
+
         return view('invoices_price_quotations.check', compact('invoice', 'currentProducts', 'safes'));
     }
 
     public function converting(Request $request, $invoicex)
     {
-
-
         $quotation = InvoicesPriceQuotation::find($invoicex);
         $quotation->quotation_status = 'ToInvoice';
         $quotation->save();
         InvoicesPriceQuotationsProducts::where('quotation_id', $invoicex)
             ->update(['status' => 'ToInvoice']);
 
-        $safe_id = $request->safe_id;
+        $safeId = $request->safe_id;
         $invoice = new Invoices();
         $invoice->customer_id = $quotation->customer_id;
         $invoice->branch_id = 1;
@@ -209,18 +206,18 @@ class InvoicesPriceQuotationController extends Controller
         if ($request->payment_method != 'later') {
             $invoice->already_paid = 1;
             $payment = new SafesTransactions();
-            $payment->safe_id = $safe_id;
+            $payment->safe_id = $safeId;
             $payment->transaction_type = 2;
             $payment->transaction_amount = $quotation->quotation_total;
             $payment->transaction_datetime = Carbon::now();
             $payment->done_by = $quotation->sold_by;
             $payment->authorized_by = $quotation->sold_by;
             $payment->save();
-            $payment_id = $payment->id;
+            $paymentId = $payment->id;
 
-            $invoice->safe_id = $safe_id;
+            $invoice->safe_id = $safeId;
             $invoice->safe_transaction_id = $payment->id;
-            Safes::where('id', $safe_id)->increment('safe_balance', $quotation->quotation_total);
+            Safes::where('id', $safeId)->increment('safe_balance', $quotation->quotation_total);
             $updateLater = 1;
         } else {
             $invoice->safe_transaction_id = 0;
@@ -238,12 +235,10 @@ class InvoicesPriceQuotationController extends Controller
         $customerId = $quotation->customer_id;
         $date = $request->later;
 
-        if (isset($updateLater)) {
-            if ($updateLater == 1) {
-                $edtPayment = SafesTransactions::find($payment_id);
-                $edtPayment->transaction_notes = 'فاتورة مبيعات رقم  ' . $invoiceId;
-                $edtPayment->save();
-            }
+        if (isset($updateLater) && $updateLater == 1) {
+            $edtPayment = SafesTransactions::find($paymentId);
+            $edtPayment->transaction_notes = 'فاتورة مبيعات رقم  ' . $invoiceId;
+            $edtPayment->save();
         }
 
         $quotationProducts = InvoicesPriceQuotationsProducts::where('quotation_id', $invoicex)->get();
@@ -278,7 +273,6 @@ class InvoicesPriceQuotationController extends Controller
             $pro->product_cost = $getCost * $product->product_qty;
             $pro->product_qty = $product->product_qty;
             $pro->status = 'shipped';
-            // $pro->status = 'no';
             $pro->save();
             $listOfProducts[] = $pro;
         }
@@ -294,7 +288,6 @@ class InvoicesPriceQuotationController extends Controller
                 $da->date = $item['date'];
                 $da->notes = $item['notes'];
                 $da->paid = 'No';
-                // Safes::where('id', $safe_id)->increment('safe_balance', $item['amount']);
                 $da->save();
                 $listOfDates[] = $da;
             }
@@ -304,15 +297,12 @@ class InvoicesPriceQuotationController extends Controller
         $edtInvoice = Invoices::find($invoiceId);
         $edtInvoice->invoice_cost = $sumCost;
         $edtInvoice->save();
-        // $getCosxt = PurchasesOrdersProducts::where('product_id',1)->avg('product_price');
-        // return $getCost;
         ERPLog::create(['type' => 'Price Quotations', 'action' => 'Convert To Invoice', 'custom_id' => $invoiceId, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
         return redirect()->route('invoices.view', $invoiceId);
     }
 
     public function status($invoice, $status)
     {
-
         if ($status == 1) {
             $quotation = InvoicesPriceQuotation::find($invoice);
             $quotation->quotation_status = 'Approved';
@@ -322,7 +312,7 @@ class InvoicesPriceQuotationController extends Controller
 
             InvoicesPriceQuotationsProducts::where('quotation_id', $invoice)
                 ->update(['status' => 'Approved']);
-        } else if ($status == 2) {
+        } elseif ($status == 2) {
             $quotation = InvoicesPriceQuotation::find($invoice);
             $quotation->quotation_status = 'Declined';
             $quotation->authorized_by = Auth::id();
@@ -371,7 +361,6 @@ class InvoicesPriceQuotationController extends Controller
             $pro->quotation_id = $quotationId;
             $pro->customer_id = $customerId;
             if (ctype_digit($item['id'])) {
-
                 $pro->product_id = $item['id'];
                 $pro->product_temp = '';
             } else {
@@ -392,10 +381,8 @@ class InvoicesPriceQuotationController extends Controller
     }
 
 
-    function print2(InvoicesPriceQuotation $invoice)
+    public function print2(InvoicesPriceQuotation $invoice)
     {
-        $user = Auth::user();
-        $user_id = $user->id;
         $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
         $currentProducts = InvoicesPriceQuotationsProducts::where('quotation_id', $invoice->id)->get();
         $products = Products::all();
@@ -403,9 +390,9 @@ class InvoicesPriceQuotationController extends Controller
         $p = '2';
         if (request()->getHttpHost() == 'e1.mygesture.co') {
             $modeer = 4;
-        } else if (request()->getHttpHost() == 'e2.mygesture.co') {
+        } elseif (request()->getHttpHost() == 'e2.mygesture.co') {
             $modeer = 3;
-        } else if (request()->getHttpHost() == 'e3.mygesture.co') {
+        } elseif (request()->getHttpHost() == 'e3.mygesture.co') {
             $modeer = 2;
         } else {
             $modeer = 2;
@@ -419,13 +406,13 @@ class InvoicesPriceQuotationController extends Controller
         $count = $currentProducts->count();
         $signature = InvoicesPriceQuotationSignature::with('user')->first();
 
-        return view('invoices_price_quotations.new', compact('signature','template', 'count', 'alreadyShown', 'userSig', 'logo', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
+        return view('invoices_price_quotations.new', compact('signature', 'template', 'count', 'alreadyShown', 'userSig', 'logo', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
     }
 
-    function print3(InvoicesPriceQuotation $invoice, Request $request)
+    public function print3(InvoicesPriceQuotation $invoice, Request $request)
     {
         $user = Auth::user();
-        $user_id = $user->id;
+        $userId = $user->id;
         $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
         $currentProducts = InvoicesPriceQuotationsProducts::where('quotation_id', $invoice->id)->get();
         $products = Products::all();
@@ -437,25 +424,24 @@ class InvoicesPriceQuotationController extends Controller
         $alreadyShown = 0;
         if (request()->getHttpHost() == 'e1.mygesture.co') {
             $modeer = 4;
-        } else if (request()->getHttpHost() == 'e2.mygesture.co') {
+        } elseif (request()->getHttpHost() == 'e2.mygesture.co') {
             $modeer = 3;
-        } else if (request()->getHttpHost() == 'e3.mygesture.co') {
+        } elseif (request()->getHttpHost() == 'e3.mygesture.co') {
             $modeer = 2;
         } else {
             $modeer = 2;
         }
         $userSig = User::find($modeer);
 
-        $settings = Settings::all();
         $logo = Settings::where('key', 'logo')->value('value');
         $signature = InvoicesPriceQuotationSignature::with('user')->first();
-        // return view('invoices_price_quotations.print', compact('template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
-        return view('invoices_price_quotations.new', compact('signature','logo', 'userSig', 'alreadyShown', 'count', 'template', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
+
+        return view('invoices_price_quotations.new', compact('signature', 'logo', 'userSig', 'alreadyShown', 'count', 'template', 'p', 'currentProducts', 'invoice', 'userId', 'customers', 'products', 'branches'));
     }
 
     public function signature(Request $request)
     {
-        InvoicesPriceQuotationSignature::where('id',1)->update([
+        InvoicesPriceQuotationSignature::where('id', 1)->update([
             'user_id' => $request->userId,
             'title' => $request->title,
         ]);
