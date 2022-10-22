@@ -303,6 +303,7 @@
                                                                 </select>
                                                             </div>
                                                         </td>
+
                                                         <td><input type="text" class="product_input" placeholder=""
                                                                 name="product[1][desc]" /></td>
                                                         <td><input type="number" class="product_input" id="p_p_1"
@@ -358,10 +359,13 @@
                                                         <td></td>
                                                     </tr>
 
+
+
                                                     <tr id="hidden-row-3" style="display: none">
                                                         <td colspan="4" class="text-right"><strong>الشحن</strong></td>
                                                         <td id="TotalValue" class="text-left"><code><span
                                                         id="shipping">0</span></code>&nbsp;ج.م</td>
+
                                                         <td></td>
                                                     </tr>
 
@@ -502,10 +506,12 @@
             // the tax is applyed after the discount
 
             var currentInvoiceTotal = $("#total_after_all").text();
+
             currentInvoiceTotal = parseInt(currentInvoiceTotal) - getDiscountAmount_1 - getDiscountAmount_2;
 
             var newInvoiceTotal = currentInvoiceTotal + (currentInvoiceTotal * (newTax / 100));
             var taxAmount = newInvoiceTotal - currentInvoiceTotal  ;
+
             taxAmount = Math.round(taxAmount);
             $('#tax_amount').text(taxAmount);
 
