@@ -290,20 +290,26 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr id="row_1">
+                                                        @if(isset($old_product))
+
+                                                        <td>
+                                                            <input type="text" disabled value="{{$old_product->product_name}}" style="width:100%;height:100%">
+                                                            <input type="hidden" value="{{$old_product->id}}" name="product[1][id]">
+
+                                                        </td>
+                                                        @else
                                                         <td>
                                                             <div class="form-group product_sel">
                                                                 <select id="sel_x" class="select2-rtl form-control"
                                                                     data-placeholder="إختر المنتج" name="product[1][id]"
                                                                     required>
-                                                                    <option></option>
                                                                     @foreach ($products as $product)
-                                                                        <option value="{{ $product->id }}">
-                                                                            {{ $product->product_name }}</option>
+                                                                         <option value="{{$product->product_id}}">{{$product->product_name}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
                                                         </td>
-
+                                                        @endif
                                                         <td><input type="text" class="product_input" placeholder=""
                                                                 name="product[1][desc]" /></td>
                                                         <td><input type="number" class="product_input" id="p_p_1"

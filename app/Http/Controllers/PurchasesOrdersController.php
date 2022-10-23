@@ -51,16 +51,31 @@ class PurchasesOrdersController extends Controller
         return view('purchases_orders.profile', compact('signature', 'company', 'logo', 'addressLineOne', 'addressLineTwo', 'purchaseOrder', 'userId', 'currentProducts', 'safes', 'laterDates'));
     }
 
-    public function add()
+    public function add($id=null)
     {
-        $user = Auth::user();
-        $userId = $user->id;
-        $suppliers = Suppliers::all();
-        $products = Products::all();
-        $safes = Safes::all();
-        $branches = Branches::all();
-        $safePaymentId = SafesTransactions::where('transaction_type', 1)->get();
-        return view('purchases_orders.add', compact('safePaymentId', 'userId', 'suppliers', 'products', 'safes', 'branches'));
+
+        if (!$id){
+            $user = Auth::user();
+            $user_id = $user->id;
+            $suppliers = Suppliers::all();
+            $products = Products::all();
+            $safes = Safes::all();
+            $branches = Branches::all();
+            $safePaymentId = SafesTransactions::where('transaction_type', 1)->get();
+            return view('purchases_orders.add', compact('safePaymentId', 'user_id', 'suppliers', 'products', 'safes', 'branches'));
+        }else{
+            $user = Auth::user();
+            $user_id = $user->id;
+            $suppliers = Suppliers::all();
+            $old_product = Products::find($id);
+            // dd($old_product);
+            $products = Products::all();
+            $safes = Safes::all();
+            $branches = Branches::all();
+            $safePaymentId = SafesTransactions::where('transaction_type', 1)->get();
+            return view('purchases_orders.add', compact('safePaymentId', 'user_id', 'suppliers', 'products','old_product', 'safes', 'branches'));
+        }
+
     }
 
 
