@@ -148,7 +148,13 @@
                                                             بدون بند
                                                         @endif
                                                     </td>
-                                                    <td> {{ $in->safe->safe_name }}</td>
+                                                    <td>
+                                                        @if($in->safe)
+                                                        {{ $in->safe->safe_name }}
+                                                        @else
+                                                        خزنة محذوفة
+                                                        @endif
+                                                    </td>
                                                     <td class="text-center">
                                                         @if ($in->safe_transaction_id > 0)
                                                             <b>{{ $in->safe_transaction_id }}</b>
