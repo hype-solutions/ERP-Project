@@ -95,7 +95,7 @@
       @method('patch')
 
 
-      <input type="hidden" name="added_by" value="{{ $user_id }}" />
+      <input type="hidden" name="added_by" value="{{ $userId }}" />
       <input type="hidden" name="purchase_total" id="totalToSave" value="0" />
 
   <div class="row">

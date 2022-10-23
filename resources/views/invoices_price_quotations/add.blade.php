@@ -109,7 +109,7 @@
                     @csrf
 
 
-                    <input type="hidden" name="sold_by" value="{{ $user_id }}" />
+                    <input type="hidden" name="sold_by" value="{{ $userId }}" />
                     <input type="hidden" name="quotation_total" id="totalToSave" value="0" />
 
                     <div class="row">

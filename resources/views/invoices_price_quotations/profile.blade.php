@@ -90,8 +90,8 @@
                                 <div class="col-12">
                                     <div class="media-body">
                                         <ul class="ml-2 px-0 list-unstyled">
-                                            <li>{{ $address_1 }}</li>
-                                            <li>{{ $address_2 }}</li>
+                                            <li>{{ $addressLineOne }}</li>
+                                            <li>{{ $addressLineTwo }}</li>
 
                                         </ul>
                                     </div>

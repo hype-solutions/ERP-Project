@@ -1,5 +1,5 @@
 @extends('layouts.erp')
-@section('title', 'بنوج الدواخل')
+@section('title', 'بنود الدواخل')
 
 @section('pageCss')
     <link rel="stylesheet" type="text/css"
@@ -184,10 +184,10 @@
                                                 <td>{{ $cat->category_name }}</td>
                                                 <td>
                                                     <button data-toggle="modal" data-target="#edit_cat{{ $cat->id }}"
-                                                        class="btn btn-warning btn-sm"><i class="la la-pencil-square-o"></i>
+                                                        class="btn btn-warning" style="width: 150px"><i class="la la-pencil-square-o"></i>
                                                         تعديل</button>
                                                     <a href="{{ route('ins.categories.deleting', $cat->id) }}"
-                                                        class="btn btn-danger btn-sm"><i class="la la-trash"></i> حذف</a>
+                                                        class="btn btn-danger" style="width: 150px"><i class="la la-trash"></i> حذف</a>
 
                                                     <div class="modal fade text-left" id="edit_cat{{ $cat->id }}"
                                                         tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"

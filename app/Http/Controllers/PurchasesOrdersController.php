@@ -61,6 +61,7 @@ class PurchasesOrdersController extends Controller
         $branches = Branches::all();
         $safePaymentId = SafesTransactions::where('transaction_type', 1)->get();
         return view('purchases_orders.add', compact('safePaymentId', 'userId', 'suppliers', 'products', 'safes', 'branches'));
+
     }
 
 
@@ -81,24 +82,6 @@ class PurchasesOrdersController extends Controller
         }
     }
 
-
-    // get product orice while adding purchase order
-
-    public function getPrice(Request $request){
-
-        $prod_id = $request->input('product_id');
-        $product = Products::find($prod_id);
-        $priceval = $product->product_price;
-
-        if($product){
-
-            return response()->json([
-                'status' => true ,
-                'product_price' => $priceval ,
-                'status' => true ,
-            ]);
-        }
-    }
 
     public function purchasesordersList()
     {
