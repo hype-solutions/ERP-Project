@@ -155,6 +155,7 @@
                                                         خزنة محذوفة
                                                         @endif
                                                     </td>
+
                                                     <td class="text-center">
                                                         @if ($in->safe_transaction_id > 0)
                                                             <b>{{ $in->safe_transaction_id }}</b>
