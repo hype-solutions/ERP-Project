@@ -111,7 +111,7 @@
       @csrf
 
       <input type="hidden" name="product_id" value="{{ $product->id }} "/>
-      <input type="hidden" name="added_by" value="{{ $user_id }}" />
+      <input type="hidden" name="added_by" value="{{ $userId }}" />
   <div class="row">
     <div class="col-md-8">
         <div class="card">
