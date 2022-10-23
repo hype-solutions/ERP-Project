@@ -61,6 +61,7 @@ class PurchasesOrdersController extends Controller
         $branches = Branches::all();
         $safePaymentId = SafesTransactions::where('transaction_type', 1)->get();
         return view('purchases_orders.add', compact('safePaymentId', 'userId', 'suppliers', 'products', 'safes', 'branches'));
+
     }
 
 
