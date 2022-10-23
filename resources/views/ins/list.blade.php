@@ -194,7 +194,6 @@
                                                     </td>
                                                     <td>
                                                         @if (isset($in->authorized_by) && isset($in->auth_user))
-                                                            <br>
                                                             صرح بالعملية
                                                             <div
                                                                 class="badge border-success success badge-square badge-border">
@@ -203,7 +202,6 @@
                                                             </div>
                                                         @endif
                                                         @if ($in->rejected_by > 0)
-                                                            <br>
                                                             رفض العملية
                                                             <div
                                                                 class="badge border-danger danger badge-square badge-border">
