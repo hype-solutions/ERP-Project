@@ -51,7 +51,7 @@ class PurchasesOrdersController extends Controller
         return view('purchases_orders.profile', compact('signature', 'company', 'logo', 'addressLineOne', 'addressLineTwo', 'purchaseOrder', 'userId', 'currentProducts', 'safes', 'laterDates'));
     }
 
-    public function add($id=null)
+    public function add($id = null)
     {
 
         $user = Auth::user();
