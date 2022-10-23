@@ -79,7 +79,7 @@
 <form method="POST" action="{{route('safes.transfering')}}">
       @csrf
 
-      <input type="hidden" name="transfered_by" value="{{ $user_id }}" />
+      <input type="hidden" name="transfered_by" value="{{ $userId }}" />
   <div class="row">
     <div class="col-md-6">
         <div class="card">

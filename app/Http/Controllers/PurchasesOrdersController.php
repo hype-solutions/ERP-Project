@@ -73,6 +73,7 @@ class PurchasesOrdersController extends Controller
             return view('purchases_orders.add', compact('safePaymentId', 'user_id', 'suppliers', 'products','old_product', 'safes', 'branches'));
         }
 
+
     }
 
 
