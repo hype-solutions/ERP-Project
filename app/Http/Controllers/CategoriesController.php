@@ -17,6 +17,16 @@ class CategoriesController extends Controller
 
     public function adding(Request $request)
     {
+        $request->validate(
+            [
+                'category_name' => 'unique:products_categories,cat_name|required',
+            ],
+            [
+                'category_name.unique' => 'هذه الفئة موجودة بالفعل',
+            ]
+        );
+
+
         $cat = new ProductsCategories();
         $cat->cat_name = $request->category_name;
         $cat->save();
