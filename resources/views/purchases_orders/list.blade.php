@@ -17,6 +17,12 @@
         href="{{ asset('theme/app-assets/vendors/css/tables/extensions/buttons.dataTables.min.css') }}">
     <link rel="stylesheet" type="text/css"
         href="{{ asset('theme/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css') }}">
+
+        <style>
+            .control-button{
+                margin: 3px
+            }
+        </style>
 @endsection
 
 @section('content')
@@ -295,38 +301,37 @@
                                                             </div>
                                                         @endif
                                                     </td> --}}
-                                                    <td>
-                                                        <a href="{{ route('purchasesorders.view', $purchase->id) }}"
-                                                            class="btn btn-info btn-sm"><i class="la la-folder-open"></i>
-                                                            استعراض</a>
+                                                    <td style="display: flex">
+                                                        <a href="{{ route('purchasesorders.view', $purchase->id) }}" title="استعراض"
+                                                            class="btn btn-info btn-sm control-button"><i class="la la-folder-open"></i>
+                                                            </a>
                                                         @if ($purchase->purchase_status != 'Delivered' && $purchase->purchase_status != 'Paid' && $purchase->payment_method != 'later')
-                                                            <a href="{{ route('purchasesorders.edit', $purchase->id) }}"
-                                                                class="btn btn-primary btn-sm"><i
-                                                                    class="la la-pencil-square-o"></i> تعديل</a>
+                                                            <a href="{{ route('purchasesorders.edit', $purchase->id) }}" title="تعديل"
+                                                                class="btn btn-primary btn-sm control-button"><i
+                                                                    class="la la-pencil-square-o"></i> </a>
                                                         @endif
                                                         @if ($purchase->purchase_status == 'Created')
                                                             @if ($purchase->payment_method == 'later')
-                                                            <a href="{{ route('installments.purchases',$purchase->id) }}"
-                                                                class="btn btn-primary btn-sm"><i
-                                                                    class="la la-pencil-square-o"></i> إستعراض أقساط الدفع</a>
-                                                                    <a href="{{ route('purchasesorders.toinventory', $purchase->id) }}"
-                                                                        class="btn btn-dark btn-sm"><i class="la la-file"></i>
-                                                                        توريد الى المخزن</a>
+                                                            <a href="{{ route('installments.purchases',$purchase->id) }}"  title="إستعراض أقساط الدفع"
+                                                                class="btn btn-primary btn-sm control-button"><i
+                                                                    class="la la-pencil-square-o"></i></a>
+                                                                    <a href="{{ route('purchasesorders.toinventory', $purchase->id) }}" title="  توريد الى المخزن"
+                                                                        class="btn btn-dark btn-sm control-button"><i class="la la-file"></i>
+                                                                    </a>
                                                             @else
                                                                 <br />
-                                                                <a class="btn btn-success btn-sm"
+                                                                <a class="btn btn-success btn-sm control-button" title='تصديق على أمر الشراء والدفع'
                                                                     href="{{ route('purchasesorders.status', [$purchase->id, 1]) }}"><i
-                                                                        class="la la-check"></i> تصديق على أمر الشراء و
-                                                                    الدفع</a>
-                                                                <a class="btn btn-danger btn-sm"
+                                                                        class="la la-check"></i> </a>
+                                                                <a class="btn btn-danger btn-sm control-button" title="رفض"
                                                                     href="{{ route('purchasesorders.status', [$purchase->id, 2]) }}"><i
-                                                                        class="la la-close"></i> رفض</a>
+                                                                        class="la la-close"></i> </a>
                                                             @endif
                                                         @elseif($purchase->purchase_status =='Paid')
                                                             <br />
-                                                            <a href="{{ route('purchasesorders.toinventory', $purchase->id) }}"
-                                                                class="btn btn-dark btn-sm"><i class="la la-file"></i>
-                                                                توريد الى المخزن</a>
+                                                            <a href="{{ route('purchasesorders.toinventory', $purchase->id) }}" title="توريد الى المخزن"
+                                                                class="btn btn-dark btn-sm control-button"><i class="la la-file"></i>
+                                                            </a>
                                                         @endif
                                                     </td>
                                                 </tr>
