@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Outs\CreateOuts;
 use App\Models\Out\Out;
 use App\Models\Out\OutCategories;
 use App\Models\Out\OutEntities;
@@ -48,7 +49,7 @@ class OutsController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(CreateOuts $request)
     {
         $user = Auth::user();
         $userId = $user->id;
