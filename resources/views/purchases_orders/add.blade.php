@@ -825,7 +825,7 @@
                 },
                 success: function (data) {
                     if(data.status){
-                        $("#p_p_1").attr("placeholder", data.product_price);
+                        $("#p_p_1").val(data.product_price);
 
                     }
 
@@ -913,7 +913,7 @@
                     },
                     success: function (data) {
                         if(data.status){
-                            $("#p_p_" + currentIndex).attr("placeholder", data.product_price);
+                            $("#p_p_" + currentIndex).val(data.product_price);
 
                         }
                     },

@@ -106,7 +106,8 @@
                             <div class="form-group">
                                 <label for="timesheetinput2">كود المنتج</label>
                                 <div class="position-relative has-icon-left">
-                                    <input type="text" id="timesheetinput2" class="form-control" name="product_code">
+                                    <input type="text" id="timesheetinput2" class="form-control" name="product_code"
+                                     onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode >= 48 && event.charCode <= 57)">
                                     <div class="form-control-position">
                                         <i class="la la-barcode"></i>
                                     </div>
