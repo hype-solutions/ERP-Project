@@ -43,9 +43,7 @@ class CategoriesController extends Controller
             ]
         );
 
-        $cat->update([
-            'cat_name'=>$request->category_name
-        ]);
+        $cat->cat_name= $request->category_name;
         // = ;
         $cat->save();
 
