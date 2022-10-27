@@ -87,6 +87,7 @@
                             <div class="card-text">
                                 {{-- <p>This is the most basic and default form having form sections. To add form section use <code>.form-section</code> class with any heading tags. This form has the buttons on the bottom left corner which is the default position.</p> --}}
 
+
                             </div>
                             <form class="form" method="post" action="{{ route('products.adding') }}">
                                 @csrf
