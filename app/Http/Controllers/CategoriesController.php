@@ -35,8 +35,18 @@ class CategoriesController extends Controller
     }
 
     public function editing(ProductsCategories $cat, Request $request)
+
     {
-        $cat->cat_name = $request->category_name;
+        $request->validate(
+            [
+                'category_name' => 'unique:products_categories,cat_name,'.$cat->id,
+            ]
+        );
+
+        $cat->update([
+            'cat_name'=>$request->category_name
+        ]);
+        // = ;
         $cat->save();
 
         return back()->with('success', 'product category editied');
