@@ -263,8 +263,7 @@
                             <br>
                             @if($checkError == 0)
                             <button type="submit" class="btn btn-block btn-primary">تحويل الى فاتورة مبيعات</button>
-                            @else
-                            <button class="btn btn-block btn-primary" title="برجاء مراجعة الأصناف" disabled>تحويل الى فاتورة مبيعات</button>
+
                             @endif
 
                         </form>
