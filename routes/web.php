@@ -270,9 +270,9 @@ Route::group(['middleware' => ['permission:View PO']], function () {
     Route::get('/purchase_orders/view/{order}', [PurchasesOrdersController::class, 'view'])->name('purchasesorders.view');
 });
 Route::group(['middleware' => ['permission:Add PO']], function () {
-    Route::get('/purchase_orders/add', [PurchasesOrdersController::class, 'add'])->name('purchasesorders.add');
+    Route::get('/purchase_orders/add/{id?}', [PurchasesOrdersController::class, 'add'])->name('purchasesorders.add');
     Route::post('/purchase_orders/adding', [PurchasesOrdersController::class, 'store'])->name('purchasesorders.adding');
-    
+
     //rout to display each selected order price
     Route::post('/purchase_orders/getPrice', [PurchasesOrdersController::class, 'getPrice'])->name('purchasesorders.getPrice');
 

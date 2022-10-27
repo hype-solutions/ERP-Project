@@ -51,16 +51,28 @@ class PurchasesOrdersController extends Controller
         return view('purchases_orders.profile', compact('signature', 'company', 'logo', 'addressLineOne', 'addressLineTwo', 'purchaseOrder', 'userId', 'currentProducts', 'safes', 'laterDates'));
     }
 
-    public function add()
+    public function add($id = null)
     {
+
         $user = Auth::user();
         $userId = $user->id;
         $suppliers = Suppliers::all();
         $products = Products::all();
         $safes = Safes::all();
         $branches = Branches::all();
-        $safePaymentId = SafesTransactions::where('transaction_type', 1)->get();
-        return view('purchases_orders.add', compact('safePaymentId', 'userId', 'suppliers', 'products', 'safes', 'branches'));
+
+        if (!$id){
+
+            $safePaymentId = SafesTransactions::where('transaction_type', 1)->get();
+            return view('purchases_orders.add', compact('safePaymentId', 'userId', 'suppliers', 'products', 'safes', 'branches'));
+        }else{
+
+            $oldProduct = Products::find($id);
+
+            $safePaymentId = SafesTransactions::where('transaction_type', 1)->get();
+            return view('purchases_orders.add', compact('safePaymentId', 'userId', 'suppliers', 'products','oldProduct', 'safes', 'branches'));
+        }
+
 
     }
 
