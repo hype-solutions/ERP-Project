@@ -122,18 +122,18 @@
                             <div class="card-body">
                                 <!-- datatable start -->
                                 <div class="table-responsive">
-                                    <table id="users-list-datatable" class="table">
+                                    <table id="users-list-datatable" class="table table-bordered">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
                                                 <th>التاريخ</th>
                                                 <th>البند</th>
                                                 <th>الخزنة</th>
-                                                <th>رقم العملية في الخزنة</th>
-                                                <th>الملاحظات</th>
+                                                <th>الحالة</th>
                                                 <th>المبلغ</th>
-                                                <th>قام بالعملية</th>
-                                                <th>صرح / رفض العملية</th>
+                                                <th>التحكم</th>
+                                                <th>الحركات</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -149,70 +149,109 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if($in->safe)
-                                                        {{ $in->safe->safe_name }}
+                                                        @if ($in->safe)
+                                                            {{ $in->safe->safe_name }}
                                                         @else
-                                                        خزنة محذوفة
+                                                            خزنة محذوفة
                                                         @endif
                                                     </td>
 
                                                     <td class="text-center">
                                                         @if ($in->safe_transaction_id > 0)
-                                                            <b>{{ $in->safe_transaction_id }}</b>
-                                                            <br>
-                                                            <button
-                                                                onclick="return pay('{{ route('safes.receipt', $in->safe_transaction_id) }}');"
-                                                                class="btn btn-warning">الإيصال</button>
+                                                            <span class="success">تم التصديق</span>
                                                         @else
                                                             @if ($in->rejected_by == 0)
-                                                                <span class="danger">لم يتم التصديق عليها بعد</span>
-                                                                <br>
+                                                                <span class="warning">لم يتم التصديق عليها بعد</span>
+                                                            @else
+                                                                <span class="danger">عملية مرفوضة</span>
+                                                            @endif
+                                                        @endif
+
+                                                    </td>
+
+                                                    <td> {{ $in->amount }} ج.م</td>
+                                                    <td class="text-center">
+                                                        @if ($in->safe_transaction_id > 0)
+                                                            <b>عملية رقم #{{ $in->safe_transaction_id }}</b>
+                                                            <br>
+                                                            <button title="طباعة الإيصال"
+                                                                onclick="return pay('{{ route('safes.receipt', $in->safe_transaction_id) }}');"
+                                                                class="btn btn-warning"><i
+                                                                    class="la la-print font-medium-2"></i></button>
+                                                        @else
+                                                            @if ($in->rejected_by == 0)
                                                                 <form action="{{ route('ins.authorizeIn', [$in->id, 1]) }}"
                                                                     method="POST">
                                                                     @csrf
-                                                                    <button type="submit"
-                                                                        class="btn btn-success " style="width: 50%">تصديق</button>
+                                                                    <button type="submit" title="تصديق"
+                                                                        class="btn btn-success "><i
+                                                                        class="la la-check-circle font-medium-2"></i></button>
                                                                 </form>
                                                                 <form action="{{ route('ins.authorizeIn', [$in->id, 2]) }}"
                                                                     method="POST">
                                                                     @csrf
-                                                                    <button class="btn btn-danger "  style="width: 40%" type="submit">رفض</button>
+                                                                    <button class="btn btn-danger " title="رفض"
+                                                                        type="submit"><i
+                                                                        class="la la-times-circle font-medium-2"></i></button>
                                                                 </form>
                                                             @endif
                                                         @endif
 
                                                     </td>
-                                                    <td> {{ $in->notes }}
-                                                        @if ($in->rejected_by > 0)
-                                                            <span class="danger">عملية مرفوضة</span>
-                                                        @endif
-                                                    </td>
-                                                    <td> {{ $in->amount }} ج.م</td>
                                                     <td>
-                                                        <div class="badge border-primary primary badge-border">
-                                                            <i class="la la-user font-medium-2"></i>
-                                                            @if ($in->done_user)
-                                                                <span>{{ $in->done_user->username }}</span>
-                                                            @else
-                                                                مستخدم محذوف
-                                                            @endif
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        @if (isset($in->authorized_by) && isset($in->auth_user))
+
+                                                        قام بالعملية
+                                                        @if (isset($in->authorized_by))
+                                                            <br>
+                                                            <br>
                                                             صرح بالعملية
-                                                            <div
-                                                                class="badge border-success success badge-square badge-border">
+                                                        @endif
+                                                        @if ($in->rejected_by > 0)
+                                                            <br>
+                                                            <br>
+                                                            رفض العملية
+                                                        @endif
+
+                                                    </td>
+                                                    <td>
+
+                                                        <div class="badge border-primary primary badge-square badge-border"
+                                                            style="width: 100%">
+                                                            <i class="la la-user font-medium-2"></i>
+                                                            <span>
+                                                                @if (isset($in->done_user))
+                                                                    {{ $in->done_user->username }}
+                                                                @else
+                                                                    مستخدم محذوف
+                                                                @endif
+                                                            </span>
+                                                        </div>
+                                                        @if (isset($in->authorized_by))
+                                                            <br>
+                                                            <div class="badge border-success success badge-square badge-border"
+                                                                style="width: 100%">
                                                                 <i class="la la-user font-medium-2"></i>
-                                                                <span>{{ $in->auth_user->username }}</span>
+                                                                <span>
+                                                                    @if (isset($in->auth_user))
+                                                                        {{ $in->auth_user->username }}
+                                                                    @else
+                                                                        مستخدم محذوف
+                                                                    @endif
+                                                                </span>
                                                             </div>
                                                         @endif
                                                         @if ($in->rejected_by > 0)
-                                                            رفض العملية
-                                                            <div
-                                                                class="badge border-danger danger badge-square badge-border">
+                                                            <br>
+                                                            <div class="badge border-danger danger badge-square badge-border"
+                                                                style="width: 100%">
                                                                 <i class="la la-user font-medium-2"></i>
-                                                                <span>{{ $in->reject_user->username }}</span>
+                                                                <span>
+                                                                    @if (isset($in->auth_user))
+                                                                        {{ $in->reject_user->username }}
+                                                                    @else
+                                                                        مستخدم محذوف
+                                                                    @endif
+                                                                </span>
                                                             </div>
                                                         @endif
 
@@ -250,7 +289,7 @@
             popupWindow = window.open(
                 url, 'popUpWindow',
                 'height=700,width=300,left=10,top=10,resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no'
-                )
+            )
         }
     </script>
 
