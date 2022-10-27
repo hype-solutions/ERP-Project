@@ -204,12 +204,12 @@
                                                     <div class="action-wrap">
                                                         @if ($item->amountInBranch($currentSession->branch_id) > 0)
                                                             <button type="button"
-                                                                class="btn btn-primary btn-sm float-right"
+                                                                class="btn btn-primary btn-block float-right"
                                                                 onclick="return addToCart({{ $item->id }},'{{ $item->product_name }}',{{ $item->product_price }}, {{ $item->amountInBranch($currentSession->branch_id) }})">
                                                                 <i class="fa fa-cart-plus"></i> إضافة </button>
                                                         @else
                                                             <button type="button"
-                                                                class="btn btn-primary btn-sm float-right" disabled> <i
+                                                                class="btn btn-primary btn-block float-right" disabled> <i
                                                                     class="fa fa-cart-plus"></i> إضافة </button>
                                                         @endif
                                                         <div class="price-wrap h5">
@@ -268,12 +268,12 @@
                                                             <div class="action-wrap">
                                                                 @if ($item->amountInBranch($currentSession->branch_id) > 0)
                                                                     <button type="button"
-                                                                        class="btn btn-primary btn-sm float-right"
+                                                                        class="btn btn-primary btn-block float-right"
                                                                         onclick="return addToCart({{ $item->id }},'{{ $item->product_name }}',{{ $item->product_price }}, {{ $item->amountInBranch($currentSession->branch_id) }})">
                                                                         <i class="fa fa-cart-plus"></i> إضافة </button>
                                                                 @else
                                                                     <button type="button"
-                                                                        class="btn btn-primary btn-sm float-right"
+                                                                        class="btn btn-primary btn-block float-right"
                                                                         disabled> <i class="fa fa-cart-plus"></i> إضافة
                                                                     </button>
                                                                 @endif
@@ -1084,7 +1084,7 @@
                                         productStatus = '<span class="badge-avl">متوفر </span>';
                                     } else {
                                         addBtn =
-                                            '<button type="button" class="btn btn-primary btn-sm float-right" disabled> <i class="fa fa-cart-plus"></i> إضافة </button>';
+                                            '<button type="button" class="btn btn-primary btn-block float-right" disabled> <i class="fa fa-cart-plus"></i> إضافة </button>';
                                         productStatus = '<span class="badge-new"> غير متوفر </span>';
                                     }
                                     var noImg = "{{ asset('theme/pos/images/items/noImg.jpg') }}";
@@ -1178,7 +1178,7 @@
                                     productStatus = '<span class="badge-avl">متوفر </span>';
                                 } else {
                                     addBtn =
-                                        '<button type="button" class="btn btn-primary btn-sm float-right" disabled> <i class="fa fa-cart-plus"></i> إضافة </button>';
+                                        '<button type="button" class="btn btn-primary btn-block float-right" disabled> <i class="fa fa-cart-plus"></i> إضافة </button>';
                                     productStatus = '<span class="badge-new"> غير متوفر </span>';
                                 }
                                 var noImg = "{{ asset('theme/pos/images/items/noImg.jpg') }}";
