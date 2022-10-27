@@ -89,7 +89,7 @@ class OutsController extends Controller
             $out->authorized_by = $userId;
             $out->save();
 
-            Safes::where('id', $out->safe_id)->increment('safe_balance', $out->amount);
+            Safes::where('id', $out->safe_id)->decrement('safe_balance', $out->amount);
         } else {
             $out->rejected_by = $userId;
             $out->save();
