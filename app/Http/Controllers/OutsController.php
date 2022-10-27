@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Outs\CreateOutCategories;
+use App\Http\Requests\Outs\CreateOutEntities;
 use App\Http\Requests\Outs\CreateOuts;
 use App\Models\Out\Out;
 use App\Models\Out\OutCategories;
@@ -99,7 +101,7 @@ class OutsController extends Controller
     }
 
 
-    public function categoriesstore(Request $request)
+    public function categoriesstore(CreateOutCategories $request)
     {
         $cat = new OutCategories();
         $cat->category_name = $request->category_name;
@@ -108,7 +110,7 @@ class OutsController extends Controller
     }
 
 
-    public function entitiesstore(Request $request)
+    public function entitiesstore(CreateOutEntities $request)
     {
         $cat = new OutEntities();
         $cat->entity_name = $request->entity_name;

@@ -101,7 +101,7 @@ class InsController extends Controller
         return redirect()->route('ins.categories');
     }
 
-    public function categoriesstore(Request $request)
+    public function categoriesstore(CreateInCategories $request)
     {
         $cat = new InCategories();
         $cat->category_name = $request->category_name;
