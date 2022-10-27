@@ -55,7 +55,7 @@ class PurchasesOrdersController extends Controller
     {
 
         $user = Auth::user();
-        $user_id = $user->id;
+        $userId = $user->id;
         $suppliers = Suppliers::all();
         $products = Products::all();
         $safes = Safes::all();
@@ -64,13 +64,13 @@ class PurchasesOrdersController extends Controller
         if (!$id){
 
             $safePaymentId = SafesTransactions::where('transaction_type', 1)->get();
-            return view('purchases_orders.add', compact('safePaymentId', 'user_id', 'suppliers', 'products', 'safes', 'branches'));
+            return view('purchases_orders.add', compact('safePaymentId', 'userId', 'suppliers', 'products', 'safes', 'branches'));
         }else{
 
-            $old_product = Products::find($id);
+            $oldProduct = Products::find($id);
 
             $safePaymentId = SafesTransactions::where('transaction_type', 1)->get();
-            return view('purchases_orders.add', compact('safePaymentId', 'user_id', 'suppliers', 'products','old_product', 'safes', 'branches'));
+            return view('purchases_orders.add', compact('safePaymentId', 'userId', 'suppliers', 'products','oldProduct', 'safes', 'branches'));
         }
 
 

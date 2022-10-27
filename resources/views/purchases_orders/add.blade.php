@@ -290,11 +290,11 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr id="row_1">
-                                                        @if(isset($old_product))
+                                                        @if(isset($oldProduct))
 
                                                         <td>
-                                                            <input type="text" disabled value="{{$old_product->product_name}}" style="width:100%;height:100%">
-                                                            <input type="hidden" value="{{$old_product->id}}" name="product[1][id]">
+                                                            <input type="text" disabled value="{{$oldProduct->product_name}}" style="width:100%;height:100%">
+                                                            <input type="hidden" value="{{$oldProduct->id}}" name="product[1][id]">
 
                                                         </td>
                                                         @else
