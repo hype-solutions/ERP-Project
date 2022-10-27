@@ -184,10 +184,10 @@
                                                 <td>{{ $cat->category_name }}</td>
                                                 <td>
                                                     <button data-toggle="modal" data-target="#edit_cat{{ $cat->id }}"
-                                                        class="btn btn-warning" style="width: 150px"><i class="la la-pencil-square-o"></i>
-                                                        تعديل</button>
+                                                        class="btn btn-warning"><i class="la la-pencil-square-o"></i>
+                                                        </button>
                                                     <a href="{{ route('ins.categories.deleting', $cat->id) }}"
-                                                        class="btn btn-danger" style="width: 150px"><i class="la la-trash"></i> حذف</a>
+                                                        class="btn btn-danger"><i class="la la-trash"></i> </a>
 
                                                     <div class="modal fade text-left" id="edit_cat{{ $cat->id }}"
                                                         tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"
