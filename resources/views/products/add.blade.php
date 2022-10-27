@@ -86,6 +86,7 @@
                         <div class="card-body">
                             <div class="card-text">
                                 {{-- <p>This is the most basic and default form having form sections. To add form section use <code>.form-section</code> class with any heading tags. This form has the buttons on the bottom left corner which is the default position.</p> --}}
+
                             </div>
                             <form class="form" method="post" action="{{ route('products.adding') }}">
                                 @csrf
@@ -114,7 +115,8 @@
                                                 <label for="timesheetinput2">كود المنتج</label>
                                                 <div class="position-relative has-icon-left">
                                                     <input type="text" id="timesheetinput2" class="form-control"
-                                                        name="product_code" value="{{ old('product_code') }}">
+                                                        name="product_code" value="{{ old('product_code') }}"
+                                                         onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode >= 48 && event.charCode <= 57)">>
                                                     <div class="form-control-position">
                                                         <i class="la la-barcode"></i>
                                                     </div>
