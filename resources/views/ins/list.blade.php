@@ -171,13 +171,12 @@
                                                                     method="POST">
                                                                     @csrf
                                                                     <button type="submit"
-                                                                        class="btn btn-success">تصديق</button>
+                                                                        class="btn btn-success " style="width: 50%">تصديق</button>
                                                                 </form>
                                                                 <form action="{{ route('ins.authorizeIn', [$in->id, 2]) }}"
                                                                     method="POST">
                                                                     @csrf
-                                                                    <button class="btn btn-danger btn-sm" type="submit"><i
-                                                                            class="la la-close"></i> رفض</button>
+                                                                    <button class="btn btn-danger "  style="width: 40%" type="submit">رفض</button>
                                                                 </form>
                                                             @endif
                                                         @endif
