@@ -5,8 +5,7 @@
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css"
         href="{{ asset('theme/app-assets/css-rtl/core/menu/menu-types/vertical-compact-menu.min.css') }}">
-    <link rel="stylesheet" type="text/css"
-        href="{{ asset('theme/app-assets/css-rtl/core/colors/palette-gradient.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/colors/palette-gradient.min.css') }}">
     <link rel="stylesheet" type="text/css"
         href="{{ asset('theme/app-assets/fonts/mobiriseicons/24px/mobirise/style.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/pages/page-users.min.css') }}">
@@ -44,9 +43,8 @@
                         </div>
                         <div class="media mb-2">
                             <a class="mr-1" href="#">
-                                <img src="{{ asset('theme/app-assets/images/custom/client.svg') }}"
-                                    alt="users view avatar" class="users-avatar-shadow rounded-circle" height="64"
-                                    width="64">
+                                <img src="{{ asset('theme/app-assets/images/custom/client.svg') }}" alt="users view avatar"
+                                    class="users-avatar-shadow rounded-circle" height="64" width="64">
                             </a>
                             <div class="media-body pt-25">
                                 <h4 class="media-heading"><span class="users-view-name">{{ $customer->customer_name }}
@@ -243,15 +241,15 @@
                                         <a type="button" class="btn btn-float btn-outline-cyan" id="invoiceNav"
                                             style="cursor: context-menu"><i
                                                 class="">{{ $customerInvoicesCount + $customerPosSalesCount }}</i><span>عدد
-                                                فواتير
-                                                الشراء</span>
+                                                الفواتير
+                                                </span>
                                             <br>
                                             <small>{{ $customerPosSalesCount }} بيع سريع - {{ $customerInvoicesCount }}
                                                 فواتير مبيعات</small>
-                                            </a>
+                                        </a>
                                         <button type="button" class="btn btn-float btn-float-lg btn-outline-pink"
-                                            style="cursor: context-menu"><i
-                                                class="">{{ $customerInvoicesSum }} ج,م</i><span>إجمالي
+                                            style="cursor: context-menu"><i class="">{{ $customerInvoicesSum }}
+                                                ج,م</i><span>إجمالي
                                                 المبالغ من الفواتير</span></button>
                                         <button type="button" class="btn btn-float btn-outline-cyan" id="pQuotationNav"
                                             style="cursor: context-menu"><i
@@ -306,8 +304,8 @@
                                         @endif
                                     </ul>
                                     <div class="tab-content px-1 pt-1">
-                                        <div role="tabpanel" class="tab-pane active" id="link" aria-labelledby="link-link"
-                                            aria-expanded="true">
+                                        <div role="tabpanel" class="tab-pane active" id="link"
+                                            aria-labelledby="link-link" aria-expanded="true">
                                             <div class="table-responsive">
                                                 <table class="table mb-0" id="pos">
                                                     <thead>
@@ -340,11 +338,13 @@
 
                                                                 <td>
                                                                     @if ($item->status == 1)
-                                                                        <a class="btn btn-success" style="width: max-content;"
+                                                                        <a class="btn btn-success"
+                                                                            style="width: max-content;"
                                                                             href="{{ route('pos.receipt', $item->id) }}"
                                                                             target="_blank">استعراض الفاتورة</a>
                                                                     @else
-                                                                        <a class="btn btn-warning" style="width: max-content;"
+                                                                        <a class="btn btn-warning"
+                                                                            style="width: max-content;"
                                                                             href="{{ route('pos.refund.receipt', $item->id) }}"
                                                                             target="_blank">استعراض فاتورة المرتجع</a>
                                                                     @endif
@@ -391,8 +391,8 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <div class="tab-pane" id="link32" role="tabpanel" aria-labelledby="link-tab32"
-                                            aria-expanded="false">
+                                        <div class="tab-pane" id="link32" role="tabpanel"
+                                            aria-labelledby="link-tab32" aria-expanded="false">
                                             <div class="table-responsive">
                                                 <table class="table mb-0" id="quotations">
                                                     <thead>
@@ -491,8 +491,10 @@
                                                                             href="{{ route('invoices.view', $item->id) }}"
                                                                             class="btn btn-primary">استعراض فاتورة
                                                                             البيع</a>
-                                                                        <button class="btn btn-success" style="width: max-content;" data-toggle="modal"
-                                                                            data-target="#pay">تحصيل الان</button>
+                                                                        <button class="btn btn-success"
+                                                                            style="width: max-content;"
+                                                                            data-toggle="modal" data-target="#pay">تحصيل
+                                                                            الان</button>
                                                                         <button class="btn btn-warning">ارسال تذكير
                                                                             للعميل</button>
 
@@ -529,15 +531,12 @@
                                                                                             @csrf
                                                                                             <div class="form-body">
                                                                                                 <h4 class="form-section">
-                                                                                                    <i
-                                                                                                        class="ft-user"></i>
+                                                                                                    <i class="ft-user"></i>
                                                                                                     عملية إيداع
                                                                                                 </h4>
-                                                                                                <div
-                                                                                                    class="row">
+                                                                                                <div class="row">
 
-                                                                                                    <div
-                                                                                                        class="col-md-6">
+                                                                                                    <div class="col-md-6">
                                                                                                         <div
                                                                                                             class="form-group">
                                                                                                             <label
@@ -561,8 +560,7 @@
                                                                                                             </select>
                                                                                                         </div>
                                                                                                     </div>
-                                                                                                    <div
-                                                                                                        class="col-md-6">
+                                                                                                    <div class="col-md-6">
                                                                                                         <div
                                                                                                             class="form-group">
                                                                                                             <label
@@ -588,19 +586,14 @@
                                                                                                 </div>
 
 
-                                                                                                <div
-                                                                                                    class="form-group">
+                                                                                                <div class="form-group">
                                                                                                     <label
                                                                                                         for="projectinput8">تفاصيل
                                                                                                         الإيداع</label>
                                                                                                     <div
                                                                                                         class="position-relative has-icon-left">
-                                                                                                        <textarea
-                                                                                                            id="projectinput8"
-                                                                                                            rows="3"
-                                                                                                            class="form-control"
-                                                                                                            name="notes"
-                                                                                                            readonly>قسط على فاتورة رقم {{ $item->id }}</textarea>
+                                                                                                        <blade
+                                                                                                            ___html_tags_0___ />
                                                                                                         <div
                                                                                                             class="form-control-position">
                                                                                                             <i
@@ -662,8 +655,8 @@
                                                     إضافة موظف / ممثل للشركة
                                                 </button>
                                                 <br>
-                                                <div class="modal fade text-left" id="default" tabindex="-1" role="dialog"
-                                                    aria-labelledby="myModalLabel1" aria-hidden="true">
+                                                <div class="modal fade text-left" id="default" tabindex="-1"
+                                                    role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -690,7 +683,8 @@
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <input class="form-control" type="text"
-                                                                            name="linked_mobile" placeholder="رقم التليفون">
+                                                                            name="linked_mobile"
+                                                                            placeholder="رقم التليفون">
                                                                     </div>
                                                             </div>
                                                             <div class="modal-footer">
@@ -822,7 +816,9 @@
     <script src="{{ asset('theme/app-assets/vendors/js/tables/pdfmake.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/vendors/js/tables/vfs_fonts.js') }}"></script>
     <script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.html5.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- END: Page Vendor JS-->
     <script>
         $("#linked").DataTable({
@@ -1033,23 +1029,22 @@
     </script>
 
     <script>
-
-        $("#invoiceNav").on('click',function(){
+        $("#invoiceNav").on('click', function() {
             $('.nav-link').removeClass('active');
             $("#active-tab32").addClass('active');
-            
-            if($("#active-tab32").hasClass('active')){
-                
+
+            if ($("#active-tab32").hasClass('active')) {
+
                 // $('#active-tab32').trigger('click');
                 // $('#active-tab32').click();?
                 // $("#active32").siblings().css('display','none');
                 // $("#active32").css('display','block');
 
-            } else{
-                
+            } else {
+
             }
         });
-        
+
         // document.getElementById("invoiceNav").onclick = evt => {
 
         //     simulateClick()
@@ -1069,8 +1064,6 @@
         //         return cb.dispatchEvent(evt);
         //     }
         // }
-
-        
     </script>
 
 
