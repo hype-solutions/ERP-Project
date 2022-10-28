@@ -242,7 +242,7 @@
                                             style="cursor: context-menu"><i
                                                 class="">{{ $customerInvoicesCount + $customerPosSalesCount }}</i><span>عدد
                                                 الفواتير
-                                                </span>
+                                            </span>
                                             <br>
                                             <small>{{ $customerPosSalesCount }} بيع سريع - {{ $customerInvoicesCount }}
                                                 فواتير مبيعات</small>
@@ -418,20 +418,27 @@
                                                                 <td>{{ $item->quotation_date }}</td>
                                                                 <td>{{ $item->quotation_total }} ج.م</td>
                                                                 <td>
-                                                                    @if ($item->quotation_status == 'Pending')
+                                                                    @if ($item->quotation_status == 'Pending Approval')
                                                                         <div class="badge badge-warning">
-                                                                            <i class="la la-money font-medium-2"></i>
-                                                                            <span>قيد التنفيذ</span>
+                                                                            <i
+                                                                                class="la la-hourglass-half font-medium-2"></i>
+                                                                            <span>في إنتظار موافقة الإدارة</span>
                                                                         </div>
-                                                                    @elseif($item->quotation_status == 'Accepted')
+                                                                    @elseif($item->quotation_status == 'Approved')
                                                                         <div class="badge badge-success">
-                                                                            <i class="la la-money font-medium-2"></i>
+                                                                            <i class="la la-star font-medium-2"></i>
                                                                             <span>تمت الموافقة </span>
                                                                         </div>
-                                                                    @else
+                                                                    @elseif($item->quotation_status == 'Declined')
                                                                         <div class="badge badge-danger">
-                                                                            <i class="la la-money font-medium-2"></i>
+                                                                            <i
+                                                                                class="la la-times-circle font-medium-2"></i>
                                                                             <span>تم الرفض</span>
+                                                                        </div>
+                                                                    @elseif($item->quotation_status == 'ToInvoice')
+                                                                        <div class="badge badge-primary">
+                                                                            <i class="la la-newspaper-o font-medium-2"></i>
+                                                                            <span>تم التحويل الى فاتورة</span>
                                                                         </div>
                                                                     @endif
                                                                 </td>
