@@ -24,7 +24,7 @@ class CreateOutEntities extends FormRequest
     public function rules()
     {
         return [
-            'entity_name' => 'required',
+            'entity_name' => 'required|unique:out_entities',
         ];
     }
 
@@ -38,6 +38,7 @@ class CreateOutEntities extends FormRequest
     {
         return [
             'entity_name.required' => 'برجاء إدخال إسم الجهه',
+            'entity_name.unique' => 'برجاء إختيار اسم جهه اخر, هذا الإسم مستخدم بالفعل',
         ];
     }
 }

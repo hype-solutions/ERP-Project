@@ -24,7 +24,7 @@ class CreateOutCategories extends FormRequest
     public function rules()
     {
         return [
-            'category_name' => 'required',
+            'category_name' => 'required|unique:out_categories',
         ];
     }
 
@@ -38,6 +38,8 @@ class CreateOutCategories extends FormRequest
     {
         return [
             'category_name.required' => 'برجاء إدخال إسم الفئة',
+            'category_name.unique' => 'برجاء إختيار اسم بند اخر, هذا الإسم مستخدم بالفعل',
+
 
         ];
     }
