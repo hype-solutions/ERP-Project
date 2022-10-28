@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Outs\CreateOutCategories;
+use App\Http\Requests\Outs\CreateOutEntities;
+use App\Http\Requests\Outs\CreateOuts;
+use App\Http\Requests\Outs\UpdateOutCategories;
+use App\Http\Requests\Outs\UpdateOutEntities;
 use App\Models\Out\Out;
 use App\Models\Out\OutCategories;
 use App\Models\Out\OutEntities;
@@ -48,7 +53,7 @@ class OutsController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(CreateOuts $request)
     {
         $user = Auth::user();
         $userId = $user->id;
@@ -98,7 +103,7 @@ class OutsController extends Controller
     }
 
 
-    public function categoriesstore(Request $request)
+    public function categoriesstore(CreateOutCategories $request)
     {
         $cat = new OutCategories();
         $cat->category_name = $request->category_name;
@@ -107,7 +112,7 @@ class OutsController extends Controller
     }
 
 
-    public function entitiesstore(Request $request)
+    public function entitiesstore(CreateOutEntities $request)
     {
         $cat = new OutEntities();
         $cat->entity_name = $request->entity_name;
@@ -116,7 +121,7 @@ class OutsController extends Controller
     }
 
 
-    public function updateEnt(OutEntities $ent, Request $request)
+    public function updateEnt(OutEntities $ent, UpdateOutEntities $request)
     {
         $ent->entity_name = $request->entity_name;
         $ent->save();
@@ -129,10 +134,10 @@ class OutsController extends Controller
         return redirect()->route('outs.entities');
     }
 
-    public function updateCat(OutCategories $cat, Request $request)
+    public function updateCat(OutCategories $cat, UpdateOutCategories $request)
     {
-        $cat->category_name = $request->category_name;
-        $cat->save();
+        $cat->update($request->except('_token'));
+
         return redirect()->route('outs.categories');
     }
 
