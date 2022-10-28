@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Ins\CreateIns;
+use App\Http\Requests\Ins\CreateInCategories;
+use App\Http\Requests\Ins\UpdateInCategories;
 use App\Models\In\In;
 use App\Models\In\InCategories;
 use App\Models\Safes\Safes;
@@ -88,10 +90,10 @@ class InsController extends Controller
         return back();
     }
 
-    public function updateCat(InCategories $cat, Request $request)
+    public function updateCat(InCategories $cat, UpdateInCategories $request)
     {
-        $cat->category_name = $request->category_name;
-        $cat->save();
+        $cat->update($request->except('_token'));
+
         return redirect()->route('ins.categories');
     }
 
