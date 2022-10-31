@@ -143,14 +143,14 @@
                                                     <td>{{ $out->id }}</td>
                                                     <td>{{ $out->transaction_datetime }}</td>
                                                     <td>
-                                                        @if (isset($out->theCategory->category_name))
+                                                        @if (isset($out->theCategory))
                                                             {{ $out->theCategory->category_name }}
                                                         @else
                                                             بدون بند
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if (isset($out->theCategory->category_name))
+                                                        @if (isset($out->theEntity))
                                                             {{ $out->theEntity->entity_name }}
                                                         @else
                                                             بدون جهه

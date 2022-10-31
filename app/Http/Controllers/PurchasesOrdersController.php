@@ -53,12 +53,14 @@ class PurchasesOrdersController extends Controller
 
     public function add($id = null)
     {
+
         $user = Auth::user();
         $userId = $user->id;
         $suppliers = Suppliers::all();
         $products = Products::all();
         $safes = Safes::all();
         $branches = Branches::all();
+
         $oldProduct = '';
         $safePaymentId = SafesTransactions::where('transaction_type', 1)->get();
 

@@ -173,8 +173,8 @@
                             <td>{{ $cat->id }}</td>
                             <td>{{ $cat->category_name }}</td>
                             <td>
-                                <button data-toggle="modal" data-target="#edit_cat{{ $cat->id }}" class="btn btn-warning btn-sm"><i class="la la-pencil-square-o"></i> تعديل</button>
-                                <a href="{{ route('outs.categories.deleting', $cat->id) }}" class="btn btn-danger btn-sm"><i class="la la-trash"></i> حذف</a>
+                                <button data-toggle="modal" data-target="#edit_cat{{ $cat->id }}" class="btn btn-warning"><i class="la la-pencil-square-o"></i> </button>
+                                <a href="{{ route('outs.categories.deleting', $cat->id) }}" class="btn btn-danger "><i class="la la-trash"></i> </a>
 
                                 <div class="modal fade text-left" id="edit_cat{{ $cat->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
