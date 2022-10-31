@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Ins\CreateIns;
+use App\Http\Requests\Ins\CreateInCategories;
+use App\Http\Requests\Ins\UpdateInCategories;
 use App\Models\In\In;
 use App\Models\In\InCategories;
 use App\Models\Safes\Safes;
@@ -39,10 +42,10 @@ class InsController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(CreateIns $request)
     {
         $user = Auth::user();
-        $user_id = $user->id;
+        $userId = $user->id;
 
         $in = new In();
         $in->category = $request->cat_id;
@@ -51,25 +54,9 @@ class InsController extends Controller
         $in->safe_id = $request->safe_id;
         $in->safe_transaction_id = 0;
         $in->transaction_datetime = Carbon::now();
-        $in->done_by = $user_id;
-        // $in->authorized_by = $user_id;
+        $in->done_by = $userId;
         $in->save();
-        // $inId = $in->id;
 
-        // $payment = new SafesTransactions();
-        // $payment->safe_id = $request->safe_id;
-        // $payment->transaction_type = 2;
-        // $payment->direct = 0;
-        // $payment->transaction_amount = $request->amount;
-        // $payment->transaction_datetime = Carbon::now();
-        // $payment->done_by = $user_id;
-        // $payment->authorized_by = $user_id;
-        // $payment->transaction_notes = $request->notes;
-        // $payment->save();
-        // $paymentId = $payment->id;
-
-        // In::where('id', $inId)->update(['safe_transaction_id' => $paymentId]);
-        // Safes::where('id', $request->safe_id)->increment('safe_balance', $request->amount);
         return redirect()->route('ins.list');
     }
 
@@ -77,7 +64,7 @@ class InsController extends Controller
     public function authorizeIn(Request $request, In $in, $code)
     {
         $user = Auth::user();
-        $user_id = $user->id;
+        $userId = $user->id;
         if ($code == 1) {
             $payment = new SafesTransactions();
             $payment->safe_id = $in->safe_id;
@@ -85,28 +72,28 @@ class InsController extends Controller
             $payment->direct = 0;
             $payment->transaction_amount = $in->amount;
             $payment->transaction_datetime = Carbon::now();
-            $payment->done_by = $user_id;
-            $payment->authorized_by = $user_id;
+            $payment->done_by = $userId;
+            $payment->authorized_by = $userId;
             $payment->transaction_notes = $in->notes;
             $payment->save();
 
             $paymentId = $payment->id;
             $in->safe_transaction_id = $paymentId;
-            $in->authorized_by = $user_id;
+            $in->authorized_by = $userId;
             $in->save();
 
             Safes::where('id', $in->safe_id)->increment('safe_balance', $in->amount);
         } else {
-            $in->rejected_by = $user_id;
+            $in->rejected_by = $userId;
             $in->save();
         }
         return back();
     }
 
-    public function updateCat(InCategories $cat, Request $request)
+    public function updateCat(InCategories $cat, UpdateInCategories $request)
     {
-        $cat->category_name = $request->category_name;
-        $cat->save();
+        $cat->update($request->except('_token'));
+
         return redirect()->route('ins.categories');
     }
 
@@ -116,7 +103,7 @@ class InsController extends Controller
         return redirect()->route('ins.categories');
     }
 
-    public function categoriesstore(Request $request)
+    public function categoriesstore(CreateInCategories $request)
     {
         $cat = new InCategories();
         $cat->category_name = $request->category_name;

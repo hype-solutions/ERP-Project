@@ -87,8 +87,6 @@ class SuppliersController extends Controller
             ->get()
             ->count();
 
-        //return $countProducts;
-
         $supplierInstallments  = PurchasesOrdersPayments::where('supplier_id', $supplier->id)->get();
         return view('suppliers.profile', compact('countProducts', 'sumPurchases', 'supplier', 'purchases', 'countPurchases', 'supplierProducts', 'supplierInstallments'));
     }

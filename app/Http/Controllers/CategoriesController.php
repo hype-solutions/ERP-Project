@@ -12,11 +12,21 @@ class CategoriesController extends Controller
     {
         $categories = ProductsCategories::with('product')->get();
 
-        return view('categories.list',compact('categories'));
+        return view('categories.list', compact('categories'));
     }
 
     public function adding(Request $request)
     {
+        $request->validate(
+            [
+                'category_name' => 'unique:products_categories,cat_name|required',
+            ],
+            [
+                'category_name.unique' => 'هذه الفئة موجودة بالفعل',
+            ]
+        );
+
+
         $cat = new ProductsCategories();
         $cat->cat_name = $request->category_name;
         $cat->save();
@@ -25,8 +35,16 @@ class CategoriesController extends Controller
     }
 
     public function editing(ProductsCategories $cat, Request $request)
+
     {
-        $cat->cat_name = $request->category_name;
+        $request->validate(
+            [
+                'category_name' => 'unique:products_categories,cat_name,'.$cat->id,
+            ]
+        );
+
+        $cat->cat_name= $request->category_name;
+        // = ;
         $cat->save();
 
         return back()->with('success', 'product category editied');
@@ -34,13 +52,11 @@ class CategoriesController extends Controller
 
     public function deleting(ProductsCategories $cat)
     {
-        Products::where('product_category',$cat->id)->update([
-            'product_category' => NULL
+        Products::where('product_category', $cat->id)->update([
+            'product_category' => null
         ]);
         $cat->delete();
 
         return back()->with('success', 'product category editied');
     }
-
-
 }

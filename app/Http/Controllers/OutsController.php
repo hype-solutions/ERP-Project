@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Outs\CreateOutCategories;
+use App\Http\Requests\Outs\CreateOutEntities;
+use App\Http\Requests\Outs\CreateOuts;
+use App\Http\Requests\Outs\UpdateOutCategories;
+use App\Http\Requests\Outs\UpdateOutEntities;
 use App\Models\Out\Out;
 use App\Models\Out\OutCategories;
 use App\Models\Out\OutEntities;
@@ -48,10 +53,10 @@ class OutsController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(CreateOuts $request)
     {
         $user = Auth::user();
-        $user_id = $user->id;
+        $userId = $user->id;
 
         $in = new Out();
         $in->entity = $request->entity_id;
@@ -61,12 +66,8 @@ class OutsController extends Controller
         $in->safe_id = $request->safe_id;
         $in->safe_transaction_id = 0;
         $in->transaction_datetime = Carbon::now();
-        $in->done_by = $user_id;
-        // $in->authorized_by = $user_id;
+        $in->done_by = $userId;
         $in->save();
-        //$inId = $in->id;
-
-
 
         return redirect()->route('outs.list');
     }
@@ -75,7 +76,7 @@ class OutsController extends Controller
     public function authorizeOut(Request $request, Out $out, $code)
     {
         $user = Auth::user();
-        $user_id = $user->id;
+        $userId = $user->id;
         if ($code == 1) {
             $payment = new SafesTransactions();
             $payment->safe_id = $out->safe_id;
@@ -83,26 +84,26 @@ class OutsController extends Controller
             $payment->direct = 0;
             $payment->transaction_amount = $out->amount;
             $payment->transaction_datetime = Carbon::now();
-            $payment->done_by = $user_id;
-            $payment->authorized_by = $user_id;
+            $payment->done_by = $userId;
+            $payment->authorized_by = $userId;
             $payment->transaction_notes = $out->notes;
             $payment->save();
 
             $paymentId = $payment->id;
             $out->safe_transaction_id = $paymentId;
-            $out->authorized_by = $user_id;
+            $out->authorized_by = $userId;
             $out->save();
 
-            Safes::where('id', $out->safe_id)->increment('safe_balance', $out->amount);
+            Safes::where('id', $out->safe_id)->decrement('safe_balance', $out->amount);
         } else {
-            $out->rejected_by = $user_id;
+            $out->rejected_by = $userId;
             $out->save();
         }
         return back();
     }
 
 
-    public function categoriesstore(Request $request)
+    public function categoriesstore(CreateOutCategories $request)
     {
         $cat = new OutCategories();
         $cat->category_name = $request->category_name;
@@ -111,7 +112,7 @@ class OutsController extends Controller
     }
 
 
-    public function entitiesstore(Request $request)
+    public function entitiesstore(CreateOutEntities $request)
     {
         $cat = new OutEntities();
         $cat->entity_name = $request->entity_name;
@@ -120,7 +121,7 @@ class OutsController extends Controller
     }
 
 
-    public function updateEnt(OutEntities $ent, Request $request)
+    public function updateEnt(OutEntities $ent, UpdateOutEntities $request)
     {
         $ent->entity_name = $request->entity_name;
         $ent->save();
@@ -133,10 +134,10 @@ class OutsController extends Controller
         return redirect()->route('outs.entities');
     }
 
-    public function updateCat(OutCategories $cat, Request $request)
+    public function updateCat(OutCategories $cat, UpdateOutCategories $request)
     {
-        $cat->category_name = $request->category_name;
-        $cat->save();
+        $cat->update($request->except('_token'));
+
         return redirect()->route('outs.categories');
     }
 

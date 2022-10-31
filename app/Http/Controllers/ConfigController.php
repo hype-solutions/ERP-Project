@@ -40,7 +40,7 @@ class ConfigController extends Controller
     public function step2(Request $request)
     {
         //updaing licensing server
-        $data = json_decode($request->versionData, True);
+        $data = json_decode($request->versionData, true);
         $response = Http::asForm()->post('https://licences.mygesture.co/update.php', [
             'license' => $data['license'],
         ]);
@@ -85,11 +85,11 @@ class ConfigController extends Controller
         $user->save();
         $user->assignRole('مدير');
 
-        $PQsignature = new InvoicesPriceQuotationSignature();
-        $PQsignature->save();
+        $priceQuotationSignature = new InvoicesPriceQuotationSignature();
+        $priceQuotationSignature->save();
 
-        $POsignature = new PurchasesOrdersSignature();
-        $POsignature->save();
+        $purchaseOrdersignature = new PurchasesOrdersSignature();
+        $purchaseOrdersignature->save();
 
         $languages = new ConfigLanguages();
         $languages->title = 'Arabic';

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Branches\Branches;
 use App\Models\Safes\ExternalFund;
 use Illuminate\Http\Request;
-
 use App\Models\Safes\Safes;
 use App\Models\Safes\SafesTransactions;
 use App\Models\Safes\SafesTransfers;
@@ -35,6 +34,7 @@ class SafesController extends Controller
             ]
         );
     }
+
     protected function validateUpdateRequest()
     {
         return request()->validate(
@@ -46,45 +46,47 @@ class SafesController extends Controller
         );
     }
 
-
     public function deposit(Safes $safe)
     {
         return view('safes.deposit', compact('safe'));
     }
+
     public function depositing(Request $request)
     {
         $user = Auth::user();
-        $user_id = $user->id;
+        $userId = $user->id;
         $payment = new SafesTransactions();
         $payment->safe_id = $request->safe_id;
         $payment->transaction_type = 2;
         $payment->direct = 1;
         $payment->transaction_amount = $request->amount;
         $payment->transaction_datetime = Carbon::now();
-        $payment->done_by = $user_id;
-        $payment->authorized_by = $user_id;
+        $payment->done_by = $userId;
+        $payment->authorized_by = $userId;
         $payment->transaction_notes = $request->notes;
         $payment->save();
         Safes::where('id', $request->safe_id)->increment('safe_balance', $request->amount);
 
         return back()->with('success', 'deposited');
     }
+
     public function withdraw(Safes $safe)
     {
         return view('safes.withdraw', compact('safe'));
     }
+
     public function withdrawing(Request $request)
     {
         $user = Auth::user();
-        $user_id = $user->id;
+        $userId = $user->id;
         $payment = new SafesTransactions();
         $payment->safe_id = $request->safe_id;
         $payment->transaction_type = 1;
         $payment->direct = 1;
         $payment->transaction_amount = $request->amount;
         $payment->transaction_datetime = Carbon::now();
-        $payment->done_by = $user_id;
-        $payment->authorized_by = $user_id;
+        $payment->done_by = $userId;
+        $payment->authorized_by = $userId;
         $payment->transaction_notes = $request->notes;
         $payment->save();
         Safes::where('id', $request->safe_id)->decrement('safe_balance', $request->amount);
@@ -104,20 +106,22 @@ class SafesController extends Controller
 
     public function view(Safes $safe)
     {
-        $safe_id = $safe->id;
-        $branch = Branches::where('id', $safe_id)->get();
+        $safeId = $safe->id;
+        $branch = Branches::where('id', $safeId)->get();
         $safeTransfers = SafesTransfers::where('transfer_amount', '>', 0)
-            ->where(function ($q) use ($safe_id) {
+            ->where(function ($q) use ($safeId) {
                 $q
-                    ->where('safe_from', $safe_id)
-                    ->orWhere('safe_to', $safe_id);
+                    ->where('safe_from', $safeId)
+                    ->orWhere('safe_to', $safeId);
             })
             ->with('safeFrom')
             ->with('safeTo')
             ->get();
-        $safeTransactions = SafesTransactions::where('safe_id', $safe_id)->get();
+        $safeTransactions = SafesTransactions::where('safe_id', $safeId)->get();
+
         return view('safes.profile', compact('safe', 'branch', 'safeTransfers', 'safeTransactions'));
     }
+
     public function edit(Safes $safe)
     {
         $safe = Safes::find($safe);
@@ -133,7 +137,7 @@ class SafesController extends Controller
     public function delete(Safes $safe)
     {
         $user = Auth::user();
-        $user_id = $user->id;
+        $userId = $user->id;
         $getSafe = Safes::find($safe->id);
         $safeBalance = $getSafe->safe_balance;
         $safeName = $getSafe->safe_name;
@@ -160,8 +164,8 @@ class SafesController extends Controller
         $transfer->amount_after_transfer_to = $totalNew;
         $transfer->transfer_datetime = Carbon::now();
         $transfer->transfer_notes = 'عملية تحويل رصيد خزنة بسبب حذفها - اسم الخزنة قبل الحذف ' . $safeName;
-        $transfer->transfered_by = $user_id;
-        $transfer->authorized_by = $user_id;
+        $transfer->transfered_by = $userId;
+        $transfer->authorized_by = $userId;
         $transfer->save();
 
         Safes::destroy($safe->id);
@@ -174,19 +178,14 @@ class SafesController extends Controller
         return view('safes.list', compact('safes'));
     }
 
-    // public function transactions()
-    // {
-    //     $safeTransactions = SafesTransactions::all();
-    //     return view('safes.transactions',compact('safeTransactions'));
-    // }
-
     public function transfer()
     {
         $safes = Safes::get();
         $otherSafes = Safes::get();
         $user = Auth::user();
-        $user_id = $user->id;
-        return view('safes.transfer', compact('safes', 'user_id', 'otherSafes'));
+        $userId = $user->id;
+
+        return view('safes.transfer', compact('safes', 'userId', 'otherSafes'));
     }
 
     public function transfering(Request $request)
@@ -197,15 +196,12 @@ class SafesController extends Controller
 
     public function acceptingTransfer(SafesTransfers $transfer)
     {
-
-        $update_old_safe = Safes::find($transfer->safe_from);
-        $update_old_safe->safe_balance = $update_old_safe->safe_balance - $transfer->transfer_amount;
-        // $update_old_safe->safe_balance = $transfer->safeFrom->safe_balance - $transfer->transfer_amount;
-        $update_old_safe->save();
-        $update_new_safe = Safes::find($transfer->safe_to);
-        $update_new_safe->safe_balance = $update_new_safe->safe_balance + $transfer->transfer_amount;
-        // $update_new_safe->safe_balance = $transfer->safeTo->safe_balance + $transfer->transfer_amount;
-        $update_new_safe->save();
+        $updateOldSafe = Safes::find($transfer->safe_from);
+        $updateOldSafe->safe_balance = $updateOldSafe->safe_balance - $transfer->transfer_amount;
+        $updateOldSafe->save();
+        $updateNewSafe = Safes::find($transfer->safe_to);
+        $updateNewSafe->safe_balance = $updateNewSafe->safe_balance + $transfer->transfer_amount;
+        $updateNewSafe->save();
         $transfer->authorized_by = Auth::id();
         $transfer->save();
 
@@ -214,32 +210,32 @@ class SafesController extends Controller
 
     public function fetchAmount(Request $request)
     {
-        $safe_id = $request->safe;
-        $safes = Safes::find($safe_id);
+        $safeId = $request->safe;
+        $safes = Safes::find($safeId);
         $amount = $safes->safe_balance;
+
         return response()->json(array('amount' => $amount), 200);
     }
 
     public function fetchOtherSafes(Request $request)
     {
-        $other_id = $request->other_id;
+        $otherId = $request->other_id;
 
-        $otherSafes = Safes::where('id', '!=', $other_id)->get();
-        return $otherSafes;
+        return Safes::where('id', '!=', $otherId)->get();
     }
 
     public function receipt(SafesTransactions $transactionId)
     {
         $logo = Settings::where('key', 'logo')->value('value');
 
-        return view('safes.receipt', compact('transactionId','logo'));
+        return view('safes.receipt', compact('transactionId', 'logo'));
     }
 
     public function transferReceipt(SafesTransfers $transferId)
     {
         $logo = Settings::where('key', 'logo')->value('value');
 
-        return view('safes.transferReceipt', compact('transferId','logo'));
+        return view('safes.transferReceipt', compact('transferId', 'logo'));
     }
 
     public function externalFund(Safes $safe)
@@ -250,7 +246,7 @@ class SafesController extends Controller
     public function externalFunding(Request $request)
     {
         $user = Auth::user();
-        $user_id = $user->id;
+        $userId = $user->id;
 
         $fund = ExternalFund::create([
             'safe_id' => $request->safe_id,
@@ -259,8 +255,8 @@ class SafesController extends Controller
             'funding_date' => Carbon::now(),
             'refund_date' => $request->refund_date,
             'notes' => $request->notes,
-            'done_by' => $user_id,
-            'authorized_by' => $user_id,
+            'done_by' => $userId,
+            'authorized_by' => $userId,
         ]);
 
 
@@ -270,8 +266,8 @@ class SafesController extends Controller
         $payment->direct = 0;
         $payment->transaction_amount = $request->amount;
         $payment->transaction_datetime = Carbon::now();
-        $payment->done_by = $user_id;
-        $payment->authorized_by = $user_id;
+        $payment->done_by = $userId;
+        $payment->authorized_by = $userId;
         $payment->transaction_notes = 'تمويل خارجي على خزنة, رقم ايصال التمويل ' . $fund->id;
         $payment->save();
         Safes::where('id', $request->safe_id)->increment('safe_balance', $request->amount);

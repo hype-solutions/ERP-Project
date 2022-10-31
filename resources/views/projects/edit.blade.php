@@ -119,7 +119,7 @@
                                             enctype="multipart/form-data">
                                             @csrf
                                             @method('patch')
-                                            <input type="hidden" name="created_by" value="{{ $user_id }}" />
+                                            <input type="hidden" name="created_by" value="{{ $userId }}" />
                                             <input type="hidden" name="total" id="totalToSave" value="0" />
                                             <input type="hidden" name="xxx_total" id="xxx_totalToSave" value="0" />
                                             <input type="hidden" name="step" id="theStep" value="{{ $project->step }}" />

@@ -97,7 +97,7 @@
                             <div class="dropdown-menu" x-placement="bottom-start"
                                 style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
                                 {{-- <a class="dropdown-item" href="{{route('products.addQty',$product->id)}}">أضف كمية يدويا</a> --}}
-                                <a class="dropdown-item" href="{{ route('purchasesorders.add') }}">أمر شراء جديد</a>
+                                <a class="dropdown-item" href="{{ route('purchasesorders.add', $product->id) }}">أمر شراء جديد</a>
                                 <a class="dropdown-item" href="{{ route('products.transfer', $product->id) }}">تحويل
                                     كميات
                                     بين الفروع</a>
@@ -144,8 +144,8 @@
                                             <tr>
                                                 <td> الوصف:</td>
                                                 <td>
-                                                    @if (isset($product->product_code))
-                                                        {{ $product->product_code }}
+                                                    @if (isset($product->product_desc))
+                                                        {{ $product->product_desc }}
                                                     @else
                                                         <small style="font-style: italic;color:red;">غير مسجل</small>
                                                     @endif

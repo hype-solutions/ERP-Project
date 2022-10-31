@@ -38,7 +38,7 @@
             </div>
           </div>
         </div>
-        <div class="content-header-right text-md-right col-md-6 col-12">
+        <div class="content-header-right text-md-right col-md-6 col-12 mb-1">
           <div class="btn-group">
           <a href="{{route('products.add')}}" class="btn btn-outline-success block btn-lg" >
                 إضافه منتج جديد
