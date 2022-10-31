@@ -158,10 +158,15 @@
                                 @endif
                             </td>
                             <td>
-                                @if($product->product_total_in - $product->product_total_out > 0)
+                                @if($product->product_total_in - $product->product_total_out > 0 && $product->product_total_in - $product->product_total_out > 10)
                                 <div class="badge badge-success">
                                     <i class="la la-thumbs-up font-medium-2"></i>
                                         <span>في المخزون</span>
+                                    </div>
+                                @elseif (($product->product_total_in - $product->product_total_out < 10) && ($product->product_total_in - $product->product_total_out) != 0)
+                                    <div class="badge badge-warning">
+                                        <i class="la la-exclamation-triangle font-medium-2"></i>
+                                        <span>مخزون على وشك النفاذ</span>
                                     </div>
                                 @else
                                     <div class="badge badge-danger">
