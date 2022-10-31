@@ -485,11 +485,13 @@
             }
 
             var currentInvoiceTotal = $("#total_after_all").text();
-            var descountAmount = $("#discount_amount").text();
-            currentInvoiceTotal = parseInt(currentInvoiceTotal) - parseInt(descountAmount);
-            
-            var newInvoiceTotal = currentInvoiceTotal - (currentInvoiceTotal * (newTax / 100));
-            var taxAmount = currentInvoiceTotal - newInvoiceTotal;
+            var getDiscountAmount_1 = $('#discount_percentage_amount').text();
+            var getDiscountAmount_2 = $('#discount_amount').text();
+
+            currentInvoiceTotal = parseInt(currentInvoiceTotal) - parseInt(getDiscountAmount_1) - parseInt(getDiscountAmount_2);
+
+            var newInvoiceTotal = currentInvoiceTotal + (currentInvoiceTotal * (newTax / 100));
+            var taxAmount = newInvoiceTotal - currentInvoiceTotal ;
             taxAmount = Math.round(taxAmount);
             $('#tax_amount').text(taxAmount);
 
