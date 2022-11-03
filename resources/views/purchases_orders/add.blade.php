@@ -293,11 +293,20 @@
 
                                                         @if(!empty($oldProduct))
 
-
                                                         <td>
-                                                            <input type="text" disabled value="{{$oldProduct->product_name}}" style="width:100%;height:100%">
-                                                            <input type="hidden" value="{{$oldProduct->id}}" name="product[1][id]">
-
+                                                            <div class="form-group product_sel">
+                                                                <select class=" form-control" id="sel_x" readonly
+                                                                    data-placeholder="إختر المنتج" name="product[1][id]"
+                                                                    required>
+                                                                        <option value="{{ $oldProduct->id }}" selected>
+                                                                            {{ $oldProduct->product_name }}</option>
+                                                                </select>
+                                                            </div>
+                                                        <script>
+                                                                window.onload = function() {
+                                                                    sell_x();
+                                                                };
+                                                        </script>
                                                         </td>
                                                         @else
                                                         <td>
@@ -474,7 +483,7 @@
     <script src="{{ asset('theme/app-assets/js/scripts/forms/switch.min.js') }}"></script>
     {{-- <script src="{{ asset('theme/app-assets/js/scripts/editors/editor-ckeditor.min.js') }}"></script> --}}
     <script>
-        $(document).on("keyup", ".dof3aSum", function() {
+            $(document).on("keyup", ".dof3aSum", function() {
             var sum = 0;
             var total = $('#total_after_all2').text();
             total = parseInt(total);
@@ -523,7 +532,7 @@
             currentInvoiceTotal = parseInt(currentInvoiceTotal) - getDiscountAmount_1 - getDiscountAmount_2;
 
             var newInvoiceTotal = currentInvoiceTotal + (currentInvoiceTotal * (newTax / 100));
-            var taxAmount = newInvoiceTotal - currentInvoiceTotal  ;
+            var taxAmount = newInvoiceTotal - currentInvoiceTotal;
 
             taxAmount = Math.round(taxAmount);
             $('#tax_amount').text(taxAmount);
@@ -817,11 +826,10 @@
 
 
 
-// showing a product price of the selected oreder
-        $('#sel_x').change(function (e) {
-            e.preventDefault();
 
-            var product_id =  $("#sel_x option:selected").val();
+        function sell_x() {
+            // e.preventDefault();
+            var product_id = $("#sel_x option:selected").val();
 
             $.ajaxSetup({
                 headers: {
@@ -836,8 +844,38 @@
                 data: {
                     'product_id': product_id,
                 },
-                success: function (data) {
-                    if(data.status){
+                success: function(data) {
+                    if (data.status) {
+                        $("#p_p_1").val(data.product_price);
+
+                    }
+
+                },
+            });
+        }
+
+
+
+        // showing a product price of the selected oreder
+        $('#sel_x').change(function(e) {
+            e.preventDefault();
+            var product_id = $("#sel_x option:selected").val();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+
+            $.ajax({
+                url: "{{Route('purchasesorders.getPrice')}}",
+                method: 'POST',
+                data: {
+                    'product_id': product_id,
+                },
+                success: function(data) {
+                    if (data.status) {
                         $("#p_p_1").val(data.product_price);
 
                     }
@@ -905,11 +943,11 @@
                 currentIndex + ')" style="vertical-align:center">X</button></center>';
 
 
-            $('#sel_x_'+currentIndex).change(function (e) {
+            $('#sel_x_' + currentIndex).change(function(e) {
 
 
-                 var product_id = $("#sel_x_" + currentIndex ).val();
-                 console.log(product_id);
+                var product_id = $("#sel_x_" + currentIndex).val();
+                console.log(product_id);
 
                 $.ajaxSetup({
                     headers: {
@@ -922,10 +960,10 @@
                     url: "{{Route('purchasesorders.getPrice')}}",
                     method: 'POST',
                     data: {
-                        'product_id': product_id ,
+                        'product_id': product_id,
                     },
-                    success: function (data) {
-                        if(data.status){
+                    success: function(data) {
+                        if (data.status) {
                             $("#p_p_" + currentIndex).val(data.product_price);
 
                         }
@@ -976,7 +1014,6 @@
                 }
             });
         });
-
     </script>
 
 @endsection
