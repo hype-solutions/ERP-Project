@@ -302,7 +302,7 @@
                                                         @else
                                                         <td>
                                                             <div class="form-group product_sel">
-                                                                <select class="select2-rtl form-control"
+                                                                <select class="select2-rtl form-control" id="sel_x_1"
                                                                     data-placeholder="إختر المنتج" name="product[1][id]"
                                                                     required>
                                                                     <option></option>
