@@ -518,6 +518,7 @@
 
             var currentInvoiceTotal = $("#total_after_all").text();
 
+
             currentInvoiceTotal = parseInt(currentInvoiceTotal) - getDiscountAmount_1 - getDiscountAmount_2;
 
             var newInvoiceTotal = currentInvoiceTotal + (currentInvoiceTotal * (newTax / 100));
