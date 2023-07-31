@@ -88,6 +88,34 @@
                                     </div>
                                 </div>
                             @endcan --}}
+                            @can('View Customers')
+                                <div class="col-md-3 col-sm-12 col-xs-12">
+                                    <div class="card text-white box-shadow-0 bg-gradient-x-warning">
+                                        <div class="card-content collapse show">
+                                            <div class="card-body text-center">
+                                                <a href="{{ route('customers.list') }}">
+                                                    <h4 class="text-white">العملاء</h4>
+                                                    <img style="width:65%"
+                                                        src="{{ asset('theme/app-assets/images/custom/customersList.png') }}" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endcan
+                            @can('View Suppliers')
+                                <div class="col-md-3 col-sm-12 col-xs-12">
+                                    <div class="card text-white box-shadow-0 bg-gradient-x-warning">
+                                        <div class="card-body text-center">
+                                            <a href="{{ route('suppliers.list') }}">
+                                                <h4 class="text-white">الموردين</h4>
+                                                <img style="width:65%"
+                                                    src="{{ asset('theme/app-assets/images/custom/suppliersList.png') }}" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endcan
                         </div>
                         <div class="row">
                             {{-- @can('View Branches')
@@ -120,34 +148,7 @@
                                     </div>
                                 </div>
                             @endcan --}}
-                            @can('View Customers')
-                                <div class="col-md-3 col-sm-12 col-xs-12">
-                                    <div class="card text-white box-shadow-0 bg-gradient-x-warning">
-                                        <div class="card-content collapse show">
-                                            <div class="card-body text-center">
-                                                <a href="{{ route('customers.list') }}">
-                                                    <h4 class="text-white">العملاء</h4>
-                                                    <img style="width:65%"
-                                                        src="{{ asset('theme/app-assets/images/custom/customersList.png') }}" />
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endcan
-                            @can('View Suppliers')
-                                <div class="col-md-3 col-sm-12 col-xs-12">
-                                    <div class="card text-white box-shadow-0 bg-gradient-x-warning">
-                                        <div class="card-body text-center">
-                                            <a href="{{ route('suppliers.list') }}">
-                                                <h4 class="text-white">الموردين</h4>
-                                                <img style="width:65%"
-                                                    src="{{ asset('theme/app-assets/images/custom/suppliersList.png') }}" />
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endcan
+
                         </div>
                         <div class="row">
                             @can('View Products')
