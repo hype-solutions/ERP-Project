@@ -43,7 +43,7 @@
                                     </div>
                                 </div>
                             @endcan
-                            @can('View PQ')
+                            {{-- @can('View PQ')
                                 <div class="col-md-3 col-sm-12 col-xs-12">
                                     <div class="card text-white box-shadow-0 bg-gradient-x-yellow">
                                         <div class="card-content collapse show">
@@ -57,7 +57,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endcan
+                            @endcan --}}
                             @can('View Invoices')
                                 <div class="col-md-3 col-sm-12 col-xs-12">
                                     <div class="card text-white box-shadow-0 bg-gradient-x-yellow">
@@ -73,7 +73,7 @@
                                     </div>
                                 </div>
                             @endcan
-                            @can('View Projects')
+                            {{-- @can('View Projects')
                                 <div class="col-md-3 col-sm-12 col-xs-12">
                                     <div class="card text-white box-shadow-0 bg-gradient-x-yellow">
                                         <div class="card-content collapse show">
@@ -87,10 +87,10 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endcan
+                            @endcan --}}
                         </div>
                         <div class="row">
-                            @can('View Branches')
+                            {{-- @can('View Branches')
                                 <div class="col-md-3 col-sm-12 col-xs-12">
                                     <div class="card text-white box-shadow-0 bg-gradient-x-warning">
                                         <div class="card-content collapse show">
@@ -104,8 +104,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endcan
-                            @can('View Safes')
+                            @endcan --}}
+                            {{-- @can('View Safes')
                                 <div class="col-md-3 col-sm-12 col-xs-12">
                                     <div class="card text-white box-shadow-0 bg-gradient-x-warning">
                                         <div class="card-content collapse show">
@@ -119,7 +119,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endcan
+                            @endcan --}}
                             @can('View Customers')
                                 <div class="col-md-3 col-sm-12 col-xs-12">
                                     <div class="card text-white box-shadow-0 bg-gradient-x-warning">
@@ -223,7 +223,7 @@
                                     </div>
                                 </div>
                             @endcan
-                            @can('View Roles')
+                            {{-- @can('View Roles')
                                 <div class="col-md-3 col-sm-12 col-xs-12">
                                     <div class="card text-white box-shadow-0 bg-gradient-x-purple">
                                         <div class="card-content collapse show">
@@ -237,7 +237,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endcan
+                            @endcan --}}
                             @can('View General Settings')
                                 <div class="col-md-3 col-sm-12 col-xs-12">
                                     <div class="card text-white box-shadow-0 bg-gradient-x-secondary">
@@ -276,7 +276,7 @@
                                 <h3 class="card-title">التحكم السريع</h3>
                             </div>
                             <div class="card-body">
-                                @canany(['Accept PQ', 'Convert PQ'])
+                                {{-- @canany(['Accept PQ', 'Convert PQ'])
                                     <span class="btn btn-block btn-outline-dark">عروض الأسعار (<span
                                             class="text-danger">{{ $priceQuotationsCount }}</span>)</span>
                                     <div id="priceQuotations" role="tablist" aria-multiselectable="true">
@@ -337,7 +337,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                @endcanany
+                                @endcanany --}}
                                 @canany(['Accept PO', 'Import PO'])
                                     <span class="btn btn-block btn-outline-dark">أوامر الشراء (<span
                                             class="text-danger">{{ $purchasesOrdersCount }}</span>)</span>
@@ -472,8 +472,8 @@
                                         </div>
                                     </div>
                                 @endcanany
-                                @canany(['Accept Safes Transfers', 'Accept Safes Deposit', 'Accept Safes Withdraw'])
-                                    {{-- add to can any [auth out, auth in] --}}
+                                {{-- @canany(['Accept Safes Transfers', 'Accept Safes Deposit', 'Accept Safes Withdraw'])
+                                    <!-- add to can any [auth out, auth in] -->
                                     <span class="btn btn-block btn-outline-dark">الخزن (<span
                                             class="text-danger">{{ $safesTransfersCount + $outsCount + $insCount }}</span>)</span>
                                     <div id="safesTransfers" role="tablist" aria-multiselectable="true">
@@ -650,7 +650,7 @@
 
                                         </div>
                                     </div>
-                                @endcanany
+                                @endcanany --}}
 
                             </div>
                         </div>

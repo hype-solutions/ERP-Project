@@ -34,7 +34,7 @@
                     </li>
 
                     @endcan
-                    @can('View PQ')
+                    {{-- @can('View PQ')
                     <li>
                         <a class="menu-item" href="#">
                             <i class="la la-arrows-v"></i>
@@ -57,7 +57,7 @@
                             </li>
                         </ul>
                     </li>
-                    @endcan
+                    @endcan --}}
                     @can('View Invoices')
                     <li>
                         <a class="menu-item" href="#">
@@ -88,17 +88,17 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a class="menu-item" href="{{route('installments.landing')}}">
                             <i class="la la-arrows-v"></i>
                             <span data-i18n="Vertical">الأقساط</span>
                         </a>
-                    </li>
+                    </li> --}}
                     @endcan
                 </ul>
             </li>
             @endcanany
-            @can('View Projects')
+            {{-- @can('View Projects')
             <li class=" nav-item">
                 <a href="#">
                     <img src="{{ asset('theme/app-assets/images/custom/menu/2.png') }}" style="width : 50%"/>
@@ -122,7 +122,7 @@
                     </li>
                 </ul>
             </li>
-            @endcan
+            @endcan --}}
             @can('View Customers')
             <li class=" nav-item">
                 <a href="#">
@@ -247,7 +247,7 @@
                 </ul>
             </li>
             @endcan
-            @can('View Branches')
+            {{-- @can('View Branches')
             <li class=" nav-item">
                 <a href="#">
                     <img src="{{ asset('theme/app-assets/images/custom/menu/7.png') }}" style="width : 50%"/>
@@ -279,7 +279,7 @@
                     @endcan
                 </ul>
             </li>
-            @endcan
+            @endcan --}}
             @can('View Products')
             <li class=" nav-item">
                 <a href="#">
@@ -324,7 +324,7 @@
                                 </a>
                             </li>
                             @endcan
-                            @can('Transfer Products')
+                            {{-- @can('Transfer Products')
                             <li>
                                 <a class="menu-item" href="{{ route('products.select') }}" >
                                     <i class="la la-arrows-h"></i>
@@ -337,7 +337,7 @@
                                     <span data-i18n="Horizontal">جميع عمليات التحويل</span>
                                 </a>
                             </li>
-                            @endcan
+                            @endcan --}}
                             {{-- <li><a class="menu-item" href="{{ route('products.select') }}"  ><i class="la la-arrows-h"></i><span data-i18n="Horizontal">إضافة كمية يدويا</span></a>
                             </li> --}}
                         </ul>
