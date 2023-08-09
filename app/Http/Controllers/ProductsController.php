@@ -289,7 +289,7 @@ class ProductsController extends Controller
         } else {
             BranchesProducts::where('product_id', $request->product_id)
                 ->where('branch_id', $request->branch_id)
-                ->update(['amount' => $request->qty]);
+                ->increment('amount', $request->qty);
         }
 
         $getProduct = Products::where('id', $request->product_id)->get();
@@ -297,7 +297,7 @@ class ProductsController extends Controller
         $productNewQty = $productOldIn + $request->qty;
         Products::where('id', $request->product_id)
             ->update(['product_total_in' => $productNewQty]);
-        return redirect()->route('products.transfers');
+        return redirect()->route('products.list');
     }
 
     public function productSelect()

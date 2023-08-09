@@ -240,8 +240,8 @@ Route::post('/products/qty/fetchprice', [ProductsController::class, 'fetchPrice'
 Route::post('/products/qty/fetchcost', [ProductsController::class, 'fetchCost'])->name('products.fetchCost');
 Route::post('/products/qty/fetchotherbranches', [ProductsController::class, 'fetchOtherBranches'])->name('products.fetchOtherBranches');
 #Manual QTY adding, removed from current version#
-//Route::get('/products/qty/add/{product}', [ProductsController::class, 'addQty'])->name('products.addQty');
-//Route::post('/products/qty/adding', [ProductsController::class, 'addingQty'])->name('products.addingQty');
+Route::get('/products/qty/add/{product}', [ProductsController::class, 'addQty'])->name('products.addQty');
+Route::post('/products/qty/adding', [ProductsController::class, 'addingQty'])->name('products.addingQty');
 
 Route::get('/products/import', [ProductsController::class, 'import'])->name('products.import');
 Route::post('/products/importing', [ProductsController::class, 'importing'])->name('products.importing');
