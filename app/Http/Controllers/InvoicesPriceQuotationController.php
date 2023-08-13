@@ -81,6 +81,9 @@ class InvoicesPriceQuotationController extends Controller
 
     public function edit(InvoicesPriceQuotation $invoice)
     {
+        if ($invoice->quotation_status == "ToInvoice") {
+            return abort(404);
+        }
         $user = Auth::user();
         $userId = $user->id;
         $customers = Customers::where('id', '!=', $invoice->customer_id)->get();
@@ -175,6 +178,9 @@ class InvoicesPriceQuotationController extends Controller
 
     public function toinvoice(InvoicesPriceQuotation $invoice)
     {
+        if ($invoice->quotation_status != "Approved") {
+            return abort(404);
+        }
         $currentProducts = InvoicesPriceQuotationsProducts::where('quotation_id', $invoice->id)
             ->with('check')
             ->get();
@@ -301,25 +307,26 @@ class InvoicesPriceQuotationController extends Controller
         return redirect()->route('invoices.view', $invoiceId);
     }
 
-    public function status($invoice, $status)
+    public function status(InvoicesPriceQuotation $invoice, $status)
     {
+        if ($invoice->quotation_status == "Declined") {
+            return abort(404);
+        }
         if ($status == 1) {
-            $quotation = InvoicesPriceQuotation::find($invoice);
-            $quotation->quotation_status = 'Approved';
-            $quotation->authorized_by = Auth::id();
-            $quotation->save();
-            ERPLog::create(['type' => 'Price Quotations', 'action' => 'Accept', 'custom_id' => $invoice, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
+            $invoice->quotation_status = 'Approved';
+            $invoice->authorized_by = Auth::id();
+            $invoice->save();
+            ERPLog::create(['type' => 'Price Quotations', 'action' => 'Accept', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
-            InvoicesPriceQuotationsProducts::where('quotation_id', $invoice)
+            InvoicesPriceQuotationsProducts::where('quotation_id', $invoice->id)
                 ->update(['status' => 'Approved']);
         } elseif ($status == 2) {
-            $quotation = InvoicesPriceQuotation::find($invoice);
-            $quotation->quotation_status = 'Declined';
-            $quotation->authorized_by = Auth::id();
-            $quotation->save();
-            ERPLog::create(['type' => 'Price Quotations', 'action' => 'Decline', 'custom_id' => $invoice, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
+            $invoice->quotation_status = 'Declined';
+            $invoice->authorized_by = Auth::id();
+            $invoice->save();
+            ERPLog::create(['type' => 'Price Quotations', 'action' => 'Decline', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
 
-            InvoicesPriceQuotationsProducts::where('quotation_id', $invoice)
+            InvoicesPriceQuotationsProducts::where('quotation_id', $invoice->id)
                 ->update(['status' => 'Declined']);
         }
 
