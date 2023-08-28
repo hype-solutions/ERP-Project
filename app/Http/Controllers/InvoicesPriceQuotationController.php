@@ -394,6 +394,7 @@ class InvoicesPriceQuotationController extends Controller
         $currentProducts = InvoicesPriceQuotationsProducts::where('quotation_id', $invoice->id)->get();
         $products = Products::all();
         $branches = Branches::where('id', '!=', $invoice->branch_id)->get();
+        $userId = Auth::id();
         $p = '2';
         if (request()->getHttpHost() == 'e1.mygesture.co') {
             $modeer = 4;
@@ -405,7 +406,7 @@ class InvoicesPriceQuotationController extends Controller
             $modeer = 2;
         }
         $userSig = User::find($modeer);
-        ERPLog::create(['type' => 'Price Quotations', 'action' => 'Print', 'custom_id' => $invoice->id, 'user_id' => Auth::id(), 'action_date' => Carbon::now()]);
+        ERPLog::create(['type' => 'Price Quotations', 'action' => 'Print', 'custom_id' => $invoice->id, 'user_id' => $userId, 'action_date' => Carbon::now()]);
 
         $logo = Settings::where('key', 'logo')->value('value');
         $template = 0;
@@ -413,7 +414,7 @@ class InvoicesPriceQuotationController extends Controller
         $count = $currentProducts->count();
         $signature = InvoicesPriceQuotationSignature::with('user')->first();
 
-        return view('invoices_price_quotations.new', compact('signature', 'template', 'count', 'alreadyShown', 'userSig', 'logo', 'p', 'currentProducts', 'invoice', 'user_id', 'customers', 'products', 'branches'));
+        return view('invoices_price_quotations.new', compact('signature', 'template', 'count', 'alreadyShown', 'userSig', 'logo', 'p', 'currentProducts', 'invoice', 'userId', 'customers', 'products', 'branches'));
     }
 
     public function print3(InvoicesPriceQuotation $invoice, Request $request)
