@@ -284,7 +284,7 @@
                                     </div>
                                 </div>
 
-
+ 
                                 <br>
                                 @if ($checkError == 0)
                                     <p style="text-align:center;display: none;color:red" id="submitButtonWarning">إجمالي
@@ -292,6 +292,7 @@
                                     <button type="submit" class="btn btn-block btn-primary" id="submitButton">تحويل الى
                                         فاتورة مبيعات</button>
                                 @endif
+ 
 
                             </form>
                         </div>
@@ -321,6 +322,7 @@
     {{-- <script src="{{ asset('theme/app-assets/js/scripts/forms/switch.min.js') }}"></script> --}}
     {{-- <script src="{{ asset('theme/app-assets/js/scripts/editors/editor-ckeditor.min.js') }}"></script> --}}
     <script>
+ 
         var submitButton = document.getElementById("submitButton");
         var submitButtonWarning = document.getElementById("submitButtonWarning");
 
