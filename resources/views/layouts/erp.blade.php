@@ -33,6 +33,23 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/custom-rtl.min.css') }}">
     <!-- END: Theme CSS-->
 
+    <script>
+        // Function to prevent right-click and context menu, except for localhost
+        document.addEventListener('contextmenu', function (e) {
+            if (location.hostname !== 'localhost') {
+                e.preventDefault();
+            }
+        });
+
+        // Function to disable inspect window, except for localhost
+        document.addEventListener('keydown', function (e) {
+            if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) &&
+                location.hostname !== 'localhost') {
+                e.preventDefault();
+            }
+        });
+    </script>
+
  @yield('pageCss')
 
     <!-- BEGIN: Custom CSS-->
