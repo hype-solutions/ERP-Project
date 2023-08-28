@@ -136,14 +136,14 @@
                                     @if (isset($invoice->customer->customer_phone))
                                         هاتف: {{ $invoice->customer->customer_phone }}
                                     @else
-                                        <small style="font-style: italic;color:red;">لا يوجد هاتف مسجل</small>
+                                        <small class="hideMe" style="font-style: italic;color:red;">لا يوجد هاتف مسجل</small>
                                     @endif
                                 </li>
                                 <li>
                                     @if (isset($invoice->customer->customer_address))
                                         العنوان: {{ $invoice->customer->customer_address }}
                                     @else
-                                        <small style="font-style: italic;color:red;">لا يوجد عنوان مسجل </small>
+                                        <small class="hideMe" style="font-style: italic;color:red;">لا يوجد عنوان مسجل </small>
                                     @endif
                                 </li>
 
