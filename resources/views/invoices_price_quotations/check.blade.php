@@ -262,7 +262,8 @@
 
                             <br>
                             @if($checkError == 0)
-                            <button type="submit" class="btn btn-block btn-primary">تحويل الى فاتورة مبيعات</button>
+                            <p style="text-align:center;display: none;color:red" id="submitButtonWarning">إجمالي الأقساط لا يساوي إجمالي عرض السعر</p>
+                            <button type="submit" class="btn btn-block btn-primary" id="submitButton">تحويل الى فاتورة مبيعات</button>
 
                             @endif
 
@@ -294,7 +295,8 @@
     {{-- <script src="{{ asset('theme/app-assets/js/scripts/forms/switch.min.js') }}"></script> --}}
     {{-- <script src="{{ asset('theme/app-assets/js/scripts/editors/editor-ckeditor.min.js') }}"></script> --}}
     <script>
-
+var submitButton = document.getElementById("submitButton");
+var submitButtonWarning = document.getElementById("submitButtonWarning");
 
 function addDofaa()
 {
@@ -311,6 +313,37 @@ var currentCell = currentRow.insertCell(-1);
 currentCell.innerHTML = '<fieldset class="form-group"><input type="date" class="form-control" name="later['+currentIndex+'][date]" required></fieldset><fieldset class="form-group"><textarea class="form-control" id="placeTextarea" rows="3" placeholder="مثال: الدفعه المقدمة" name="later['+currentIndex+'][notes]"></textarea></fieldset>';
 
 }
+var dofaaTable = document.getElementById("dofaaTable");
+
+
+dofaaTable.addEventListener("input", function () {
+    calculateInstallmentsTotal();
+});
+
+function calculateInstallmentsTotal() {
+    var getTotalAmount = {{$invoice->quotation_total}};
+    var totalAmount = parseFloat(getTotalAmount);
+    var installmentInputs = dofaaTable.querySelectorAll("input[name^='later'][name$='[amount]']");
+
+    var totalInstallments = 0;
+    for (var i = 0; i < installmentInputs.length; i++) {
+        totalInstallments += parseFloat(installmentInputs[i].value);
+    }
+
+    // Compare total installments with total amount
+    if (totalInstallments !== totalAmount) {
+        // Show warning and disable submit button
+        // You can add code here to display a warning to the user
+        submitButton.disabled = true;
+        submitButtonWarning.style.display = "block";
+    } else {
+        // Clear warnings and enable submit button
+        // You can add code here to reset the warnings
+        submitButton.disabled = false;
+        submitButtonWarning.style.display = "none";
+
+    }
+}
 
 
 $(document).ready(function () {
@@ -322,6 +355,7 @@ if (this.value == 'later') {
   $('#hasPaid').prop( "checked", false );
   $('#laterDate').prop( "required", true );
   $('#safe_id').prop( "required", false );
+  calculateInstallmentsTotal();
 
 } else if (this.value == 'cash' || this.value == 'visa' || this.value == 'bankTransfer') {
   //$('#init_box').hide();
@@ -330,11 +364,15 @@ if (this.value == 'later') {
   $('#hasPaid').prop( "checked", true );
   $('#laterDate').prop( "required", false );
   $('#safe_id').prop( "required", true );
+  submitButton.disabled = false;
+  submitButtonWarning.style.display = "none";
 } else {
   $('#later_box').hide();
   $('#other_box').hide();
   $('#init_box').show();
   $('#hasPaid').prop( "checked", false );
+  submitButton.disabled = false;
+  submitButtonWarning.style.display = "none";
 }
 });
 });
