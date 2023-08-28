@@ -392,7 +392,8 @@
     transition: width .25s, opacity .25s, -webkit-transform .25s;
     transition: width .25s, opacity .25s, transform .25s;
     transition: width .25s, opacity .25s, transform .25s, -webkit-transform .25s;
-    width: 280px;
+    /* width: 280px; hype */
+    width: 100%;
     right: -280px
 }
 
