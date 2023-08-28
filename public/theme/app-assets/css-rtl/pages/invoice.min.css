@@ -8,6 +8,7 @@
     .main-menu,
     .modal,
     .hidePrint,
+    .hideMe,
     .open {
         display: none
     }
