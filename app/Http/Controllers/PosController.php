@@ -78,8 +78,11 @@ class PosController extends Controller
     public function index($sessionId)
     {
         $currentSession = PosSessions::with('customer')->find($sessionId);
+        if (empty($currentSession)) {
+            abort(404);
+        }
         if ($currentSession->status == 1) {
-            return back();
+            abort(404);
         }
 
         $currentBranch = $currentSession->branch_id;
