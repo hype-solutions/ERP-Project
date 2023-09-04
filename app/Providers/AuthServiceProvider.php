@@ -31,7 +31,7 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasRole('Super Admin') ? true : null;
         });
 
-        Passport::routes();
+        //  Passport::routes();
 
         //
     }
