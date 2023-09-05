@@ -366,7 +366,7 @@
     $("#invoices").DataTable( {
         dom: 'Bfrtip',
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+            "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
         },
         buttons: [
             {
@@ -400,7 +400,7 @@
     $("#sessions").DataTable( {
         dom: 'Bfrtip',
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+            "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
         },
         buttons: [
             {
@@ -434,7 +434,7 @@
     $("#fund").DataTable( {
         dom: 'Bfrtip',
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+            "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
         },
         buttons: [
             {

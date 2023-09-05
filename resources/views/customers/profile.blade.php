@@ -831,7 +831,7 @@
         $("#linked").DataTable({
             dom: 'Bfrtip',
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
             },
             buttons: [{
                     extend: 'excelHtml5',
@@ -869,7 +869,7 @@
         $("#pos").DataTable({
             dom: 'Bfrtip',
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
             },
             buttons: [{
                     extend: 'excelHtml5',
@@ -906,7 +906,7 @@
         $("#reciepts").DataTable({
             dom: 'Bfrtip',
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
             },
             buttons: [{
                     extend: 'excelHtml5',
@@ -943,7 +943,7 @@
         $("#quotations").DataTable({
             dom: 'Bfrtip',
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
             },
             buttons: [{
                     extend: 'excelHtml5',
@@ -974,7 +974,7 @@
         $("#due").DataTable({
             dom: 'Bfrtip',
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
             },
             buttons: [{
                     extend: 'excelHtml5',
@@ -1005,7 +1005,7 @@
         $("#most-ordered").DataTable({
             dom: 'Bfrtip',
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
             },
             buttons: [{
                     extend: 'excelHtml5',

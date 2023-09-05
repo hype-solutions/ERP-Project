@@ -749,7 +749,7 @@
         $("#branches_qty").DataTable({
             dom: 'Bfrtip',
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
             },
             buttons: [{
                     extend: 'excelHtml5',
@@ -781,7 +781,7 @@
         $("#product_suppliers").DataTable({
             dom: 'Bfrtip',
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
             },
             buttons: [{
                     extend: 'excelHtml5',
@@ -813,7 +813,7 @@
         $("#qty_transfers").DataTable({
             dom: 'Bfrtip',
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
             },
             buttons: [{
                     extend: 'excelHtml5',
@@ -845,7 +845,7 @@
         $("#manual_add").DataTable({
             dom: 'Bfrtip',
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
             },
             buttons: [{
                     extend: 'excelHtml5',
@@ -877,7 +877,7 @@
         $("#purchases_orders").DataTable({
             dom: 'Bfrtip',
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
             },
             buttons: [{
                     extend: 'excelHtml5',
@@ -909,7 +909,7 @@
         $("#reciepts").DataTable({
             dom: 'Bfrtip',
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
             },
             buttons: [{
                     extend: 'excelHtml5',
@@ -943,7 +943,7 @@
         $("#pos").DataTable({
             dom: 'Bfrtip',
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Arabic.json"
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
             },
             buttons: [{
                     extend: 'excelHtml5',
