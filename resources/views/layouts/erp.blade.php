@@ -71,7 +71,12 @@
     <!-- BEGIN: Vendor JS-->
         <script src="{{ asset('theme/app-assets/vendors/js/vendors.min.js') }}"></script>
     <!-- BEGIN Vendor JS-->
-
+    <script>
+        CairoRegular = "{{ asset('theme/app-assets/fonts/Cairo/Cairo-Regular.ttf') }}";
+        CairoBold = "{{ asset('theme/app-assets/fonts/Cairo/Cairo-Bold.ttf') }}";
+        CompanyName = "{{ $globalSettings->value }}";
+        waterMark = "{{ $globalSettings->value }}";
+    </script>
     @yield('pageJs')
     <!-- BEGIN: Theme JS-->
     <script src="{{ asset('theme/app-assets/js/core/app-menu.min.js') }}"></script>

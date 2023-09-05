@@ -12,8 +12,6 @@
         href="{{ asset('theme/app-assets/fonts/mobiriseicons/24px/mobirise/style.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/pages/page-users.min.css') }}">
     <!-- END: Page CSS-->
-    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/extensions/buttons.dataTables.min.css') }}"> --}}
-    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css') }}"> --}}
 @endsection
 
 @section('content')
@@ -158,6 +156,9 @@
     </div>
     </div>
     <!-- END: Content-->
+
+
+
     @include('common.footer')
 @endsection
 
@@ -165,74 +166,13 @@
 @section('pageJs')
     <!-- BEGIN: Page Vendor JS-->
     <script src="{{ asset('theme/app-assets/vendors/DataTables/datatables.min.js') }}"></script>
+    <script src="{{ asset('theme/app-assets/vendors/DataTables/customDatatable.js') }}"></script>
 
     <script>
-        pdfMake.fonts = {
-            Cairo: {
-                normal: "{{ asset('theme/app-assets/fonts/Cairo/Cairo-Regular.ttf') }}", // Path to the normal (regular) font file
-                bold: "{{ asset('theme/app-assets/fonts/Cairo/Cairo-Bold.ttf') }}", // Path to the bold font file
-                italics: "{{ asset('theme/app-assets/fonts/Cairo/Cairo-Regular.ttf') }}", // Path to the italic font file
-                bolditalics: "{{ asset('theme/app-assets/fonts/Cairo/Cairo-Regular.ttf') }}" // Path to the bold italic font file
-            }
-        };
         $("#list").DataTable({
             dom: 'Bfrtip',
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
-            },
-            buttons: [{
-                    extend: 'excelHtml5',
-                    text: 'حفظ كملف EXCEL',
-                    messageTop: 'قائمة العملاء',
-                    exportOptions: {
-                        columns: [4, 3, 2, 1, 0]
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    text: 'حفظ كملف PDF',
-                    messageTop: 'قائمة العملاء',
-                    download: 'open',
-                    exportOptions: {
-                        columns: [4, 3, 2, 1, 0],
-                        orthogonal: "PDF",
-
-                    },
-                    customize: function(doc) {
-                        // Specify the font for Arabic text
-                        doc.defaultStyle.font = 'Cairo';
-                        doc.styles.message.alignment = "right";
-                        doc.styles.tableBodyEven.alignment = "center";
-                        doc.styles.tableBodyOdd.alignment = "center";
-                        doc.styles.tableFooter.alignment = "center";
-                        doc.styles.tableHeader.alignment = "center";
-                        doc.content[0]['text'] = doc.content[0]['text'].split(' ').reverse().join(' ');
-                        doc.content[1]['text'] = doc.content[1]['text'].split(' ').reverse().map(word =>
-                            ' ' + word + ' ').join('');
-                        doc.content[2].layout = 'fullwidth';
-                        for (var i = 0; i < doc.content[2].table.body.length; i++) {
-                            for (var j = 0; j < doc.content[2].table.body[i].length; j++) {
-                                var text = doc.content[2].table.body[i][j]['text'];
-                                // Split the text into words
-                                var words = text.split(' ').reverse();
-                                // Add a space before and after each word and join them back together
-                                var newText = words.map(word => ' ' + word + ' ').join('');
-                                doc.content[2].table.body[i][j]['text'] = newText;
-                            }
-                        }
-                    },
-                },
-                {
-                    extend: 'print',
-                    text: 'طباعة',
-                    messageTop: 'قائمة العملاء',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4]
-                    }
-                }
-            ]
+            language: getDatatablesLanguageConfig(),
+            buttons: createDataTableButtons('العملاء', 4)
         });
     </script>
-
-
 @endsection
