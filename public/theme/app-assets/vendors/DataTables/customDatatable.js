@@ -108,7 +108,7 @@ function createDataTableButtons(title, numItems) {
         {
             extend: 'excelHtml5',
             text: 'حفظ كملف EXCEL',
-            messageTop: 'قائمة ' + title,
+            messageTop: title,
             exportOptions: {
                 columns: generateColumnsArrayReversed(numItems)
             }
@@ -116,7 +116,7 @@ function createDataTableButtons(title, numItems) {
         {
             extend: 'pdfHtml5',
             text: 'حفظ كملف PDF',
-            messageTop: 'قائمة ' + title,
+            messageTop: title,
             download: 'open',
             exportOptions: {
                 columns: generateColumnsArrayReversed(numItems),
@@ -129,7 +129,7 @@ function createDataTableButtons(title, numItems) {
         {
             extend: 'print',
             text: 'طباعة',
-            messageTop: 'قائمة ' + title,
+            messageTop: title,
             exportOptions: {
                 columns: generateColumnsArray(numItems)
             }
@@ -144,4 +144,13 @@ function getDatatablesLanguageConfig() {
     return {
         "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
     };
+}
+
+
+function initalizeDatatable(selector, title, colNum) {
+    return $("#" + selector).DataTable({
+        dom: 'Bfrtip',
+        language: getDatatablesLanguageConfig(),
+        buttons: createDataTableButtons(title, colNum)
+    });
 }

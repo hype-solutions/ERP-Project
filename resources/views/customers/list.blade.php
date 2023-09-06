@@ -167,12 +167,7 @@
     <!-- BEGIN: Page Vendor JS-->
     <script src="{{ asset('theme/app-assets/vendors/DataTables/datatables.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/vendors/DataTables/customDatatable.js') }}"></script>
-
     <script>
-        $("#list").DataTable({
-            dom: 'Bfrtip',
-            language: getDatatablesLanguageConfig(),
-            buttons: createDataTableButtons('العملاء', 4)
-        });
+        initalizeDatatable('list','قائمة العملاء',5);
     </script>
 @endsection

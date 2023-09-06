@@ -10,11 +10,8 @@
         href="{{ asset('theme/app-assets/fonts/mobiriseicons/24px/mobirise/style.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/pages/page-users.min.css') }}">
     <!-- END: Page CSS-->
-    <link rel="stylesheet" type="text/css"
-        href="{{ asset('theme/app-assets/vendors/css/tables/extensions/buttons.dataTables.min.css') }}">
-    <link rel="stylesheet" type="text/css"
-        href="{{ asset('theme/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css') }}">
-    <!-- END: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/DataTables/datatables.min.css') }}">
+
 @endsection
 
 @section('content')
@@ -810,278 +807,21 @@
 
 @section('pageJs')
     <!-- BEGIN: Page Vendor JS-->
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/datatables.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.colVis.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/dataTables.select.min.js') }}"></script>
-    <script
-        src="{{ asset('theme/app-assets/js/scripts/tables/datatables-extensions/datatable-button/datatable-print.min.js') }}">
-    </script>
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/jszip.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.html5.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
-        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- END: Page Vendor JS-->
+    <script src="{{ asset('theme/app-assets/vendors/DataTables/datatables.min.js') }}"></script>
+    <script src="{{ asset('theme/app-assets/vendors/DataTables/customDatatable.js') }}"></script>
+
     <script>
-        $("#linked").DataTable({
-            dom: 'Bfrtip',
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
-            },
-            buttons: [{
-                    extend: 'excelHtml5',
-                    text: 'حفظ كملف EXCEL',
-                    messageTop: 'قائمة ممثلين / موظفين الشركة',
-                    exportOptions: {
-                        columns: [2, 1, 0]
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    // customize: function(doc) {
-                    //    console.dir(doc)
-                    //    doc.content[2].margin = [ 100, 0, 100, 0 ] //left, top, right, bottom
-                    //    doc.content[2].margin = [ 0, 0, 0, 0 ] //left, top, right, bottom
-                    // },
-                    text: 'حفظ كملف PDF',
-                    messageTop: 'قائمة ممثلين / موظفين الشركة',
-                    exportOptions: {
-                        columns: [2, 1, 0],
-                    },
+                initalizeDatatable('pos','فواتير البيع السريع للعميل {{ $customer->customer_name }}',3);
+                initalizeDatatable('reciepts','فواتير العميل {{ $customer->customer_name }}',3);
+                initalizeDatatable('quotations','عروض أسعار {{ $customer->customer_name }}',4);
+                initalizeDatatable('due','المبالغ المستحقة على {{ $customer->customer_name }}',4);
+                initalizeDatatable('most-ordered','الأصناف الأكثر طلبا ل {{ $customer->customer_name }}',2);
+                initalizeDatatable('linked','قائمة ممثلين / موظفين الشركة',3);
 
-                },
-                {
-                    extend: 'print',
-                    text: 'طباعة',
-                    messageTop: 'قائمة ممثلين / موظفين الشركة',
-                    exportOptions: {
-                        columns: [0, 1, 2]
-                    }
-                }
-            ]
-        });
-
-        $("#pos").DataTable({
-            dom: 'Bfrtip',
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
-            },
-            buttons: [{
-                    extend: 'excelHtml5',
-                    text: 'حفظ كملف EXCEL',
-                    messageTop: 'فواتير البيع السريع للعميل {{ $customer->customer_name }}',
-                    exportOptions: {
-                        columns: [2, 1, 0]
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    // customize: function(doc) {
-                    //    console.dir(doc)
-                    //    doc.content[2].margin = [ 100, 0, 100, 0 ] //left, top, right, bottom
-                    //    doc.content[2].margin = [ 0, 0, 0, 0 ] //left, top, right, bottom
-                    // },
-                    text: 'حفظ كملف PDF',
-                    messageTop: 'فواتير البيع السريع للعميل \n {{ $customer->customer_name }}',
-                    exportOptions: {
-                        columns: [2, 1, 0],
-                    },
-
-                },
-                {
-                    extend: 'print',
-                    text: 'طباعة',
-                    messageTop: 'فواتير البيع السريع للعميل {{ $customer->customer_name }}',
-                    exportOptions: {
-                        columns: [0, 1, 2]
-                    }
-                }
-            ]
-        });
-        $("#reciepts").DataTable({
-            dom: 'Bfrtip',
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
-            },
-            buttons: [{
-                    extend: 'excelHtml5',
-                    text: 'حفظ كملف EXCEL',
-                    messageTop: 'فواتير العميل {{ $customer->customer_name }}',
-                    exportOptions: {
-                        columns: [2, 1, 0]
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    // customize: function(doc) {
-                    //    console.dir(doc)
-                    //    doc.content[2].margin = [ 100, 0, 100, 0 ] //left, top, right, bottom
-                    //    doc.content[2].margin = [ 0, 0, 0, 0 ] //left, top, right, bottom
-                    // },
-                    text: 'حفظ كملف PDF',
-                    messageTop: 'فواتير العميل \n {{ $customer->customer_name }}',
-                    exportOptions: {
-                        columns: [2, 1, 0],
-                    },
-
-                },
-                {
-                    extend: 'print',
-                    text: 'طباعة',
-                    messageTop: 'فواتير العميل {{ $customer->customer_name }}',
-                    exportOptions: {
-                        columns: [0, 1, 2]
-                    }
-                }
-            ]
-        });
-        $("#quotations").DataTable({
-            dom: 'Bfrtip',
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
-            },
-            buttons: [{
-                    extend: 'excelHtml5',
-                    text: 'حفظ كملف EXCEL',
-                    messageTop: 'عروض أسعار {{ $customer->customer_name }}',
-                    exportOptions: {
-                        columns: [3, 2, 1, 0]
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    text: 'حفظ كملف PDF',
-                    messageTop: 'عروض أسعار \n {{ $customer->customer_name }}',
-                    exportOptions: {
-                        columns: [3, 2, 1, 0]
-                    }
-                },
-                {
-                    extend: 'print',
-                    text: 'طباعة',
-                    messageTop: 'عروض أسعار {{ $customer->customer_name }}',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3]
-                    }
-                }
-            ]
-        });
-        $("#due").DataTable({
-            dom: 'Bfrtip',
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
-            },
-            buttons: [{
-                    extend: 'excelHtml5',
-                    text: 'حفظ كملف EXCEL',
-                    messageTop: 'المبالغ المستحقة على {{ $customer->customer_name }}',
-                    exportOptions: {
-                        columns: [3, 2, 1, 0]
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    text: 'حفظ كملف PDF',
-                    messageTop: 'المبالغ المستحقة على \n {{ $customer->customer_name }}',
-                    exportOptions: {
-                        columns: [3, 2, 1, 0]
-                    }
-                },
-                {
-                    extend: 'print',
-                    text: 'طباعة',
-                    messageTop: 'المبالغ المستحقة على {{ $customer->customer_name }}',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3]
-                    }
-                }
-            ]
-        });
-        $("#most-ordered").DataTable({
-            dom: 'Bfrtip',
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
-            },
-            buttons: [{
-                    extend: 'excelHtml5',
-                    text: 'حفظ كملف EXCEL',
-                    messageTop: 'الأصناف الأكثر طلبا ل {{ $customer->customer_name }}',
-                    exportOptions: {
-                        columns: [1, 0]
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    text: 'حفظ كملف PDF',
-                    messageTop: 'الأصناف الأكثر طلبا ل \n {{ $customer->customer_name }}',
-                    exportOptions: {
-                        columns: [1, 0]
-                    }
-                },
-                {
-                    extend: 'print',
-                    text: 'طباعة',
-                    messageTop: 'الأصناف الأكثر طلبا ل {{ $customer->customer_name }}',
-                    exportOptions: {
-                        columns: [0, 1]
-                    }
-                }
-            ]
-        });
     </script>
 
     <script>
-        $("#invoiceNav").on('click', function() {
-            $('.nav-link').removeClass('active');
-            $("#active-tab32").addClass('active');
 
-            if ($("#active-tab32").hasClass('active')) {
-
-                // $('#active-tab32').trigger('click');
-                // $('#active-tab32').click();?
-                // $("#active32").siblings().css('display','none');
-                // $("#active32").css('display','block');
-
-            } else {
-
-            }
-        });
-
-        // document.getElementById("invoiceNav").onclick = evt => {
-
-        //     simulateClick()
-        // }
-
-        // function simulateClick() {
-
-        //     var evt = new MouseEvent("click");
-
-        //     var cb = document.getElementById("#active-tab32");
-        //     var canceled = !cb.dispatchEvent(evt);
-
-        //     if (canceled) {
-        //         return canceled;
-        //     } else {
-        //         // None of the handlers called preventDefault
-        //         return cb.dispatchEvent(evt);
-        //     }
-        // }
     </script>
 
-
-
-    <!-- BEGIN: Theme JS-->
-
-
-
-    <!-- END: Theme JS-->
-
-    <!-- BEGIN: Page JS-->
-    {{-- <script src="{{ asset('theme/app-assets/js/scripts/pages/page-users.min.js') }}"></script> --}}
-    <!-- END: Page JS-->
 @endsection

@@ -2,7 +2,7 @@
 @section('title', 'قائمة الموردين')
 
 @section('pageCss')
-<link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/datatable/datatables.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/DataTables/datatables.min.css') }}">
 
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/menu/menu-types/vertical-compact-menu.min.css') }}">
@@ -10,8 +10,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/fonts/mobiriseicons/24px/mobirise/style.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/pages/page-users.min.css') }}">
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/extensions/buttons.dataTables.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css') }}">
     <!-- END: Page CSS-->
 @endsection
 
@@ -185,61 +183,17 @@
 
 
 @section('pageJs')
+
+
 <!-- BEGIN: Page Vendor JS-->
-<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/datatables.min.js') }}"></script>
-<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/buttons.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.colVis.min.js') }}"></script>
-<script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.print.min.js') }}"></script>
-<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/dataTables.select.min.js') }}"></script>
-<script src="{{ asset('theme/app-assets/js/scripts/tables/datatables-extensions/datatable-button/datatable-print.min.js') }}"></script>
-<script src="{{ asset('theme/app-assets/vendors/js/tables/jszip.min.js') }}"></script>
-<script src="{{ asset('theme/app-assets/vendors/js/tables/pdfmake.min.js') }}"></script>
-<script src="{{ asset('theme/app-assets/vendors/js/tables/vfs_fonts.js') }}"></script>
-<script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/DataTables/datatables.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/DataTables/customDatatable.js') }}"></script>
 
 <script>
-
-    $("#list").DataTable( {
+    $("#list").DataTable({
         dom: 'Bfrtip',
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
-        },
-        buttons: [
-            {
-                extend: 'excelHtml5',
-                text: 'حفظ كملف EXCEL',
-                messageTop: 'قائمة الموردين',
-                exportOptions: {
-                    columns: [4,3,2,1,0 ]
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                text: 'حفظ كملف PDF',
-                messageTop: 'قائمة الموردين',
-                exportOptions: {
-                    columns: [4,3,2,1,0 ]
-                },
-
-            },
-            {
-                extend: 'print',
-                text: 'طباعة',
-                messageTop: 'قائمة الموردين',
-                exportOptions: {
-                    columns: [ 0, 1, 2,3 ,4 ]
-                }
-            }
-        ]
+        language: getDatatablesLanguageConfig(),
+        buttons: createDataTableButtons('الموردين', 5)
     });
-        </script>
-<!-- END: Page Vendor JS-->
-    <!-- BEGIN: Theme JS-->
-
-
-
-    <!-- END: Theme JS-->
-<!-- BEGIN: Page JS-->
- <!-- END: Page JS-->
+</script>
 @endsection
