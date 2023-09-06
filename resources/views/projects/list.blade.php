@@ -2,7 +2,7 @@
 @section('title', 'قائمة المشاريع')
 
 @section('pageCss')
-<link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/css/tables/datatable/datatables.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/DataTables/datatables.min.css') }}">
 
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/css-rtl/core/menu/menu-types/vertical-compact-menu.min.css') }}">
@@ -119,7 +119,7 @@
           <div class="card-body">
               <!-- datatable start -->
               <div class="table-responsive">
-                <table id="users-list-datatable" class="table">
+                <table id="projects" class="table">
                     <thead>
                         <tr>
                             <th>رقم المشروع</th>
@@ -179,14 +179,9 @@
 
 @section('pageJs')
 <!-- BEGIN: Page Vendor JS-->
-<script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/datatables.min.js') }}"></script>
-<!-- END: Page Vendor JS-->
-    <!-- BEGIN: Theme JS-->
-
-
-
-    <!-- END: Theme JS-->
-<!-- BEGIN: Page JS-->
-<script src="{{ asset('theme/app-assets/js/scripts/pages/page-users.min.js') }}"></script>
-<!-- END: Page JS-->
+<script src="{{ asset('theme/app-assets/vendors/DataTables/datatables.min.js') }}"></script>
+<script src="{{ asset('theme/app-assets/vendors/DataTables/customDatatable.js') }}"></script>
+<script>
+    initalizeDatatable('projects','قائمة المشاريع',3);
+</script>
 @endsection

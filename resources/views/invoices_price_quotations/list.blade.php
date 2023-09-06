@@ -2,8 +2,8 @@
 @section('title', 'عروض الأسعار')
 
 @section('pageCss')
-    <link rel="stylesheet" type="text/css"
-        href="{{ asset('theme/app-assets/vendors/css/tables/datatable/datatables.min.css') }}">
+
+<link rel="stylesheet" type="text/css" href="{{ asset('theme/app-assets/vendors/DataTables/datatables.min.css') }}">
 
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css"
@@ -12,10 +12,7 @@
         href="{{ asset('theme/app-assets/css-rtl/core/colors/palette-gradient.min.css') }}">
     <link rel="stylesheet" type="text/css"
         href="{{ asset('theme/app-assets/fonts/mobiriseicons/24px/mobirise/style.min.css') }}">
-    <link rel="stylesheet" type="text/css"
-        href="{{ asset('theme/app-assets/vendors/css/tables/extensions/buttons.dataTables.min.css') }}">
-    <link rel="stylesheet" type="text/css"
-        href="{{ asset('theme/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css') }}">
+
     <link rel="stylesheet" type="text/css"
         href="{{ asset('theme/app-assets/vendors/css/forms/selects/select2.min.css') }}">
 
@@ -315,67 +312,14 @@
     <script src="{{ asset('theme/app-assets/vendors/js/forms/select/select2.full.min.js') }}"></script>
     <script src="{{ asset('theme/app-assets/js/scripts/forms/select/form-select2.min.js') }}"></script>
 
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/datatables.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.colVis.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/datatable/dataTables.select.min.js') }}"></script>
-    <script
-        src="{{ asset('theme/app-assets/js/scripts/tables/datatables-extensions/datatable-button/datatable-print.min.js') }}">
-    </script>
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/jszip.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('theme/app-assets/vendors/js/tables/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('theme/app-assets/vendors/DataTables/datatables.min.js') }}"></script>
+    <script src="{{ asset('theme/app-assets/vendors/DataTables/customDatatable.js') }}"></script>
     <!-- END: Page Vendor JS-->
     <!-- END: Page Vendor JS-->
     <script>
-        $("#list").DataTable({
-            dom: 'Bfrtip',
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/ar.json"
-            },
-            buttons: [{
-                    extend: 'excelHtml5',
-                    text: 'حفظ كملف EXCEL',
-                    messageTop: 'قائمة عروض الأسعار',
-                    exportOptions: {
-                        columns: [4, 3, 2, 1, 0]
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    text: 'حفظ كملف PDF',
-                    messageTop: 'قائمة عروض الأسعار',
-                    exportOptions: {
-                        columns: [4, 3, 2, 1, 0]
-                    },
+                initalizeDatatable('list','قائمة عروض الأسعار',5);
 
 
-                },
-                {
-                    extend: 'print',
-                    text: 'طباعة',
-                    messageTop: 'قائمة عروض الأسعار',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4]
-                    },
-                    customize: function(win) {
-                        // $(win.document.body).addClass('white-bg');
-                        $(win.document.body)
-                            // .css('font-size', '10px')
-                            .prepend(
-                                '<img src={{ asset($logo) }} style="opacity: 0.2;position:absolute; top:40%; left:40%;width:200px;height:80px" />'
-                            );
-
-                        $(win.document.body).find('table')
-                            .addClass('compact')
-                            .css('font-size', 'inherit');
-                    },
-                }
-            ]
-        });
 
         function getUserInfo(id) {
             $("#noSignature").hide();
